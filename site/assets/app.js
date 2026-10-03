@@ -22,21 +22,29 @@
 
   async function submitLead(lead) {
     if (config.supabaseUrl && config.supabaseAnonKey) {
+      // join_waitlist() returns the same empty 204 for new and existing emails.
       const res = await fetch(
-        `${config.supabaseUrl.replace(/\/$/, "")}/rest/v1/${config.table || "waitlist"}`,
+        `${config.supabaseUrl.replace(/\/$/, "")}/rest/v1/rpc/join_waitlist`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             apikey: config.supabaseAnonKey,
             Authorization: `Bearer ${config.supabaseAnonKey}`,
-            Prefer: "return=minimal",
           },
-          body: JSON.stringify(lead),
+          body: JSON.stringify({
+            p_name: lead.name,
+            p_email: lead.email,
+            p_source: lead.source,
+            p_utm_source: lead.utm_source ?? null,
+            p_utm_medium: lead.utm_medium ?? null,
+            p_utm_campaign: lead.utm_campaign ?? null,
+            p_utm_content: lead.utm_content ?? null,
+            p_referrer: lead.referrer ?? null,
+          }),
         }
       );
-      // 409 = this email is already on the list. For her, that's still a yes.
-      if (res.ok || res.status === 409) return;
+      if (res.ok) return;
       throw new Error(`Supabase ${res.status}`);
     }
     if (config.endpoint) {

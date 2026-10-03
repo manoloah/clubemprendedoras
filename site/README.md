@@ -26,8 +26,12 @@ On any other host it shows an error until `assets/config.js` is filled in, so no
 
 1. Create (or pick) a Supabase project and run `supabase/migrations/001_waitlist.sql`.
 2. Paste the project URL and the publishable/anon key into `assets/config.js`.
-3. Signups land in `public.waitlist` with name, email and any `utm_*` / referrer.
-   Duplicate emails are ignored (the person still sees the success message).
+3. The form calls the `join_waitlist()` function, never the table. Signups land in
+   `public.waitlist` with name, email and any `utm_*` / referrer. Duplicate emails are
+   ignored and get the exact same response, so nobody can probe who signed up.
+   A global throttle (60 signups/minute) stops scripted floods.
+4. For stronger bot protection later, put Cloudflare Turnstile in front via a
+   Supabase Edge Function and verify the token before calling `join_waitlist()`.
 
 Prefer Zapier, Make or another tool? Put its webhook URL in `endpoint` instead.
 
