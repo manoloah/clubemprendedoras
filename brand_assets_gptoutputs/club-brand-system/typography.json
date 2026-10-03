@@ -1,0 +1,216 @@
+[
+  {
+    "name": "Club/Display/XL",
+    "font": {
+      "family": "Baloo 2",
+      "style": "ExtraBold",
+      "variationSettings": {
+        "wght": 800
+      }
+    },
+    "size": 96,
+    "lineHeight": {
+      "unit": "PIXELS",
+      "value": 96
+    },
+    "letterSpacing": {
+      "unit": "PERCENT",
+      "value": 0
+    }
+  },
+  {
+    "name": "Club/Display/L",
+    "font": {
+      "family": "Baloo 2",
+      "style": "ExtraBold",
+      "variationSettings": {
+        "wght": 800
+      }
+    },
+    "size": 64,
+    "lineHeight": {
+      "unit": "PIXELS",
+      "value": 68
+    },
+    "letterSpacing": {
+      "unit": "PERCENT",
+      "value": 0
+    }
+  },
+  {
+    "name": "Club/Heading/H1",
+    "font": {
+      "family": "Baloo 2",
+      "style": "ExtraBold",
+      "variationSettings": {
+        "wght": 800
+      }
+    },
+    "size": 48,
+    "lineHeight": {
+      "unit": "PIXELS",
+      "value": 52
+    },
+    "letterSpacing": {
+      "unit": "PERCENT",
+      "value": 0
+    }
+  },
+  {
+    "name": "Club/Heading/H2",
+    "font": {
+      "family": "Baloo 2",
+      "style": "Bold",
+      "variationSettings": {
+        "wght": 700
+      }
+    },
+    "size": 32,
+    "lineHeight": {
+      "unit": "PIXELS",
+      "value": 38
+    },
+    "letterSpacing": {
+      "unit": "PERCENT",
+      "value": 0
+    }
+  },
+  {
+    "name": "Club/Body/L",
+    "font": {
+      "family": "DM Sans",
+      "style": "Regular",
+      "variationSettings": {
+        "wght": 400,
+        "opsz": 14
+      }
+    },
+    "size": 24,
+    "lineHeight": {
+      "unit": "PIXELS",
+      "value": 34
+    },
+    "letterSpacing": {
+      "unit": "PERCENT",
+      "value": 0
+    }
+  },
+  {
+    "name": "Club/Body/M",
+    "font": {
+      "family": "DM Sans",
+      "style": "Regular",
+      "variationSettings": {
+        "wght": 400,
+        "opsz": 14
+      }
+    },
+    "size": 18,
+    "lineHeight": {
+      "unit": "PIXELS",
+      "value": 27
+    },
+    "letterSpacing": {
+      "unit": "PERCENT",
+      "value": 0
+    }
+  },
+  {
+    "name": "Club/Body/S",
+    "font": {
+      "family": "DM Sans",
+      "style": "Regular",
+      "variationSettings": {
+        "wght": 400,
+        "opsz": 14
+      }
+    },
+    "size": 14,
+    "lineHeight": {
+      "unit": "PIXELS",
+      "value": 21
+    },
+    "letterSpacing": {
+      "unit": "PERCENT",
+      "value": 0
+    }
+  },
+  {
+    "name": "Club/Label/M",
+    "font": {
+      "family": "DM Sans",
+      "style": "Bold",
+      "variationSettings": {
+        "wght": 700,
+        "opsz": 14
+      }
+    },
+    "size": 14,
+    "lineHeight": {
+      "unit": "PIXELS",
+      "value": 20
+    },
+    "letterSpacing": {
+      "unit": "PERCENT",
+      "value": 8
+    }
+  },
+  {
+    "name": "Club/Button/M",
+    "font": {
+      "family": "DM Sans",
+      "style": "Bold",
+      "variationSettings": {
+        "wght": 700,
+        "opsz": 14
+      }
+    },
+    "size": 18,
+    "lineHeight": {
+      "unit": "PIXELS",
+      "value": 24
+    },
+    "letterSpacing": {
+      "unit": "PERCENT",
+      "value": 0
+    }
+  },
+  {
+    "name": "Club/Note/L",
+    "font": {
+      "family": "Caveat",
+      "style": "Bold",
+      "variationSettings": {
+        "wght": 700
+      }
+    },
+    "size": 40,
+    "lineHeight": {
+      "unit": "PIXELS",
+      "value": 46
+    },
+    "letterSpacing": {
+      "unit": "PERCENT",
+      "value": 0
+    }
+  },
+  {
+    "name": "Club/Note/M",
+    "font": {
+      "family": "Caveat",
+      "style": "Regular",
+      "variationSettings": {
+        "wght": 400
+      }
+    },
+    "size": 28,
+    "lineHeight": {
+      "unit": "PIXELS",
+      "value": 34
+    },
+    "letterSpacing": {
+      "unit": "PERCENT",
+      "value": 0
+    }
+  }
+]

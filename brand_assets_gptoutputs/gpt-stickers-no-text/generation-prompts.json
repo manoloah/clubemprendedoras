@@ -1,0 +1,38 @@
+{
+  "mode": "Built-in image_gen",
+  "transparent_background": true,
+  "prompts": [
+    {
+      "name": "pink-heart",
+      "prompt": "Use case: logo-brand. Asset: one standalone text-free die-cut sticker PNG for Figma. Reference image: supplied screenshot, style reference only. Create ONLY the large pink heart sticker from the upper-right of the reference. Rounded, softly asymmetric hand-drawn heart, broad bubblegum pink #F3A0C2 interior left completely blank for later text, thick warm cream #F6F0E6 die-cut border following the heart silhouette. Match the retro playful editorial, simple flat illustration feel of the reference. Front-facing, no perspective, crisp high-resolution edges, subtle paper character, no glossy or 3D rendering. Single isolated sticker centered, fully visible, generous transparent margins. Genuine transparent alpha outside the cream border. No lavender background, no checkerboard painted into image, no text, letters, typography, logos, symbols, watermark, extra objects, or drop shadow."
+    },
+    {
+      "name": "olive-blob",
+      "prompt": "Use case: logo-brand. Asset: ONE separate die-cut sticker PNG to paste into Figma. Input image is a style and shape reference only. Create ONLY the olive-green organic blob sticker at middle-left of the reference. A broad, rounded, slightly asymmetric three-lobed organic silhouette, olive #63774C interior completely blank, with a thick cream #F6F0E6 border. Keep a broad continuous center available for later lettering. Match the screenshot's warm retro playful editorial sticker style: flat colored illustration, gentle handmade curves, very subtle paper character, clean crisp edges. Front view, no perspective, no 3D, no gloss. One centered sticker, fully visible with generous margins. Genuinely transparent alpha outside the cream border; do not render the purple background or a checkerboard. Absolutely no text, letters, numbers, logos, watermark, extra shapes or objects, or drop shadow."
+    },
+    {
+      "name": "pink-palm",
+      "prompt": "Use case: logo-brand. Asset: ONE separate die-cut sticker PNG to paste into Figma. Input image is a style and shape reference only. Create ONLY the pink palm tree sticker on the right side of the reference. A single playful hand-drawn palm silhouette, gently curving tapering trunk, six broad drooping fronds with a few crisp simple notches, bright bubblegum pink #ED80C4 flat interior, thick cream #F6F0E6 die-cut border following the palm silhouette. Match the screenshot's warm retro playful editorial sticker style: flat colored illustration, gentle handmade curves, very subtle paper character, clean crisp edges. Front view, no perspective, no 3D, no gloss. One centered sticker, fully visible with generous margins. Genuinely transparent alpha outside the cream border; do not render the purple background or a checkerboard. Absolutely no text, letters, numbers, logos, watermark, extra shapes or objects, or drop shadow."
+    },
+    {
+      "name": "pink-oval",
+      "prompt": "Create one flat 2D sticker icon on a square transparent PNG canvas. A broad bubblegum pink #F3A0C2 horizontal oval, tilted up 10 degrees, with a thick cream #F6F0E6 die-cut border and blank middle for text. Use the attached pink heart solely as the example of a crisp sticker cutout and cream outline thickness. Minimal solid color screenprint illustration. The sticker is a graphic, not a photographed object. One isolated shape centered with 15% transparent margin on every side. All pixels outside its hard cream perimeter must be 100% transparent. No shadow, glow, halo, blur, lighting effects, gradients, texture, background, scene, letters, typography, numbers, logos, symbols or watermark. Empty interior."
+    },
+    {
+      "name": "cream-label",
+      "prompt": "Create one flat 2D sticker icon on a square transparent PNG canvas. A horizontal cream #F6F0E6 irregular cloud-shaped label, soft scalloped perimeter and broad uninterrupted blank middle for text. Single flat cream fill. Use the attached pink heart solely as the example of a crisp sticker cutout and cream outline thickness. Minimal solid color screenprint illustration. The sticker is a graphic, not a photographed object. One isolated shape centered with 15% transparent margin on every side. All pixels outside its hard cream perimeter must be 100% transparent. No shadow, glow, halo, blur, lighting effects, gradients, texture, background, scene, letters, typography, numbers, logos, symbols or watermark. Empty interior."
+    },
+    {
+      "name": "yellow-flower",
+      "prompt": "Create ONE yellow flower die-cut sticker, matching the yellow flower in the attached reference. Simple flat hand-drawn daisy with 10 rounded elongated slightly irregular petals radiating from a completely solid yellow center, ALL filled butter yellow #F2C75C, thick warm cream #F6F0E6 border following the petal silhouette. Front-facing 2D illustration with clean edges. Centered on a square transparent PNG canvas, fully visible. Transparent background only outside the cream perimeter. No text, letters, words, logo, center disk of a different color, shadow, glow, extra flowers or other elements. One standalone PNG asset for Figma."
+    },
+    {
+      "name": "lilac-heart",
+      "prompt": "Use case: logo-brand. Asset: ONE standalone text-free sticker PNG for Figma. Input screenshot is a style reference only. Create ONLY the small lilac heart sticker near the middle of the reference. A single slender, softly asymmetric heart with taller lobes and a softly tapered point, lilac #B99CE5 blank interior, thick cream #F6F0E6 border following its silhouette. Match the reference's retro playful editorial flat illustration: hand-drawn organic edges, flat color, very subtle paper character, no 3D or gloss, front-facing. One single centered sticker, entire shape visible with generous margins. Actual transparent alpha everywhere outside the sticker's cream cutline. Hard clean cutout edge, no glow, no halo, no ambient shading, no shadow whatsoever, no background, no painted checkerboard. Absolutely no text, typography, letters, numbers, logos, watermark, extra symbols or other objects."
+    },
+    {
+      "name": "tomato-round",
+      "prompt": "Use case: logo-brand. Asset: ONE standalone text-free sticker PNG for Figma. Input screenshot is a style reference only. Create ONLY the tomato red round label sticker at bottom-right of the reference. One slightly irregular, nearly circular squat oval with tomato red #F04432 blank interior and plenty of uninterrupted room for later text, thick cream #F6F0E6 border. Match the reference's retro playful editorial flat illustration: hand-drawn organic edges, flat color, very subtle paper character, no 3D or gloss, front-facing. One single centered sticker, entire shape visible with generous margins. Actual transparent alpha everywhere outside the sticker's cream cutline. Hard clean cutout edge, no glow, no halo, no ambient shading, no shadow whatsoever, no background, no painted checkerboard. Absolutely no text, typography, letters, numbers, logos, watermark, extra symbols or other objects."
+    }
+  ]
+}

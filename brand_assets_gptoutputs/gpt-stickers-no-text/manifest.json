@@ -1,0 +1,63 @@
+{
+  "generator": "Built-in GPT image generation",
+  "reference": "Screenshot 2026-10-02 at 17.34.20.png",
+  "assets": [
+    {
+      "name": "pink-heart.png",
+      "width": 1312,
+      "height": 1199,
+      "transparent": true,
+      "centerAlpha": 253
+    },
+    {
+      "name": "olive-blob.png",
+      "width": 1536,
+      "height": 1024,
+      "transparent": true,
+      "centerAlpha": 254
+    },
+    {
+      "name": "yellow-flower.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "centerAlpha": 254
+    },
+    {
+      "name": "pink-palm.png",
+      "width": 1168,
+      "height": 1346,
+      "transparent": true,
+      "centerAlpha": 253
+    },
+    {
+      "name": "lilac-heart.png",
+      "width": 1278,
+      "height": 1230,
+      "transparent": true,
+      "centerAlpha": 253
+    },
+    {
+      "name": "pink-oval.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "centerAlpha": 254
+    },
+    {
+      "name": "tomato-round.png",
+      "width": 1439,
+      "height": 1093,
+      "transparent": true,
+      "centerAlpha": 253
+    },
+    {
+      "name": "cream-label.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "centerAlpha": 254
+    }
+  ],
+  "note": "Text-free raster stickers; add text as separate editable Figma layers. The olive blob retains a soft edge shadow."
+}

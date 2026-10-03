@@ -1,0 +1,426 @@
+{
+  "figma": "https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/?node-id=1-2",
+  "assets": [
+    {
+      "name": "Starburst",
+      "id": "4:2",
+      "w": 320,
+      "h": 320
+    },
+    {
+      "name": "Sparkle",
+      "id": "4:5",
+      "w": 320,
+      "h": 320
+    },
+    {
+      "name": "Heart",
+      "id": "4:8",
+      "w": 320,
+      "h": 320
+    },
+    {
+      "name": "Heart-outline",
+      "id": "4:11",
+      "w": 320,
+      "h": 320
+    },
+    {
+      "name": "Flower",
+      "id": "4:14",
+      "w": 320,
+      "h": 320
+    },
+    {
+      "name": "Arrow",
+      "id": "4:26",
+      "w": 320,
+      "h": 320
+    },
+    {
+      "name": "Underline",
+      "id": "4:29",
+      "w": 320,
+      "h": 110
+    },
+    {
+      "name": "Palm",
+      "id": "4:32",
+      "w": 320,
+      "h": 320
+    },
+    {
+      "name": "Leaf",
+      "id": "4:35",
+      "w": 320,
+      "h": 320
+    },
+    {
+      "name": "Blob",
+      "id": "4:39",
+      "w": 320,
+      "h": 320
+    },
+    {
+      "name": "Sprout",
+      "id": "4:42",
+      "w": 320,
+      "h": 320
+    },
+    {
+      "name": "Sun",
+      "id": "4:45",
+      "w": 320,
+      "h": 320
+    },
+    {
+      "name": "Mark-Tomato",
+      "id": "4:61",
+      "w": 1200,
+      "h": 700
+    },
+    {
+      "name": "Mark-Navy",
+      "id": "4:67",
+      "w": 1200,
+      "h": 700
+    },
+    {
+      "name": "Mark-Cream",
+      "id": "4:73",
+      "w": 1200,
+      "h": 700
+    },
+    {
+      "name": "Mark-Compact",
+      "id": "4:79",
+      "w": 1320,
+      "h": 350
+    },
+    {
+      "name": "Mark-Mini",
+      "id": "4:85",
+      "w": 320,
+      "h": 320
+    },
+    {
+      "name": "Sticker-Juntas",
+      "id": "4:90",
+      "w": 600,
+      "h": 400
+    },
+    {
+      "name": "Sticker-Big dreams",
+      "id": "4:92",
+      "w": 600,
+      "h": 400
+    },
+    {
+      "name": "Sticker-Ideas que crecen",
+      "id": "4:94",
+      "w": 600,
+      "h": 400
+    },
+    {
+      "name": "Sticker-Tu puedes",
+      "id": "4:96",
+      "w": 600,
+      "h": 400
+    },
+    {
+      "name": "Texture-Paper-dots",
+      "id": "8:314",
+      "w": 640,
+      "h": 640
+    }
+  ],
+  "components": [
+    {
+      "id": "4:2",
+      "name": "Club/Graphic/Starburst",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:5",
+      "name": "Club/Graphic/Sparkle",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:8",
+      "name": "Club/Graphic/Heart",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:11",
+      "name": "Club/Graphic/Heart-outline",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:14",
+      "name": "Club/Graphic/Flower",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:26",
+      "name": "Club/Graphic/Arrow",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:29",
+      "name": "Club/Graphic/Underline",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:32",
+      "name": "Club/Graphic/Palm",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:35",
+      "name": "Club/Graphic/Leaf",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:39",
+      "name": "Club/Graphic/Blob",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:42",
+      "name": "Club/Graphic/Sprout",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:45",
+      "name": "Club/Graphic/Sun",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:61",
+      "name": "Club/Mark/Primary/Tomato",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:67",
+      "name": "Club/Mark/Primary/Navy",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:73",
+      "name": "Club/Mark/Primary/Cream",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:79",
+      "name": "Club/Mark/Compact",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:85",
+      "name": "Club/Mark/Mini",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:90",
+      "name": "Club/Sticker/Juntas",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:92",
+      "name": "Club/Sticker/Big dreams",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:94",
+      "name": "Club/Sticker/Ideas que crecen",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "4:96",
+      "name": "Club/Sticker/Tu puedes",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:28",
+      "name": "Club/CTA",
+      "type": "COMPONENT_SET"
+    },
+    {
+      "id": "5:12",
+      "name": "Style=Primary, State=Default",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:14",
+      "name": "Style=Primary, State=Hover",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:16",
+      "name": "Style=Primary, State=Focus",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:18",
+      "name": "Style=Primary, State=Disabled",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:20",
+      "name": "Style=Secondary, State=Default",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:22",
+      "name": "Style=Secondary, State=Hover",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:24",
+      "name": "Style=Secondary, State=Focus",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:26",
+      "name": "Style=Secondary, State=Disabled",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:33",
+      "name": "Club/Label",
+      "type": "COMPONENT_SET"
+    },
+    {
+      "id": "5:29",
+      "name": "Tone=Pink",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:31",
+      "name": "Tone=Lilac",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:49",
+      "name": "Club/Note",
+      "type": "COMPONENT_SET"
+    },
+    {
+      "id": "5:34",
+      "name": "Tone=Pink",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:39",
+      "name": "Tone=Butter",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:44",
+      "name": "Tone=Lilac",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:50",
+      "name": "Club/Card/Quote",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:58",
+      "name": "Club/Card/Announcement",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:76",
+      "name": "Club/Photo + Caption",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:82",
+      "name": "Club/Merch/Lockup",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:102",
+      "name": "Club/Template/Post cuadrado",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:127",
+      "name": "Club/Template/Carrusel portada",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "5:143",
+      "name": "Club/Template/Story",
+      "type": "COMPONENT"
+    },
+    {
+      "id": "8:314",
+      "name": "Club/Texture/Paper dots",
+      "type": "COMPONENT"
+    }
+  ],
+  "boards": [
+    {
+      "id": "3:72",
+      "name": "00 · Empieza aquí",
+      "bottom": 924.6666870117188,
+      "safeBottom": 1112
+    },
+    {
+      "id": "3:73",
+      "name": "01 · Color",
+      "bottom": 929,
+      "safeBottom": 1112
+    },
+    {
+      "id": "3:74",
+      "name": "02 · Tipografía",
+      "bottom": 895,
+      "safeBottom": 1112
+    },
+    {
+      "id": "3:75",
+      "name": "03 · Marcas",
+      "bottom": 989.757568359375,
+      "safeBottom": 1112
+    },
+    {
+      "id": "3:76",
+      "name": "04 · Gráficos",
+      "bottom": 1042,
+      "safeBottom": 1112
+    },
+    {
+      "id": "3:77",
+      "name": "05 · Composición",
+      "bottom": 998,
+      "safeBottom": 1112
+    },
+    {
+      "id": "3:78",
+      "name": "06 · Componentes",
+      "bottom": 1129.2478637695312,
+      "safeBottom": 1112
+    },
+    {
+      "id": "3:79",
+      "name": "07 · Plantillas",
+      "bottom": 925.4444580078125,
+      "safeBottom": 1112
+    },
+    {
+      "id": "3:80",
+      "name": "08 · Voz",
+      "bottom": 955,
+      "safeBottom": 1112
+    },
+    {
+      "id": "3:81",
+      "name": "09 · Guía de uso",
+      "bottom": 861,
+      "safeBottom": 1112
+    }
+  ]
+}

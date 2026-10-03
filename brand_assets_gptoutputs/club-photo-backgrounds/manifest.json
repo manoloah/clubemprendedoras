@@ -1,0 +1,35 @@
+[
+  {
+    "file": "blank-tote-coral-bottle.png",
+    "export_dimensions": [
+      2687,
+      3072
+    ],
+    "native_dimensions": [
+      1173,
+      1341
+    ]
+  },
+  {
+    "file": "palm-pink-architecture.png",
+    "export_dimensions": [
+      1842,
+      3072
+    ],
+    "native_dimensions": [
+      971,
+      1619
+    ]
+  },
+  {
+    "file": "woman-blank-cream-shirt.png",
+    "export_dimensions": [
+      2048,
+      3072
+    ],
+    "native_dimensions": [
+      1024,
+      1536
+    ]
+  }
+]

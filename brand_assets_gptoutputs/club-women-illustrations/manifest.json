@@ -1,0 +1,36 @@
+{
+  "source": "Screenshot 2026-10-02 at 18.35.17.png",
+  "palette_source": "Figma primitive variables J8iryor1WNwHz7VZTsfuFt",
+  "palette": {
+    "tomato": "#F02717",
+    "pink": "#FBC0D7",
+    "lilac": "#B99CE5",
+    "butter": "#F2C75C",
+    "olive": "#63774C",
+    "cream": "#F6F0E6",
+    "navy": "#17254A"
+  },
+  "files": [
+    {
+      "file": "club-women-square.png",
+      "width": 1080,
+      "height": 1080,
+      "mode": "RGBA",
+      "fully_transparent_pixels": 232230
+    },
+    {
+      "file": "club-women-9x16.png",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGBA",
+      "fully_transparent_pixels": 349810
+    },
+    {
+      "file": "club-women-16x9.png",
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA",
+      "fully_transparent_pixels": 569265
+    }
+  ]
+}
