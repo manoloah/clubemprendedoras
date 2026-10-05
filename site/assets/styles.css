@@ -265,7 +265,14 @@ ul, ol { padding: 0; list-style: none; }
   width: 100%; aspect-ratio: 9 / 10; object-fit: cover;
   border: var(--stroke-ui) solid var(--border-default); border-radius: var(--radius-24);
 }
-.about__sticker { position: absolute; left: 12px; bottom: -18px; rotate: 6deg; font-size: 22px; white-space: normal; }
+.about__person {
+  position: absolute; bottom: 0; width: 52%; height: auto;
+  filter: drop-shadow(0 4px 0 var(--surface-default)) drop-shadow(0 6px 10px rgba(23, 37, 74, 0.25));
+}
+.about__photo .about__person { border: 0; border-radius: 0; aspect-ratio: auto; object-fit: contain; }
+.about__person--pame { left: -4%; rotate: -3deg; z-index: 1; }
+.about__person--manu { right: -4%; rotate: 3deg; width: 46%; }
+.about__sticker { z-index: 2;  position: absolute; left: 12px; bottom: -18px; rotate: 6deg; font-size: 22px; white-space: normal; }
 .about__copy { display: flex; flex-direction: column; gap: var(--space-16); }
 
 /* ---------- 07 Perks ---------- */
