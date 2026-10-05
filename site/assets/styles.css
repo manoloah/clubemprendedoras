@@ -270,9 +270,9 @@ ul, ol { padding: 0; list-style: none; }
   filter: drop-shadow(0 4px 0 var(--surface-default)) drop-shadow(0 6px 10px rgba(23, 37, 74, 0.25));
   animation: club-float 4s ease-in-out infinite;
 }
-.about__photo .about__person { width: 50%; border: 0; border-radius: 0; aspect-ratio: auto; object-fit: contain; }
-.about__person--pame { left: -2%; rotate: -3deg; }
-.about__photo .about__person--manu { right: -2%; rotate: 3deg; width: 44%; animation-delay: -2s; }
+.about__photo .about__person { width: 62%; border: 0; border-radius: 0; aspect-ratio: auto; object-fit: contain; }
+.about__person--pame { left: -8%; rotate: -3deg; }
+.about__photo .about__person--manu { right: -8%; rotate: 3deg; width: 56%; animation-delay: -2s; }
 @keyframes club-float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
