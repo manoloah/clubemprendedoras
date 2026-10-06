@@ -22,8 +22,12 @@
     if (!gl) return; // no WebGL: the static image stays
 
     const video = document.createElement("video");
-    video.src = src;
-    video.muted = true; video.loop = true; video.playsInline = true; video.preload = "auto";
+    // Muted *before* the source is set, as an attribute too: desktop Safari
+    // only allows autoplay for videos that start out muted.
+    video.defaultMuted = true;
+    video.setAttribute("muted", "");
+    video.muted = true;
+    video.src = src; video.loop = true; video.playsInline = true; video.preload = "auto";
     video.setAttribute("playsinline", ""); video.setAttribute("aria-hidden", "true");
     video.style.cssText = "position:absolute;width:1px;height:1px;opacity:0;pointer-events:none";
 
@@ -47,30 +51,51 @@
     for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
 
     let live = false;
+    let broken = false;
     const draw = () => {
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video);
+      try {
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video);
+      } catch (error) {
+        // e.g. opened from file://, where the browser won't hand video pixels to WebGL.
+        broken = true; video.pause(); canvas.remove(); video.remove();
+        return;
+      }
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       if (!live) { live = true; art.classList.add("is-live"); }
     };
     const tick = () => {
-      if (video.paused || video.ended) return;
+      if (broken || video.paused || video.ended) return;
       if (video.readyState >= 2 && video.currentTime > 0) draw();
       if (video.requestVideoFrameCallback) video.requestVideoFrameCallback(tick);
       else requestAnimationFrame(tick);
     };
-    const play = () => video.play().then(tick).catch(() => { /* autoplay blocked: static image stays */ });
+    // Safari won't autoplay a video that isn't on screen (on phones the hero
+    // art starts below the fold), so playback follows visibility: it starts
+    // once the art is in view and at least 0.2s have passed, and pauses when
+    // it scrolls away.
+    let visible = !("IntersectionObserver" in window);
+    let warmedUp = false;
+    // Safari also refuses while the art is still fading in (opacity 0), so a
+    // refused play is retried a few times before settling for the static image.
+    let attempts = 0;
+    const play = () => {
+      if (broken || !visible || !warmedUp || !video.paused) return;
+      video.play().then(() => { attempts = 0; tick(); }).catch(() => {
+        if (++attempts < 8) setTimeout(play, 250 * attempts);
+      });
+    };
 
     art.querySelector(".hero__illustration").after(canvas); // under the stickers
     art.append(video);
-    setTimeout(play, 200);
+    setTimeout(() => { warmedUp = true; play(); }, 200);
+    video.addEventListener("canplay", play);
 
-    // Don't burn battery on a hero nobody can see.
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(([entry]) => {
-        if (!live) return;
-        if (entry.isIntersecting) { if (video.paused) play(); } else video.pause();
+        visible = entry.isIntersecting;
+        if (visible) play(); else video.pause();
       }).observe(art);
     }
   }
@@ -140,7 +165,7 @@
   }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
   targets.forEach((el) => reveal.observe(el));
 
-  // ---- Ideas: heap on the floor -> sorted into place.
+  // ---- Ideas: a heap just under the heading -> sorted into place.
   const chipsWrap = document.querySelector(".chips");
   const chips = chipsWrap ? $$(".sticker", chipsWrap) : [];
   if (chips.length) {
@@ -148,19 +173,28 @@
     chipsWrap.style.position = "relative";
     chips.forEach((chip, i) => chip.style.setProperty("--i", i));
 
+    const heap = document.createElement("span");
+    heap.setAttribute("aria-hidden", "true");
+    heap.style.cssText = "position:absolute;left:0;width:1px;height:1px;pointer-events:none";
+    chipsWrap.append(heap);
+    let heapY = 0;
+
     const buildPile = () => {
       const w = chipsWrap.clientWidth;
-      const h = chipsWrap.clientHeight;
+      // Heap sits just under the heading (where the eye already is), not in the
+      // middle of a list that is ~12 rows tall on phones.
+      heapY = Math.min(chipsWrap.clientHeight / 2, 150);
+      heap.style.top = `${heapY}px`;
       chips.forEach((chip, i) => {
         // offsetLeft/Top ignore transforms, so this is the chip's real slot.
         const cx = chip.offsetLeft + chip.offsetWidth / 2;
         const cy = chip.offsetTop + chip.offsetHeight / 2;
         const spread = Math.min(w * 0.26, 170);
         const px = w / 2 + (rand(i, 1) - 0.5) * 2 * spread;
-        const py = h - chip.offsetHeight / 2 - 4 - rand(i, 2) * 44;
+        const py = heapY + (rand(i, 2) - 0.5) * 60;
         chip.style.setProperty("--px", `${(px - cx).toFixed(1)}px`);
         chip.style.setProperty("--py", `${(py - cy).toFixed(1)}px`);
-        chip.style.setProperty("--pr", `${((rand(i, 3) - 0.5) * 70).toFixed(1)}deg`);
+        chip.style.setProperty("--pr", `${((rand(i, 3) - 0.5) * 40).toFixed(1)}deg`);
         chip.style.zIndex = Math.floor(rand(i, 4) * chips.length);
       });
     };
@@ -171,18 +205,14 @@
     document.fonts && document.fonts.ready.then(onResize);
     window.addEventListener("resize", onResize);
 
-    // Sort once the floor (bottom of the list) scrolls into view.
-    const floor = document.createElement("span");
-    floor.setAttribute("aria-hidden", "true");
-    floor.style.cssText = "position:absolute;left:0;bottom:0;width:1px;height:1px;pointer-events:none";
-    chipsWrap.append(floor);
+    // Sort once the heap is well inside the screen.
     const sortObserver = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting && entry.boundingClientRect.top > 0) return;
       sortObserver.disconnect();
       sorted = true;
-      setTimeout(() => chipsWrap.classList.add("is-sorted"), 450);
-    }, { rootMargin: "0px 0px -18% 0px" });
-    sortObserver.observe(floor);
+      setTimeout(() => chipsWrap.classList.add("is-sorted"), 300);
+    }, { rootMargin: "0px 0px -15% 0px" });
+    sortObserver.observe(heap);
   }
 
   // Turn the "before" states on only once everything above is wired up.

@@ -14,6 +14,7 @@ body {
   overflow-x: hidden;
 }
 img { display: block; max-width: 100%; height: auto; }
+main > section, .footer { overflow-x: clip; } /* nothing may widen the page on phones */
 a { color: inherit; text-underline-offset: 3px; }
 p, h1, h2, h3, ul, ol, figure { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
@@ -28,7 +29,13 @@ ul, ol { padding: 0; list-style: none; }
 
 /* ---------- Typography ---------- */
 .display { font: var(--type-display); font-size: clamp(36px, 11.6vw, 44px); line-height: 1.05; letter-spacing: -0.01em; text-wrap: balance; }
-.hero .display { font-size: clamp(26px, calc((100vw - 2 * var(--gutter)) / 9.6), 44px); } /* the nowrap phrase must fit */
+/* The underlined phrase never wraps, so the hero headline scales with the
+   column it sits in: "cero a emprendedora" is ~10.5em wide. */
+.hero__copy { container-type: inline-size; }
+.hero .display {
+  font-size: clamp(24px, calc((100vw - 2 * var(--gutter)) / 10.8), 44px);
+  font-size: clamp(24px, 9.2cqi, 44px);
+}
 .display--inverse { color: var(--text-inverse); }
 .h2 { font: var(--type-h2); letter-spacing: -0.005em; text-wrap: balance; }
 .h3 { font: var(--type-h3); text-wrap: balance; }
@@ -36,7 +43,7 @@ ul, ol { padding: 0; list-style: none; }
 .lead--inverse { color: var(--text-inverse); }
 .caption { font: var(--type-caption); opacity: 0.8; }
 .accent { color: var(--brand-primary); }
-.underline { position: relative; white-space: nowrap; }
+.underline { position: relative; display: inline-block; white-space: nowrap; } /* inline-block: WebKit gives the ::after 0 width on an inline box */
 .underline::after {
   content: ""; position: absolute; left: -2%; right: -4%; bottom: 0.04em; height: 0.28em;
   background: url("brand/underline.svg") no-repeat center / 100% 100%;
