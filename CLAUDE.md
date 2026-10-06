@@ -18,7 +18,7 @@ scripts/hero-video/build.sh path/to/render.mp4           # rebuild site/assets/v
 OUT=/tmp/test.mp4 scripts/hero-video/build.sh render.mp4 # same, without touching the repo file
 ```
 
-No build step, no package.json, no tests. `site/` is deployed as-is.
+No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (see Workflow).
 
 ## Layout
 
@@ -65,6 +65,8 @@ No build step, no package.json, no tests. `site/` is deployed as-is.
 
 ## Workflow
 
-- One feature branch per change, opened as a PR against `main`. Vercel deployment comes next, on its own branch.
+- One feature branch per change, opened as a PR against `main`.
+- **Deploys:** Vercel project `clubemprendedoras` (team `manolo96035-6430s-projects`, id `prj_2wdMdohpqhJ8QiIjznXfhaD8cN7l`), Git-linked, root directory `site/`. Merging to `main` deploys production at https://clubemprendedoras.vercel.app; other branches get preview URLs, which may be behind Vercel login. Config: `site/vercel.json` (no build, headers) and `site/.vercelignore`.
+- After a deploy, check the live site the same way as local (Playwright at 320/393/1280), and confirm the video answers a Range request with `206`.
 - `.DS_Store` files are tracked even though `.gitignore` lists them. Don't stage their changes (`git checkout -- .DS_Store`).
 - Secrets live only in `.env.local` (gitignored), e.g. `TYPESAFE_API_KEY`.
