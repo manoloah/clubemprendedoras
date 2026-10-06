@@ -104,19 +104,24 @@
   if (!("IntersectionObserver" in window)) return;
 
   // ---- Highlighted words: split into letters so they can hop in a wave.
+  // Screen readers get the phrase as plain text from a visually hidden copy;
+  // only the animated letters are hidden from them.
   $$("[data-jump]").forEach((el) => {
     const text = el.textContent;
-    el.setAttribute("aria-label", text);
-    el.textContent = "";
+    const readable = document.createElement("span");
+    readable.className = "visually-hidden";
+    readable.textContent = text;
+    const letters = document.createElement("span");
+    letters.setAttribute("aria-hidden", "true");
     [...text].forEach((ch, i) => {
-      if (ch === " ") return el.append(" ");
+      if (ch === " ") return letters.append(" ");
       const span = document.createElement("span");
       span.className = "jump__ch";
-      span.setAttribute("aria-hidden", "true");
       span.style.setProperty("--i", i);
       span.textContent = ch;
-      el.append(span);
+      letters.append(span);
     });
+    el.replaceChildren(readable, letters);
   });
 
   // ---- Scroll reveals.
