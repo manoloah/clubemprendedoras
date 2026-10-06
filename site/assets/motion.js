@@ -3,8 +3,14 @@
   const saveData = navigator.connection && navigator.connection.saveData;
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
+  // ?debug in the URL shows an on-screen log of the hero video, so it can be
+  // checked on a real phone without a cable (screenshot the panel).
+  const dbg = /[?&#]debug\b/.test(location.search + location.hash) ? debugPanel() : () => {};
+  dbg(`ua: ${navigator.userAgent}`);
+  dbg(`reduceMotion=${reduce} saveData=${!!saveData} IO=${"IntersectionObserver" in window} rVFC=${"requestVideoFrameCallback" in HTMLVideoElement.prototype}`);
+
   // Reduced motion: leave the static page exactly as it is.
-  if (reduce) return;
+  if (reduce) return dbg("stopped: reduced motion is on, page stays static");
 
   // ---- Hero: ~0.2s of the static image, then the transparent loop takes over.
   // The loop is one H.264 file with the colour on the left half and the alpha
@@ -19,17 +25,20 @@
     canvas.width = canvas.height = 640;
     canvas.setAttribute("aria-hidden", "true");
     const gl = canvas.getContext("webgl", { premultipliedAlpha: true, alpha: true });
-    if (!gl) return; // no WebGL: the static image stays
+    if (!gl) return dbg("stopped: no WebGL"); // the static image stays
 
     const video = document.createElement("video");
-    // Muted *before* the source is set, as an attribute too: desktop Safari
-    // only allows autoplay for videos that start out muted.
+    // Muted *before* the source is set, as an attribute too: Safari only
+    // allows autoplay for videos that start out muted.
     video.defaultMuted = true;
     video.setAttribute("muted", "");
     video.muted = true;
     video.src = src; video.loop = true; video.playsInline = true; video.preload = "auto";
     video.setAttribute("playsinline", ""); video.setAttribute("aria-hidden", "true");
     video.style.cssText = "position:absolute;width:1px;height:1px;opacity:0;pointer-events:none";
+    for (const ev of ["loadedmetadata", "canplay", "playing", "pause", "waiting", "stalled", "error"]) {
+      video.addEventListener(ev, () => dbg(`video ${ev}${ev === "error" && video.error ? ` code=${video.error.code}` : ""} rs=${video.readyState} t=${video.currentTime.toFixed(2)}`));
+    }
 
     const compile = (type, code) => { const s = gl.createShader(type); gl.shaderSource(s, code); gl.compileShader(s); return s; };
     const prog = gl.createProgram();
@@ -37,7 +46,7 @@
     gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, `precision mediump float;varying vec2 uv;uniform sampler2D t;
       void main(){float a=texture2D(t,vec2(.5+uv.x*.5,uv.y)).r;vec3 c=texture2D(t,vec2(uv.x*.5,uv.y)).rgb;gl_FragColor=vec4(min(c,vec3(a)),a);}`));
     gl.linkProgram(prog);
-    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return dbg("stopped: shader failed to link");
     gl.useProgram(prog);
     const buf = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buf);
@@ -52,41 +61,72 @@
 
     let live = false;
     let broken = false;
+    let frames = 0;
     const draw = () => {
       try {
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video);
       } catch (error) {
         // e.g. opened from file://, where the browser won't hand video pixels to WebGL.
         console.info("[hero] Animated hero needs the page served over http(s), e.g. `npx serve site`; showing the static image.", error.name);
+        dbg(`stopped: texImage2D ${error.name}`);
         broken = true; video.pause(); canvas.remove(); video.remove();
         return;
       }
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-      if (!live) { live = true; art.classList.add("is-live"); }
+      frames++;
+      if (frames === 1 || frames % 120 === 0) {
+        const px = new Uint8Array(4);
+        gl.readPixels(320, 400, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+        dbg(`drew frame ${frames}, sample rgba=${px.join(",")} (alpha 0 = nothing visible)`);
+      }
+      if (!live) { live = true; art.classList.add("is-live"); dbg("live: video replaced the static image"); }
     };
-    const tick = () => {
+
+    // Plain animation-frame loop: draw whenever the video has moved on.
+    // (requestVideoFrameCallback isn't used: browsers may not fire it for a
+    // video that isn't itself on screen, which this one never is.)
+    let raf = 0;
+    let lastTime = -1;
+    const loop = () => {
+      raf = 0;
       if (broken || video.paused || video.ended) return;
-      if (video.readyState >= 2 && video.currentTime > 0) draw();
-      if (video.requestVideoFrameCallback) video.requestVideoFrameCallback(tick);
-      else requestAnimationFrame(tick);
+      if (video.readyState >= 2 && video.currentTime !== lastTime) { lastTime = video.currentTime; draw(); }
+      raf = requestAnimationFrame(loop);
     };
+    const startLoop = () => { if (!raf) raf = requestAnimationFrame(loop); };
+    video.addEventListener("playing", startLoop);
+
     // Safari won't autoplay a video that isn't on screen (on phones the hero
     // art starts below the fold), so playback follows visibility: it starts
     // once the art is in view and at least 0.2s have passed, and pauses when
-    // it scrolls away.
+    // it scrolls away. It also refuses while the art is still fading in, so a
+    // refused play is retried a few times.
     let visible = !("IntersectionObserver" in window);
     let warmedUp = false;
-    // Safari also refuses while the art is still fading in (opacity 0), so a
-    // refused play is retried a few times before settling for the static image.
     let attempts = 0;
     const play = () => {
       if (broken || !visible || !warmedUp || !video.paused) return;
-      video.play().then(() => { attempts = 0; tick(); }).catch(() => {
+      video.play().then(() => { attempts = 0; dbg("play() ok"); startLoop(); }).catch((error) => {
+        dbg(`play() refused: ${error.name}`);
         if (++attempts < 8) setTimeout(play, 250 * attempts);
       });
     };
+
+    // iPhones in Low Power Mode block every autoplay. A tap anywhere is a user
+    // gesture that unlocks this video for the rest of the visit.
+    const unlock = () => {
+      if (broken || !video.paused) return;
+      video.play().then(() => {
+        dbg("play() ok after a tap");
+        if (visible) startLoop(); else video.pause();
+      }).catch((error) => dbg(`play() after a tap refused: ${error.name}`));
+    };
+    for (const ev of ["touchend", "click", "keydown"]) document.addEventListener(ev, unlock, { passive: true });
+    video.addEventListener("playing", () => {
+      for (const ev of ["touchend", "click", "keydown"]) document.removeEventListener(ev, unlock);
+    }, { once: true });
 
     art.querySelector(".hero__illustration").after(canvas); // under the stickers
     art.append(video);
@@ -96,9 +136,26 @@
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(([entry]) => {
         visible = entry.isIntersecting;
+        dbg(`hero ${visible ? "on" : "off"} screen`);
         if (visible) play(); else video.pause();
       }).observe(art);
     }
+
+    if (dbg.on) setInterval(() => dbg(`status rs=${video.readyState} t=${video.currentTime.toFixed(2)} paused=${video.paused} frames=${frames} live=${live} visible=${visible}`), 3000);
+  }
+
+  function debugPanel() {
+    const box = document.createElement("pre");
+    box.style.cssText = "position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;max-height:45vh;overflow:auto;margin:0;padding:8px;" +
+      "background:rgba(23,37,74,.92);color:#F6F0E6;font:11px/1.35 ui-monospace,Menlo,monospace;white-space:pre-wrap;border-radius:10px;user-select:text";
+    const t0 = performance.now();
+    const log = (msg) => {
+      if (!box.isConnected) document.body.append(box);
+      box.textContent += `${((performance.now() - t0) / 1000).toFixed(1)}s ${msg}\n`;
+      box.scrollTop = box.scrollHeight;
+    };
+    log.on = true;
+    return log;
   }
 
   if (!("IntersectionObserver" in window)) return;
