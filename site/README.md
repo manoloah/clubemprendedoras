@@ -55,3 +55,9 @@ Figma file: Club de Emprendedoras · section "06 · Componentes reutilizables ·
 | Club/Phone | `.phone` |
 | Club/Footer | `.footer` |
 | Club/Logo | `assets/brand/logo-*.webp` |
+
+## Motion
+
+- `assets/motion.js` + the "Motion" block at the end of `assets/styles.css`: icon breathing, button light ring, letter-hop on `[data-jump]`, scroll reveals (`data-reveal` is added by JS), and the ideas heap that sorts itself.
+- Everything is off under `prefers-reduced-motion: reduce`, and the hidden "before" states only exist once JS adds `html.motion`, so the page still works without JS.
+- Hero loop: `assets/video/club-women.mp4` is a stacked-alpha H.264 (colour left, matte right, 640px per half, ping-pong so it loops seamlessly). `motion.js` composites it to transparency in a WebGL canvas about 0.2s after load; the static `club-women.webp` shows until then (and stays if WebGL or autoplay is unavailable).
