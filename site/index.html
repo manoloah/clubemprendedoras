@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>El Club de las Emprendedoras · Waitlist 2027</title>
+  <meta name="description" content="De cero a emprendedora en 8 semanas. Convierte tu idea en tu aplicación móvil sin ser técnica, sin miles de dólares y con IA, en un grupo de mujeres que se apoyan entre ellas. Apártate un lugar en la waitlist.">
+  <meta name="theme-color" content="#FBC0D7">
+  <link rel="icon" href="assets/brand/asterisk.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_MX">
+  <meta property="og:title" content="De cero a emprendedora en 8 semanas">
+  <meta property="og:description" content="Convierte tu idea en tu aplicación móvil sin ser técnica, sin miles de dólares y con IA, en un grupo de mujeres que se apoyan entre ellas.">
+  <meta property="og:image" content="assets/img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap">
+  <link rel="preload" as="image" href="assets/brand/logo-tomato.webp">
+
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/config.js?v=2"></script>
+  <script src="assets/app.js?v=3" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#unirme">Ir al formulario de la waitlist</a>
+
+  <!-- Club/Nav -->
+  <header class="nav" data-nav>
+    <a class="nav__logo" href="#top" aria-label="El Club de las Emprendedoras, inicio">
+      <img src="assets/brand/logo-tomato.webp" width="104" height="65" alt="El Club de las Emprendedoras">
+    </a>
+    <a class="btn btn--sm" href="#unirme">Unirme</a>
+  </header>
+
+  <main id="top">
+    <!-- 01 Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__inner">
+        <div class="hero__copy">
+          <p class="kicker kicker--tomato tilt-l">Waitlist abierta · Taller 2027</p>
+          <h1 id="hero-title" class="display">
+            De <span class="accent underline">cero a emprendedora</span> en 8 semanas.
+          </h1>
+          <p class="lead">Convierte tu idea en tu aplicación móvil sin ser técnica, sin miles de dólares y con IA, en un grupo de mujeres que se apoyan entre ellas.</p>
+
+          <!-- Club/Waitlist Form -->
+          <div class="waitlist" id="unirme">
+            <form class="waitlist__form" data-waitlist novalidate>
+              <h2 class="h3">Aparta tu lugar</h2>
+              <div class="field">
+                <label for="hero-name">Tu nombre</label>
+                <input id="hero-name" name="name" type="text" autocomplete="given-name" placeholder="¿Cómo te llamas?" required maxlength="120">
+              </div>
+              <div class="field">
+                <label for="hero-email">Tu correo</label>
+                <input id="hero-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254">
+                <p class="field__error" id="hero-email-error" hidden></p>
+              </div>
+              <div class="hp" aria-hidden="true">
+                <label for="hero-company">No llenes este campo</label>
+                <input id="hero-company" name="company" type="text" tabindex="-1" autocomplete="off">
+              </div>
+              <button class="btn btn--block" type="submit">
+                <span class="btn__label">Quiero mi lugar</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <p class="caption">Cada semana te mandamos contenido sobre IA para perderle el miedo a emprender, y te avisamos primero cuando abramos. Te sales cuando quieras.</p>
+              <p class="waitlist__status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+
+          <p class="caption hero__proof">Más de 500 personas ya tomaron nuestros cursos. 2 de cada 3 son mujeres.</p>
+        </div>
+
+        <div class="hero__art" aria-hidden="true">
+          <img class="hero__illustration" src="assets/img/club-women.webp" width="720" height="720" alt="" fetchpriority="high">
+          <span class="sticker sticker--butter hero__sticker-a">Sin ser técnica</span>
+          <span class="sticker sticker--olive hero__sticker-b">Con IA</span>
+          <img class="hero__spark" src="assets/brand/asterisk.svg" width="44" height="78" alt="">
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 Promesa 2027 -->
+    <section class="band" aria-labelledby="band-title">
+      <img class="band__decor band__decor--heart" src="assets/img/lilac-heart.webp" width="72" height="69" alt="" aria-hidden="true" loading="lazy">
+      <img class="band__decor band__decor--palm" src="assets/img/pink-palm.webp" width="64" height="74" alt="" aria-hidden="true" loading="lazy">
+      <img class="band__decor band__decor--flower" src="assets/img/yellow-flower.webp" width="60" height="60" alt="" aria-hidden="true" loading="lazy">
+      <div class="band__inner">
+        <p class="kicker kicker--cream tilt-r">Lo que viene</p>
+        <h2 id="band-title" class="h2">Este 2027 abrimos un taller de 8 semanas.</h2>
+        <p class="band__body">Te llevamos de la mano a encontrar tu idea, convertirla en una app móvil y crecerla a miles de usuarios. Sin tecnicismos, en vivo y con otras mujeres que van al mismo paso que tú.</p>
+        <p class="note note--butter tilt-l">1 idea → 1 app → miles de usuarios</p>
+      </div>
+    </section>
+
+    <!-- 03 El taller -->
+    <section class="section section--cream" aria-labelledby="taller-title">
+      <div class="section__inner">
+        <header class="section__head">
+          <p class="kicker kicker--tomato tilt-l">El taller, paso a paso</p>
+          <h2 id="taller-title" class="h2">8 semanas para pasar de idea a app lista para vender.</h2>
+        </header>
+
+        <ol class="weeks">
+          <!-- Club/Card/Week -->
+          <li class="week">
+            <div class="phone phone--tilt-l" aria-hidden="true">
+              <div class="phone__screen">
+                <p class="screen-kicker">Mi idea</p>
+                <p class="screen-title">Cambiar al mundo</p>
+                <p class="screen-row screen-row--pink">✓ Un problema que me quema</p>
+                <p class="screen-row screen-row--butter">✓ Nadie lo resuelve como yo</p>
+                <p class="screen-row screen-row--lilac">✓ Miedo: archivado</p>
+                <p class="screen-pill">23 ya en tu waitlist</p>
+              </div>
+            </div>
+            <article class="card-week card-week--pink">
+              <p class="kicker kicker--navy">Semanas 1 y 2</p>
+              <h3 class="h3">Encuentra tu idea (y comprueba que alguien la quiere)</h3>
+              <p>Partimos de lo que ya sabes y de los problemas que vives. Con IA encuentras el problema que vale la pena resolver, lo que hace distinta tu solución y las funciones que de verdad importan.</p>
+              <p class="note note--butter tilt-r">Al final: tu idea clara y tu waitlist arrancando ♡</p>
+            </article>
+          </li>
+
+          <li class="week week--flip">
+            <div class="phone phone--tilt-r" aria-hidden="true">
+              <div class="phone__screen">
+                <p class="screen-kicker">Mi marca</p>
+                <p class="screen-aa">Aa</p>
+                <p class="screen-swatches"><span></span><span></span><span></span><span></span><span></span></p>
+                <p class="screen-note">Valiente, cálida, imposible de ignorar.</p>
+                <p class="screen-btn">Empezar ahora</p>
+                <p class="screen-row screen-row--lilac screen-row--tall">Pantalla de inicio</p>
+              </div>
+            </div>
+            <article class="card-week card-week--lilac">
+              <p class="kicker kicker--navy">Semanas 3 y 4</p>
+              <h3 class="h3">Dale cara: tu marca, con movimiento y animación</h3>
+              <p>Defines colores, tipografía y tono, y le das movimiento y animación a tu marca, como las marcas de hoy. Diseñas tus pantallas con IA, aunque nunca hayas abierto Figma.</p>
+              <p class="note note--butter tilt-r">Al final: tu marca animada y el diseño de tu app</p>
+            </article>
+          </li>
+
+          <li class="week">
+            <div class="phone phone--tilt-l" aria-hidden="true">
+              <div class="phone__screen">
+                <p class="screen-title">Hola, fundadora</p>
+                <p class="screen-caption">Tu app, hoy</p>
+                <p class="screen-class screen-row--pink"><small>Usuarias</small>1,284 y contando</p>
+                <p class="screen-class screen-row--lilac"><small>Ideas guardadas</small>0, ya todas viven</p>
+                <p class="screen-class screen-row--butter"><small>Código escrito por ti</small>Ni una línea</p>
+                <p class="screen-btn">Lanzar versión 2</p>
+              </div>
+            </div>
+            <article class="card-week card-week--butter">
+              <p class="kicker kicker--navy">Semanas 5 y 6</p>
+              <h3 class="h3">Construye tu app programando con IA</h3>
+              <p>Sí, vas a crear código, pero con la IA como tu copiloto: le explicas lo que quieres, lo construyen juntas y entiendes qué hace cada parte. Aprendes a guardar versiones sin romper nada, cuidar los datos de tus usuarios y arreglar errores cuando aparecen.</p>
+              <p class="note note--pink tilt-r">Al final: tu app funcionando en tu teléfono</p>
+            </article>
+          </li>
+
+          <li class="week week--flip">
+            <div class="phone phone--tilt-r" aria-hidden="true">
+              <div class="phone__screen phone__screen--lock">
+                <p class="screen-time">9:41</p>
+                <p class="screen-caption">viernes, 12 de marzo</p>
+                <p class="screen-notif"><small>Tu app · ahora</small>Nueva suscripción: plan mensual</p>
+                <p class="screen-notif"><small>Tu app · hace 5 min</small>Nueva suscripción: plan anual</p>
+                <p class="screen-notif"><small>App Store · hoy</small>Tu app ya está disponible ✦</p>
+              </div>
+            </div>
+            <article class="card-week card-week--pink">
+              <p class="kicker kicker--navy">Semanas 7 y 8</p>
+              <h3 class="h3">Cobra, lanza y consigue tus primeros usuarios</h3>
+              <p>Conectas pagos (suscripción o compra única), armas un onboarding que convierte, publicas en la App Store y sales con tu plan para llegar a tus primeros 100 usuarios y de ahí a miles.</p>
+              <p class="note note--butter tilt-r">Al final: tu app lista para vender</p>
+            </article>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 04 Ideas -->
+    <section class="section section--lilac" aria-labelledby="ideas-title">
+      <div class="section__inner">
+        <header class="section__head">
+          <p class="kicker kicker--navy tilt-r">Ideas que crecen</p>
+          <h2 id="ideas-title" class="h2">¿Tu idea cabe en una app? Casi seguro que sí.</h2>
+        </header>
+        <ul class="chips" aria-label="Ideas de apps para emprender">
+          <li class="sticker sticker--pink">Nutrióloga en postparto</li>
+          <li class="sticker sticker--butter">Finanzas para mujeres que son mamás</li>
+          <li class="sticker sticker--olive">App con workouts para mujeres en casa</li>
+          <li class="sticker sticker--tomato">Volver sola a casa, segura</li>
+          <li class="sticker sticker--pink">Niñeras y cuidadoras verificadas</li>
+          <li class="sticker sticker--butter">Maquillaje y skincare para ti</li>
+          <li class="sticker sticker--olive">Moda de lujo de segunda mano</li>
+          <li class="sticker sticker--tomato">Una comunidad de pago para tu nicho</li>
+          <li class="sticker sticker--pink">Tu experiencia convertida en un agente de IA</li>
+          <li class="sticker sticker--butter">Fertilidad para todas</li>
+          <li class="sticker sticker--olive">Asesoría legal para emprendedoras</li>
+          <li class="sticker sticker--tomato">Lo que sabes, vendiendo mientras duermes</li>
+        </ul>
+        <p class="section__foot">Ideas que hoy pueden ser negocio y que puedes lanzar con IA en 8 semanas. ¿Cuál es la tuya?</p>
+      </div>
+    </section>
+
+    <!-- 05 Es para ti -->
+    <section class="section section--cream" aria-labelledby="para-ti-title">
+      <div class="section__inner">
+        <header class="section__head">
+          <p class="kicker kicker--tomato tilt-l">¿Es para ti?</p>
+          <h2 id="para-ti-title" class="h2">Este club es para ti si…</h2>
+        </header>
+        <ul class="for-you">
+          <!-- Club/Card/ForYou -->
+          <li class="for-you__item for-you__item--pink">Sientes que la IA va a mil y tú te estás quedando atrás.</li>
+          <li class="for-you__item for-you__item--butter">Crees que por no ser técnica no puedes emprender.</li>
+          <li class="for-you__item for-you__item--lilac">Llevas meses (o años) con una idea dando vueltas en la cabeza.</li>
+          <li class="for-you__item for-you__item--pink">Te cotizaron miles de dólares por una app y cerraste la pestaña.</li>
+          <li class="for-you__item for-you__item--butter">Te cansaste de esperar a un socio técnico que nunca llega.</li>
+          <li class="for-you__item for-you__item--lilac">Quieres algo tuyo sin renunciar mañana a tu trabajo.</li>
+          <li class="for-you__item for-you__item--pink">Ya tienes un negocio y quieres llevarlo a una app.</li>
+        </ul>
+        <aside class="not-for-you">
+          <p class="not-for-you__title">No es para ti si…</p>
+          <p>Buscas hacerte rica en una semana. Emprender toma tiempo y esfuerzo pero te daremos todas las herramientas para que tu idea tenga mayor posibilidad de ser un hit.</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 06 Quiénes -->
+    <section class="section section--pink" aria-labelledby="quienes-title">
+      <div class="section__inner about">
+        <figure class="about__photo">
+          <img src="assets/img/palm-pink.webp" width="640" height="1068" alt="Palmera frente a una pared rosa bajo el cielo azul" loading="lazy">
+          <img class="about__person about__person--pame" src="assets/img/pame.webp" width="600" height="600" alt="Pame" loading="lazy">
+          <img class="about__person about__person--manu" src="assets/img/manu.webp" width="512" height="600" alt="Manu" loading="lazy">
+          <figcaption class="sticker sticker--tomato about__sticker">Hola, somos Pame y Manu</figcaption>
+        </figure>
+        <div class="about__copy">
+          <p class="kicker kicker--navy tilt-r">Quiénes estamos detrás</p>
+          <h2 id="quienes-title" class="h2">Más de 500 personas ya tomaron nuestros cursos. Ahora lo hacemos en club.</h2>
+          <p>Somos <a href="https://www.instagram.com/pamevls/" target="_blank" rel="noopener">Pame</a> y <a href="https://www.instagram.com/thebreathmanu/" target="_blank" rel="noopener">Manu</a>, de <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a>. Después de acompañar muchos emprendimientos, nos dimos cuenta de algo: la mayoría de las mujeres tienen ideas increíbles, pero las guardan por años por miedo.</p>
+          <p>Por eso armamos este club: un espacio donde preguntar lo “básico” es lo normal y donde ser mujer es una ventaja para emprender.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 No es otro curso -->
+    <section class="section section--cream" aria-labelledby="distinto-title">
+      <div class="section__inner">
+        <header class="section__head">
+          <p class="kicker kicker--tomato tilt-l">Lo que nos hace distintas</p>
+          <h2 id="distinto-title" class="h2">No es otro curso que compras y nunca terminas.</h2>
+        </header>
+        <ul class="perks">
+          <li class="perk">
+            <img src="assets/img/yellow-flower.webp" width="56" height="56" alt="" loading="lazy">
+            <div><h3 class="h3">En vivo y en grupo</h3><p>Talleres cada semana con nosotros y grabaciones por si un día no llegas.</p></div>
+          </li>
+          <li class="perk">
+            <img src="assets/img/lilac-heart.webp" width="56" height="54" alt="" loading="lazy">
+            <div><h3 class="h3">En español y sin tecnicismos</h3><p>Si algo no se entiende, lo explicamos otra vez. Y otra. Sin pena.</p></div>
+          </li>
+          <li class="perk">
+            <img src="assets/img/pink-palm.webp" width="48" height="56" alt="" loading="lazy">
+            <div><h3 class="h3">Con herramientas gratis</h3><p>El 80% de lo que construyes sale con las versiones gratuitas.</p></div>
+          </li>
+          <li class="perk">
+            <img src="assets/brand/asterisk.svg" width="32" height="56" alt="" loading="lazy">
+            <div><h3 class="h3">Con resultado real</h3><p>No sales con apuntes: sales con tu app, tu marca y tus primeros usuarios.</p></div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 08 FAQ -->
+    <section class="section section--butter" aria-labelledby="faq-title">
+      <div class="section__inner faq">
+        <header class="section__head">
+          <p class="kicker kicker--navy tilt-r">Preguntas frecuentes</p>
+          <h2 id="faq-title" class="h2">Lo que seguro te estás preguntando</h2>
+        </header>
+        <!-- Club/FAQ Item -->
+        <details class="faq__item" open>
+          <summary>¿Necesito saber programar?</summary>
+          <p>No. La IA escribe el código; tú aprendes a pedirlo bien, revisarlo y arreglarlo cuando algo falla.</p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Y si todavía no tengo idea?</summary>
+          <p>Perfecto, las semanas 1 y 2 son justo para eso. Sales con una idea clara y probada con personas reales.</p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Cuándo empieza?</summary>
+          <p>En 2027. Las que están en la waitlist conocen la fecha antes que nadie.</p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Cuánto tiempo necesito a la semana?</summary>
+          <p>Calcula entre 4 y 6 horas: el taller en vivo y un rato para avanzar en tu app. Está pensado para hacerlo sin dejar tu trabajo.</p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Cuánto cuesta?</summary>
+          <p>Lo anunciamos primero a la waitlist, antes de abrir inscripciones al público.</p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Qué herramientas vamos a usar?</summary>
+          <p>ChatGPT, Claude, Gemini, Figma, Lovable, Cursor o Claude Code y Supabase. Casi todas tienen versión gratis. Para publicar tu app pagas la cuenta de desarrolladora: 99 USD al año en App Store y 25 USD una sola vez en Google Play.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- 09 CTA final -->
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="cta__inner">
+        <span class="sticker sticker--lilac cta__sticker" aria-hidden="true">Tú puedes</span>
+        <h2 id="cta-title" class="display display--inverse">Tu idea lleva mucho tiempo esperando.</h2>
+        <p class="lead lead--inverse">Apártate un lugar en la waitlist y sé de las primeras en entrar al club en 2027.</p>
+        <div class="waitlist waitlist--tilt">
+          <form class="waitlist__form" data-waitlist novalidate>
+            <h3 class="h3">Quiero entrar al club</h3>
+            <div class="field">
+              <label for="cta-name">Tu nombre</label>
+              <input id="cta-name" name="name" type="text" autocomplete="given-name" placeholder="¿Cómo te llamas?" required maxlength="120">
+            </div>
+            <div class="field">
+              <label for="cta-email">Tu correo</label>
+              <input id="cta-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254">
+              <p class="field__error" id="cta-email-error" hidden></p>
+            </div>
+            <div class="hp" aria-hidden="true">
+              <label for="cta-company">No llenes este campo</label>
+              <input id="cta-company" name="company" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <button class="btn btn--block" type="submit">
+              <span class="btn__label">Quiero mi lugar</span>
+              <span aria-hidden="true">→</span>
+            </button>
+            <p class="caption">Cada semana te mandamos contenido sobre IA para perderle el miedo a emprender, y te avisamos primero cuando abramos. Te sales cuando quieras.</p>
+            <p class="waitlist__status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Club/Footer -->
+  <footer class="footer">
+    <img src="assets/brand/logo-cream.webp" width="180" height="112" alt="El Club de las Emprendedoras" loading="lazy">
+    <p class="footer__by">Un proyecto de Pame y Manu · <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a></p>
+    <p class="caption">© 2026 El Club de las Emprendedoras.</p>
+  </footer>
+
+
+  <!-- Step 2: profile questions (optional) -->
+  <dialog class="profile" id="profile" aria-labelledby="profile-title">
+    <form class="profile__form" method="dialog" novalidate>
+      <header class="profile__head">
+        <p class="kicker kicker--tomato">Paso 2 de 2 · opcional</p>
+        <h2 id="profile-title" class="h3"><span data-profile-name>¡Listo!</span> Ya tienes tu lugar. ¿Nos cuentas un poco más?</h2>
+        <p class="caption">Con esto armamos el taller a tu medida. Toma 1 minuto.</p>
+        <button class="profile__close" type="button" data-profile-skip aria-label="Cerrar">×</button>
+      </header>
+      <div class="profile__body">
+        <div class="field">
+          <label for="p-whatsapp">Tu WhatsApp <span class="profile__hint">(para avisarte primero cuando abramos)</span></label>
+          <input id="p-whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="+52 55 1234 5678" maxlength="30">
+        </div>
+        <fieldset class="profile__q">
+          <legend>¿Qué te describe mejor?</legend>
+          <div class="chips-select">
+            <label class="chip"><input type="radio" name="perfil" value="Trabajo en una empresa y quiero algo mío"><span>Trabajo en una empresa y quiero algo mío</span></label>
+            <label class="chip"><input type="radio" name="perfil" value="Ya tengo un negocio o emprendimiento"><span>Ya tengo un negocio o emprendimiento</span></label>
+            <label class="chip"><input type="radio" name="perfil" value="Soy freelance o creadora de contenido"><span>Soy freelance o creadora de contenido</span></label>
+            <label class="chip"><input type="radio" name="perfil" value="Estoy empezando de cero"><span>Estoy empezando de cero</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="profile__q">
+          <legend>¿Dónde estás hoy con tu idea?</legend>
+          <div class="chips-select">
+            <label class="chip"><input type="radio" name="etapa_idea" value="Todavía no tengo idea"><span>Todavía no tengo idea</span></label>
+            <label class="chip"><input type="radio" name="etapa_idea" value="La tengo en la cabeza"><span>La tengo en la cabeza</span></label>
+            <label class="chip"><input type="radio" name="etapa_idea" value="Ya la platiqué con posibles clientas"><span>Ya la platiqué con posibles clientas</span></label>
+            <label class="chip"><input type="radio" name="etapa_idea" value="Ya estoy construyendo algo"><span>Ya estoy construyendo algo</span></label>
+            <label class="chip"><input type="radio" name="etapa_idea" value="Ya vendo y quiero crecer"><span>Ya vendo y quiero crecer</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="profile__q">
+          <legend>Sé honesta: ¿qué te frena hoy? <span class="profile__hint">(elige todas las que apliquen)</span></legend>
+          <div class="chips-select">
+            <label class="chip"><input type="checkbox" name="freno" value="No sé por dónde empezar"><span>No sé por dónde empezar</span></label>
+            <label class="chip"><input type="checkbox" name="freno" value="Siento que no soy técnica"><span>Siento que no soy técnica</span></label>
+            <label class="chip"><input type="checkbox" name="freno" value="No tengo tiempo"><span>No tengo tiempo</span></label>
+            <label class="chip"><input type="checkbox" name="freno" value="Miedo a que no funcione"><span>Miedo a que no funcione</span></label>
+            <label class="chip"><input type="checkbox" name="freno" value="No sé si mi idea es buena"><span>No sé si mi idea es buena</span></label>
+            <label class="chip"><input type="checkbox" name="freno" value="No tengo dinero para invertir"><span>No tengo dinero para invertir</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="profile__q">
+          <legend>¿Qué te interesaría más para 2027?</legend>
+          <div class="chips-select">
+            <label class="chip"><input type="radio" name="interes_2027" value="Encontrar y validar mi idea"><span>Encontrar y validar mi idea</span></label>
+            <label class="chip"><input type="radio" name="interes_2027" value="Crear mi app con IA"><span>Crear mi app con IA</span></label>
+            <label class="chip"><input type="radio" name="interes_2027" value="Conseguir mis primeros usuarios y ventas"><span>Conseguir mis primeros usuarios y ventas</span></label>
+            <label class="chip"><input type="radio" name="interes_2027" value="Usar IA en mi negocio actual"><span>Usar IA en mi negocio actual</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="profile__q">
+          <legend>¿Qué es lo que más te trabaría durante el taller?</legend>
+          <div class="chips-select">
+            <label class="chip"><input type="radio" name="traba_taller" value="La parte técnica"><span>La parte técnica</span></label>
+            <label class="chip"><input type="radio" name="traba_taller" value="Encontrar el tiempo"><span>Encontrar el tiempo</span></label>
+            <label class="chip"><input type="radio" name="traba_taller" value="Ser constante"><span>Ser constante</span></label>
+            <label class="chip"><input type="radio" name="traba_taller" value="Sentirme sola en el proceso"><span>Sentirme sola en el proceso</span></label>
+            <label class="chip"><input type="radio" name="traba_taller" value="Todavía no sé"><span>Todavía no sé</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="profile__q">
+          <legend>¿Qué ritmo y horario te funcionan mejor?</legend>
+          <div class="chips-select">
+            <label class="chip"><input type="radio" name="horario" value="Entre semana en la noche"><span>Entre semana en la noche</span></label>
+            <label class="chip"><input type="radio" name="horario" value="Entre semana a mediodía"><span>Entre semana a mediodía</span></label>
+            <label class="chip"><input type="radio" name="horario" value="Fines de semana en la mañana"><span>Fines de semana en la mañana</span></label>
+            <label class="chip"><input type="radio" name="horario" value="Me adapto"><span>Me adapto</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="profile__q">
+          <legend>¿Ya tomaste un taller o curso con nosotras?</legend>
+          <div class="chips-select">
+            <label class="chip"><input type="radio" name="curso_previo" value="Sí"><span>Sí</span></label>
+            <label class="chip"><input type="radio" name="curso_previo" value="No"><span>No</span></label>
+            <label class="chip"><input type="radio" name="curso_previo" value="Todavía no, pero las sigo"><span>Todavía no, pero las sigo</span></label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="p-meta">En una frase: ¿qué te gustaría construir o lograr con IA?</label>
+          <input id="p-meta" name="meta_ia" type="text" maxlength="300" placeholder="Una app para…">
+        </div>
+        <div class="field">
+          <label for="p-negocio">Cuéntanos un poco más de ti y de tu negocio</label>
+          <textarea id="p-negocio" name="negocio" rows="3" maxlength="1000" placeholder="A qué te dedicas, qué vendes o qué te gustaría vender…"></textarea>
+        </div>
+        <div class="field">
+          <label for="p-ig">Tu Instagram o el de tu negocio</label>
+          <input id="p-ig" name="instagram" type="text" maxlength="100" autocapitalize="off" placeholder="@tunegocio">
+        </div>
+      </div>
+      <footer class="profile__foot">
+        <p class="waitlist__status" role="status" aria-live="polite"></p>
+        <button class="btn btn--block" type="submit"><span class="btn__label">Enviar mis respuestas</span></button>
+        <button class="profile__skip" type="button" data-profile-skip>Lo lleno después</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <template id="waitlist-success">
+    <div class="waitlist__success" tabindex="-1">
+      <img src="assets/img/pink-heart.webp" width="64" height="59" alt="">
+      <p class="h3" data-success-title></p>
+      <p>Te avisamos antes que a nadie cuando abramos el taller. Y desde esta semana te llega contenido sobre IA para que le pierdas el miedo a emprender. Revisa tu correo (y promociones, por si acaso).</p>
+    </div>
+  </template>
+</body>
+</html>
