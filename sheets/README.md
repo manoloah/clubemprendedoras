@@ -5,9 +5,9 @@ site/ form ──POST JSON──▶ Apps Script /exec URL ──▶ "ClubDeLasEm
 ```
 
 Two steps, one row per email:
-1. **Sign-up** (hero and final forms): name, email, WhatsApp, plus `utm_*` / referrer.
-2. **Profile modal** (optional, opens right after): the rest of the sheet's questions.
-   It fills the same row.
+1. **Sign-up** (hero and final forms): name and email, plus `utm_*` / referrer.
+2. **Profile modal** (optional, opens right after): WhatsApp and the rest of the sheet's
+   questions. It fills the same row.
 
 This folder isn't deployed with the site. It's the script you paste into the Sheet.
 
