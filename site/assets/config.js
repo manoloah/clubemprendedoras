@@ -1,15 +1,8 @@
-// Waitlist backend. Fill in ONE of the two options before publishing.
-//
-// Option A: Supabase (recommended). Run supabase/migrations/001_waitlist.sql
-// in your project, then paste the project URL and the *publishable/anon* key.
-// The anon key is safe in the browser: it can only call join_waitlist(),
-// never read or write the table directly.
-//
-// Option B: any endpoint that accepts a JSON POST
-// ({ name, email, utm_*, referrer, source }), e.g. a Zapier/Make webhook.
+// Waitlist backend: the Google Apps Script web app in sheets/Code.gs.
+// Paste its /exec URL below (setup steps in sheets/README.md).
+// The URL is public by design: it can only add or complete sign-ups,
+// never read the Sheet or overwrite existing answers.
 window.CLUB_WAITLIST = {
-  supabaseUrl: "",      // e.g. "https://abcd1234.supabase.co"
-  supabaseAnonKey: "",  // e.g. "sb_publishable_..." or the legacy anon JWT
-  endpoint: "",         // Option B, used only when Supabase is empty
+  endpoint: "", // e.g. "https://script.google.com/macros/s/AKfy.../exec"
   source: "landing-2027",
 };

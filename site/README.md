@@ -8,7 +8,7 @@ site/
   assets/tokens.css   design tokens (mirror of the Figma variables)
   assets/styles.css   components + layout
   assets/app.js       waitlist form (validation, submit, success state, UTM capture)
-  assets/config.js    waitlist backend settings  ← fill before publishing
+  assets/config.js    Apps Script /exec URL  ← fill before publishing
   assets/brand/       logo (tomato, cream), asterisk, underline
   assets/img/         illustration, stickers, photo, og.jpg
 ```
@@ -24,16 +24,12 @@ On any other host it shows an error until `assets/config.js` is filled in, so no
 
 ## Connect the waitlist
 
-1. Create (or pick) a Supabase project and run `supabase/migrations/001_waitlist.sql`.
-2. Paste the project URL and the publishable/anon key into `assets/config.js`.
-3. The form calls the `join_waitlist()` function, never the table. Signups land in
-   `public.waitlist` with name, email and any `utm_*` / referrer. Duplicate emails are
-   ignored and get the exact same response, so nobody can probe who signed up.
-   A global throttle (60 signups/minute) stops scripted floods.
-4. For stronger bot protection later, put Cloudflare Turnstile in front via a
-   Supabase Edge Function and verify the token before calling `join_waitlist()`.
+The form posts to a Google Apps Script that writes into the
+"ClubDeLasEmprendedoras - Registration" Sheet. Setup: [`sheets/README.md`](../sheets/README.md).
+Then paste the `/exec` URL into `endpoint` in `assets/config.js`.
 
-Prefer Zapier, Make or another tool? Put its webhook URL in `endpoint` instead.
+Flow: name + email + WhatsApp are saved first; then an optional modal asks the rest of the
+questions and fills the same row.
 
 ## Before going live
 

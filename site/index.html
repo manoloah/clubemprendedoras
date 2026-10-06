@@ -60,6 +60,11 @@
                 <input id="hero-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254">
                 <p class="field__error" id="hero-email-error" hidden></p>
               </div>
+              <div class="field">
+                <label for="hero-whatsapp">Tu WhatsApp</label>
+                <input id="hero-whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="+52 55 1234 5678" required maxlength="30">
+                <p class="field__error" id="hero-whatsapp-error" hidden></p>
+              </div>
               <div class="hp" aria-hidden="true">
                 <label for="hero-company">No llenes este campo</label>
                 <input id="hero-company" name="company" type="text" tabindex="-1" autocomplete="off">
@@ -332,6 +337,11 @@
               <input id="cta-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254">
               <p class="field__error" id="cta-email-error" hidden></p>
             </div>
+            <div class="field">
+              <label for="cta-whatsapp">Tu WhatsApp</label>
+              <input id="cta-whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="+52 55 1234 5678" required maxlength="30">
+              <p class="field__error" id="cta-whatsapp-error" hidden></p>
+            </div>
             <div class="hp" aria-hidden="true">
               <label for="cta-company">No llenes este campo</label>
               <input id="cta-company" name="company" type="text" tabindex="-1" autocomplete="off">
@@ -354,6 +364,105 @@
     <p class="footer__by">Un proyecto de Pame y Manu · <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a></p>
     <p class="caption">© 2026 El Club de las Emprendedoras. Hecho con IA y muchas ganas en LATAM.</p>
   </footer>
+
+
+  <!-- Step 2: profile questions (optional) -->
+  <dialog class="profile" id="profile" aria-labelledby="profile-title">
+    <form class="profile__form" method="dialog" novalidate>
+      <header class="profile__head">
+        <p class="kicker kicker--tomato">Paso 2 de 2 · opcional</p>
+        <h2 id="profile-title" class="h3"><span data-profile-name>¡Listo!</span> Ya tienes tu lugar. ¿Nos cuentas un poco más?</h2>
+        <p class="caption">Con esto armamos el taller a tu medida. Toma 1 minuto.</p>
+        <button class="profile__close" type="button" data-profile-skip aria-label="Cerrar">×</button>
+      </header>
+      <div class="profile__body">
+        <fieldset class="profile__q">
+          <legend>¿Qué te describe mejor?</legend>
+          <div class="chips-select">
+            <label class="chip"><input type="radio" name="perfil" value="Trabajo en una empresa y quiero algo mío"><span>Trabajo en una empresa y quiero algo mío</span></label>
+            <label class="chip"><input type="radio" name="perfil" value="Ya tengo un negocio o emprendimiento"><span>Ya tengo un negocio o emprendimiento</span></label>
+            <label class="chip"><input type="radio" name="perfil" value="Soy freelance o creadora de contenido"><span>Soy freelance o creadora de contenido</span></label>
+            <label class="chip"><input type="radio" name="perfil" value="Estoy empezando de cero"><span>Estoy empezando de cero</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="profile__q">
+          <legend>¿Dónde estás hoy con tu idea?</legend>
+          <div class="chips-select">
+            <label class="chip"><input type="radio" name="etapa_idea" value="Todavía no tengo idea"><span>Todavía no tengo idea</span></label>
+            <label class="chip"><input type="radio" name="etapa_idea" value="La tengo en la cabeza"><span>La tengo en la cabeza</span></label>
+            <label class="chip"><input type="radio" name="etapa_idea" value="Ya la platiqué con posibles clientas"><span>Ya la platiqué con posibles clientas</span></label>
+            <label class="chip"><input type="radio" name="etapa_idea" value="Ya estoy construyendo algo"><span>Ya estoy construyendo algo</span></label>
+            <label class="chip"><input type="radio" name="etapa_idea" value="Ya vendo y quiero crecer"><span>Ya vendo y quiero crecer</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="profile__q">
+          <legend>Sé honesta: ¿qué te frena hoy? <span class="profile__hint">(elige todas las que apliquen)</span></legend>
+          <div class="chips-select">
+            <label class="chip"><input type="checkbox" name="freno" value="No sé por dónde empezar"><span>No sé por dónde empezar</span></label>
+            <label class="chip"><input type="checkbox" name="freno" value="Siento que no soy técnica"><span>Siento que no soy técnica</span></label>
+            <label class="chip"><input type="checkbox" name="freno" value="No tengo tiempo"><span>No tengo tiempo</span></label>
+            <label class="chip"><input type="checkbox" name="freno" value="Miedo a que no funcione"><span>Miedo a que no funcione</span></label>
+            <label class="chip"><input type="checkbox" name="freno" value="No sé si mi idea es buena"><span>No sé si mi idea es buena</span></label>
+            <label class="chip"><input type="checkbox" name="freno" value="No tengo dinero para invertir"><span>No tengo dinero para invertir</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="profile__q">
+          <legend>¿Qué te interesaría más para 2027?</legend>
+          <div class="chips-select">
+            <label class="chip"><input type="radio" name="interes_2027" value="Encontrar y validar mi idea"><span>Encontrar y validar mi idea</span></label>
+            <label class="chip"><input type="radio" name="interes_2027" value="Crear mi app con IA"><span>Crear mi app con IA</span></label>
+            <label class="chip"><input type="radio" name="interes_2027" value="Conseguir mis primeros usuarios y ventas"><span>Conseguir mis primeros usuarios y ventas</span></label>
+            <label class="chip"><input type="radio" name="interes_2027" value="Usar IA en mi negocio actual"><span>Usar IA en mi negocio actual</span></label>
+            <label class="chip"><input type="radio" name="interes_2027" value="Todo lo anterior"><span>Todo lo anterior</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="profile__q">
+          <legend>¿Qué es lo que más te trabaría durante el taller?</legend>
+          <div class="chips-select">
+            <label class="chip"><input type="radio" name="traba_taller" value="La parte técnica"><span>La parte técnica</span></label>
+            <label class="chip"><input type="radio" name="traba_taller" value="Encontrar el tiempo"><span>Encontrar el tiempo</span></label>
+            <label class="chip"><input type="radio" name="traba_taller" value="Ser constante"><span>Ser constante</span></label>
+            <label class="chip"><input type="radio" name="traba_taller" value="Sentirme sola en el proceso"><span>Sentirme sola en el proceso</span></label>
+            <label class="chip"><input type="radio" name="traba_taller" value="Todavía no sé"><span>Todavía no sé</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="profile__q">
+          <legend>¿Qué ritmo y horario te funcionan mejor?</legend>
+          <div class="chips-select">
+            <label class="chip"><input type="radio" name="horario" value="Entre semana en la noche"><span>Entre semana en la noche</span></label>
+            <label class="chip"><input type="radio" name="horario" value="Entre semana a mediodía"><span>Entre semana a mediodía</span></label>
+            <label class="chip"><input type="radio" name="horario" value="Fines de semana en la mañana"><span>Fines de semana en la mañana</span></label>
+            <label class="chip"><input type="radio" name="horario" value="Me adapto"><span>Me adapto</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="profile__q">
+          <legend>¿Ya tomaste un taller o curso con nosotras?</legend>
+          <div class="chips-select">
+            <label class="chip"><input type="radio" name="curso_previo" value="Sí"><span>Sí</span></label>
+            <label class="chip"><input type="radio" name="curso_previo" value="No"><span>No</span></label>
+            <label class="chip"><input type="radio" name="curso_previo" value="Todavía no, pero las sigo"><span>Todavía no, pero las sigo</span></label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="p-meta">En una frase: ¿qué te gustaría construir o lograr con IA?</label>
+          <input id="p-meta" name="meta_ia" type="text" maxlength="300" placeholder="Una app para…">
+        </div>
+        <div class="field">
+          <label for="p-negocio">Cuéntanos un poco más de ti y de tu negocio</label>
+          <textarea id="p-negocio" name="negocio" rows="3" maxlength="1000" placeholder="A qué te dedicas, qué vendes o qué te gustaría vender…"></textarea>
+        </div>
+        <div class="field">
+          <label for="p-ig">Tu Instagram o el de tu negocio</label>
+          <input id="p-ig" name="instagram" type="text" maxlength="100" autocapitalize="off" placeholder="@tunegocio">
+        </div>
+      </div>
+      <footer class="profile__foot">
+        <p class="waitlist__status" role="status" aria-live="polite"></p>
+        <button class="btn btn--block" type="submit"><span class="btn__label">Enviar mis respuestas</span></button>
+        <button class="profile__skip" type="button" data-profile-skip>Lo lleno después</button>
+      </footer>
+    </form>
+  </dialog>
 
   <template id="waitlist-success">
     <div class="waitlist__success" tabindex="-1">

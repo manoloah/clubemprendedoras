@@ -20,47 +20,30 @@
   }
   if (document.referrer) attribution.referrer = document.referrer.slice(0, 500);
 
-  async function submitLead(lead) {
-    if (config.supabaseUrl && config.supabaseAnonKey) {
-      // join_waitlist() returns the same empty 204 for new and existing emails.
-      const res = await fetch(
-        `${config.supabaseUrl.replace(/\/$/, "")}/rest/v1/rpc/join_waitlist`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            apikey: config.supabaseAnonKey,
-            Authorization: `Bearer ${config.supabaseAnonKey}`,
-          },
-          body: JSON.stringify({
-            p_name: lead.name,
-            p_email: lead.email,
-            p_source: lead.source,
-            p_utm_source: lead.utm_source ?? null,
-            p_utm_medium: lead.utm_medium ?? null,
-            p_utm_campaign: lead.utm_campaign ?? null,
-            p_utm_content: lead.utm_content ?? null,
-            p_referrer: lead.referrer ?? null,
-          }),
-        }
-      );
-      if (res.ok) return;
-      throw new Error(`Supabase ${res.status}`);
+  // Posts to the Apps Script web app. JSON goes as text/plain so the
+  // browser skips the CORS preflight Apps Script can't answer.
+  async function send(payload) {
+    if (!config.endpoint) {
+      if (isLocal) {
+        console.info("[waitlist] No endpoint configured; local preview only.", payload);
+        return;
+      }
+      throw new Error("Waitlist endpoint not configured (assets/config.js)");
     }
-    if (config.endpoint) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 15000);
+    try {
       const res = await fetch(config.endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(lead),
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload),
+        signal: ctrl.signal,
       });
-      if (res.ok) return;
-      throw new Error(`Endpoint ${res.status}`);
+      const out = await res.json();
+      if (!out.ok) throw new Error(out.error || "not ok");
+    } finally {
+      clearTimeout(timer);
     }
-    if (isLocal) {
-      console.info("[waitlist] No backend configured; local preview only.", lead);
-      return;
-    }
-    throw new Error("Waitlist backend not configured (assets/config.js)");
   }
 
   function setError(input, errorEl, message) {
@@ -85,19 +68,77 @@
     const node = tpl.content.firstElementChild.cloneNode(true);
     node.querySelector("[data-success-title]").textContent = `¡Ya estás dentro, ${name}!`;
     form.replaceWith(node);
-    node.focus();
+    return node;
   }
+
+  // Step 2: optional profile questions in a modal, saved to the same row.
+  const dialog = document.getElementById("profile");
+  const profileForm = dialog.querySelector("form");
+  const profileStatus = profileForm.querySelector(".waitlist__status");
+  const profileButton = profileForm.querySelector("button[type=submit]");
+  let profileEmail = "";
+  let profileReturn = null;
+
+  function openProfile(email, firstName, returnFocus) {
+    profileEmail = email;
+    profileReturn = returnFocus;
+    dialog.querySelector("[data-profile-name]").textContent = `¡Listo, ${firstName}!`;
+    if (typeof dialog.showModal === "function") dialog.showModal();
+    else returnFocus.focus();
+  }
+
+  function closeProfile() {
+    dialog.close();
+    if (profileReturn) profileReturn.focus();
+  }
+
+  dialog.addEventListener("close", () => profileReturn && profileReturn.focus());
+  dialog.querySelectorAll("[data-profile-skip]").forEach((b) => b.addEventListener("click", closeProfile));
+  dialog.addEventListener("click", (e) => { if (e.target === dialog) closeProfile(); });
+
+  profileForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    profileStatus.textContent = "";
+    const answers = { email: profileEmail };
+    for (const [key, value] of new FormData(profileForm)) {
+      const v = String(value).trim();
+      if (!v) continue;
+      answers[key] = answers[key] ? `${answers[key]}, ${v}` : v;
+    }
+    if (Object.keys(answers).length === 1) return closeProfile();
+
+    profileButton.disabled = true;
+    const label = profileButton.querySelector(".btn__label");
+    label.textContent = "Guardando…";
+    try {
+      await send(answers);
+      if (profileReturn) {
+        profileReturn.querySelector("p:not(.h3)").textContent =
+          "Gracias por contarnos de ti. Con esto armamos el taller pensando en ti y te avisamos antes que a nadie.";
+      }
+      closeProfile();
+    } catch (error) {
+      console.error("[waitlist profile]", error);
+      profileStatus.textContent = "No pudimos guardar tus respuestas. Intenta otra vez en un momento.";
+    } finally {
+      profileButton.disabled = false;
+      label.textContent = "Enviar mis respuestas";
+    }
+  });
 
   document.querySelectorAll("[data-waitlist]").forEach((form) => {
     const nameInput = form.elements.name;
     const emailInput = form.elements.email;
-    const emailError = form.querySelector(".field__error");
+    const phoneInput = form.elements.whatsapp;
+    const emailError = emailInput.parentElement.querySelector(".field__error");
+    const phoneError = phoneInput.parentElement.querySelector(".field__error");
     const status = form.querySelector(".waitlist__status");
     const button = form.querySelector("button[type=submit]");
     const buttonLabel = button.querySelector(".btn__label");
 
     nameInput.addEventListener("input", () => clearError(nameInput));
     emailInput.addEventListener("input", () => clearError(emailInput, emailError));
+    phoneInput.addEventListener("input", () => clearError(phoneInput, phoneError));
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -108,6 +149,7 @@
 
       const name = nameInput.value.trim().replace(/\s+/g, " ");
       const email = emailInput.value.trim().toLowerCase();
+      const phone = phoneInput.value.trim();
       let firstInvalid = null;
 
       if (!name) {
@@ -119,6 +161,10 @@
         setError(emailInput, emailError, "Revisa tu correo, parece que le falta algo.");
         firstInvalid = firstInvalid || emailInput;
       }
+      if (phone.replace(/\D/g, "").length < 8) {
+        setError(phoneInput, phoneError, "Pon tu número con lada, por ejemplo +52 55 1234 5678.");
+        firstInvalid = firstInvalid || phoneInput;
+      }
       if (firstInvalid) {
         firstInvalid.focus();
         return;
@@ -129,16 +175,20 @@
       buttonLabel.textContent = "Guardando tu lugar…";
 
       try {
-        await submitLead({
-          name: name.slice(0, 120),
+        await send({
+          nombre: name.slice(0, 120),
           email: email.slice(0, 254),
+          whatsapp: phone.slice(0, 30),
+          company: form.elements.company.value,
           source: config.source || "landing-2027",
           ...attribution,
         });
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({ event: "waitlist_signup", source: config.source });
         if (typeof window.fbq === "function") window.fbq("track", "Lead");
-        showSuccess(form, name.split(" ")[0]);
+        const firstName = name.split(" ")[0];
+        const success = showSuccess(form, firstName);
+        openProfile(email, firstName, success);
       } catch (error) {
         console.error("[waitlist]", error);
         status.textContent = "Ups, no pudimos guardar tu lugar. Intenta de nuevo en un momento.";
