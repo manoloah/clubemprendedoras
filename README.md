@@ -7,6 +7,8 @@ app with AI, then launch it and sell it.
 
 The page has one job: collect name and email for the waitlist (plus optional profile answers).
 
+**Live:** https://clubemprendedoras.vercel.app
+
 ## What's in the repo
 
 ```
@@ -34,6 +36,18 @@ or the animated hero falls back to the static image. Safari also won't play the 
 
 > The waitlist endpoint in `site/assets/config.js` is the live one, so a form submitted
 > locally writes a real row to the Sheet.
+
+## Deploy
+
+Hosted on Vercel (project `clubemprendedoras`), linked to this GitHub repo with `site/` as the
+project root. No build step: Vercel serves `site/` as-is.
+
+- Merging to `main` deploys to production at https://clubemprendedoras.vercel.app.
+- Every other branch gets its own preview URL. Previews may ask for a Vercel login; production is public.
+- `site/vercel.json` sets cache headers (images and video: 1 day) and basic security headers.
+  `site/.vercelignore` keeps the developer README out of the deploy.
+- If the site moves to a custom domain, update `og:url`, `og:image` and the canonical link in
+  `site/index.html`.
 
 ## How it works
 
@@ -63,15 +77,19 @@ or the animated hero falls back to the static image. Safari also won't play the 
   phrase underlined; sharper app ideas; Pame and Manu photos with a float animation.
 - `scripts/rank-hero.mjs` to score hero copy options against the ICP.
 
-**PR #2 · Motion** (this branch)
+**PR #2 · Motion** (merged)
 - Breathing icons, button light ring, hopping highlight, scroll reveals, self-sorting ideas.
 - Transparent hero video loop (stacked alpha + WebGL), plus the pipeline that builds it.
 - Mobile fixes: the hero headline scales to fit any phone, nothing can widen the page, and the
   underline renders in Safari.
 - Local preview switched to a server Safari can play video from.
 
+**PR #3 · Vercel deploy**
+- Vercel project linked to the repo; production at https://clubemprendedoras.vercel.app.
+- Absolute `og:image`/`og:url` and a canonical link, so link previews on Instagram and WhatsApp show the image.
+
 ## Next
 
-- Deploy to Vercel (separate branch) and test on a real iPhone.
-- Point `og:image` at the absolute URL once the domain exists.
+- Test on a real iPhone (the live site passes the iPhone checks in Chrome's and Safari's engines).
+- Custom domain, if wanted (then update the URLs in `site/index.html`).
 - Confirm the claims in the copy: "Más de 500 personas", "2 de cada 3 son mujeres", "entre 4 y 6 horas a la semana".

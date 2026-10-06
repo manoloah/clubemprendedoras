@@ -39,7 +39,7 @@ the questions and fills the same row.
 
 ## Before going live
 
-- Set `og:image` in `index.html` to the absolute URL once the domain exists.
+- Live at https://clubemprendedoras.vercel.app (deploy notes in the root `README.md`). On a custom domain, update `og:url`, `og:image` and the canonical link.
 - Confirm the claims in the copy: "Más de 500 personas", "2 de cada 3 son mujeres", "entre 4 y 6 horas a la semana".
 
 ## Figma ↔ code map
