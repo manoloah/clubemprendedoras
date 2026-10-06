@@ -17,7 +17,7 @@
   // matte on the right; a tiny WebGL pass turns it into real transparency, so
   // it looks the same in every browser (no VP9/HEVC alpha support needed).
   const art = document.querySelector(".hero__art");
-  if (art && !saveData) startHeroLoop(art, "assets/video/club-women.mp4");
+  if (art && !saveData) startHeroLoop(art, "assets/video/club-women.mp4?v=2");
 
   function startHeroLoop(art, src) {
     const canvas = document.createElement("canvas");

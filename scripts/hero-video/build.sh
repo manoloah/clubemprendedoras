@@ -34,7 +34,12 @@ ffmpeg -v error -y -framerate 24 -i "$WORK/matte/%03d.png" -f lavfi -i "color=c=
 [col][m]hstack,split[a][b];\
 [b]reverse,trim=start_frame=1:end_frame=$((N - 1)),setpts=PTS-STARTPTS[r];\
 [a][r]concat=n=2:v=1:a=0[o]" \
-  -map "[o]" -c:v libx264 -preset slow -crf 24 -pix_fmt yuv420p -movflags +faststart -an "$OUT"
+  -map "[o]" -r 24 -fps_mode cfr \
+  -c:v libx264 -preset slow -crf 24 -pix_fmt yuv420p -profile:v high -level:v 4.0 \
+  -colorspace bt709 -color_primaries bt709 -color_trc bt709 -tag:v avc1 \
+  -movflags +faststart -an "$OUT"
+# The explicit level matters: left alone, x264 declared level 6.2 here, which
+# iPhones refuse (video error 4, "not supported"); desktop browsers don't care.
 
 ls -lh "$OUT"
 echo "Done. Bump the ?v= on motion.js in site/index.html only if motion.js changed;"
