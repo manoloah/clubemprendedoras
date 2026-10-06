@@ -114,7 +114,7 @@
       await send(answers);
       if (profileReturn) {
         profileReturn.querySelector("p:not(.h3)").textContent =
-          "Gracias por contarnos de ti. Con esto armamos el taller pensando en ti y te avisamos antes que a nadie.";
+          "Gracias por contarnos de ti. Con esto armamos el taller pensando en ti. Desde esta semana te llega contenido sobre IA para que le pierdas el miedo a emprender, y te avisamos antes que a nadie cuando abramos.";
       }
       closeProfile();
     } catch (error) {
@@ -129,16 +129,13 @@
   document.querySelectorAll("[data-waitlist]").forEach((form) => {
     const nameInput = form.elements.name;
     const emailInput = form.elements.email;
-    const phoneInput = form.elements.whatsapp;
     const emailError = emailInput.parentElement.querySelector(".field__error");
-    const phoneError = phoneInput.parentElement.querySelector(".field__error");
     const status = form.querySelector(".waitlist__status");
     const button = form.querySelector("button[type=submit]");
     const buttonLabel = button.querySelector(".btn__label");
 
     nameInput.addEventListener("input", () => clearError(nameInput));
     emailInput.addEventListener("input", () => clearError(emailInput, emailError));
-    phoneInput.addEventListener("input", () => clearError(phoneInput, phoneError));
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -149,7 +146,6 @@
 
       const name = nameInput.value.trim().replace(/\s+/g, " ");
       const email = emailInput.value.trim().toLowerCase();
-      const phone = phoneInput.value.trim();
       let firstInvalid = null;
 
       if (!name) {
@@ -160,10 +156,6 @@
       if (!EMAIL_RE.test(email)) {
         setError(emailInput, emailError, "Revisa tu correo, parece que le falta algo.");
         firstInvalid = firstInvalid || emailInput;
-      }
-      if (phone.replace(/\D/g, "").length < 8) {
-        setError(phoneInput, phoneError, "Pon tu número con lada, por ejemplo +52 55 1234 5678.");
-        firstInvalid = firstInvalid || phoneInput;
       }
       if (firstInvalid) {
         firstInvalid.focus();
@@ -178,7 +170,6 @@
         await send({
           nombre: name.slice(0, 120),
           email: email.slice(0, 254),
-          whatsapp: phone.slice(0, 30),
           company: form.elements.company.value,
           source: config.source || "landing-2027",
           ...attribution,

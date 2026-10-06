@@ -37,8 +37,8 @@ const COLUMNS = {
   meta_ia: "Cuéntanos en una frase: ¿qué te gustaría construir o lograr con la inteligencia artificial? 👇",
   negocio: "Cuntanos un poco más de ti y de tu negocio",
   instagram: "Tu Instagram o de tu negocio (para avisarte primero)",
-  // Added at the end of the sheet the first time they're used:
-  nombre: "Tu nombre",
+  // Added at the end of the sheet the first time they're used if missing:
+  nombre: "Nombre",
   updated_at: "Actualizado",
   source: "Origen",
   utm_source: "utm_source",

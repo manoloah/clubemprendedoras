@@ -30,7 +30,7 @@ Nueva versión**. That keeps the same `/exec` URL.
 ## Columns
 
 The script writes into your existing headers (matched ignoring case/extra spaces) and adds
-these at the end the first time they're used: **Tu nombre, Actualizado, Origen, utm_source,
+these at the end the first time they're used: **Actualizado, Origen, utm_source,
 utm_medium, utm_campaign, utm_content, referrer**. To rename a column, edit the right side of
 `COLUMNS` in `Code.gs` and redeploy.
 
