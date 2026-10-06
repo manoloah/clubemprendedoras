@@ -57,6 +57,7 @@
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video);
       } catch (error) {
         // e.g. opened from file://, where the browser won't hand video pixels to WebGL.
+        console.info("[hero] Animated hero needs the page served over http(s), e.g. `npx serve site`; showing the static image.", error.name);
         broken = true; video.pause(); canvas.remove(); video.remove();
         return;
       }
