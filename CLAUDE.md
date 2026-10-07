@@ -18,7 +18,7 @@ scripts/hero-video/build.sh path/to/render.mp4           # rebuild site/assets/v
 OUT=/tmp/test.mp4 scripts/hero-video/build.sh render.mp4 # same, without touching the repo file
 ```
 
-No build step, no package.json, no tests. `site/` is deployed as-is.
+No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (see Workflow).
 
 ## Layout
 
@@ -47,8 +47,13 @@ No build step, no package.json, no tests. `site/` is deployed as-is.
 
 ## Hero video
 
-- `club-women.mp4` is stacked alpha: 1280x640 H.264, colour on the left half (premultiplied on black), mask as grey on the right, a ping-pong loop of 238 frames at 24fps. `motion.js` draws it into a WebGL canvas placed over the static `club-women.webp`, under the stickers.
+- `club-women.mp4` is stacked alpha: 1280x640 H.264, colour on the left half (premultiplied on black), mask as grey on the right, a ping-pong loop of 238 frames at 24fps, H.264 High level 4.0. `motion.js` draws it into a WebGL canvas placed over the static `club-women.webp`, under the stickers.
+- It's drawn from a plain `requestAnimationFrame` loop, because `requestVideoFrameCallback` may not fire for a video that isn't itself on screen.
 - It starts once the art is on screen *and* 0.2s have passed. Safari won't autoplay a video that's off screen or under an opacity-0 ancestor, so refused `play()` calls are retried. The video is created muted (attribute plus `defaultMuted`) before `src` is set.
+- **iPhones refuse H.264 above level 5.x** with `video error code=4` (not supported), in Safari and Chrome alike, while desktop browsers play it fine. x264 picked level 6.2 on its own, so `build.sh` now pins `-profile:v high -level:v 4.0` and a constant 24fps. Check with `ffprobe -show_entries stream=level` (expect `40`).
+- When the video file changes, bump the `?v=` on the video URL in `motion.js`: images and video are cached for a day.
+- Open the page with `?debug` to get an on-screen log of play attempts, video events and frames drawn. Screenshot it on a real phone; no cable needed.
+- If autoplay is refused (iPhone Low Power Mode blocks all autoplay), the first tap anywhere starts the video.
 - It only works over http(s). From `file://`, WebGL refuses the video's pixels (SecurityError) and the page keeps the static image, logging `[hero] …` to the console. Safari also needs a server with Range requests: `python3 -m http.server` won't do.
 - The source render has a fake grey/white checkerboard baked in and a black first frame. `scripts/hero-video/matte.py` keys out the checkerboard and skips the black frame. VP9-alpha WebM and HEVC-alpha were tried first: HEVC alpha from ffmpeg came out without an alpha layer, and the split formats meant Safari couldn't be verified, which is why we use one stacked file.
 
@@ -56,6 +61,7 @@ No build step, no package.json, no tests. `site/` is deployed as-is.
 
 - Check layout and motion in both Chromium and WebKit at iPhone SE (320), iPhone 15 (393) and desktop (1280), served over http. Playwright works well for this (`devices["iPhone 15"]`).
 - Playwright's WebKit blocks muted autoplay unless there's a user gesture, even on a plain `<video autoplay muted>`. A static hero there is a false negative; `page.evaluate` counts as a gesture.
+- **Video can't be tested on protected Vercel previews from an iPhone:** iOS fetches media through a separate player that doesn't send the share-link cookie, so the MP4 request is redirected to Vercel login and fails with error 4. Test video on production (or a public URL).
 - **The form posts to the live Sheet,** including from localhost. Don't submit test sign-ups unless you mean to, or point `config.js` at an empty endpoint locally. With no endpoint set, localhost logs the payload to the console.
 
 ## Waitlist backend
@@ -65,6 +71,8 @@ No build step, no package.json, no tests. `site/` is deployed as-is.
 
 ## Workflow
 
-- One feature branch per change, opened as a PR against `main`. Vercel deployment comes next, on its own branch.
+- One feature branch per change, opened as a PR against `main`.
+- **Deploys:** Vercel project `clubemprendedoras` (team `manolo96035-6430s-projects`, id `prj_2wdMdohpqhJ8QiIjznXfhaD8cN7l`), Git-linked, root directory `site/`. Merging to `main` deploys production at https://clubemprendedoras.vercel.app; other branches get preview URLs, which may be behind Vercel login. Config: `site/vercel.json` (no build, headers) and `site/.vercelignore`.
+- After a deploy, check the live site the same way as local (Playwright at 320/393/1280), and confirm the video answers a Range request with `206`.
 - `.DS_Store` files are tracked even though `.gitignore` lists them. Don't stage their changes (`git checkout -- .DS_Store`).
 - Secrets live only in `.env.local` (gitignored), e.g. `TYPESAFE_API_KEY`.
