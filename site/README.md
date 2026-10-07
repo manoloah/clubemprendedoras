@@ -8,7 +8,9 @@ site/
   assets/tokens.css   design tokens (mirror of the Figma variables)
   assets/styles.css   components + layout
   assets/app.js       waitlist form (validation, submit, success state, UTM capture)
-  assets/config.js    Apps Script /exec URL  ← fill before publishing
+  assets/motion.js    animation: reveals, ideas heap, letter hop, hero video (WebGL)
+  assets/config.js    Apps Script /exec URL (live)
+  assets/video/       club-women.mp4, stacked-alpha hero loop
   assets/brand/       logo (tomato, cream), asterisk, underline
   assets/img/         illustration, stickers, photo, og.jpg
 ```
@@ -16,11 +18,15 @@ site/
 ## Run it locally
 
 ```bash
-python3 -m http.server 4173 --directory site
+npx serve -l 4173 site
 ```
 
-On `localhost` the form succeeds without a backend and logs the lead to the console.
-On any other host it shows an error until `assets/config.js` is filled in, so no signup is silently lost.
+Use a real server, not `file://`, and not `python3 -m http.server` if you're testing in Safari:
+the hero video needs http(s) and Range requests.
+
+`assets/config.js` has the live endpoint, so a local submit writes a real row. With the endpoint
+empty, `localhost` logs the lead to the console and shows success, and any other host shows an
+error, so no signup is silently lost.
 
 ## Connect the waitlist
 
@@ -28,13 +34,13 @@ The form posts to a Google Apps Script that writes into the
 "ClubDeLasEmprendedoras - Registration" Sheet. Setup: [`sheets/README.md`](../sheets/README.md).
 Then paste the `/exec` URL into `endpoint` in `assets/config.js`.
 
-Flow: name + email + WhatsApp are saved first; then an optional modal asks the rest of the
-questions and fills the same row.
+Flow: name + email are saved first; then an optional modal asks for WhatsApp and the rest of
+the questions and fills the same row.
 
 ## Before going live
 
-- Set `og:image` in `index.html` to the absolute URL once the domain exists.
-- Check the claims marked in the hand-off notes (260+ students, 4–6 h a week).
+- Live at https://clubemprendedoras.vercel.app (deploy notes in the root `README.md`). On a custom domain, update `og:url`, `og:image` and the canonical link.
+- Confirm the claims in the copy: "Más de 500 personas", "2 de cada 3 son mujeres", "entre 4 y 6 horas a la semana".
 
 ## Figma ↔ code map
 
@@ -55,3 +61,10 @@ Figma file: Club de Emprendedoras · section "06 · Componentes reutilizables ·
 | Club/Phone | `.phone` |
 | Club/Footer | `.footer` |
 | Club/Logo | `assets/brand/logo-*.webp` |
+
+## Motion
+
+- `assets/motion.js` + the "Motion" block at the end of `assets/styles.css`: icon breathing, button light ring, letter-hop on `[data-jump]`, scroll reveals (`data-reveal` is added by JS), and the ideas heap that sorts itself.
+- Everything is off under `prefers-reduced-motion: reduce`, and the hidden "before" states only exist once JS adds `html.motion`, so the page still works without JS.
+- Preview locally with a server that supports HTTP Range requests (`npx serve site`); Safari won't play video from `python3 -m http.server` or from a `file://` URL. The `landing` entry in `.claude/launch.json` already does this.
+- Hero loop (rebuild with `scripts/hero-video/build.sh render.mp4`): `assets/video/club-women.mp4` is a stacked-alpha H.264 (colour left, matte right, 640px per half, ping-pong so it loops seamlessly). `motion.js` composites it to transparency in a WebGL canvas once the art is on screen and at least 0.2s after load (Safari won't autoplay off-screen video); the static `club-women.webp` shows until then (and stays if WebGL or autoplay is unavailable).
