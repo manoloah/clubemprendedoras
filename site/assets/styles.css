@@ -43,9 +43,9 @@ ul, ol { padding: 0; list-style: none; }
 .lead--inverse { color: var(--text-inverse); }
 .caption { font: var(--type-caption); opacity: 0.8; }
 .accent { color: var(--brand-primary); }
-.underline { position: relative; display: inline-block; white-space: nowrap; } /* inline-block: WebKit gives the ::after 0 width on an inline box */
+.underline { position: relative; display: inline-block; white-space: nowrap; padding-bottom: 0.2em; } /* the padding reserves the stroke's room inside the line box, so it never overlaps the next line */ /* inline-block: WebKit gives the ::after 0 width on an inline box */
 .underline::after {
-  content: ""; position: absolute; left: -2%; right: -4%; bottom: 0.04em; height: 0.28em;
+  content: ""; position: absolute; left: -2%; right: -4%; bottom: 0; height: 0.28em;
   background: url("brand/underline.svg") no-repeat center / 100% 100%;
   pointer-events: none;
 }
