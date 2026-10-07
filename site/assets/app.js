@@ -38,24 +38,28 @@
       body: JSON.stringify(payload),
       signal: ctrl.signal,
     };
-    let out;
+    let res;
     try {
-      const res = await fetch(config.endpoint, request);
-      out = await res.json();
-    } catch (error) {
-      if (ctrl.signal.aborted) throw error;
-      // Apps Script saves the row, then 302-redirects to googleusercontent
-      // for the reply. Some in-app browsers (Instagram's) fail that second
-      // hop, so the save worked but we can't read the answer. Re-send without
-      // CORS: the save is idempotent per email, and an opaque reply that
-      // arrives at all means Apps Script got it.
-      console.warn("[waitlist] reply unreadable, retrying no-cors", error);
-      await fetch(config.endpoint, { ...request, mode: "no-cors" });
-      return;
+      try {
+        res = await fetch(config.endpoint, request);
+      } catch (error) {
+        // A TypeError here (not a timeout) is a network/CORS failure. Apps
+        // Script saves the row, then 302-redirects to googleusercontent for
+        // the reply, and some in-app browsers (Instagram's) fail that hop.
+        // Re-send without CORS: the save is idempotent per email. We can't
+        // read an opaque reply, so this is best effort. Any reply we *can*
+        // read (an HTTP error, HTML, ok:false) still counts as a failure.
+        if (ctrl.signal.aborted || !(error instanceof TypeError)) throw error;
+        console.warn("[waitlist] reply unreadable, retrying no-cors", error);
+        await fetch(config.endpoint, { ...request, mode: "no-cors" });
+        return;
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const out = await res.json();
+      if (!out.ok) throw new Error(out.error || "not ok");
     } finally {
       clearTimeout(timer);
     }
-    if (!out.ok) throw new Error(out.error || "not ok");
   }
 
   function setError(input, errorEl, message) {
