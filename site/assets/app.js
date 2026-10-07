@@ -32,13 +32,29 @@
     }
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 15000);
+    const request = {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+      signal: ctrl.signal,
+    };
+    let res;
     try {
-      const res = await fetch(config.endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload),
-        signal: ctrl.signal,
-      });
+      try {
+        res = await fetch(config.endpoint, request);
+      } catch (error) {
+        // A TypeError here (not a timeout) is a network/CORS failure. Apps
+        // Script saves the row, then 302-redirects to googleusercontent for
+        // the reply, and some in-app browsers (Instagram's) fail that hop.
+        // Re-send without CORS: the save is idempotent per email. We can't
+        // read an opaque reply, so this is best effort. Any reply we *can*
+        // read (an HTTP error, HTML, ok:false) still counts as a failure.
+        if (ctrl.signal.aborted || !(error instanceof TypeError)) throw error;
+        console.warn("[waitlist] reply unreadable, retrying no-cors", error);
+        await fetch(config.endpoint, { ...request, mode: "no-cors" });
+        return;
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const out = await res.json();
       if (!out.ok) throw new Error(out.error || "not ok");
     } finally {

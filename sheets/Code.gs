@@ -38,7 +38,7 @@ const COLUMNS = {
   negocio: "Cuntanos un poco más de ti y de tu negocio",
   instagram: "Tu Instagram o de tu negocio (para avisarte primero)",
   // Added at the end of the sheet the first time they're used if missing:
-  nombre: "Nombre",
+  nombre: "Tu nombre",
   updated_at: "Actualizado",
   source: "Origen",
   utm_source: "utm_source",
