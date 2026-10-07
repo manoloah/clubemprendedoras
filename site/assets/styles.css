@@ -373,8 +373,7 @@ ul, ol { padding: 0; list-style: none; }
 .profile__ok .btn { width: auto; }
 .profile__enter { font: var(--type-caption); opacity: 0.75; }
 .profile__enter kbd { font: inherit; font-weight: 700; }
-.profile__foot { flex: none; display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); padding: var(--space-12) var(--space-16) calc(var(--space-12) + env(safe-area-inset-bottom)); border-top: var(--stroke-ui) solid var(--border-default); background: var(--surface-default); }
-.profile__skip { background: none; border: 0; font: var(--type-label); color: var(--text-default); text-decoration: underline; text-underline-offset: 3px; padding: var(--space-8); cursor: pointer; }
+.profile__foot { flex: none; display: flex; align-items: center; justify-content: flex-end; gap: var(--space-8); padding: var(--space-12) var(--space-16) calc(var(--space-12) + env(safe-area-inset-bottom)); border-top: var(--stroke-ui) solid var(--border-default); background: var(--surface-default); }
 .profile__nav { display: flex; gap: 2px; }
 .profile__nav button { width: 44px; height: 40px; border: 0; background: var(--brand-primary); color: var(--text-inverse); font: 700 18px/1 var(--font-body); cursor: pointer; }
 .profile__nav button:first-child { border-radius: var(--radius-8) 0 0 var(--radius-8); }
