@@ -32,18 +32,30 @@
     }
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 15000);
+    const request = {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+      signal: ctrl.signal,
+    };
+    let out;
     try {
-      const res = await fetch(config.endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload),
-        signal: ctrl.signal,
-      });
-      const out = await res.json();
-      if (!out.ok) throw new Error(out.error || "not ok");
+      const res = await fetch(config.endpoint, request);
+      out = await res.json();
+    } catch (error) {
+      if (ctrl.signal.aborted) throw error;
+      // Apps Script saves the row, then 302-redirects to googleusercontent
+      // for the reply. Some in-app browsers (Instagram's) fail that second
+      // hop, so the save worked but we can't read the answer. Re-send without
+      // CORS: the save is idempotent per email, and an opaque reply that
+      // arrives at all means Apps Script got it.
+      console.warn("[waitlist] reply unreadable, retrying no-cors", error);
+      await fetch(config.endpoint, { ...request, mode: "no-cors" });
+      return;
     } finally {
       clearTimeout(timer);
     }
+    if (!out.ok) throw new Error(out.error || "not ok");
   }
 
   function setError(input, errorEl, message) {
