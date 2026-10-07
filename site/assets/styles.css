@@ -45,7 +45,7 @@ ul, ol { padding: 0; list-style: none; }
 .accent { color: var(--brand-primary); }
 .underline { position: relative; display: inline-block; white-space: nowrap; } /* inline-block: WebKit gives the ::after 0 width on an inline box */
 .underline::after {
-  content: ""; position: absolute; left: -2%; right: -4%; bottom: 0.04em; height: 0.28em;
+  content: ""; position: absolute; left: -2%; right: -4%; bottom: -0.2em; height: 0.28em;
   background: url("brand/underline.svg") no-repeat center / 100% 100%;
   pointer-events: none;
 }
