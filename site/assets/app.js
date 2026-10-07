@@ -87,58 +87,130 @@
     return node;
   }
 
-  // Step 2: optional profile questions in a modal, saved to the same row.
+  // Step 2: optional profile questions, one at a time (Typeform style).
+  // Answers are saved in the background as she goes, so nobody waits on
+  // Apps Script and an abandoned survey still keeps what was answered.
   const dialog = document.getElementById("profile");
   const profileForm = dialog.querySelector("form");
-  const profileStatus = profileForm.querySelector(".waitlist__status");
-  const profileButton = profileForm.querySelector("button[type=submit]");
+  const steps = [...dialog.querySelectorAll("[data-step]")];
+  const progress = dialog.querySelector("[data-progress]");
+  const prevBtn = dialog.querySelector(".profile__nav [data-prev]");
+  const nextBtn = dialog.querySelector(".profile__nav [data-next]");
+  const KEYS = "ABCDEFGHIJ";
   let profileEmail = "";
   let profileReturn = null;
+  let current = 0;
+  let lastSent = "";
+  let answered = false;
 
-  function openProfile(email, firstName, returnFocus) {
-    profileEmail = email;
-    profileReturn = returnFocus;
-    dialog.querySelector("[data-profile-name]").textContent = `¡Listo, ${firstName}!`;
-    if (typeof dialog.showModal === "function") dialog.showModal();
-    else returnFocus.focus();
-  }
+  steps.forEach((step) => {
+    step.querySelectorAll(".chip span").forEach((span, i) => { span.dataset.key = KEYS[i]; });
+  });
 
-  function closeProfile() {
-    dialog.close();
-    if (profileReturn) profileReturn.focus();
-  }
-
-  dialog.addEventListener("close", () => profileReturn && profileReturn.focus());
-  dialog.querySelectorAll("[data-profile-skip]").forEach((b) => b.addEventListener("click", closeProfile));
-  dialog.addEventListener("click", (e) => { if (e.target === dialog) closeProfile(); });
-
-  profileForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    profileStatus.textContent = "";
-    const answers = { email: profileEmail };
+  function collect() {
+    const answers = {};
     for (const [key, value] of new FormData(profileForm)) {
       const v = String(value).trim();
       if (!v) continue;
       answers[key] = answers[key] ? `${answers[key]}, ${v}` : v;
     }
-    if (Object.keys(answers).length === 1) return closeProfile();
+    return answers;
+  }
 
-    profileButton.disabled = true;
-    const label = profileButton.querySelector(".btn__label");
-    label.textContent = "Guardando…";
-    try {
-      await send(answers);
-      if (profileReturn) {
-        profileReturn.querySelector("p:not(.h3)").textContent =
-          "Gracias por contarnos de ti. Con esto armamos el taller pensando en ti. Desde esta semana te llega contenido sobre IA para que le pierdas el miedo a emprender, y te avisamos antes que a nadie cuando abramos.";
-      }
-      closeProfile();
-    } catch (error) {
+  // Sends whatever is new since the last save. The backend only fills empty
+  // cells, so each answer lands once and repeats are harmless.
+  function flush() {
+    const answers = collect();
+    const body = JSON.stringify(answers);
+    if (!profileEmail || body === lastSent || !Object.keys(answers).length) return;
+    lastSent = body;
+    answered = true;
+    const payload = { email: profileEmail, ...answers };
+    send(payload).catch((error) => {
       console.error("[waitlist profile]", error);
-      profileStatus.textContent = "No pudimos guardar tus respuestas. Intenta otra vez en un momento.";
-    } finally {
-      profileButton.disabled = false;
-      label.textContent = "Enviar mis respuestas";
+      lastSent = "";
+    });
+  }
+
+  function show(index) {
+    const from = current;
+    current = Math.max(0, Math.min(steps.length - 1, index));
+    steps.forEach((step, i) => {
+      step.hidden = i !== current;
+      step.classList.remove("is-in", "from-top");
+    });
+    const step = steps[current];
+    void step.offsetWidth;
+    step.classList.add("is-in");
+    if (current < from) step.classList.add("from-top");
+    progress.style.width = `${(current / (steps.length - 1)) * 100}%`;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current >= steps.length - 2;
+    dialog.classList.toggle("is-done", current === steps.length - 1);
+    dialog.querySelector(".profile__body").scrollTop = 0;
+    // Focus text fields; on choice questions focus the first option so
+    // keyboard users can arrow through, without popping the phone keyboard.
+    const field = step.querySelector("input[type=text], input[type=tel], textarea");
+    if (field && matchMedia("(hover: hover)").matches) field.focus({ preventScroll: true });
+    else (step.querySelector("[data-next], button") || step).focus({ preventScroll: true });
+  }
+
+  function next() {
+    flush();
+    show(current + 1);
+  }
+
+  function openProfile(email, firstName, returnFocus) {
+    profileEmail = email;
+    profileReturn = returnFocus;
+    dialog.querySelector("[data-profile-name]").textContent = `¡Listo, ${firstName}!`;
+    if (typeof dialog.showModal !== "function") return returnFocus.focus();
+    dialog.showModal();
+    show(0);
+  }
+
+  function closeProfile() {
+    flush();
+    if (answered && profileReturn) {
+      profileReturn.querySelector("p:not(.h3)").textContent =
+        "Gracias por contarnos de ti. Con esto armamos el taller pensando en ti. Desde esta semana te llega contenido sobre IA para que le pierdas el miedo a emprender, y te avisamos antes que a nadie cuando abramos.";
+    }
+    if (dialog.open) dialog.close();
+  }
+
+  dialog.addEventListener("close", () => profileReturn && profileReturn.focus());
+  dialog.addEventListener("cancel", () => flush());
+  dialog.querySelectorAll("[data-profile-skip]").forEach((b) => b.addEventListener("click", closeProfile));
+  dialog.querySelectorAll("[data-next]").forEach((b) => b.addEventListener("click", next));
+  prevBtn.addEventListener("click", () => show(current - 1));
+  profileForm.addEventListener("submit", (e) => { e.preventDefault(); next(); });
+  document.addEventListener("visibilitychange", () => { if (document.hidden && dialog.open) flush(); });
+
+  // Single-choice questions move on by themselves, like Typeform.
+  profileForm.addEventListener("change", (e) => {
+    const step = e.target.closest("[data-step]");
+    if (e.target.type === "radio" && step && step.hasAttribute("data-auto")) {
+      setTimeout(() => { if (steps[current] === step) next(); }, 350);
+    }
+  });
+
+  dialog.addEventListener("keydown", (e) => {
+    const step = steps[current];
+    const inText = e.target.matches("input[type=text], input[type=tel], textarea");
+    if (e.key === "Enter" && !e.shiftKey && !(e.target.tagName === "TEXTAREA" && !e.metaKey && !e.ctrlKey)) {
+      if (e.target.tagName === "BUTTON") return;
+      e.preventDefault();
+      next();
+      return;
+    }
+    // A, B, C… pick an option on choice questions.
+    if (!inText && !e.metaKey && !e.ctrlKey && !e.altKey && /^[a-j]$/i.test(e.key)) {
+      const input = step.querySelectorAll(".chip input")[KEYS.indexOf(e.key.toUpperCase())];
+      if (input) {
+        e.preventDefault();
+        input.checked = input.type === "checkbox" ? !input.checked : true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
     }
   });
 
