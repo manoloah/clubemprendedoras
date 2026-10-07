@@ -59,6 +59,7 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 
 ## Testing
 
+- **Always test at phone size.** Every visual check, including screenshots, happens with the viewport at 393x852 (iPhone 15), and again at 320 for tight layouts; desktop (1280) is only a final sanity check. The built-in browser works: `resize_window` to 393x852 before looking, and take the screenshot at that size. Wait ~10s after loading, because the intro animation delays the hero.
 - Check layout and motion in both Chromium and WebKit at iPhone SE (320), iPhone 15 (393) and desktop (1280), served over http. Playwright works well for this (`devices["iPhone 15"]`).
 - Playwright's WebKit blocks muted autoplay unless there's a user gesture, even on a plain `<video autoplay muted>`. A static hero there is a false negative; `page.evaluate` counts as a gesture.
 - **Video can't be tested on protected Vercel previews from an iPhone:** iOS fetches media through a separate player that doesn't send the share-link cookie, so the MP4 request is redirected to Vercel login and fails with error 4. Test video on production (or a public URL).
