@@ -19,7 +19,9 @@ clases reales, es [`index.html`](index.html).
 | `Club/Waitlist Form` | — | `.waitlist` + `[data-waitlist]` | Aparta tu lugar |
 | `Club/Phone` | — | `.phone`, `.phone__screen` | pantallas de ejemplo por semana |
 | `Club/Footer` | — | `.footer` | Un proyecto de Pame y Manu · @emprendeconpm |
-| `Club/Graphic/*`, `Club/Sticker Art/*`, `Club/Illustration/*` | — | `assets/brand/*`, `assets/img/*` | — |
+| `Club/Graphic/*`, `Club/Sticker Art/*` | — | `site/assets/brand/*`, `site/assets/img/*` | — |
+| `Club/Illustration/Community` | square · tall (· wide) | `brand/assets/img/community-*.webp`, `site/assets/img/club-women.webp` | — |
+| Fotos de fondo (02B, 02D, 03B) y post-it (03C) | — | `brand/assets/img/photo-*.webp` | Apoyo entre hermanas · Tú también puedes |
 | **`Club/Motion`** | Breathe · Bob · Hop · Ring · Reveal · Sort | tokens `--dur-*`, `--ease-*`, `--stagger-*` + bloque Motion de `styles.css` + `motion.js` | ver [motion.md](motion.md) |
 
 ## Composición

@@ -46,6 +46,20 @@
     .btn.is-pressed { transform: translateY(4px); box-shadow: none; background: var(--action-pressed); }
     .field--focus input { border-color: var(--brand-primary); box-shadow: 0 0 0 1px var(--brand-primary); }
     .card-week { margin-top: 0; }
+    .hero-lockup { background: var(--surface-expressive); border-radius: var(--radius-24); padding: var(--space-32) var(--space-16); display: grid; place-items: center; }
+    .hero-lockup img { width: min(100%, 640px); height: auto; }
+    .photo { position: relative; overflow: hidden; border-radius: var(--radius-24); background: var(--surface-expressive); }
+    .photo > img:first-child { width: 100%; height: 100%; object-fit: cover; }
+    .photo__logo { position: absolute; height: auto; mix-blend-mode: multiply; }
+    .photo__cap { position: absolute; inset: auto 0 34% 0; text-align: center; color: #fff; font: var(--type-note); font-size: 30px; line-height: 32px; text-shadow: 0 2px 10px rgb(23 37 74 / 0.35); rotate: -3deg; }
+    .photo--tall { aspect-ratio: 3 / 5; }
+    .photo--tote { aspect-ratio: 328 / 371; }
+    .photo--shirt { aspect-ratio: 268 / 401; }
+    .postit { aspect-ratio: 288 / 401; background: var(--surface-expressive); border-radius: var(--radius-24); display: grid; place-content: center; text-align: center; gap: var(--space-12); padding: var(--space-24); }
+    .postit .kicker { align-self: center; background: none; color: var(--text-accent); }
+    .postit p:last-child { font: var(--type-note); font-size: 34px; line-height: 36px; }
+    .illus { background: var(--surface-expressive); border-radius: var(--radius-24); display: grid; place-items: center; padding: var(--space-16); }
+    .illus img { width: 100%; height: auto; max-height: 520px; object-fit: contain; }
     .tokens { width: 100%; border-collapse: collapse; font: var(--type-caption); }
     .tokens th, .tokens td { text-align: left; padding: var(--space-8) var(--space-12) var(--space-8) 0; border-top: var(--stroke-fine) solid rgb(23 37 74 / 0.2); vertical-align: top; }
     .tokens th { font: var(--type-kicker); letter-spacing: .12em; text-transform: uppercase; }
@@ -62,7 +76,7 @@
   <header class="guide__top">
     <img src="../site/assets/brand/logo-tomato.webp" width="56" height="35" alt="El Club de las Emprendedoras">
     <nav aria-label="Secciones">
-      <a href="#color">Color</a><a href="#tipografia">Tipografía</a><a href="#componentes">Componentes</a>
+      <a href="#color">Color</a><a href="#tipografia">Tipografía</a><a href="#componentes">Componentes</a><a href="#imagenes">Imágenes</a>
       <a href="#movimiento">Movimiento</a><a href="#voz">Voz</a>
     </nav>
   </header>
@@ -125,12 +139,13 @@
       <p class="kicker kicker--navy tilt-r">03 · Componentes</p>
       <h2 class="h2">Piezas para armar cualquier página del club.</h2>
 
-      <h3 class="h3">Club/Logo</h3>
-      <div class="stage stage--light">
-        <div class="demo-row">
-          <img src="../site/assets/brand/logo-tomato.webp" width="156" height="97" alt="Logo tomato">
-          <span style="background:var(--surface-inverse); padding:12px; border-radius:16px"><img src="../site/assets/brand/logo-cream.webp" width="156" height="97" alt="Logo cream"></span>
-        </div>
+      <h3 class="h3">Main hero · Club/Logo</h3>
+      <p>El lettering a mano es el logo y también el hero: se usa como imagen, nunca se reescribe en una fuente.</p>
+      <div class="hero-lockup"><img src="../site/assets/brand/logo-tomato.webp" width="640" height="400" alt="El Club de las Emprendedoras"></div>
+      <div class="grid grid--wide">
+        <div class="hero-lockup" style="background:var(--surface-cool)"><img src="../site/assets/brand/logo-tomato.webp" width="320" height="200" alt="Logo tomato"></div>
+        <div class="hero-lockup" style="background:var(--surface-cool)"><img src="../site/assets/brand/logo-navy.webp" width="320" height="200" alt="Logo navy"></div>
+        <div class="hero-lockup" style="background:var(--surface-cool)"><img src="../site/assets/brand/logo-cream.webp" width="320" height="200" alt="Logo cream"></div>
       </div>
 
       <h3 class="h3">Club/Button · Club/Kicker</h3>
@@ -249,9 +264,42 @@
       </div>
     </section>
 
+    <!-- IMAGENES -->
+    <section id="imagenes">
+      <p class="kicker kicker--tomato tilt-l">04 · Imágenes</p>
+      <h2 class="h2">Fotos reales, ilustración a mano y mucho sol.</h2>
+      <p class="intro">Las fotos van sin texto: el logo y las frases se agregan encima (en Figma o en CSS). Las ilustraciones tienen fondo transparente y se colocan sobre cualquier color de la paleta.</p>
+
+      <h3 class="h3">Club/Illustration/Community</h3>
+      <div class="grid grid--wide">
+        <div class="illus" style="background:var(--surface-expressive)"><img src="assets/img/community-square.webp" width="900" height="900" alt="Tres mujeres con lentes de sol y una gorra “Big dreams”"></div>
+        <div class="illus" style="background:var(--surface-cool)"><img src="assets/img/community-tall.webp" width="720" height="1280" alt="Ilustración vertical de las tres mujeres"></div>
+        <div class="illus" style="background:var(--surface-optimistic)"><img src="assets/img/community-wide.webp" width="1280" height="720" alt="Ilustración horizontal de las tres mujeres"></div>
+      </div>
+      <p class="caption">Cuadrada, vertical (9:16) y horizontal (16:9). En la landing se usa <code>site/assets/img/club-women.webp</code> y, animada, <code>club-women.mp4</code>.</p>
+
+      <h3 class="h3">Fotos de fondo</h3>
+      <div class="grid grid--wide">
+        <figure class="photo photo--tall">
+          <img src="assets/img/photo-palm-pink.webp" width="933" height="1400" alt="Palmera y arquitectura rosa bajo cielo azul">
+          <figcaption class="photo__cap">Apoyo entre<br>hermanas</figcaption>
+        </figure>
+        <figure class="photo photo--tote">
+          <img src="assets/img/photo-tote-bottle.webp" width="1225" height="1400" alt="Tote bag de tela y botella coral">
+          <img class="photo__logo" src="../site/assets/brand/logo-tomato.webp" style="left:6%; top:36%; width:72%" alt="">
+        </figure>
+        <figure class="photo photo--shirt">
+          <img src="assets/img/photo-shirt.webp" width="933" height="1400" alt="Mujer de espaldas con camiseta crema">
+          <img class="photo__logo" src="../site/assets/brand/logo-tomato.webp" style="left:20%; top:36%; width:60%" alt="">
+        </figure>
+        <div class="postit"><p class="kicker">Post it</p><p>Tú también<br>puedes</p></div>
+      </div>
+      <p class="caption">Palmera y edificio rosa (Figma “02B”), tote y botella (“02D”), camiseta (“03B”) y post-it rosa (“03C”). Las fotos son <strong>sin texto</strong>; aquí el logo y la frase están superpuestos como en los mockups de Figma. Originales a 3072px en <code>brand_assets_gptoutputs/club-photo-backgrounds/</code>.</p>
+    </section>
+
     <!-- MOVIMIENTO -->
     <section id="movimiento">
-      <p class="kicker kicker--tomato tilt-l">04 · Movimiento</p>
+      <p class="kicker kicker--tomato tilt-l">05 · Movimiento</p>
       <h2 class="h2">Club/Motion: todo flota un poquito.</h2>
       <p class="intro">Seis patrones, todos con tokens de <code>tokens.css</code> y todos decorativos. Detalle y reglas en <code>brand/motion.md</code>.</p>
 
@@ -300,7 +348,7 @@
 
     <!-- VOZ -->
     <section id="voz">
-      <p class="kicker kicker--navy tilt-r">05 · Voz</p>
+      <p class="kicker kicker--navy tilt-r">06 · Voz</p>
       <h2 class="h2">Cercanas, valientes, juntas.</h2>
       <p class="intro">Una comunidad de emprendedoras con confianza y humor ligero. Motivamos con pasos concretos, sin prometer éxito fácil. Todo en español mexicano, de tú, escrito a mujeres.</p>
       <div class="voice">

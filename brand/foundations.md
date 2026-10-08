@@ -85,10 +85,13 @@ El logo "EL CLUB DE LAS EMPRENDEDORAS" es lettering a mano: se usa como imagen
 `rotate` pertenece a la inclinación. Los loops (`translate`/`scale`) y las entradas (`transform`)
 nunca lo tocan; así se componen sin pelearse (ver [motion.md](motion.md)).
 
-## Gráficos
+## Gráficos e imágenes
 
+- **Logo / main hero**: lettering a mano "EL CLUB DE LAS EMPRENDEDORAS" con subrayado y asterisco. Tres colores: tomato (sobre rosa, crema, mantequilla), navy (sobre claros) y cream (sobre navy, tomato, lila). Imagen, nunca texto.
 - **Asterisco** tomato (`asterisk.svg`): chispa de marca; favicon.
 - **Subrayado** tomato (`underline.svg`): trazo a mano bajo "cero a emprendedora"; el `::after` de `.underline`.
 - **Stickers ilustrados** (WebP): corazón lila, palma rosa, flor mantequilla, blob olive, óvalo rosa, etiqueta crema.
-- **Ilustración** de las tres mujeres (`club-women.webp` y `.mp4` animado) y las fotos recortadas de Pame y Manu.
-- Archivos fuente generados: `brand_assets_gptoutputs/` (ver [README](README.md#qué-está-desactualizado)).
+- **Ilustración de la comunidad**: tres mujeres con lentes y gorra "Big dreams", transparente, en cuadrada, vertical y horizontal; en la landing, también animada (`club-women.mp4`).
+- **Fotos de fondo**: palmera con edificio rosa, tote con botella coral, mujer de espaldas con camiseta crema. Luz de mediodía, cielo azul, rosa y coral; van sin texto y el logo o una frase de Caveat (p. ej. "Apoyo entre hermanas") se pone encima.
+- **Post-it**: tarjeta rosa con kicker "Post it" y una frase en Caveat ("Tú también puedes").
+- Inventario completo y ubicación de cada archivo: [README](README.md#assets).
