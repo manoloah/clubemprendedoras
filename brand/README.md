@@ -26,7 +26,7 @@ y abre http://localhost:4180/brand/. Se sirve desde la raíz del repo para que l
 2. **Tokens:** `site/assets/tokens.css`, espejo de las variables de Figma.
 3. **Componentes:** `site/assets/styles.css` ↔ Figma "06 · Componentes reutilizables · v2".
 4. **Movimiento:** `site/assets/motion.js` y el bloque Motion de `styles.css`.
-5. Figma: https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/Club-de-Emprendedoras
+5. Figma: [brand system](https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/Club-de-Emprendedoras?node-id=1-2&m=dev) y [06 · Componentes reutilizables · v2](https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/Club-de-Emprendedoras?node-id=47-115&m=dev)
 
 ## Qué está desactualizado
 

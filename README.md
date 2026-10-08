@@ -9,6 +9,8 @@ The page has one job: collect name and email for the waitlist (plus optional pro
 
 **Live:** https://clubemprendedoras.vercel.app
 
+**Figma:** [brand system](https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/Club-de-Emprendedoras?node-id=1-2&m=dev) · [06 · Componentes reutilizables · v2](https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/Club-de-Emprendedoras?node-id=47-115&m=dev) (the components the CSS classes mirror)
+
 ## What's in the repo
 
 ```

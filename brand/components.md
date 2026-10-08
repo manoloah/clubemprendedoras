@@ -1,7 +1,7 @@
 # Componentes
 
 Los nombres de las clases del CSS coinciden 1:1 con los componentes de Figma
-(hoja **06 · Componentes reutilizables · v2**). La guía viva, con cada pieza renderizada con las
+(hoja [**06 · Componentes reutilizables · v2**](https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/Club-de-Emprendedoras?node-id=47-115&m=dev)). La guía viva, con cada pieza renderizada con las
 clases reales, es [`index.html`](index.html).
 
 | Figma | Variantes | Código | Copy vigente (ejemplo) |

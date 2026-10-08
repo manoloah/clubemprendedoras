@@ -44,7 +44,7 @@ the questions and fills the same row.
 
 ## Figma ↔ code map
 
-Figma file: Club de Emprendedoras · section "06 · Componentes reutilizables · v2" and "07 · Landing · Waitlist 2027 (mobile)".
+Figma file: [Club de Emprendedoras](https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/Club-de-Emprendedoras?node-id=1-2&m=dev) · section [06 · Componentes reutilizables · v2](https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/Club-de-Emprendedoras?node-id=47-115&m=dev) and "07 · Landing · Waitlist 2027 (mobile)".
 
 | Figma component | Code |
 |---|---|
