@@ -13,6 +13,19 @@
         "site"
       ],
       "port": 4173
+    },
+    {
+      "name": "brand",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "-y",
+        "serve",
+        "-l",
+        "4180",
+        "-n",
+        "brand"
+      ],
+      "port": 4180
     }
   ]
 }

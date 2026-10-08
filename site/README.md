@@ -44,7 +44,7 @@ the questions and fills the same row.
 
 ## Figma ↔ code map
 
-Figma file: Club de Emprendedoras · section "06 · Componentes reutilizables · v2" and "07 · Landing · Waitlist 2027 (mobile)".
+Figma file: [Club de Emprendedoras](https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/Club-de-Emprendedoras?node-id=1-2&m=dev) · section [06 · Componentes reutilizables · v2](https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/Club-de-Emprendedoras?node-id=47-115&m=dev) and "07 · Landing · Waitlist 2027 (mobile)".
 
 | Figma component | Code |
 |---|---|
@@ -67,4 +67,4 @@ Figma file: Club de Emprendedoras · section "06 · Componentes reutilizables ·
 - `assets/motion.js` + the "Motion" block at the end of `assets/styles.css`: icon breathing, button light ring, letter-hop on `[data-jump]`, scroll reveals (`data-reveal` is added by JS), and the ideas heap that sorts itself.
 - Everything is off under `prefers-reduced-motion: reduce`, and the hidden "before" states only exist once JS adds `html.motion`, so the page still works without JS.
 - Preview locally with a server that supports HTTP Range requests (`npx serve site`); Safari won't play video from `python3 -m http.server` or from a `file://` URL. The `landing` entry in `.claude/launch.json` already does this.
-- Hero loop (rebuild with `scripts/hero-video/build.sh render.mp4`): `assets/video/club-women.mp4` is a stacked-alpha H.264 (colour left, matte right, 640px per half, ping-pong so it loops seamlessly). `motion.js` composites it to transparency in a WebGL canvas once the art is on screen and at least 0.2s after load (Safari won't autoplay off-screen video); the static `club-women.webp` shows until then (and stays if WebGL or autoplay is unavailable).
+- Hero loop (rebuild with `brand/scripts/hero-video/build.sh render.mp4`): `assets/video/club-women.mp4` is a stacked-alpha H.264 (colour left, matte right, 640px per half, ping-pong so it loops seamlessly). `motion.js` composites it to transparency in a WebGL canvas once the art is on screen and at least 0.2s after load (Safari won't autoplay off-screen video); the static `club-women.webp` shows until then (and stays if WebGL or autoplay is unavailable).

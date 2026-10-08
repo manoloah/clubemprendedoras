@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Sistema de marca · El Club de las Emprendedoras</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap">
+  <!-- Self-contained: everything this page uses lives in brand/assets (tokens, components, motion, images, video). Serve this folder over http. -->
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/styles.css">
+  <style>
+    .guide { max-width: var(--content-max); margin: 0 auto; padding: 0 var(--gutter) var(--space-96); }
+    .guide__top {
+      position: sticky; top: 0; z-index: 50; display: flex; gap: var(--space-12); align-items: center;
+      padding: var(--space-8) var(--space-16); background: var(--surface-expressive);
+    }
+    .guide__top img { width: 56px; flex: none; }
+    .guide__top nav { display: flex; gap: var(--space-16); overflow-x: auto; scrollbar-width: none; font: var(--type-label); white-space: nowrap; }
+    .guide__top a { text-decoration: none; }
+    .guide__top a:hover { text-decoration: underline; }
+    .guide section { padding-top: var(--space-64); display: flex; flex-direction: column; gap: var(--space-24); }
+    .guide h2.h2 { font-size: 28px; }
+    .guide .intro { max-width: 60ch; }
+    .grid { display: grid; gap: var(--space-16); grid-template-columns: repeat(auto-fill, minmax(min(100%, 140px), 1fr)); }
+    .grid--wide { grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+    .cell { display: flex; flex-direction: column; gap: var(--space-8); align-items: flex-start; }
+    .cell > small, .swatch small { font: var(--type-caption); opacity: 0.75; }
+    .swatch { display: flex; flex-direction: column; gap: var(--space-4); font: var(--type-label); }
+    .swatch i {
+      display: block; height: 72px; border-radius: var(--radius-16); border: var(--stroke-ui) solid var(--border-default);
+    }
+    .swatch code, .cell code, .tokens code { font: 500 12px/16px ui-monospace, Menlo, monospace; }
+    .specimen { display: grid; gap: var(--space-4); padding: var(--space-16) 0; border-top: var(--stroke-fine) solid rgb(23 37 74 / 0.2); }
+    .specimen code { opacity: 0.7; }
+    .stage { background: var(--surface-inverse); border-radius: var(--radius-24); padding: var(--space-24); color: var(--text-inverse); display: flex; flex-direction: column; gap: var(--space-16); align-items: flex-start; }
+    .stage--light { background: var(--surface-expressive); color: var(--text-default); }
+    .demo-row { display: flex; flex-wrap: wrap; gap: var(--space-24); align-items: center; }
+    .demo-box { display: flex; flex-direction: column; gap: var(--space-12); align-items: center; padding: var(--space-16); background: var(--surface-default); color: var(--text-default); border-radius: var(--radius-16); min-width: 150px; text-align: center; }
+    .demo-row > .demo-box { flex: 1 1 150px; }
+    .demo-box img { width: 56px; }
+    .demo-box strong { font: var(--type-label); }
+    .demo-box small { font: var(--type-caption); opacity: 0.75; max-width: 22ch; }
+    .btn.is-pressed { transform: translateY(4px); box-shadow: none; background: var(--action-pressed); }
+    .field--focus input { border-color: var(--brand-primary); box-shadow: 0 0 0 1px var(--brand-primary); }
+    .card-week { margin-top: 0; }
+    .hero-lockup { background: var(--surface-expressive); border-radius: var(--radius-24); padding: var(--space-32) var(--space-16); display: grid; place-items: center; }
+    .hero-lockup img { width: min(100%, 640px); height: auto; }
+    .photo { position: relative; overflow: hidden; border-radius: var(--radius-24); background: var(--surface-expressive); }
+    .photo > img:first-child { width: 100%; height: 100%; object-fit: cover; }
+    .photo__logo { position: absolute; height: auto; mix-blend-mode: multiply; }
+    .photo__cap { position: absolute; inset: auto 0 34% 0; text-align: center; color: #fff; font: var(--type-note); font-size: 30px; line-height: 32px; text-shadow: 0 2px 10px rgb(23 37 74 / 0.35); rotate: -3deg; }
+    .photo--tall { aspect-ratio: 3 / 5; }
+    .photo--tote { aspect-ratio: 328 / 371; }
+    .photo--shirt { aspect-ratio: 268 / 401; }
+    .postit { aspect-ratio: 288 / 401; background: var(--surface-expressive); border-radius: var(--radius-24); display: grid; place-content: center; text-align: center; gap: var(--space-12); padding: var(--space-24); }
+    .postit .kicker { align-self: center; background: none; color: var(--text-accent); }
+    .postit p:last-child { font: var(--type-note); font-size: 34px; line-height: 36px; }
+    .illus { background: var(--surface-expressive); border-radius: var(--radius-24); display: grid; place-items: center; padding: var(--space-16); }
+    .illus img { width: 100%; height: auto; max-height: 520px; object-fit: contain; }
+    .tokens { width: 100%; border-collapse: collapse; font: var(--type-caption); }
+    .tokens th, .tokens td { text-align: left; padding: var(--space-8) var(--space-12) var(--space-8) 0; border-top: var(--stroke-fine) solid rgb(23 37 74 / 0.2); vertical-align: top; }
+    .tokens th { font: var(--type-kicker); letter-spacing: .12em; text-transform: uppercase; }
+    .replay { align-self: flex-start; }
+    .voice { display: grid; gap: var(--space-16); grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+    .voice > div { padding: var(--space-24); border-radius: var(--radius-24); display: flex; flex-direction: column; gap: var(--space-8); }
+    .voice h3 { margin-bottom: var(--space-4); }
+    /* Loops only run when the visitor hasn't asked for reduced motion (same rule as styles.css). */
+    @media (prefers-reduced-motion: no-preference) {
+      .demo-breathe { animation: club-breathe var(--dur-breathe-fast) var(--ease-soft) infinite; }
+      .demo-bob { animation: club-bob var(--dur-bob-sticker) var(--ease-soft) infinite; }
+    }
+    .no-motion-note { display: none; }
+    @media (prefers-reduced-motion: reduce) { .no-motion-note { display: block; } }
+    @media (min-width: 900px) { .guide h2.h2 { font-size: 36px; } }
+  </style>
+</head>
+<body>
+  <header class="guide__top">
+    <img src="assets/brand/logo-tomato.webp" width="56" height="35" alt="El Club de las Emprendedoras">
+    <nav aria-label="Secciones">
+      <a href="#color">Color</a><a href="#tipografia">Tipografía</a><a href="#componentes">Componentes</a><a href="#imagenes">Imágenes</a>
+      <a href="#movimiento">Movimiento</a><a href="#voz">Voz</a>
+    </nav>
+  </header>
+
+  <main class="guide">
+    <section style="padding-top: var(--space-48)">
+      <p class="kicker kicker--tomato tilt-l">Sistema de marca</p>
+      <h1 class="display">Cercanas, valientes, <span class="accent">juntas.</span></h1>
+      <p class="lead intro">Color, tipografía, componentes, movimiento y voz de El Club de las Emprendedoras. Esta página usa el CSS real de la landing: lo que ves aquí es lo que hay en producción.</p>
+      <p class="caption no-motion-note">Tienes “reducir movimiento” activado en tu sistema: las animaciones de esta guía están apagadas, igual que en la landing.</p>
+    </section>
+
+    <!-- COLOR -->
+    <section id="color">
+      <p class="kicker kicker--navy tilt-r">01 · Color</p>
+      <h2 class="h2">Una paleta cálida, nunca corporativa.</h2>
+      <h3 class="h3">Primitivas</h3>
+      <div class="grid">
+        <div class="swatch"><i style="background:var(--club-tomato)"></i>Tomato<code data-var="--club-tomato"></code><small>acción, logo</small></div>
+        <div class="swatch"><i style="background:var(--club-pink)"></i>Pink<code data-var="--club-pink"></code><small>fondo expresivo</small></div>
+        <div class="swatch"><i style="background:var(--club-lilac)"></i>Lilac<code data-var="--club-lilac"></code><small>fondo frío</small></div>
+        <div class="swatch"><i style="background:var(--club-butter)"></i>Butter<code data-var="--club-butter"></code><small>fondo optimista</small></div>
+        <div class="swatch"><i style="background:var(--club-olive)"></i>Olive<code data-var="--club-olive"></code><small>crecimiento</small></div>
+        <div class="swatch"><i style="background:var(--club-cream)"></i>Cream<code data-var="--club-cream"></code><small>fondo base</small></div>
+        <div class="swatch"><i style="background:var(--club-navy)"></i>Navy<code data-var="--club-navy"></code><small>texto, bordes</small></div>
+        <div class="swatch"><i style="background:var(--club-red-ink)"></i>Red ink<code data-var="--club-red-ink"></code><small>texto de acento</small></div>
+      </div>
+      <h3 class="h3">Roles</h3>
+      <p>Los componentes usan solo roles. Si falta un color, se crea el token primero.</p>
+      <div class="grid">
+        <div class="swatch"><i style="background:var(--surface-default)"></i>surface-default<code data-var="--surface-default"></code></div>
+        <div class="swatch"><i style="background:var(--surface-expressive)"></i>surface-expressive<code data-var="--surface-expressive"></code></div>
+        <div class="swatch"><i style="background:var(--surface-cool)"></i>surface-cool<code data-var="--surface-cool"></code></div>
+        <div class="swatch"><i style="background:var(--surface-optimistic)"></i>surface-optimistic<code data-var="--surface-optimistic"></code></div>
+        <div class="swatch"><i style="background:var(--surface-inverse)"></i>surface-inverse<code data-var="--surface-inverse"></code></div>
+        <div class="swatch"><i style="background:var(--brand-primary)"></i>brand-primary<code data-var="--brand-primary"></code></div>
+        <div class="swatch"><i style="background:var(--text-accent)"></i>text-accent<code data-var="--text-accent"></code></div>
+        <div class="swatch"><i style="background:var(--action-pressed)"></i>action-pressed<code data-var="--action-pressed"></code></div>
+      </div>
+    </section>
+
+    <!-- TIPOGRAFIA -->
+    <section id="tipografia">
+      <p class="kicker kicker--tomato tilt-l">02 · Tipografía</p>
+      <h2 class="h2">Fraunces para hablar fuerte, DM Sans para explicar, Caveat para el guiño.</h2>
+      <div>
+        <div class="specimen"><span class="display">De <span class="accent">cero a emprendedora</span> en 8 semanas.</span><code>--type-display · Fraunces 900 · 44/46</code></div>
+        <div class="specimen"><span class="h2">8 semanas para pasar de idea a app lista para vender.</span><code>--type-h2 · Fraunces 700 · 32/36</code></div>
+        <div class="specimen"><span class="h3">Encuentra tu idea (y comprueba que alguien la quiere)</span><code>--type-h3 · Fraunces 700 · 22/26</code></div>
+        <div class="specimen"><span style="font: var(--type-body)">Convierte tu idea en tu aplicación móvil sin ser técnica, sin miles de dólares y con IA.</span><code>--type-body · DM Sans 400 · 16/24</code></div>
+        <div class="specimen"><span style="font: var(--type-body-strong)">Sí, vas a crear código, pero con la IA como tu copiloto.</span><code>--type-body-strong · DM Sans 700</code></div>
+        <div class="specimen"><span style="font: var(--type-caption)">Te sales cuando quieras.</span><code>--type-caption · DM Sans 500 · 13/18</code></div>
+        <div class="specimen"><span style="font: var(--type-kicker); letter-spacing:.12em; text-transform:uppercase">Waitlist abierta · Taller 2027</span><code>--type-kicker · DM Sans 700 · MAYÚS</code></div>
+        <div class="specimen"><span style="font: var(--type-note)">Al final: tu app lista para vender ♡</span><code>--type-note · Caveat 700 · 26/28</code></div>
+      </div>
+    </section>
+
+    <!-- COMPONENTES -->
+    <section id="componentes">
+      <p class="kicker kicker--navy tilt-r">03 · Componentes</p>
+      <h2 class="h2">Piezas para armar cualquier página del club.</h2>
+
+      <h3 class="h3">Main hero · Club/Logo</h3>
+      <p>El lettering a mano es el logo y también el hero: se usa como imagen, nunca se reescribe en una fuente.</p>
+      <div class="hero-lockup"><img src="assets/brand/logo-tomato.webp" width="640" height="400" alt="El Club de las Emprendedoras"></div>
+      <div class="grid grid--wide">
+        <div class="hero-lockup" style="background:var(--surface-cool)"><img src="assets/brand/logo-tomato.webp" width="320" height="200" alt="Logo tomato"></div>
+        <div class="hero-lockup" style="background:var(--surface-cool)"><img src="assets/brand/logo-navy.webp" width="320" height="200" alt="Logo navy"></div>
+        <div class="hero-lockup" style="background:var(--surface-cool)"><img src="assets/brand/logo-cream.webp" width="320" height="200" alt="Logo cream"></div>
+      </div>
+
+      <h3 class="h3">Club/Button · Club/Kicker</h3>
+      <div class="stage stage--light">
+        <div class="demo-row">
+          <a class="btn" href="#componentes"><span class="btn__label">Quiero mi lugar</span><span aria-hidden="true">→</span></a>
+          <a class="btn is-pressed" href="#componentes"><span class="btn__label">Quiero mi lugar</span><span aria-hidden="true">→</span></a>
+          <a class="btn btn--sm" href="#componentes">Unirme</a>
+        </div>
+        <div class="demo-row">
+          <span class="kicker kicker--tomato tilt-l">Waitlist abierta · Taller 2027</span>
+          <span class="kicker kicker--navy tilt-r">Semanas 1 y 2</span>
+          <span class="kicker kicker--cream tilt-l">Lo que viene</span>
+        </div>
+        <small class="caption">Default · Pressed (el botón se hunde 4px) · Pequeño del nav. La luz que recorre el borde es el patrón Ring.</small>
+      </div>
+
+      <h3 class="h3">Club/Input</h3>
+      <div class="stage stage--light">
+        <div class="grid grid--wide" style="width:100%">
+          <div class="field"><label for="i1">Tu correo</label><input id="i1" type="email" placeholder="tu@correo.com"></div>
+          <div class="field field--focus"><label for="i2">Tu correo · foco</label><input id="i2" type="email" placeholder="tu@correo.com"></div>
+          <div class="field"><label for="i3">Tu correo · lleno</label><input id="i3" type="email" value="ana@correo.com"></div>
+          <div class="field"><label for="i4">Tu correo · error</label><input id="i4" type="email" value="ana@correo" aria-invalid="true"><p class="field__error">Revisa tu correo: parece que falta algo.</p></div>
+        </div>
+      </div>
+
+      <h3 class="h3">Club/Sticker · Club/Note</h3>
+      <div class="stage">
+        <div class="demo-row">
+          <span class="sticker sticker--pink tilt-l">Sin ser técnica</span>
+          <span class="sticker sticker--olive tilt-r">Con IA</span>
+          <span class="sticker sticker--tomato tilt-l">Tú puedes</span>
+          <span class="sticker sticker--lilac tilt-r">Juntas</span>
+          <span class="sticker sticker--butter tilt-l">Ideas que crecen</span>
+        </div>
+        <div class="demo-row">
+          <p class="note note--butter tilt-l">Al final: tu idea clara y tu waitlist arrancando ♡</p>
+          <p class="note note--pink tilt-r">Al final: tu app funcionando en tu teléfono</p>
+          <p class="note note--lilac tilt-l">1 idea → 1 app → miles de usuarios</p>
+        </div>
+      </div>
+
+      <h3 class="h3">Club/Card/Week · Club/Card/ForYou</h3>
+      <div class="grid grid--wide">
+        <article class="card-week card-week--pink">
+          <p class="kicker kicker--navy">Semanas 1 y 2</p>
+          <h3 class="h3">Encuentra tu idea (y comprueba que alguien la quiere)</h3>
+          <p>Partimos de lo que ya sabes y de los problemas que vives. Con IA encuentras el problema que vale la pena resolver.</p>
+          <p class="note note--butter tilt-r">Al final: tu idea clara y tu waitlist arrancando ♡</p>
+        </article>
+        <article class="card-week card-week--lilac">
+          <p class="kicker kicker--navy">Semanas 3 y 4</p>
+          <h3 class="h3">Dale cara: tu marca, con movimiento y animación</h3>
+          <p>Defines colores, tipografía y tono, y le das movimiento y animación a tu marca, como las marcas de hoy.</p>
+          <p class="note note--butter tilt-r">Al final: tu marca animada y el diseño de tu app</p>
+        </article>
+        <ul class="for-you" style="align-self:start">
+          <li class="for-you__item for-you__item--pink">Sientes que la IA va a mil y tú te estás quedando atrás.</li>
+          <li class="for-you__item for-you__item--butter">Crees que por no ser técnica no puedes emprender.</li>
+          <li class="for-you__item for-you__item--lilac">Llevas meses (o años) con una idea dando vueltas en la cabeza.</li>
+        </ul>
+      </div>
+
+      <h3 class="h3">Club/FAQ Item · Club/Waitlist Form</h3>
+      <div class="grid grid--wide">
+        <div class="stage" style="background:var(--surface-optimistic); color:var(--text-default)">
+          <div class="faq" style="width:100%; display:flex; flex-direction:column; gap:12px">
+            <details class="faq__item"><summary>¿Cuándo empieza?</summary><p>En 2027. Las que están en la waitlist conocen la fecha antes que nadie.</p></details>
+            <details class="faq__item" open><summary>¿Necesito saber programar?</summary><p>No. La IA escribe el código; tú aprendes a pedirlo bien, revisarlo y arreglarlo cuando algo falla.</p></details>
+          </div>
+        </div>
+        <div class="waitlist waitlist--tilt">
+          <form class="waitlist__form" onsubmit="return false">
+            <h3 class="h3">Aparta tu lugar</h3>
+            <div class="field"><label for="w1">Tu nombre</label><input id="w1" type="text" placeholder="¿Cómo te llamas?"></div>
+            <div class="field"><label for="w2">Tu correo</label><input id="w2" type="email" placeholder="tu@correo.com"></div>
+            <button class="btn btn--block" type="submit"><span class="btn__label">Quiero mi lugar</span><span aria-hidden="true">→</span></button>
+            <p class="caption">Cada semana te mandamos contenido sobre IA para perderle el miedo a emprender, y te avisamos primero cuando abramos. Te sales cuando quieras.</p>
+          </form>
+        </div>
+      </div>
+
+      <h3 class="h3">Club/Phone</h3>
+      <div class="stage stage--light">
+        <div class="demo-row" style="gap:48px; padding:12px 24px">
+          <div class="phone phone--tilt-l" aria-hidden="true">
+            <div class="phone__screen">
+              <p class="screen-kicker">Mi idea</p>
+              <p class="screen-title">Cambiar al mundo</p>
+              <p class="screen-row screen-row--pink">✓ Un problema que me quema</p>
+              <p class="screen-row screen-row--butter">✓ Nadie lo resuelve como yo</p>
+              <p class="screen-row screen-row--lilac">✓ Miedo: archivado</p>
+            </div>
+          </div>
+          <div class="phone phone--tilt-r" aria-hidden="true">
+            <div class="phone__screen phone__screen--lock">
+              <p class="screen-time">9:41</p>
+              <p class="screen-caption">viernes, 12 de marzo</p>
+              <p class="screen-notif"><small>App Store · hoy</small>Tu app ya está disponible ✦</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="h3">Gráficos y stickers ilustrados</h3>
+      <div class="stage stage--light">
+        <div class="demo-row">
+          <img src="assets/brand/asterisk.svg" width="44" height="78" alt="Asterisco">
+          <img src="assets/img/lilac-heart.webp" width="72" height="69" alt="Corazón lila">
+          <img src="assets/img/pink-palm.webp" width="64" height="74" alt="Palma rosa">
+          <img src="assets/img/yellow-flower.webp" width="64" height="64" alt="Flor mantequilla">
+          <img src="assets/img/olive-blob.webp" width="96" alt="Blob olive">
+          <img src="assets/img/pink-heart.webp" width="64" height="59" alt="Corazón rosa">
+        </div>
+      </div>
+    </section>
+
+    <!-- IMAGENES -->
+    <section id="imagenes">
+      <p class="kicker kicker--tomato tilt-l">04 · Imágenes</p>
+      <h2 class="h2">Fotos reales, ilustración a mano y mucho sol.</h2>
+      <p class="intro">Las fotos van sin texto: el logo y las frases se agregan encima (en Figma o en CSS). Las ilustraciones tienen fondo transparente y se colocan sobre cualquier color de la paleta.</p>
+
+      <h3 class="h3">Club/Illustration/Community</h3>
+      <div class="grid grid--wide">
+        <div class="illus" style="background:var(--surface-expressive)"><img src="assets/img/community-square.webp" width="900" height="900" alt="Tres mujeres con lentes de sol y una gorra “Big dreams”"></div>
+        <div class="illus" style="background:var(--surface-cool)"><img src="assets/img/community-tall.webp" width="720" height="1280" alt="Ilustración vertical de las tres mujeres"></div>
+        <div class="illus" style="background:var(--surface-optimistic)"><img src="assets/img/community-wide.webp" width="1280" height="720" alt="Ilustración horizontal de las tres mujeres"></div>
+      </div>
+      <p class="caption">Cuadrada, vertical (9:16) y horizontal (16:9). En la landing se usa <code>site/assets/img/club-women.webp</code> y, animada, <code>club-women.mp4</code>.</p>
+
+      <h3 class="h3">Fotos de fondo</h3>
+      <div class="grid grid--wide">
+        <figure class="photo photo--tall">
+          <img src="assets/img/photo-palm-pink.webp" width="933" height="1400" alt="Palmera y arquitectura rosa bajo cielo azul">
+          <figcaption class="photo__cap">Apoyo entre<br>hermanas</figcaption>
+        </figure>
+        <figure class="photo photo--tote">
+          <img src="assets/img/photo-tote-bottle.webp" width="1225" height="1400" alt="Tote bag de tela y botella coral">
+          <img class="photo__logo" src="assets/brand/logo-tomato.webp" style="left:6%; top:36%; width:72%" alt="">
+        </figure>
+        <figure class="photo photo--shirt">
+          <img src="assets/img/photo-shirt.webp" width="933" height="1400" alt="Mujer de espaldas con camiseta crema">
+          <img class="photo__logo" src="assets/brand/logo-tomato.webp" style="left:20%; top:36%; width:60%" alt="">
+        </figure>
+        <div class="postit"><p class="kicker">Post it</p><p>Tú también<br>puedes</p></div>
+      </div>
+      <p class="caption">Palmera y edificio rosa (Figma “02B”), tote y botella (“02D”), camiseta (“03B”) y post-it rosa (“03C”). Las fotos son <strong>sin texto</strong>; aquí el logo y la frase están superpuestos como en los mockups de Figma. Originales a 3072px en <code>assets/old_brand_assets_gptout/club-photo-backgrounds/</code>.</p>
+    </section>
+
+    <!-- MOVIMIENTO -->
+    <section id="movimiento">
+      <p class="kicker kicker--tomato tilt-l">05 · Movimiento</p>
+      <h2 class="h2">Club/Motion: todo flota un poquito.</h2>
+      <p class="intro">Seis patrones, todos con tokens de <code>tokens.css</code> y todos decorativos. Detalle y reglas en <code>brand/motion.md</code>.</p>
+
+      <div class="stage stage--light">
+        <div class="demo-row">
+          <div class="demo-box"><img class="demo-breathe" src="assets/brand/asterisk.svg" alt="" style="width:34px"><strong>Breathe</strong><small>scale .88 ↔ 1.16<br><code>--dur-breathe</code></small></div>
+          <div class="demo-box"><span class="sticker sticker--butter demo-bob" style="rotate:-6deg; font-size:18px; padding:8px 16px">Con IA</span><strong>Bob</strong><small>sube y baja 9px<br><code>--dur-bob-*</code></small></div>
+          <div class="demo-box"><span class="display" style="font-size:26px"><span class="accent" data-jump>emprendedora</span></span><strong>Hop</strong><small>letras en ola, 65ms<br><code>--stagger-hop</code></small></div>
+          <div class="demo-box"><a class="btn btn--sm" href="#movimiento">Quiero mi lugar</a><strong>Ring</strong><small>luz que recorre el borde<br><code>--dur-ring</code></small></div>
+        </div>
+      </div>
+
+      <h3 class="h3">Hero loop (video)</h3>
+      <div class="stage stage--light">
+        <div class="hero__art">
+          <img class="hero__illustration" src="assets/img/club-women.webp" width="720" height="720" alt="">
+          <span class="sticker sticker--butter hero__sticker-a">Sin ser técnica</span>
+          <span class="sticker sticker--olive hero__sticker-b">Con IA</span>
+          <img class="hero__spark" src="assets/brand/asterisk.svg" width="44" height="78" alt="">
+        </div>
+        <p class="caption">La imagen estática cambia a <code>assets/video/club-women.mp4</code> (alfa apilado, dibujado en WebGL por <code>motion.js</code>) unos 0.2s después de verse. Agrega <code>?debug</code> a la URL para ver el log. Se apaga con “reducir movimiento”.</p>
+      </div>
+
+      <div class="stage stage--light">
+        <div class="motion" id="reveal-demo">
+          <div class="demo-row" style="min-height:120px">
+            <div data-reveal="up" class="demo-box"><strong>Reveal · up</strong><small>desde 40px abajo, con rebote</small></div>
+            <div data-reveal="drop" class="demo-box" style="--d:90ms"><strong>Reveal · drop</strong><small>cae desde 70px arriba, ±4°</small></div>
+            <div data-reveal="up" class="demo-box" style="--d:180ms"><strong>Escalón</strong><small>90ms entre hermanos<br><code>--stagger-reveal</code></small></div>
+          </div>
+        </div>
+        <button class="btn btn--sm replay" type="button" id="replay-reveal">Repetir entrada</button>
+      </div>
+
+      <div class="stage stage--light">
+        <div class="motion">
+          <ul class="chips" id="sort-demo" aria-label="Ejemplo de ideas">
+            <li class="sticker sticker--pink">Nutrióloga en postparto</li>
+            <li class="sticker sticker--butter">Finanzas para mamás</li>
+            <li class="sticker sticker--olive">Workouts en casa</li>
+            <li class="sticker sticker--tomato">Volver sola a casa, segura</li>
+            <li class="sticker sticker--lilac">Fertilidad para todas</li>
+            <li class="sticker sticker--pink">Asesoría legal</li>
+          </ul>
+        </div>
+        <button class="btn btn--sm replay" type="button" id="replay-sort">Revolver y acomodar</button>
+        <small class="caption">Heap → sort: las ideas empiezan en un montón y se acomodan solas. <code>--dur-sort</code> · <code>--stagger-sort</code></small>
+      </div>
+
+      <div style="overflow-x:auto">
+      <table class="tokens">
+        <thead><tr><th>Token</th><th>Valor</th><th>Token</th><th>Valor</th></tr></thead>
+        <tbody id="motion-tokens"></tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- VOZ -->
+    <section id="voz">
+      <p class="kicker kicker--navy tilt-r">06 · Voz</p>
+      <h2 class="h2">Cercanas, valientes, juntas.</h2>
+      <p class="intro">Una comunidad de emprendedoras con confianza y humor ligero. Motivamos con pasos concretos, sin prometer éxito fácil. Todo en español mexicano, de tú, escrito a mujeres.</p>
+      <div class="voice">
+        <div style="background:var(--brand-secondary)"><h3 class="h3">Invita</h3><p>Habla de tú y de nosotras. Escucha las dudas; no las minimices.</p><p class="note note--butter tilt-r">“Si algo no se entiende, lo explicamos otra vez. Y otra. Sin pena.”</p></div>
+        <div style="background:var(--brand-tertiary)"><h3 class="h3">Acompaña</h3><p>Ideas + apoyo + acción. Celebramos el proceso y lo aprendido.</p><p class="note note--pink tilt-l">“Te llevamos de la mano a encontrar tu idea.”</p></div>
+        <div style="background:var(--surface-optimistic)"><h3 class="h3">Activa</h3><p>CTA breves y específicos, con el siguiente paso claro.</p><p class="note note--lilac tilt-r">“Quiero mi lugar →”</p></div>
+        <div style="background:var(--surface-default); border:2px solid var(--border-default)"><h3 class="h3">Sí</h3><p>“¿Tienes una idea? Vamos a darle forma.”<br>“Empieza con una pregunta pequeña.”<br>“Tu idea lleva mucho tiempo esperando.”</p></div>
+        <div style="background:var(--surface-inverse); color:var(--text-inverse)"><h3 class="h3">Evitar</h3><p>“Éxito garantizado.” “Si no puedes es porque no quieres.” Presión, clichés y promesas vacías. Jerga técnica sin explicar.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="assets/brand/logo-cream.webp" width="180" height="112" alt="El Club de las Emprendedoras">
+    <p class="footer__by">Un proyecto de Pame y Manu · @emprendeconpm</p>
+    <p class="caption">Guía viva · el CSS viene de <code>site/assets/</code></p>
+  </footer>
+
+  <script src="assets/motion.js" defer></script>
+  <script>
+    (() => {
+      const root = getComputedStyle(document.documentElement);
+      const val = (name) => root.getPropertyValue(name).trim();
+      document.querySelectorAll("[data-var]").forEach((el) => { el.textContent = val(el.dataset.var).toUpperCase(); });
+
+      // Motion token table, read from tokens.css so it can't drift.
+      const names = ["--dur-fade", "--dur-reveal-fade", "--dur-reveal", "--dur-sort", "--dur-ring", "--dur-breathe", "--dur-breathe-fast",
+        "--dur-bob-sticker", "--dur-bob-chip", "--dur-bob-phone", "--dur-hop", "--dur-float", "--stagger-reveal", "--stagger-sort",
+        "--stagger-hop", "--ease-soft", "--ease-pop", "--ease-sort", "--ease-hop", "--bob-distance", "--float-distance"];
+      const tbody = document.getElementById("motion-tokens");
+      for (let i = 0; i < names.length; i += 2) {
+        const tr = document.createElement("tr");
+        for (const n of [names[i], names[i + 1]]) {
+          tr.insertAdjacentHTML("beforeend", n ? `<td><code>${n}</code></td><td>${val(n)}</td>` : "<td></td><td></td>");
+        }
+        tbody.append(tr);
+      }
+
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Reveal: toggle .is-in, the same class motion.js uses.
+      const revealBox = document.getElementById("reveal-demo");
+      const items = [...revealBox.querySelectorAll("[data-reveal]")];
+      const playReveal = () => {
+        items.forEach((el) => el.classList.remove("is-in"));
+        void revealBox.offsetWidth;
+        requestAnimationFrame(() => requestAnimationFrame(() => items.forEach((el) => el.classList.add("is-in"))));
+      };
+      new IntersectionObserver(([e], o) => { if (e.isIntersecting || e.boundingClientRect.top < 0) { playReveal(); o.disconnect(); } }, { threshold: 0.4 }).observe(revealBox);
+      document.getElementById("replay-reveal").addEventListener("click", playReveal);
+      if (reduce) items.forEach((el) => el.classList.add("is-in"));
+
+      // Heap -> sort is the real thing from motion.js (it builds the pile on .chips). Replay just re-sorts.
+      const chips = document.getElementById("sort-demo");
+      document.getElementById("replay-sort").addEventListener("click", () => {
+        chips.classList.remove("is-sorted");
+        void chips.offsetWidth;
+        setTimeout(() => chips.classList.add("is-sorted"), 500);
+      });
+    })();
+  </script>
+</body>
+</html>

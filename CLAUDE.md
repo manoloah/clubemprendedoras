@@ -14,8 +14,9 @@ technical, reading on their phone from Instagram.
 ```bash
 npx serve -l 4173 site                                   # local preview (also .claude/launch.json "landing")
 node scripts/rank-hero.mjs                               # score hero copy; needs TYPESAFE_API_KEY in .env.local
-scripts/hero-video/build.sh path/to/render.mp4           # rebuild site/assets/video/club-women.mp4
-OUT=/tmp/test.mp4 scripts/hero-video/build.sh render.mp4 # same, without touching the repo file
+brand/scripts/hero-video/build.sh path/to/render.mp4           # rebuild brand/assets/video/club-women.mp4 and copy it to site/
+OUT=/tmp/test.mp4 brand/scripts/hero-video/build.sh render.mp4 # same, without touching the repo files
+scripts/sync-brand.sh --check                            # is brand/ in step with site/? (drop --check to copy)
 ```
 
 No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (see Workflow).
@@ -28,16 +29,19 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 - `site/assets/app.js`: waitlist form (validation, honeypot, UTM capture, success state, step-2 profile modal).
 - `site/assets/motion.js`: every animation, plus the hero video's WebGL compositing.
 - `site/assets/config.js`: Apps Script `/exec` endpoint. Public by design.
+- `brand/`: the brand system (`voice.md`, `foundations.md`, `components.md`, `motion.md`) and a living style guide, `brand/index.html`, rendered with its own copy of the CSS/JS. Not deployed. It is a self-contained, copy-paste folder (`brand/assets/` holds tokens, styles, motion.js, logos, images and the hero video). `site/` is the source for the shared files: after changing `site/assets/{tokens.css,styles.css,motion.js}` or its `brand/`, `img/` or `video/` files, run `scripts/sync-brand.sh`. Preview: `.claude/launch.json` "brand" (port 4180, serves `brand/`). Keep the docs in step when copy, tokens or components change.
 - `sheets/Code.gs`: the Apps Script. It isn't deployed from here; it gets pasted into the Sheet (see `sheets/README.md`).
 
 ## Conventions
 
-- **Copy:** Mexican Spanish, informal *tú*, warm and direct, written to women. No hype, no get-rich-quick, no tech jargon. If the `emprendeconpm-brand-nuevo` skill is available, use it for brand and copy rules.
+- **Copy:** Mexican Spanish, informal *tú*, warm and direct, written to women. No hype, no get-rich-quick, no tech jargon. Voice and the current copy bank: `brand/voice.md`. (The `emprendeconpm-brand-nuevo` skill is a different brand, "Club de Fundadoras"; don't use it here.)
 - **Design:** class names map 1:1 to Figma components (table in `site/README.md`). Nothing is perfectly straight: tilts use the CSS `rotate` property (`.tilt-l`, `.tilt-r`, per-element `rotate:`).
-- **Cache busting:** `index.html` loads `styles.css?v=N`, `app.js?v=N`, `config.js?v=N` and `motion.js?v=N`. Bump N whenever you change that file, or returning visitors keep the old one.
+- **Cache busting:** `index.html` loads `tokens.css?v=N`, `styles.css?v=N`, `app.js?v=N`, `config.js?v=N` and `motion.js?v=N`. Bump N whenever you change that file, or returning visitors keep the old one.
 - **Keep it static:** no frameworks or bundlers in `site/`. Images are WebP; keep the page light.
 
 ## Motion rules (learned the hard way)
+
+Durations, staggers and curves are tokens in `tokens.css` (`--dur-*`, `--stagger-*`, `--ease-*`); add a token before using a new value. The pattern catalogue is `brand/motion.md`.
 
 - Transforms are split across properties so they compose. Tilts use `rotate`, idle loops (bob, breathe, hop) animate `translate`/`scale`, and scroll reveals and the ideas heap use `transform`. Don't animate `rotate` on an element that already has a tilt.
 - Hidden "before" states exist only under `html.motion`, which `motion.js` adds last. Without JS, or with `prefers-reduced-motion: reduce`, the page is fully static and visible.
@@ -55,7 +59,7 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 - Open the page with `?debug` to get an on-screen log of play attempts, video events and frames drawn. Screenshot it on a real phone; no cable needed.
 - If autoplay is refused (iPhone Low Power Mode blocks all autoplay), the first tap anywhere starts the video.
 - It only works over http(s). From `file://`, WebGL refuses the video's pixels (SecurityError) and the page keeps the static image, logging `[hero] …` to the console. Safari also needs a server with Range requests: `python3 -m http.server` won't do.
-- The source render has a fake grey/white checkerboard baked in and a black first frame. `scripts/hero-video/matte.py` keys out the checkerboard and skips the black frame. VP9-alpha WebM and HEVC-alpha were tried first: HEVC alpha from ffmpeg came out without an alpha layer, and the split formats meant Safari couldn't be verified, which is why we use one stacked file.
+- The source render has a fake grey/white checkerboard baked in and a black first frame. `brand/scripts/hero-video/matte.py` keys out the checkerboard and skips the black frame. VP9-alpha WebM and HEVC-alpha were tried first: HEVC alpha from ffmpeg came out without an alpha layer, and the split formats meant Safari couldn't be verified, which is why we use one stacked file.
 
 ## Testing
 

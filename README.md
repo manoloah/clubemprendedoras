@@ -9,6 +9,8 @@ The page has one job: collect name and email for the waitlist (plus optional pro
 
 **Live:** https://clubemprendedoras.vercel.app
 
+**Figma:** [brand system](https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/Club-de-Emprendedoras?node-id=1-2&m=dev) · [06 · Componentes reutilizables · v2](https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/Club-de-Emprendedoras?node-id=47-115&m=dev) (the components the CSS classes mirror)
+
 ## What's in the repo
 
 ```
@@ -19,7 +21,9 @@ sheets/                   Google Apps Script that writes sign-ups into the Sheet
 scripts/
   rank-hero.mjs           ranks hero headline options for our ICP (TypeSafe / Jev)
   hero-video/             rebuilds the hero loop from a source MP4
-brand_assets_gptoutputs/  generated brand assets (stickers, illustrations, photos, tokens)
+brand/                    self-contained, copy-paste brand system: tokens, components, motion (JS + hero video), logos,
+                          illustrations, photos, voice docs and a living guide  → brand/README.md
+scripts/sync-brand.sh      keeps brand/ in step with site/ (--check to verify)
 .claude/launch.json       local preview server config
 CLAUDE.md                 working notes for Claude Code sessions
 ```
@@ -64,7 +68,7 @@ project root. No build step: Vercel serves `site/` as-is.
 - **Hero video:** the illustration comes alive about 0.2s after it's on screen. It's one 1.7 MB
   H.264 file with the colour on the left half and the transparency mask on the right, turned
   into real transparency in a small WebGL canvas, so it looks the same in every browser.
-  To regenerate it from a new render: `scripts/hero-video/build.sh path/to/render.mp4`.
+  To regenerate it from a new render: `brand/scripts/hero-video/build.sh path/to/render.mp4`.
 
 ## History
 
