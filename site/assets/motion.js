@@ -210,11 +210,18 @@
     }
   }
   // Stagger siblings that arrive together; a phone leads its card.
+  // The step comes from the --stagger-reveal token (tokens.css), 90ms if it's missing.
+  const staggerReveal = (() => {
+    const v = getComputedStyle(document.documentElement).getPropertyValue("--stagger-reveal").trim();
+    const n = parseFloat(v);
+    if (!v || Number.isNaN(n)) return 90;
+    return v.endsWith("ms") ? n : v.endsWith("s") ? n * 1000 : n;
+  })();
   const perParent = new Map();
   for (const el of targets) {
     const n = perParent.get(el.parentElement) || 0;
     perParent.set(el.parentElement, n + 1);
-    let delay = Math.min(n, 6) * 90;
+    let delay = Math.min(n, 6) * staggerReveal;
     if (el.classList.contains("card-week")) delay = 160;
     el.style.setProperty("--d", `${delay}ms`);
   }

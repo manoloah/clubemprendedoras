@@ -67,6 +67,11 @@
     .voice { display: grid; gap: var(--space-16); grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
     .voice > div { padding: var(--space-24); border-radius: var(--radius-24); display: flex; flex-direction: column; gap: var(--space-8); }
     .voice h3 { margin-bottom: var(--space-4); }
+    /* Loops only run when the visitor hasn't asked for reduced motion (same rule as styles.css). */
+    @media (prefers-reduced-motion: no-preference) {
+      .demo-breathe { animation: club-breathe var(--dur-breathe-fast) var(--ease-soft) infinite; }
+      .demo-bob { animation: club-bob var(--dur-bob-sticker) var(--ease-soft) infinite; }
+    }
     .no-motion-note { display: none; }
     @media (prefers-reduced-motion: reduce) { .no-motion-note { display: block; } }
     @media (min-width: 900px) { .guide h2.h2 { font-size: 36px; } }
@@ -305,8 +310,8 @@
 
       <div class="stage stage--light">
         <div class="demo-row">
-          <div class="demo-box"><img src="assets/brand/asterisk.svg" alt="" style="width:34px; animation: club-breathe var(--dur-breathe-fast) var(--ease-soft) infinite"><strong>Breathe</strong><small>scale .88 ↔ 1.16<br><code>--dur-breathe</code></small></div>
-          <div class="demo-box"><span class="sticker sticker--butter" style="animation: club-bob var(--dur-bob-sticker) var(--ease-soft) infinite; rotate:-6deg; font-size:18px; padding:8px 16px">Con IA</span><strong>Bob</strong><small>sube y baja 9px<br><code>--dur-bob-*</code></small></div>
+          <div class="demo-box"><img class="demo-breathe" src="assets/brand/asterisk.svg" alt="" style="width:34px"><strong>Breathe</strong><small>scale .88 ↔ 1.16<br><code>--dur-breathe</code></small></div>
+          <div class="demo-box"><span class="sticker sticker--butter demo-bob" style="rotate:-6deg; font-size:18px; padding:8px 16px">Con IA</span><strong>Bob</strong><small>sube y baja 9px<br><code>--dur-bob-*</code></small></div>
           <div class="demo-box"><span class="display" style="font-size:26px"><span class="accent" data-jump>emprendedora</span></span><strong>Hop</strong><small>letras en ola, 65ms<br><code>--stagger-hop</code></small></div>
           <div class="demo-box"><a class="btn btn--sm" href="#movimiento">Quiero mi lugar</a><strong>Ring</strong><small>luz que recorre el borde<br><code>--dur-ring</code></small></div>
         </div>
