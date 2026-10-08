@@ -117,15 +117,19 @@
     return answers;
   }
 
-  // Sends whatever is new since the last save. The backend only fills empty
-  // cells, so each answer lands once and repeats are harmless.
-  function flush() {
+  // Sends the answers so far if anything changed since the last save. The
+  // backend only fills empty cells, so repeats are harmless. When the page is
+  // going away, a beacon survives the unload where a plain fetch may not.
+  function flush(exiting) {
     const answers = collect();
-    const body = JSON.stringify(answers);
-    if (!profileEmail || body === lastSent || !Object.keys(answers).length) return;
+    if (!profileEmail || !Object.keys(answers).length) return;
+    const payload = { email: profileEmail, ...answers };
+    const body = JSON.stringify(payload);
+    if (body === lastSent) return;
     lastSent = body;
     answered = true;
-    const payload = { email: profileEmail, ...answers };
+    if (exiting && config.endpoint && navigator.sendBeacon &&
+        navigator.sendBeacon(config.endpoint, new Blob([body], { type: "text/plain;charset=utf-8" }))) return;
     send(payload).catch((error) => {
       console.error("[waitlist profile]", error);
       lastSent = "";
@@ -155,12 +159,21 @@
     else (step.querySelector("[data-next], button") || step).focus({ preventScroll: true });
   }
 
+  // Saves in batches (every 4th question and at the end) rather than per
+  // answer: Apps Script allows MAX_PER_MINUTE saves across the whole site.
   function next() {
-    flush();
-    show(current + 1);
+    const to = current + 1;
+    if (to % 4 === 0 || to >= steps.length - 1) flush();
+    show(to);
   }
 
   function openProfile(email, firstName, returnFocus) {
+    if (email !== profileEmail) {
+      // A second signup on the same page starts from a blank survey.
+      profileForm.reset();
+      lastSent = "";
+      answered = false;
+    }
     profileEmail = email;
     profileReturn = returnFocus;
     dialog.querySelector("[data-profile-name]").textContent = `¡Listo, ${firstName}!`;
@@ -184,7 +197,7 @@
   dialog.querySelectorAll("[data-next]").forEach((b) => b.addEventListener("click", next));
   prevBtn.addEventListener("click", () => show(current - 1));
   profileForm.addEventListener("submit", (e) => { e.preventDefault(); next(); });
-  document.addEventListener("visibilitychange", () => { if (document.hidden && dialog.open) flush(); });
+  document.addEventListener("visibilitychange", () => { if (document.hidden && dialog.open) flush(true); });
 
   // Single-choice questions move on by themselves, like Typeform.
   profileForm.addEventListener("change", (e) => {
