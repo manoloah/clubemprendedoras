@@ -1,0 +1,107 @@
+/*
+  El Club de las Emprendedoras · design tokens
+  Source of truth: Figma "Club de Emprendedoras" (J8iryor1WNwHz7VZTsfuFt)
+  Collections: Club · Primitives / Club · Color roles / Club · Foundations
+  Text styles: Club/* and Club/Mobile/*
+  Components use the semantic roles, never the primitives directly.
+*/
+:root {
+  /* Primitives */
+  --club-tomato: #F02717;
+  --club-pink: #FBC0D7;
+  --club-lilac: #B99CE5;
+  --club-butter: #F2C75C;
+  --club-olive: #63774C;
+  --club-cream: #F6F0E6;
+  --club-navy: #17254A;
+  --club-white: #FFFFFF;
+  --club-red-ink: #B72E21;
+
+  /* Color roles */
+  --surface-default: var(--club-cream);
+  --surface-expressive: var(--club-pink);
+  --surface-cool: var(--club-lilac);
+  --surface-optimistic: var(--club-butter);
+  --surface-inverse: var(--club-navy);
+  --brand-primary: var(--club-tomato);
+  --brand-secondary: var(--club-pink);
+  --brand-tertiary: var(--club-lilac);
+  --brand-growth: var(--club-olive);
+  --text-default: var(--club-navy);
+  --text-inverse: var(--club-cream);
+  --text-accent: var(--club-red-ink);
+  --border-default: var(--club-navy);
+  --action-default: var(--club-tomato);
+  --action-pressed: var(--club-red-ink);
+  --field-surface: var(--club-white);
+
+  /* Space (4px base) */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-80: 80px;
+  --space-96: 96px;
+
+  /* Radius */
+  --radius-8: 8px;
+  --radius-16: 16px;
+  --radius-24: 24px;
+  --radius-pill: 999px;
+
+  /* Strokes & elevation */
+  --stroke-fine: 1px;
+  --stroke-ui: 2px;
+  --stroke-doodle: 4px;
+  --shadow-hard: 0 4px 0 0 var(--club-navy);
+  --shadow-sticker: 0 4px 8px rgba(23, 37, 74, 0.12);
+
+  /* Type families */
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-note: "Caveat", "Comic Sans MS", cursive;
+
+  /* Type scale (mobile first, grows on desktop in styles.css) */
+  --type-display: 900 44px/46px var(--font-display);
+  --type-h2: 700 32px/36px var(--font-display);
+  --type-h3: 700 22px/26px var(--font-display);
+  --type-body: 400 16px/24px var(--font-body);
+  --type-body-strong: 700 16px/24px var(--font-body);
+  --type-caption: 500 13px/18px var(--font-body);
+  --type-kicker: 700 12px/16px var(--font-body);
+  --type-label: 700 14px/20px var(--font-body);
+  --type-button: 700 18px/24px var(--font-body);
+  --type-note: 700 26px/28px var(--font-note);
+
+  /* Motion: durations, beats and curves. Mirrors the "Club/Motion" component in docs (brand/motion.md).
+     Idle loops animate translate/scale, reveals animate transform, tilts own rotate: never mix them. */
+  --dur-fade: 300ms;       /* hero art crossfade, quick opacity */
+  --dur-reveal-fade: 500ms;
+  --dur-reveal: 900ms;     /* drop / rise into place */
+  --dur-sort: 1000ms;      /* idea stickers leaving the heap */
+  --dur-ring: 2.6s;        /* button light, one lap */
+  --dur-breathe: 3.2s;
+  --dur-breathe-fast: 2.4s;
+  --dur-bob-sticker: 3.6s;
+  --dur-bob-chip: 4.2s;
+  --dur-bob-phone: 5.5s;
+  --dur-hop: 3s;
+  --dur-float: 4s;
+  --stagger-reveal: 90ms;  /* siblings arriving together (max 6) */
+  --stagger-sort: 85ms;    /* idea stickers */
+  --stagger-hop: 65ms;     /* letters of the highlighted phrase */
+  --ease-soft: ease-in-out;                      /* loops */
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1); /* reveals: a little bounce */
+  --ease-sort: cubic-bezier(0.34, 1.45, 0.64, 1);
+  --ease-hop: cubic-bezier(0.3, 0.7, 0.4, 1);
+  --bob-distance: 9px;
+  --float-distance: 8px;
+
+  /* Layout */
+  --gutter: 24px;
+  --content-max: 1120px;
+}

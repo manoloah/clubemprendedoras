@@ -8,9 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap">
-  <!-- The guide renders with the site's own CSS, so it can't drift from the code. Serve from the repo root. -->
-  <link rel="stylesheet" href="../site/assets/tokens.css">
-  <link rel="stylesheet" href="../site/assets/styles.css">
+  <!-- Self-contained: everything this page uses lives in brand/assets (tokens, components, motion, images, video). Serve this folder over http. -->
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/styles.css">
   <style>
     .guide { max-width: var(--content-max); margin: 0 auto; padding: 0 var(--gutter) var(--space-96); }
     .guide__top {
@@ -74,7 +74,7 @@
 </head>
 <body>
   <header class="guide__top">
-    <img src="../site/assets/brand/logo-tomato.webp" width="56" height="35" alt="El Club de las Emprendedoras">
+    <img src="assets/brand/logo-tomato.webp" width="56" height="35" alt="El Club de las Emprendedoras">
     <nav aria-label="Secciones">
       <a href="#color">Color</a><a href="#tipografia">Tipografía</a><a href="#componentes">Componentes</a><a href="#imagenes">Imágenes</a>
       <a href="#movimiento">Movimiento</a><a href="#voz">Voz</a>
@@ -141,11 +141,11 @@
 
       <h3 class="h3">Main hero · Club/Logo</h3>
       <p>El lettering a mano es el logo y también el hero: se usa como imagen, nunca se reescribe en una fuente.</p>
-      <div class="hero-lockup"><img src="../site/assets/brand/logo-tomato.webp" width="640" height="400" alt="El Club de las Emprendedoras"></div>
+      <div class="hero-lockup"><img src="assets/brand/logo-tomato.webp" width="640" height="400" alt="El Club de las Emprendedoras"></div>
       <div class="grid grid--wide">
-        <div class="hero-lockup" style="background:var(--surface-cool)"><img src="../site/assets/brand/logo-tomato.webp" width="320" height="200" alt="Logo tomato"></div>
-        <div class="hero-lockup" style="background:var(--surface-cool)"><img src="../site/assets/brand/logo-navy.webp" width="320" height="200" alt="Logo navy"></div>
-        <div class="hero-lockup" style="background:var(--surface-cool)"><img src="../site/assets/brand/logo-cream.webp" width="320" height="200" alt="Logo cream"></div>
+        <div class="hero-lockup" style="background:var(--surface-cool)"><img src="assets/brand/logo-tomato.webp" width="320" height="200" alt="Logo tomato"></div>
+        <div class="hero-lockup" style="background:var(--surface-cool)"><img src="assets/brand/logo-navy.webp" width="320" height="200" alt="Logo navy"></div>
+        <div class="hero-lockup" style="background:var(--surface-cool)"><img src="assets/brand/logo-cream.webp" width="320" height="200" alt="Logo cream"></div>
       </div>
 
       <h3 class="h3">Club/Button · Club/Kicker</h3>
@@ -254,12 +254,12 @@
       <h3 class="h3">Gráficos y stickers ilustrados</h3>
       <div class="stage stage--light">
         <div class="demo-row">
-          <img src="../site/assets/brand/asterisk.svg" width="44" height="78" alt="Asterisco">
-          <img src="../site/assets/img/lilac-heart.webp" width="72" height="69" alt="Corazón lila">
-          <img src="../site/assets/img/pink-palm.webp" width="64" height="74" alt="Palma rosa">
-          <img src="../site/assets/img/yellow-flower.webp" width="64" height="64" alt="Flor mantequilla">
-          <img src="../site/assets/img/olive-blob.webp" width="96" alt="Blob olive">
-          <img src="../site/assets/img/pink-heart.webp" width="64" height="59" alt="Corazón rosa">
+          <img src="assets/brand/asterisk.svg" width="44" height="78" alt="Asterisco">
+          <img src="assets/img/lilac-heart.webp" width="72" height="69" alt="Corazón lila">
+          <img src="assets/img/pink-palm.webp" width="64" height="74" alt="Palma rosa">
+          <img src="assets/img/yellow-flower.webp" width="64" height="64" alt="Flor mantequilla">
+          <img src="assets/img/olive-blob.webp" width="96" alt="Blob olive">
+          <img src="assets/img/pink-heart.webp" width="64" height="59" alt="Corazón rosa">
         </div>
       </div>
     </section>
@@ -286,15 +286,15 @@
         </figure>
         <figure class="photo photo--tote">
           <img src="assets/img/photo-tote-bottle.webp" width="1225" height="1400" alt="Tote bag de tela y botella coral">
-          <img class="photo__logo" src="../site/assets/brand/logo-tomato.webp" style="left:6%; top:36%; width:72%" alt="">
+          <img class="photo__logo" src="assets/brand/logo-tomato.webp" style="left:6%; top:36%; width:72%" alt="">
         </figure>
         <figure class="photo photo--shirt">
           <img src="assets/img/photo-shirt.webp" width="933" height="1400" alt="Mujer de espaldas con camiseta crema">
-          <img class="photo__logo" src="../site/assets/brand/logo-tomato.webp" style="left:20%; top:36%; width:60%" alt="">
+          <img class="photo__logo" src="assets/brand/logo-tomato.webp" style="left:20%; top:36%; width:60%" alt="">
         </figure>
         <div class="postit"><p class="kicker">Post it</p><p>Tú también<br>puedes</p></div>
       </div>
-      <p class="caption">Palmera y edificio rosa (Figma “02B”), tote y botella (“02D”), camiseta (“03B”) y post-it rosa (“03C”). Las fotos son <strong>sin texto</strong>; aquí el logo y la frase están superpuestos como en los mockups de Figma. Originales a 3072px en <code>brand_assets_gptoutputs/club-photo-backgrounds/</code>.</p>
+      <p class="caption">Palmera y edificio rosa (Figma “02B”), tote y botella (“02D”), camiseta (“03B”) y post-it rosa (“03C”). Las fotos son <strong>sin texto</strong>; aquí el logo y la frase están superpuestos como en los mockups de Figma. Originales a 3072px en <code>assets/old_brand_assets_gptout/club-photo-backgrounds/</code>.</p>
     </section>
 
     <!-- MOVIMIENTO -->
@@ -305,11 +305,22 @@
 
       <div class="stage stage--light">
         <div class="demo-row">
-          <div class="demo-box"><img src="../site/assets/brand/asterisk.svg" alt="" style="width:34px; animation: club-breathe var(--dur-breathe-fast) var(--ease-soft) infinite"><strong>Breathe</strong><small>scale .88 ↔ 1.16<br><code>--dur-breathe</code></small></div>
+          <div class="demo-box"><img src="assets/brand/asterisk.svg" alt="" style="width:34px; animation: club-breathe var(--dur-breathe-fast) var(--ease-soft) infinite"><strong>Breathe</strong><small>scale .88 ↔ 1.16<br><code>--dur-breathe</code></small></div>
           <div class="demo-box"><span class="sticker sticker--butter" style="animation: club-bob var(--dur-bob-sticker) var(--ease-soft) infinite; rotate:-6deg; font-size:18px; padding:8px 16px">Con IA</span><strong>Bob</strong><small>sube y baja 9px<br><code>--dur-bob-*</code></small></div>
-          <div class="demo-box"><span class="display" style="font-size:26px"><span class="accent" id="hop-demo">emprendedora</span></span><strong>Hop</strong><small>letras en ola, 65ms<br><code>--stagger-hop</code></small></div>
+          <div class="demo-box"><span class="display" style="font-size:26px"><span class="accent" data-jump>emprendedora</span></span><strong>Hop</strong><small>letras en ola, 65ms<br><code>--stagger-hop</code></small></div>
           <div class="demo-box"><a class="btn btn--sm" href="#movimiento">Quiero mi lugar</a><strong>Ring</strong><small>luz que recorre el borde<br><code>--dur-ring</code></small></div>
         </div>
+      </div>
+
+      <h3 class="h3">Hero loop (video)</h3>
+      <div class="stage stage--light">
+        <div class="hero__art">
+          <img class="hero__illustration" src="assets/img/club-women.webp" width="720" height="720" alt="">
+          <span class="sticker sticker--butter hero__sticker-a">Sin ser técnica</span>
+          <span class="sticker sticker--olive hero__sticker-b">Con IA</span>
+          <img class="hero__spark" src="assets/brand/asterisk.svg" width="44" height="78" alt="">
+        </div>
+        <p class="caption">La imagen estática cambia a <code>assets/video/club-women.mp4</code> (alfa apilado, dibujado en WebGL por <code>motion.js</code>) unos 0.2s después de verse. Agrega <code>?debug</code> a la URL para ver el log. Se apaga con “reducir movimiento”.</p>
       </div>
 
       <div class="stage stage--light">
@@ -362,11 +373,12 @@
   </main>
 
   <footer class="footer">
-    <img src="../site/assets/brand/logo-cream.webp" width="180" height="112" alt="El Club de las Emprendedoras">
+    <img src="assets/brand/logo-cream.webp" width="180" height="112" alt="El Club de las Emprendedoras">
     <p class="footer__by">Un proyecto de Pame y Manu · @emprendeconpm</p>
     <p class="caption">Guía viva · el CSS viene de <code>site/assets/</code></p>
   </footer>
 
+  <script src="assets/motion.js" defer></script>
   <script>
     (() => {
       const root = getComputedStyle(document.documentElement);
@@ -386,17 +398,6 @@
         tbody.append(tr);
       }
 
-      // Hop: split the word into letters, same markup motion.js produces.
-      const hop = document.getElementById("hop-demo");
-      const text = hop.textContent;
-      hop.setAttribute("aria-label", text);
-      hop.textContent = "";
-      [...text].forEach((ch, i) => {
-        const s = document.createElement("span");
-        s.className = "jump__ch"; s.style.setProperty("--i", i); s.textContent = ch; s.setAttribute("aria-hidden", "true");
-        hop.append(s);
-      });
-
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       // Reveal: toggle .is-in, the same class motion.js uses.
@@ -407,35 +408,17 @@
         void revealBox.offsetWidth;
         requestAnimationFrame(() => requestAnimationFrame(() => items.forEach((el) => el.classList.add("is-in"))));
       };
-      new IntersectionObserver(([e], o) => { if (e.isIntersecting) { playReveal(); o.disconnect(); } }, { threshold: 0.4 }).observe(revealBox);
+      new IntersectionObserver(([e], o) => { if (e.isIntersecting || e.boundingClientRect.top < 0) { playReveal(); o.disconnect(); } }, { threshold: 0.4 }).observe(revealBox);
       document.getElementById("replay-reveal").addEventListener("click", playReveal);
       if (reduce) items.forEach((el) => el.classList.add("is-in"));
 
-      // Heap -> sort, a small version of motion.js (offsetLeft/Top ignore transforms).
+      // Heap -> sort is the real thing from motion.js (it builds the pile on .chips). Replay just re-sorts.
       const chips = document.getElementById("sort-demo");
-      const stickers = [...chips.children];
-      const rand = (i, s) => { const x = Math.sin(i * 12.9898 + s * 78.233) * 43758.5453; return x - Math.floor(x); };
-      const pile = (salt) => {
+      document.getElementById("replay-sort").addEventListener("click", () => {
         chips.classList.remove("is-sorted");
-        const w = chips.clientWidth, heapY = Math.min(chips.clientHeight / 2, 90);
-        stickers.forEach((c, i) => {
-          c.style.setProperty("--i", i);
-          const cx = c.offsetLeft + c.offsetWidth / 2, cy = c.offsetTop + c.offsetHeight / 2;
-          const spread = Math.min(w * 0.26, 170);
-          c.style.setProperty("--px", `${(w / 2 + (rand(i, 1 + salt) - 0.5) * 2 * spread - cx).toFixed(1)}px`);
-          c.style.setProperty("--py", `${(heapY + (rand(i, 2 + salt) - 0.5) * 50 - cy).toFixed(1)}px`);
-          c.style.setProperty("--pr", `${((rand(i, 3 + salt) - 0.5) * 40).toFixed(1)}deg`);
-          c.style.zIndex = Math.floor(rand(i, 4 + salt) * stickers.length);
-        });
-      };
-      let salt = 0;
-      const replaySort = () => { salt++; pile(salt); void chips.offsetWidth; setTimeout(() => chips.classList.add("is-sorted"), 500); };
-      document.fonts.ready.then(() => {
-        pile(0);
-        new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); setTimeout(() => chips.classList.add("is-sorted"), 400); } }, { threshold: 0.5 }).observe(chips);
+        void chips.offsetWidth;
+        setTimeout(() => chips.classList.add("is-sorted"), 500);
       });
-      if (reduce) chips.classList.add("is-sorted");
-      document.getElementById("replay-sort").addEventListener("click", replaySort);
     })();
   </script>
 </body>

@@ -61,7 +61,7 @@ Reglas de contraste: texto navy sobre rosa, lila, mantequilla y crema; cream sob
 
 Google Fonts: `Fraunces` (opsz 9..144, 700/900), `DM Sans` (opsz 9..40, 400/500/700), `Caveat` (400/700).
 El logo "EL CLUB DE LAS EMPRENDEDORAS" es lettering a mano: se usa como imagen
-(`site/assets/brand/logo-*.webp`), nunca se reescribe en una fuente.
+(`assets/brand/logo-*.webp`), nunca se reescribe en una fuente.
 
 ## Espacio, forma y trazo
 

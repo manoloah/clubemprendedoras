@@ -2,7 +2,7 @@
 
 El movimiento es un componente de la marca, no un efecto suelto. Se construyó en la rama
 `feat/landing-motion` (PR #2) y vive en `site/assets/motion.js` + el bloque "Motion" de
-`site/assets/styles.css`. Aquí queda definido como sistema: tokens, patrones y reglas.
+`site/assets/styles.css` (copias portátiles en `brand/assets/`, ver `scripts/sync-brand.sh`). Aquí queda definido como sistema: tokens, patrones y reglas.
 
 **Personalidad:** juguetón y ligero, como pegatinas que flotan. Todo es *decoración*: nada
 comunica información solo con movimiento, y todo se apaga con `prefers-reduced-motion: reduce`.
@@ -64,12 +64,13 @@ desfasan los loops a propósito: nada late al unísono.
 
 Resumen: MP4 H.264 *level 4.0* de 1280×640, color a la izquierda y máscara a la derecha, ping-pong de
 238 cuadros a 24fps; `motion.js` lo pinta con WebGL bajo los stickers. Detalle, trucos de Safari/iPhone y
-cómo regenerarlo: `CLAUDE.md` § Hero video y `scripts/hero-video/build.sh`.
+cómo regenerarlo: `CLAUDE.md` § Hero video y `brand/scripts/hero-video/build.sh`. El archivo es `assets/video/club-women.mp4` y es parte del sistema: sin él, el hero queda como imagen estática. Si el video cambia, sube el `?v=` de su URL en `motion.js`.
 
 ## Cómo probarlo
 
 ```bash
-npx serve -l 4173 site
+npx serve -l 4173 site     # la landing
+npx serve -l 4180 brand    # esta carpeta: la guía viva
 ```
 
 Abre con `?debug` para ver el log del video. Pruébalo a 393×852 (iPhone 15) y a 320; el escritorio
