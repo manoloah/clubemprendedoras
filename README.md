@@ -19,6 +19,7 @@ sheets/                   Google Apps Script that writes sign-ups into the Sheet
 scripts/
   rank-hero.mjs           ranks hero headline options for our ICP (TypeSafe / Jev)
   hero-video/             rebuilds the hero loop from a source MP4
+brand/                    brand system: voice, foundations, components, motion + living guide  → brand/README.md
 brand_assets_gptoutputs/  generated brand assets (stickers, illustrations, photos, tokens)
 .claude/launch.json       local preview server config
 CLAUDE.md                 working notes for Claude Code sessions

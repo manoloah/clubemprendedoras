@@ -77,6 +77,30 @@
   --type-button: 700 18px/24px var(--font-body);
   --type-note: 700 26px/28px var(--font-note);
 
+  /* Motion: durations, beats and curves. Mirrors the "Club/Motion" component in docs (brand/motion.md).
+     Idle loops animate translate/scale, reveals animate transform, tilts own rotate: never mix them. */
+  --dur-fade: 300ms;       /* hero art crossfade, quick opacity */
+  --dur-reveal-fade: 500ms;
+  --dur-reveal: 900ms;     /* drop / rise into place */
+  --dur-sort: 1000ms;      /* idea stickers leaving the heap */
+  --dur-ring: 2.6s;        /* button light, one lap */
+  --dur-breathe: 3.2s;
+  --dur-breathe-fast: 2.4s;
+  --dur-bob-sticker: 3.6s;
+  --dur-bob-chip: 4.2s;
+  --dur-bob-phone: 5.5s;
+  --dur-hop: 3s;
+  --dur-float: 4s;
+  --stagger-reveal: 90ms;  /* siblings arriving together (max 6) */
+  --stagger-sort: 85ms;    /* idea stickers */
+  --stagger-hop: 65ms;     /* letters of the highlighted phrase */
+  --ease-soft: ease-in-out;                      /* loops */
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1); /* reveals: a little bounce */
+  --ease-sort: cubic-bezier(0.34, 1.45, 0.64, 1);
+  --ease-hop: cubic-bezier(0.3, 0.7, 0.4, 1);
+  --bob-distance: 9px;
+  --float-distance: 8px;
+
   /* Layout */
   --gutter: 24px;
   --content-max: 1120px;

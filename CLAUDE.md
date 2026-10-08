@@ -28,16 +28,19 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 - `site/assets/app.js`: waitlist form (validation, honeypot, UTM capture, success state, step-2 profile modal).
 - `site/assets/motion.js`: every animation, plus the hero video's WebGL compositing.
 - `site/assets/config.js`: Apps Script `/exec` endpoint. Public by design.
+- `brand/`: the brand system (`voice.md`, `foundations.md`, `components.md`, `motion.md`) and a living style guide, `brand/index.html`, rendered with the site's own CSS. Not deployed. Preview: `.claude/launch.json` "brand" (port 4180, serves the repo root), then open `/brand/`. Keep it in sync when copy, tokens or components change.
 - `sheets/Code.gs`: the Apps Script. It isn't deployed from here; it gets pasted into the Sheet (see `sheets/README.md`).
 
 ## Conventions
 
-- **Copy:** Mexican Spanish, informal *tú*, warm and direct, written to women. No hype, no get-rich-quick, no tech jargon. If the `emprendeconpm-brand-nuevo` skill is available, use it for brand and copy rules.
+- **Copy:** Mexican Spanish, informal *tú*, warm and direct, written to women. No hype, no get-rich-quick, no tech jargon. Voice and the current copy bank: `brand/voice.md`. (The `emprendeconpm-brand-nuevo` skill is a different brand, "Club de Fundadoras"; don't use it here.)
 - **Design:** class names map 1:1 to Figma components (table in `site/README.md`). Nothing is perfectly straight: tilts use the CSS `rotate` property (`.tilt-l`, `.tilt-r`, per-element `rotate:`).
-- **Cache busting:** `index.html` loads `styles.css?v=N`, `app.js?v=N`, `config.js?v=N` and `motion.js?v=N`. Bump N whenever you change that file, or returning visitors keep the old one.
+- **Cache busting:** `index.html` loads `tokens.css?v=N`, `styles.css?v=N`, `app.js?v=N`, `config.js?v=N` and `motion.js?v=N`. Bump N whenever you change that file, or returning visitors keep the old one.
 - **Keep it static:** no frameworks or bundlers in `site/`. Images are WebP; keep the page light.
 
 ## Motion rules (learned the hard way)
+
+Durations, staggers and curves are tokens in `tokens.css` (`--dur-*`, `--stagger-*`, `--ease-*`); add a token before using a new value. The pattern catalogue is `brand/motion.md`.
 
 - Transforms are split across properties so they compose. Tilts use `rotate`, idle loops (bob, breathe, hop) animate `translate`/`scale`, and scroll reveals and the ideas heap use `transform`. Don't animate `rotate` on an element that already has a tilt.
 - Hidden "before" states exist only under `html.motion`, which `motion.js` adds last. Without JS, or with `prefers-reduced-motion: reduce`, the page is fully static and visible.
