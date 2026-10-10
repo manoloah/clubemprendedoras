@@ -18,7 +18,7 @@ Everyone on the waitlist gets a weekly newsletter on Wednesdays at 08:00 (Mexico
 site/                     the landing page (static HTML/CSS/JS, no build step)  → site/README.md
   assets/motion.js        all animation (scroll reveals, ideas heap, hero video loop)
   assets/video/           club-women.mp4, the transparent hero loop (stacked alpha)
-  recetas/               Recetas de Emprendimiento y IA: the hub, each receta, recetas.json (recetas.json)  → site/recetas/README.md
+  recetas/               Recetas de Emprendimiento e IA: the hub, each receta, recetas.json (recetas.json)  → site/recetas/README.md
 sheets/                   Google Apps Script: writes sign-ups into the Sheet, syncs them to Resend  → sheets/README.md
 newsletter/               weekly newsletter: newsletter.py, email template, issues, weekly routine  → newsletter/README.md
 scripts/
@@ -71,7 +71,7 @@ project root. No build step: Vercel serves `site/` as-is.
   H.264 file with the colour on the left half and the transparency mask on the right, turned
   into real transparency in a small WebGL canvas, so it looks the same in every browser.
   To regenerate it from a new render: `brand/scripts/hero-video/build.sh path/to/render.mp4`.
-- **Recetas:** `/recetas/` lists our tutorials ("Recetas de Emprendimiento y IA"); each receta
+- **Recetas:** `/recetas/` lists our tutorials ("Recetas de Emprendimiento e IA"); each receta
   shows its intro and ingredients to everyone and asks newcomers for name + email (they join the
   waitlist) before the steps. Readers coming from the newsletter skip that. Details:
   `site/recetas/README.md`.

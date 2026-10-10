@@ -1,4 +1,4 @@
-# Recetas de Emprendimiento y IA
+# Recetas de Emprendimiento e IA
 
 Our tutorials, called **recetas**. Each one is a short, hands-on recipe: ingredients (what you
 need), steps, and a prompt to copy. The newsletter features one every Wednesday.

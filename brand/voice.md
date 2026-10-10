@@ -83,7 +83,7 @@ Sin ser técnica · Con IA · Tú puedes · Hola, somos Pame y Manu
 
 ## Vocabulario
 
-**Sí:** recetas (así llamamos a los tutoriales: "Recetas de Emprendimiento y IA"), ideas, juntas, apoyo, comunidad, crecimiento, libertad, taller, club, waitlist, "tu app", "a tu medida".
+**Sí:** recetas (así llamamos a los tutoriales: "Recetas de Emprendimiento e IA"), ideas, juntas, apoyo, comunidad, crecimiento, libertad, taller, club, waitlist, "tu app", "a tu medida".
 
 **Evitar:**
 
