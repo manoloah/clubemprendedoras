@@ -242,7 +242,7 @@ function syncResend() {
     const email = String(r[colOf.email - 1]).trim().toLowerCase();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return [r[colOf.desuscrita - 1]];
     if (!(email in inSegment) && added < RESEND_MAX_ADDS_PER_RUN) {
-      addContact_(key, segment, email, String(r[colOf.nombre - 1]).trim().split(/\s+/)[0]);
+      addContact_(key, segment, email, firstName_(r[colOf.nombre - 1]));
       inSegment[email] = false;
       added++;
     }
@@ -250,6 +250,12 @@ function syncResend() {
   });
   sheet.getRange(2, colOf.desuscrita, flags.length, 1).setValues(flags);
   console.log("syncResend: added " + added + ", segment size " + Object.keys(inSegment).length);
+}
+
+// "maría josé LÓPEZ" → "María": first word only, capitalised.
+function firstName_(name) {
+  const first = String(name || "").trim().split(/\s+/)[0];
+  return first ? first.charAt(0).toUpperCase() + first.slice(1).toLowerCase() : "";
 }
 
 function addContact_(key, segment, email, firstName) {
