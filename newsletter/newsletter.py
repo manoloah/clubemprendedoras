@@ -58,7 +58,8 @@ def load_env():
         for line in p.read_text().splitlines():
             m = re.match(r"\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$", line)
             if m and m.group(1) not in os.environ:
-                os.environ[m.group(1)] = m.group(2).strip().strip('"').strip("'")
+                value = re.sub(r"\s*#.*$", "", m.group(2))  # drop inline "# comments"
+                os.environ[m.group(1)] = value.strip().strip('"').strip("'")
 
 
 def env(name, default=None, required=False):
