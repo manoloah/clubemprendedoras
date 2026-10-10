@@ -25,6 +25,7 @@ import subprocess
 import sys
 import time as time_module
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import date, datetime, time, timedelta
 from pathlib import Path
@@ -137,9 +138,11 @@ def fetch_recetas():
 
 
 def new_receta():
-    used = {e.get("receta_url") for e in sent_log()}
+    # Compare paths, not full URLs: SITE_URL may point at another host (e.g. vercel.app).
+    path = lambda u: urllib.parse.urlsplit(u or "").path.rstrip("/")
+    used = {path(e.get("receta_url")) for e in sent_log()}
     items, source = fetch_recetas()
-    fresh = [t for t in items if t.get("url") and t["url"] not in used]
+    fresh = [t for t in items if t.get("url") and path(t["url"]) not in used]
     fresh.sort(key=lambda t: t.get("fecha", ""))
     return (fresh[-1] if fresh else None), source
 
