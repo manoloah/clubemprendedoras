@@ -75,12 +75,22 @@ Durations, staggers and curves are tokens in `tokens.css` (`--dur-*`, `--stagger
 
 - Field names (`name`, `email`, honeypot `company`, profile fields in the modal) must match `COLUMNS` in `sheets/Code.gs`. Change both together, and remember the script has to be redeployed in Apps Script (new version, same `/exec` URL).
 - The endpoint can only add a row or fill empty cells, and it never returns data.
-- `syncResend()` (daily trigger, 14:00–15:00) pushes sign-ups to the Resend newsletter segment and mirrors unsubscribes into "Desuscrita del newsletter". Never send `unsubscribed: false` to Resend: that would re-subscribe people. Spam fallback if needed: Cloudflare Turnstile.
+- Apps Script deployments: update the existing one (Deploy → Manage deployments → pencil → Version: New version). "New deployment" makes a new `/exec` URL, which then has to go into `config.js` (and bump its `?v=`).
+- `syncResend()` (daily trigger, 14:00–15:00; not "On change", which ignores rows written by scripts) pushes sign-ups to the Resend newsletter segment and mirrors unsubscribes into "Desuscrita del newsletter". Never send `unsubscribed: false` to Resend: that would re-subscribe people. Spam fallback if needed: Cloudflare Turnstile.
+
+## Newsletter
+
+- Sender `hola@clubdelasemprendedoras.com` (forwards to the `info@` Porkbun mailbox, which is the reply-to). Domain verified in Resend, click tracking via `links.` CNAME. The `.env` key must be **Full access** (contacts + broadcasts); the Apps Script has its own key in Script Properties.
+- Personalisation: `{{{contact.first_name|emprendedora}}}` and `{{{RESEND_UNSUBSCRIBE_URL}}}` (Resend's current syntax; `{{{FIRST_NAME}}}` is the old one). They only resolve in broadcasts, so check with `newsletter.py test ISSUE --broadcast --to <email>`, which sends a real broadcast to a throwaway one-person segment. Plain `test` fills them with fallbacks and adds `[PRUEBA]`.
+- Edit an issue by changing its `.md`, then `build` (or `test --broadcast`) to look at it. `schedule` refuses while `[[MARKERS]]` remain and exits 3 above `NEWSLETTER_DAILY_LIMIT`.
+- Every test email is a real send. Ask before sending to anyone but the address the user gave.
+- The routine is a local scheduled task (`club-newsletter-semanal`, Tuesdays 16:00 Mazatlán = 17:00 CDMX) that follows `newsletter/ROUTINE.md`. It only runs while the Claude app is open.
+- Deliverability: the domain was registered 2026-10-06, so expect some spam-folder placement at first. DKIM, SPF (via Resend's `send`/`rsend` CNAMEs) and DMARC `p=none` are set.
 
 ## Workflow
 
 - One feature branch per change, opened as a PR against `main`.
-- **Deploys:** Vercel project `clubemprendedoras` (team `manolo96035-6430s-projects`, id `prj_2wdMdohpqhJ8QiIjznXfhaD8cN7l`), Git-linked, root directory `site/`. Merging to `main` deploys production at https://clubemprendedoras.vercel.app; other branches get preview URLs, which may be behind Vercel login. Config: `site/vercel.json` (no build, headers) and `site/.vercelignore`.
+- **Deploys:** Vercel project `clubemprendedoras` (team `manolo96035-6430s-projects`, id `prj_2wdMdohpqhJ8QiIjznXfhaD8cN7l`), Git-linked, root directory `site/`. Merging to `main` deploys production at https://www.clubdelasemprendedoras.com (bare domain redirects to `www`; DNS at Porkbun; `clubemprendedoras.vercel.app` still works); other branches get preview URLs, which may be behind Vercel login. Config: `site/vercel.json` (no build, headers) and `site/.vercelignore`.
 - After a deploy, check the live site the same way as local (Playwright at 320/393/1280), and confirm the video answers a Range request with `206`.
 - `.DS_Store` files are tracked even though `.gitignore` lists them. Don't stage their changes (`git checkout -- .DS_Store`).
 - Secrets live only in `.env.local` (gitignored), e.g. `TYPESAFE_API_KEY`.
