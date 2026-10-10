@@ -117,6 +117,34 @@ ul, ol { padding: 0; list-style: none; }
 }
 .nav.is-scrolled { box-shadow: 0 2px 0 0 var(--border-default); }
 .nav__logo img { width: 96px; }
+.nav__actions { display: flex; align-items: center; gap: var(--space-8); }
+
+/* ---------- Club/Menu: dropdown in the nav ---------- */
+.menu__toggle {
+  display: inline-flex; align-items: center; gap: var(--space-8); cursor: pointer; list-style: none;
+  font: var(--type-label); font-size: 15px; padding: 9px 14px; border-radius: var(--radius-pill);
+  border: var(--stroke-ui) solid var(--border-default); background: var(--surface-default); color: var(--text-default);
+  -webkit-tap-highlight-color: transparent;
+}
+.menu__toggle::-webkit-details-marker { display: none; }
+.menu__icon { position: relative; width: 16px; height: 2px; background: currentColor; border-radius: 2px; box-shadow: 0 -5px 0 currentColor, 0 5px 0 currentColor; }
+.menu[open] .menu__toggle { background: var(--surface-inverse); color: var(--text-inverse); }
+.menu[open] .menu__icon { background: transparent; box-shadow: none; }
+.menu[open] .menu__icon::before, .menu[open] .menu__icon::after { content: ""; position: absolute; inset: 0; background: currentColor; border-radius: 2px; rotate: 45deg; }
+.menu[open] .menu__icon::after { rotate: -45deg; }
+/* The panel hangs from the nav (not the button) so it never runs off a narrow screen. */
+.menu__panel {
+  position: absolute; top: calc(100% + 6px); left: var(--space-16); right: var(--space-16);
+  display: flex; flex-direction: column; gap: 2px; padding: var(--space-8);
+  background: var(--surface-default); border: var(--stroke-ui) solid var(--border-default); border-radius: var(--radius-24);
+  box-shadow: var(--shadow-hard); rotate: 0.6deg;
+}
+.menu__item { display: block; padding: 12px 14px; border-radius: var(--radius-16); text-decoration: none; font: var(--type-body-strong); }
+.menu__item:hover, .menu__item[aria-current="page"] { background: var(--field-surface); }
+.menu__item--feature { display: flex; flex-direction: column; gap: 4px; background: var(--brand-secondary); margin-bottom: 4px; }
+.menu__item--feature:hover, .menu__item--feature[aria-current="page"] { background: var(--brand-secondary); box-shadow: inset 0 0 0 2px var(--border-default); }
+.menu__item--feature strong { font: var(--type-h3); font-size: 20px; line-height: 24px; }
+.menu__item--feature small { font: var(--type-caption); opacity: 0.8; }
 
 /* ---------- 01 Hero ---------- */
 .hero { background: var(--surface-expressive); overflow: hidden; }
@@ -392,6 +420,147 @@ ul, ol { padding: 0; list-style: none; }
   .profile__body { padding: var(--space-64) var(--space-16) var(--space-16); }
 }
 
+/* ---------- Recetas: hub (/recetas/) and each receta ---------- */
+.recetas-hero, .receta-hero { position: relative; background: var(--surface-expressive); overflow: hidden; }
+.receta-hero { background: var(--surface-optimistic); }
+.recetas-hero__inner, .receta-hero__inner {
+  position: relative; max-width: var(--content-max); margin: 0 auto;
+  padding: var(--space-48) var(--gutter) var(--space-64);
+  display: flex; flex-direction: column; gap: var(--space-16);
+  container-type: inline-size;
+}
+.recetas-hero .display { font-size: min(11.2cqi, 76px); line-height: 1.02; } /* "Emprendimiento" is ~8.5em wide */
+.receta-hero .display { font-size: clamp(32px, 9.4cqi, 60px); line-height: 1.06; max-width: 18ch; }
+.recetas-hero .note { margin-top: var(--space-8); }
+.recetas-decor { position: absolute; pointer-events: none; }
+.recetas-decor--flower { width: 54px; right: 18px; top: 22px; }
+.recetas-decor--heart { width: 58px; right: 26px; bottom: 26px; rotate: -10deg; }
+.recetas-decor--spark { width: 24px; right: 84px; top: 14px; rotate: 12deg; }
+.receta-meta { display: flex; flex-wrap: wrap; gap: var(--space-8); }
+.receta-meta .sticker { font-size: 19px; line-height: 22px; padding: 8px 16px; border-width: 3px; }
+.receta-meta .sticker:nth-child(odd) { rotate: -2deg; }
+.receta-meta .sticker:nth-child(even) { rotate: 2deg; }
+.receta-by { display: flex; align-items: center; gap: var(--space-12); font: var(--type-body-strong); }
+.receta-by img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; object-position: top; border: var(--stroke-ui) solid var(--border-default); background: var(--surface-expressive); }
+.receta-by a { font-weight: 500; }
+
+/* Hub: one big card per receta, newest first, with a cover */
+.receta-list { display: flex; flex-direction: column; gap: var(--space-48); }
+.receta-feature {
+  display: flex; flex-direction: column; gap: var(--space-24); overflow: hidden;
+  padding: var(--space-32) var(--space-24) var(--space-24); text-decoration: none; color: var(--text-default);
+  border: var(--stroke-ui) solid var(--border-default); border-radius: var(--radius-24); box-shadow: var(--shadow-hard);
+  rotate: -0.6deg; transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.receta-list > li:nth-child(even) .receta-feature { rotate: 0.6deg; }
+.receta-feature--pink { background: var(--brand-secondary); }
+.receta-feature--lilac { background: var(--brand-tertiary); }
+.receta-feature--butter { background: var(--surface-optimistic); }
+.receta-feature:hover { transform: translateY(-4px); box-shadow: 0 8px 0 0 var(--club-navy); }
+.receta-feature:active { transform: translateY(2px); box-shadow: 0 2px 0 0 var(--club-navy); }
+.receta-feature__copy { display: flex; flex-direction: column; gap: var(--space-16); }
+.receta-feature__go { align-self: flex-start; }
+.receta-cover { position: relative; align-self: center; padding: 0 var(--space-24); }
+.receta-cover__phone { width: 180px; height: 340px; }
+.receta-cover__screen { position: relative; padding: 0; background: var(--surface-inverse); }
+.receta-cover__screen img { width: 100%; height: 100%; object-fit: cover; object-position: center top; background: var(--brand-secondary); }
+.receta-cover__screen::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 45%, rgba(23, 37, 74, 0.75)); }
+.receta-cover__sub {
+  position: absolute; z-index: 1; left: 12px; right: 12px; bottom: 56px; text-align: center;
+  font: 700 19px/1.15 var(--font-body); color: var(--text-inverse);
+}
+.receta-cover__sub em { font: italic 400 22px/1 var(--font-display); background: var(--brand-secondary); color: var(--text-default); padding: 2px 8px; border-radius: var(--radius-pill); }
+.receta-cover__play {
+  position: absolute; z-index: 1; left: 50%; bottom: 16px; translate: -50% 0; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--brand-primary); border: var(--stroke-ui) solid var(--text-inverse);
+}
+.receta-cover__play::after { content: ""; position: absolute; left: 11px; top: 8px; border-style: solid; border-width: 6px 0 6px 9px; border-color: transparent transparent transparent var(--text-inverse); }
+.receta-cover__sticker { position: absolute; right: -4px; top: 28px; rotate: 9deg; font-size: 20px; line-height: 22px; padding: 8px 16px; border-width: 3px; }
+.receta-next { margin-top: var(--space-32); max-width: 300px; }
+
+/* Ingredients */
+.ingredientes {
+  background: var(--field-surface); border: var(--stroke-ui) solid var(--border-default); border-radius: var(--radius-24);
+  box-shadow: var(--shadow-hard); padding: var(--space-24); display: flex; flex-direction: column; gap: var(--space-16);
+}
+.check-list { display: flex; flex-direction: column; gap: var(--space-12); }
+.check-list li { position: relative; padding-left: 36px; }
+.check-list li::before {
+  content: "✓"; position: absolute; left: 0; top: 0; width: 24px; height: 24px; display: grid; place-items: center;
+  border-radius: 50%; background: var(--brand-growth); color: var(--text-inverse); font: var(--type-label); font-size: 13px;
+}
+.receta-why { display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-16) var(--space-24); border-radius: var(--radius-16); background: var(--surface-cool); }
+.receta-intro { display: flex; flex-direction: column; gap: var(--space-24); max-width: 720px; }
+
+/* Steps */
+.pasos { display: flex; flex-direction: column; gap: var(--space-48); max-width: 760px; }
+.paso { display: flex; flex-direction: column; gap: var(--space-16); scroll-margin-top: 96px; }
+.paso__head { display: flex; align-items: center; gap: var(--space-16); }
+.paso__num {
+  flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%;
+  background: var(--brand-primary); color: var(--text-inverse); border: var(--stroke-ui) solid var(--border-default);
+  box-shadow: var(--shadow-hard); font: 900 28px/1 var(--font-display); rotate: -6deg;
+}
+.paso:nth-child(even) .paso__num { background: var(--brand-tertiary); color: var(--text-default); rotate: 6deg; }
+.paso ol { list-style: decimal; padding-left: 22px; display: flex; flex-direction: column; gap: var(--space-8); }
+.paso code { font: 600 0.92em/1 ui-monospace, "SF Mono", Menlo, monospace; background: var(--surface-expressive); padding: 2px 6px; border-radius: 6px; }
+.paso .note { max-width: 300px; }
+
+/* The 4 sentences */
+.frases { display: grid; gap: var(--space-16); }
+.frase { display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-16) var(--space-16) var(--space-24); border-radius: var(--radius-16); border: var(--stroke-ui) solid var(--border-default); }
+.frase:nth-child(1) { background: var(--brand-secondary); rotate: -1deg; }
+.frase:nth-child(2) { background: var(--surface-optimistic); rotate: 1deg; }
+.frase:nth-child(3) { background: var(--brand-tertiary); rotate: -1deg; }
+.frase:nth-child(4) { background: var(--field-surface); rotate: 1deg; }
+.frase__what { font: var(--type-caption); opacity: 0.8; }
+.frase__eg { font: var(--type-note); font-size: 24px; line-height: 26px; }
+
+/* Prompt to copy */
+.prompt { position: relative; border: var(--stroke-ui) solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-inverse); box-shadow: var(--shadow-hard); overflow: hidden; }
+.prompt__bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-8) var(--space-8) var(--space-8) var(--space-16); background: var(--brand-secondary); border-bottom: var(--stroke-ui) solid var(--border-default); }
+.prompt__bar > span { font: var(--type-kicker); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-accent); }
+.prompt pre {
+  margin: 0; padding: var(--space-16); max-height: 420px; overflow: auto;
+  white-space: pre-wrap; overflow-wrap: anywhere; /* never widen the page */
+  font: 500 13.5px/1.6 ui-monospace, "SF Mono", Menlo, monospace; color: var(--text-inverse);
+}
+
+/* Chat bubbles: how to ask for changes */
+.bubbles { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-8); }
+.bubble { max-width: 88%; padding: 10px 16px; border-radius: 20px 20px 4px 20px; background: var(--brand-primary); color: var(--text-inverse); font: var(--type-body-strong); }
+.bubble:nth-child(even) { background: var(--surface-inverse); }
+.receta-ojo { display: flex; gap: var(--space-12); align-items: flex-start; padding: var(--space-16) var(--space-24); border-radius: var(--radius-16); border: var(--stroke-ui) dashed var(--border-default); background: var(--field-surface); }
+.receta-ojo img { flex: none; width: 26px; }
+
+/* Signup gate: only when the inline script in <head> adds html.is-gated */
+.gate { display: none; }
+.is-gated .receta__locked {
+  max-height: 380px; overflow: hidden; pointer-events: none; user-select: none; filter: blur(3px);
+  -webkit-mask-image: linear-gradient(#000 10%, transparent 90%); mask-image: linear-gradient(#000 10%, transparent 90%);
+}
+.is-gated .gate { display: block; position: relative; z-index: 2; margin: -200px auto 0; max-width: 520px; }
+.gate .sticker { position: absolute; right: -8px; top: -22px; rotate: 7deg; font-size: 20px; line-height: 22px; padding: 8px 16px; border-width: 3px; }
+.gate__ok { display: flex; flex-direction: column; gap: var(--space-8); }
+.receta-done { display: flex; flex-direction: column; gap: var(--space-12); max-width: 760px; margin-top: var(--space-48); }
+.section--flush { padding-top: 0; }
+.receta-page .nav { background: var(--surface-optimistic); }
+
+@media (min-width: 900px) {
+  .recetas-hero__inner, .receta-hero__inner { padding: var(--space-80) var(--gutter) var(--space-96); }
+  .recetas-hero .lead, .receta-hero .lead { max-width: 44ch; }
+  .recetas-decor--flower { width: 88px; right: 10%; top: 64px; }
+  .recetas-decor--heart { width: 96px; right: 16%; bottom: 56px; }
+  .recetas-decor--spark { width: 40px; right: 24%; top: 120px; }
+  .receta-feature { flex-direction: row; align-items: center; gap: var(--space-48); padding: var(--space-48); max-width: 980px; }
+  .receta-list > li:nth-child(even) .receta-feature { flex-direction: row-reverse; }
+  .receta-cover__phone { width: 220px; height: 420px; }
+  .receta-cover__sub { font-size: 22px; bottom: 64px; }
+  .receta-intro { display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: start; max-width: none; gap: var(--space-48); }
+  .frases { grid-template-columns: 1fr 1fr; }
+  .bubbles { max-width: 560px; }
+}
+
 /* ---------- Desktop ---------- */
 @media (min-width: 900px) {
   .display { font-size: 64px; line-height: 66px; }
@@ -402,6 +571,7 @@ ul, ol { padding: 0; list-style: none; }
   }
   .nav { padding: var(--space-16) max(var(--space-48), calc((100vw - var(--content-max)) / 2 + var(--gutter))); }
   .nav__logo img { width: 120px; }
+  .menu__panel { left: auto; right: max(var(--space-48), calc((100vw - var(--content-max)) / 2 + var(--gutter))); width: 360px; }
   .hero__inner {
     max-width: var(--content-max); margin: 0 auto;
     display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto auto auto 1fr auto; column-gap: var(--space-48); row-gap: var(--space-16);
@@ -524,6 +694,24 @@ ul, ol { padding: 0; list-style: none; }
   .motion .chips.is-sorted .sticker { transform: none; }
   .motion .chips.is-sorted .sticker { animation: club-bob var(--dur-bob-chip) var(--ease-soft) infinite; animation-delay: calc(1.6s + var(--i) * -0.55s); }
   .motion .chips.is-sorted .sticker:hover { scale: 1.08; transition-delay: 0s; animation-play-state: paused; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Recetas: decor breathes, card stickers and the gate's sticker bob. */
+  .recetas-decor, .receta-ojo img { animation: club-breathe var(--dur-breathe) var(--ease-soft) infinite; }
+  .recetas-decor--heart { animation-delay: -1.2s; }
+  .recetas-decor--spark { animation-duration: var(--dur-breathe-fast); animation-delay: -0.6s; }
+  .gate .sticker, .receta-cover__sticker { animation: club-bob var(--dur-bob-sticker) var(--ease-soft) infinite; }
+  .receta-cover__phone { animation: club-bob var(--dur-bob-phone) var(--ease-soft) infinite; }
+  .paso__num { animation: club-breathe var(--dur-breathe) var(--ease-soft) infinite; }
+  .paso:nth-child(2) .paso__num { animation-delay: -0.6s; }
+  .paso:nth-child(3) .paso__num { animation-delay: -1.2s; }
+  .paso:nth-child(4) .paso__num { animation-delay: -1.8s; }
+  .paso:nth-child(5) .paso__num { animation-delay: -2.4s; }
+  .menu[open] .menu__panel { animation: menu-in var(--dur-menu) var(--ease-pop) both; }
+  @keyframes menu-in { from { opacity: 0; transform: translateY(-10px); } }
+  .receta__locked.is-unlocked { animation: receta-unlock var(--dur-reveal) var(--ease-pop) both; }
+  @keyframes receta-unlock { from { opacity: 0; transform: translateY(24px); } }
 }
 
 @media (prefers-reduced-motion: reduce) {

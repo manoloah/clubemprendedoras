@@ -17,6 +17,7 @@ node scripts/rank-hero.mjs                               # score hero copy; need
 brand/scripts/hero-video/build.sh path/to/render.mp4           # rebuild brand/assets/video/club-women.mp4 and copy it to site/
 OUT=/tmp/test.mp4 brand/scripts/hero-video/build.sh render.mp4 # same, without touching the repo files
 scripts/sync-brand.sh --check                            # is brand/ in step with site/? (drop --check to copy)
+.venv/bin/python newsletter/newsletter.py news           # newsletter: this week's news (see newsletter/README.md)
 ```
 
 No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (see Workflow).
@@ -29,7 +30,10 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 - `site/assets/app.js`: waitlist form (validation, honeypot, UTM capture, success state, step-2 profile modal).
 - `site/assets/motion.js`: every animation, plus the hero video's WebGL compositing.
 - `site/assets/config.js`: Apps Script `/exec` endpoint. Public by design.
+- Nav: logo, a **Menú** dropdown (`<details data-menu>`, same markup on the landing and every receta page) and **Unirme**. The menu has one option on purpose: Recetas de Emprendimiento e IA (`/recetas/`). Close logic lives in both `app.js` and `recetas.js`.
+- `site/recetas/`: "Recetas de Emprendimiento e IA" (our tutorials; never call them tutoriales in copy). Hub `index.html`, one folder per receta, `recetas.json` for the newsletter. Pages use absolute `/assets/...` paths. `site/assets/recetas.js` runs the signup gate and "Copiar" buttons. How to add one: `site/recetas/README.md`.
 - `brand/`: the brand system (`voice.md`, `foundations.md`, `components.md`, `motion.md`) and a living style guide, `brand/index.html`, rendered with its own copy of the CSS/JS. Not deployed. It is a self-contained, copy-paste folder (`brand/assets/` holds tokens, styles, motion.js, logos, images and the hero video). `site/` is the source for the shared files: after changing `site/assets/{tokens.css,styles.css,motion.js}` or its `brand/`, `img/` or `video/` files, run `scripts/sync-brand.sh`. Preview: `.claude/launch.json` "brand" (port 4180, serves `brand/`). Keep the docs in step when copy, tokens or components change.
+- `newsletter/`: weekly Wednesday 08:00 newsletter via Resend Broadcasts (`newsletter.py`, issues in `newsletter/issues/`, the routine in `ROUTINE.md`, process in `README.md`). The recetas (our name for tutorials) it features are listed in `site/recetas/recetas.json`. Secrets in `.env`; Python deps in `.venv`.
 - `sheets/Code.gs`: the Apps Script. It isn't deployed from here; it gets pasted into the Sheet (see `sheets/README.md`).
 
 ## Conventions
@@ -38,6 +42,24 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 - **Design:** class names map 1:1 to Figma components (table in `site/README.md`). Nothing is perfectly straight: tilts use the CSS `rotate` property (`.tilt-l`, `.tilt-r`, per-element `rotate:`).
 - **Cache busting:** `index.html` loads `tokens.css?v=N`, `styles.css?v=N`, `app.js?v=N`, `config.js?v=N` and `motion.js?v=N`. Bump N whenever you change that file, or returning visitors keep the old one.
 - **Keep it static:** no frameworks or bundlers in `site/`. Images are WebP; keep the page light.
+
+## Creating a receta
+
+Follow `site/recetas/README.md` ("Creating a new receta"). The checklist:
+
+- Copy rewritten in the club's voice from the user's draft: keep every fact, link and number, explain or drop jargon, **no kitchen puns** (no ingredientes/hornear/probadita/cocina; Gen Z and direct instead), no hype.
+- New folder `site/recetas/<slug>/` copied from `reel-con-claude-cowork/`: head tags, hero, `.ingredientes` ("Lo que necesitas", public), steps in `.receta__locked` with the first `id="paso-1"`, `data-gate="receta-<slug>"`. Reuse the existing building blocks (`.check-list`, `.frases`, `.prompt` + `data-copy`, `.bubbles`, `.note`, `.receta-ojo`) before adding CSS.
+- Hub card at the top of `.receta-list` (alternate pink/lilac/butter, cover in `.receta-cover`), and update the "La receta #N llega…" note.
+- Entry appended to `site/recetas/recetas.json` (the newsletter reads it).
+- Test at 393 and 320 (plus 1280), gated and with `?utm_source=newsletter`; stub `fetch` before submitting the gate.
+- Merge before the Tuesday 17:00 routine. The menu stays one option (the hub) until the user adds more.
+
+## Recetas gate
+
+- An inline script in each receta's `<head>` adds `html.is-gated` before paint unless the URL has `utm_source=newsletter` or `localStorage.club_receta_ok === "1"` (set by the gate, by a landing sign-up, or by a newsletter visit). Gated content is `.receta__locked` (blurred, clipped) with the `.gate` signup card over it.
+- The gate posts the same payload as the waitlist (`nombre`, `email`, `source: receta-<slug>`, UTMs) to the Apps Script. Members re-enter their email to unlock: the Sheet dedups and never overwrites. Don't add an "is this email on the list?" endpoint; the backend never returns data.
+- `newsletter.py build` appends `utm_source=newsletter&utm_medium=email&utm_campaign=<issue>` to every link to our domain, which is what skips the gate.
+- Testing the gate locally posts to the live Sheet. Stub `window.fetch` in the page first.
 
 ## Motion rules (learned the hard way)
 
@@ -72,12 +94,23 @@ Durations, staggers and curves are tokens in `tokens.css` (`--dur-*`, `--stagger
 ## Waitlist backend
 
 - Field names (`name`, `email`, honeypot `company`, profile fields in the modal) must match `COLUMNS` in `sheets/Code.gs`. Change both together, and remember the script has to be redeployed in Apps Script (new version, same `/exec` URL).
-- The endpoint can only add a row or fill empty cells, and it never returns data. Spam fallback if needed: Cloudflare Turnstile.
+- The endpoint can only add a row or fill empty cells, and it never returns data.
+- Apps Script deployments: update the existing one (Deploy → Manage deployments → pencil → Version: New version). "New deployment" makes a new `/exec` URL, which then has to go into `config.js` (and bump its `?v=`).
+- `syncResend()` (daily trigger, 14:00–15:00; not "On change", which ignores rows written by scripts) pushes sign-ups to the Resend newsletter segment and mirrors unsubscribes into "Desuscrita del newsletter". Never send `unsubscribed: false` to Resend: that would re-subscribe people. Spam fallback if needed: Cloudflare Turnstile.
+
+## Newsletter
+
+- Sender `hola@clubdelasemprendedoras.com` (forwards to the `info@` Porkbun mailbox, which is the reply-to). Domain verified in Resend, click tracking via `links.` CNAME. The `.env` key must be **Full access** (contacts + broadcasts); the Apps Script has its own key in Script Properties.
+- Personalisation: `{{{contact.first_name|emprendedora}}}` and `{{{RESEND_UNSUBSCRIBE_URL}}}` (Resend's current syntax; `{{{FIRST_NAME}}}` is the old one). They only resolve in broadcasts, so check with `newsletter.py test ISSUE --broadcast --to <email>`, which sends a real broadcast to a throwaway one-person segment. Plain `test` fills them with fallbacks and adds `[PRUEBA]`.
+- Edit an issue by changing its `.md`, then `build` (or `test --broadcast`) to look at it. `schedule` refuses while `[[MARKERS]]` remain and exits 3 above `NEWSLETTER_DAILY_LIMIT`.
+- Every test email is a real send. Ask before sending to anyone but the address the user gave.
+- The routine is a local scheduled task (`club-newsletter-semanal`, Tuesdays 16:00 Mazatlán = 17:00 CDMX) that follows `newsletter/ROUTINE.md`. It only runs while the Claude app is open.
+- Deliverability: the domain was registered 2026-10-06, so expect some spam-folder placement at first. DKIM, SPF (via Resend's `send`/`rsend` CNAMEs) and DMARC `p=none` are set.
 
 ## Workflow
 
 - One feature branch per change, opened as a PR against `main`.
-- **Deploys:** Vercel project `clubemprendedoras` (team `manolo96035-6430s-projects`, id `prj_2wdMdohpqhJ8QiIjznXfhaD8cN7l`), Git-linked, root directory `site/`. Merging to `main` deploys production at https://clubemprendedoras.vercel.app; other branches get preview URLs, which may be behind Vercel login. Config: `site/vercel.json` (no build, headers) and `site/.vercelignore`.
+- **Deploys:** Vercel project `clubemprendedoras` (team `manolo96035-6430s-projects`, id `prj_2wdMdohpqhJ8QiIjznXfhaD8cN7l`), Git-linked, root directory `site/`. Merging to `main` deploys production at https://www.clubdelasemprendedoras.com (bare domain redirects to `www`; DNS at Porkbun; `clubemprendedoras.vercel.app` still works); other branches get preview URLs, which may be behind Vercel login. Config: `site/vercel.json` (no build, headers) and `site/.vercelignore`.
 - After a deploy, check the live site the same way as local (Playwright at 320/393/1280), and confirm the video answers a Range request with `206`.
 - `.DS_Store` files are tracked even though `.gitignore` lists them. Don't stage their changes (`git checkout -- .DS_Store`).
 - Secrets live only in `.env.local` (gitignored), e.g. `TYPESAFE_API_KEY`.

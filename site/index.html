@@ -22,11 +22,11 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap">
   <link rel="preload" as="image" href="assets/brand/logo-tomato.webp">
 
-  <link rel="stylesheet" href="assets/tokens.css?v=2">
-  <link rel="stylesheet" href="assets/styles.css?v=9">
-  <script src="assets/config.js?v=3"></script>
-  <script src="assets/app.js?v=7" defer></script>
-  <script src="assets/motion.js?v=9" defer></script>
+  <link rel="stylesheet" href="assets/tokens.css?v=3">
+  <link rel="stylesheet" href="assets/styles.css?v=12">
+  <script src="assets/config.js?v=4"></script>
+  <script src="assets/app.js?v=9" defer></script>
+  <script src="assets/motion.js?v=11" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#unirme">Ir al formulario de la waitlist</a>
@@ -36,7 +36,15 @@
     <a class="nav__logo" href="#top" aria-label="El Club de las Emprendedoras, inicio">
       <img src="assets/brand/logo-tomato.webp" width="104" height="65" alt="El Club de las Emprendedoras">
     </a>
-    <a class="btn btn--sm" href="#unirme">Unirme</a>
+    <div class="nav__actions">
+      <details class="menu" data-menu>
+        <summary class="menu__toggle"><span>Menú</span><span class="menu__icon" aria-hidden="true"></span></summary>
+        <nav class="menu__panel" aria-label="Secciones">
+          <a class="menu__item menu__item--feature" href="/recetas/"><span class="kicker kicker--tomato">Nuevo</span><strong>Recetas de Emprendimiento e IA</strong><small>Pasos sencillos para ayudarte a emprender con IA</small></a>
+        </nav>
+      </details>
+      <a class="btn btn--sm" href="#unirme">Unirme</a>
+    </div>
   </header>
 
   <main id="top">
@@ -102,7 +110,7 @@
     </section>
 
     <!-- 03 El taller -->
-    <section class="section section--cream" aria-labelledby="taller-title">
+    <section class="section section--cream" id="taller" aria-labelledby="taller-title">
       <div class="section__inner">
         <header class="section__head">
           <p class="kicker kicker--tomato tilt-l">El taller, paso a paso</p>
@@ -239,7 +247,7 @@
     </section>
 
     <!-- 06 Quiénes -->
-    <section class="section section--pink" aria-labelledby="quienes-title">
+    <section class="section section--pink" id="quienes" aria-labelledby="quienes-title">
       <div class="section__inner about">
         <figure class="about__photo">
           <img src="assets/img/palm-pink.webp" width="640" height="1068" alt="Palmera frente a una pared rosa bajo el cielo azul" loading="lazy">
@@ -285,7 +293,7 @@
     </section>
 
     <!-- 08 FAQ -->
-    <section class="section section--butter" aria-labelledby="faq-title">
+    <section class="section section--butter" id="faq" aria-labelledby="faq-title">
       <div class="section__inner faq">
         <header class="section__head">
           <p class="kicker kicker--navy tilt-r">Preguntas frecuentes</p>
@@ -357,7 +365,7 @@
   <footer class="footer">
     <img src="assets/brand/logo-cream.webp" width="180" height="112" alt="El Club de las Emprendedoras" loading="lazy">
     <p class="footer__by">Un proyecto de Pame y Manu · <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a></p>
-    <p class="caption">© 2026 El Club de las Emprendedoras.</p>
+    <p class="caption"><a href="/recetas/">Recetas de Emprendimiento e IA</a> · © 2026 El Club de las Emprendedoras.</p>
   </footer>
 
 

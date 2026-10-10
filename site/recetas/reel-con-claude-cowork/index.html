@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Así hicimos el reel de Pame sin editar ni un segundo · Recetas del Club</title>
+  <meta name="description" content="Tú grabas con tu celular y Claude Cowork corta, pone subtítulos, anima y exporta. 5 pasos y el prompt listo para copiar.">
+  <meta name="theme-color" content="#F2C75C">
+  <link rel="canonical" href="https://www.clubdelasemprendedoras.com/recetas/reel-con-claude-cowork/">
+  <link rel="icon" href="/assets/brand/asterisk.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="es_MX">
+  <meta property="og:title" content="Así hicimos el reel de Pame sin editar ni un segundo">
+  <meta property="og:description" content="Tú grabas con tu celular y Claude Cowork hace el resto. 5 pasos y el prompt listo para copiar.">
+  <meta property="og:url" content="https://www.clubdelasemprendedoras.com/recetas/reel-con-claude-cowork/">
+  <meta property="og:image" content="https://www.clubdelasemprendedoras.com/assets/img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Signup gate, decided before paint: open if she came from the newsletter
+       or already signed up on this browser (see site/recetas/README.md). -->
+  <script>
+    (function () {
+      var ok = /[?&]utm_source=newsletter(&|$)/.test(location.search);
+      try {
+        if (ok) localStorage.setItem("club_receta_ok", "1");
+        else ok = localStorage.getItem("club_receta_ok") === "1";
+      } catch (e) {}
+      if (!ok) document.documentElement.classList.add("is-gated");
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap">
+
+  <link rel="stylesheet" href="/assets/tokens.css?v=3">
+  <link rel="stylesheet" href="/assets/styles.css?v=12">
+  <script src="/assets/config.js?v=4"></script>
+  <script src="/assets/recetas.js?v=2" defer></script>
+  <script src="/assets/motion.js?v=11" defer></script>
+</head>
+<body class="receta-page">
+  <a class="skip-link" href="#ingredientes">Ir a la receta</a>
+
+  <header class="nav" data-nav>
+    <a class="nav__logo" href="/" aria-label="El Club de las Emprendedoras, inicio">
+      <img src="/assets/brand/logo-tomato.webp" width="104" height="65" alt="El Club de las Emprendedoras">
+    </a>
+    <div class="nav__actions">
+      <details class="menu" data-menu>
+        <summary class="menu__toggle"><span>Menú</span><span class="menu__icon" aria-hidden="true"></span></summary>
+        <nav class="menu__panel" aria-label="Secciones">
+          <a class="menu__item menu__item--feature" href="/recetas/"><span class="kicker kicker--tomato">Nuevo</span><strong>Recetas de Emprendimiento e IA</strong><small>Pasos sencillos para ayudarte a emprender con IA</small></a>
+        </nav>
+      </details>
+      <a class="btn btn--sm" href="/#unirme">Unirme</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="receta-hero" aria-labelledby="receta-title">
+      <img class="recetas-decor recetas-decor--heart" src="/assets/img/lilac-heart.webp" width="72" height="69" alt="" aria-hidden="true">
+      <div class="receta-hero__inner">
+        <p class="kicker kicker--tomato tilt-l">Receta #1 · Gratis para el club</p>
+        <h1 id="receta-title" class="display">Así hicimos el reel de Pame <span class="accent">sin editar ni un segundo</span></h1>
+        <p class="lead">Tú grabas con tu celular. Claude Cowork corta, pone los subtítulos, anima y exporta. Te dejamos el proceso exacto, con el prompt listo para copiar.</p>
+        <div class="receta-meta">
+          <span class="sticker sticker--pink">5 pasos</span>
+          <span class="sticker sticker--olive">Sin saber editar</span>
+          <span class="sticker sticker--lilac">1 tarde</span>
+        </div>
+        <p class="receta-by">
+          <img src="/assets/img/pame.webp" width="48" height="48" alt="">
+          <span>Por Pame · <a href="https://www.instagram.com/PameVls/" target="_blank" rel="noopener">@PameVls</a></span>
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--cream" id="ingredientes" aria-labelledby="ingredientes-title">
+      <div class="section__inner">
+        <div class="receta-intro">
+          <div class="ingredientes">
+            <p class="kicker kicker--navy">Antes de empezar</p>
+            <h2 id="ingredientes-title" class="h2">Lo que necesitas</h2>
+            <ul class="check-list">
+              <li><strong>Claude Desktop</strong>, que bajas gratis en <a href="https://claude.com/download" target="_blank" rel="noopener">claude.com/download</a>. Cowork funciona con cualquier plan de pago (Pro, Max, Team o Enterprise).</li>
+              <li><strong>2 o 3 videos verticales</strong> grabados con tu celular.</li>
+              <li><strong>Tu historia en 4 frases.</strong> Te ayudamos a escribirla en el paso 2.</li>
+              <li><strong>Una tarde</strong> y ganas de jugar.</li>
+            </ul>
+          </div>
+          <div class="receta-why">
+            <h3 class="h3">¿Por qué Cowork y no el chat de Claude?</h3>
+            <p>Cowork trabaja directo en una carpeta de tu compu. Lee tus videos desde ahí, aguanta tareas largas (como exportar un video) y te deja el archivo final en la misma carpeta. En el chat tendrías que subir todo y luego descargar el resultado.</p>
+            <p class="note note--pink tilt-r">El reel de "les tengo una noticia…" salió así, tal cual ♡</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Signup gate: shown only while html.is-gated -->
+    <section class="section section--cream section--flush" aria-label="Receta paso a paso">
+      <div class="section__inner">
+        <div class="receta__locked" data-locked>
+          <ol class="pasos">
+            <li class="paso" id="paso-1">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">1</span><h2 class="h2">Prepara tu carpeta</h2></div>
+              <p>Crea una carpeta en tu compu, por ejemplo <code>Mi reel</code>, y mete ahí tus videos:</p>
+              <ul class="check-list">
+                <li><strong>El hook:</strong> tú mirando a cámara, con actitud, de 5 a 10 segundos.</li>
+                <li><strong>El antes:</strong> tú en el momento difícil.</li>
+                <li><strong>El después:</strong> tú con el resultado.</li>
+              </ul>
+              <p class="note note--butter tilt-l">Graba de más. Claude escoge los mejores segundos.</p>
+            </li>
+
+            <li class="paso" id="paso-2">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">2</span><h2 class="h2">Escribe tu historia en 4 frases</h2></div>
+              <p>No le des más vueltas. Esto es todo lo que necesitas, con el ejemplo de Pame:</p>
+              <div class="frases">
+                <div class="frase">
+                  <p class="kicker kicker--navy">Hook</p>
+                  <p class="frase__what">Algo que provoque</p>
+                  <p class="frase__eg">"Saludos a todos los que me dijeron que embarazarme iba a poner en pausa mi carrera, les tengo una noticia…"</p>
+                </div>
+                <div class="frase">
+                  <p class="kicker kicker--navy">Antes</p>
+                  <p class="frase__what">Dónde estabas</p>
+                  <p class="frase__eg">"Creé y lancé la app más viral de embarazo mientras estaba embarazada."</p>
+                </div>
+                <div class="frase">
+                  <p class="kicker kicker--navy">Después</p>
+                  <p class="frase__what">Un resultado con número</p>
+                  <p class="frase__eg">"Ya la habían usado +200,000 mujeres y duplicamos los ingresos."</p>
+                </div>
+                <div class="frase">
+                  <p class="kicker kicker--tomato">Cierre</p>
+                  <p class="frase__what">Una palabra para comentar</p>
+                  <p class="frase__eg">"Tú también puedes. Comenta APP y te enseño cómo lanzar la tuya."</p>
+                </div>
+              </div>
+              <p>El número concreto es lo que hace que la gente se quede hasta el final.</p>
+            </li>
+
+            <li class="paso" id="paso-3">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">3</span><h2 class="h2">Abre Cowork y pega este prompt</h2></div>
+              <ol>
+                <li>Abre Claude Desktop y cámbiate a <strong>Cowork</strong>.</li>
+                <li>Elige tu carpeta <code>Mi reel</code> como lugar de trabajo.</li>
+                <li>Copia el prompt y cambia lo que está entre [corchetes].</li>
+              </ol>
+              <div class="prompt">
+                <div class="prompt__bar">
+                  <span>Tu prompt</span>
+                  <button class="btn btn--sm" type="button" data-copy="prompt-reel"><span class="btn__label">Copiar</span></button>
+                </div>
+<pre id="prompt-reel">En esta carpeta hay [3] videos para un reel de Instagram.
+Usa Remotion (https://github.com/remotion-dev/remotion) para editarlo.
+
+Historia, en este orden:
+1. [hook.mp4]: "[tu frase de hook]"
+2. [antes.mp4]: "[tu frase del antes]"
+3. [despues.mp4]: "[tu frase del después]"
+4. Cierre: "[tu CTA con la palabra clave]"
+
+Reglas:
+- Máximo 22 segundos. De cada video escoge solo la parte más
+  expresiva (movimiento, reacción, mirada a cámara).
+- El texto debe aparecer desde el primer segundo.
+- Subtítulos estilo editorial: DM Sans para el texto normal y
+  Instrument Serif Italic para 1 o 2 palabras clave por frase.
+- Colores: texto [crema #F6F0E6], acentos [rosa #F3A0C2],
+  sombras y degradados [azul marino #17254A].
+- Las palabras aparecen una por una con un fade suave y blur,
+  sin rebotes ni contornos gruesos.
+- Nunca tapes mi cara ni lo importante del video. Respeta las
+  zonas seguras de Reels (deja libres 250px arriba y abajo).
+- En el cierre, pon la palabra clave en una píldora de color.
+- Exporta en 1080x1920, sin música.
+
+Antes de exportar, muéstrame capturas de cada parte.
+Guarda el video final en esta carpeta.</pre>
+              </div>
+              <p><strong>¿Qué es Remotion?</strong> Una herramienta gratuita para hacer videos con código. Tú no la tocas: Claude la usa por ti.</p>
+              <p>Los colores del prompt son los de Pame. Cambia esa línea por los de tu marca. ¿Tienes tu marca en Figma? Pega el link y pídele que use tus fuentes y colores.</p>
+            </li>
+
+            <li class="paso" id="paso-4">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">4</span><h2 class="h2">Pide cambios en una frase</h2></div>
+              <p>No escribas párrafos. Así le pidió Pame cada cambio:</p>
+              <ul class="bubbles">
+                <li class="bubble">Está muy largo, córtalo a lo más engaging</li>
+                <li class="bubble">Haz más claro el hook</li>
+                <li class="bubble">Hazlo más provocativo, que diga: [frase]</li>
+                <li class="bubble">Los subtítulos se ven de los 2000s, hazlos más modernos y femeninos</li>
+                <li class="bubble">Se ve muy producido, hazlo más orgánico, sin fondos que tapen el video</li>
+                <li class="bubble">Cambia [palabra] por [palabra]</li>
+              </ul>
+              <p>Pídele que guarde cada versión con un nombre distinto. Así puedes regresar a la que más te gustó.</p>
+            </li>
+
+            <li class="paso" id="paso-5">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">5</span><h2 class="h2">Publica bien</h2></div>
+              <ul class="check-list">
+                <li><strong>Audio:</strong> súbelo a Instagram y ponle un audio en tendencia desde la app. Así llega a más gente.</li>
+                <li><strong>Portada:</strong> usa el primer cuadro, el del hook.</li>
+                <li><strong>Palabra clave:</strong> fija un comentario que diga "Comenta APP 👇" y configura un mensaje automático (con ManyChat o similar) para cada persona que comente.</li>
+                <li><strong>Repite:</strong> si funciona, pídele a Cowork la misma plantilla con otra historia. Ya no empiezas de cero.</li>
+              </ul>
+              <div class="receta-ojo">
+                <img src="/assets/brand/asterisk.svg" width="26" height="46" alt="">
+                <p><strong>Ojo:</strong> Cowork gasta más de tu límite de uso que el chat. Pide tus cambios en pocos mensajes y bien claros.</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="receta-done">
+            <p class="kicker kicker--tomato tilt-l">¿Lo hiciste?</p>
+            <h2 class="h2">Mándanos tu reel, queremos verlo.</h2>
+            <p>Etiquétanos en <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a> o respóndenos el correo del miércoles. Los mejores los compartimos.</p>
+          </div>
+        </div>
+
+        <div class="gate" data-gate="receta-reel-con-claude-cowork">
+          <div class="waitlist">
+            <span class="sticker sticker--tomato" aria-hidden="true">Gratis</span>
+            <form class="waitlist__form" novalidate>
+              <h2 class="h3">Abre la receta completa</h2>
+              <p>Déjanos tu nombre y tu correo y es tuya. ¿Ya eres del club? Pon el correo de siempre y entras directo.</p>
+              <div class="field">
+                <label for="gate-name">Tu nombre</label>
+                <input id="gate-name" name="name" type="text" autocomplete="given-name" placeholder="¿Cómo te llamas?" required maxlength="120">
+              </div>
+              <div class="field">
+                <label for="gate-email">Tu correo</label>
+                <input id="gate-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254">
+              </div>
+              <div class="hp" aria-hidden="true">
+                <label for="gate-company">No llenes este campo</label>
+                <input id="gate-company" name="company" type="text" tabindex="-1" autocomplete="off">
+              </div>
+              <button class="btn btn--block" type="submit">
+                <span class="btn__label">Quiero la receta</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <p class="caption">Cada miércoles te mandamos una receta nueva y las noticias de IA que importan para emprender. Te sales cuando quieras.</p>
+              <p class="waitlist__status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="cta__inner">
+        <span class="sticker sticker--lilac cta__sticker" aria-hidden="true">Tú puedes</span>
+        <h2 id="cta-title" class="display display--inverse">Esto es un spoiler del taller.</h2>
+        <p class="lead lead--inverse">En 2027 hacemos esto, pero con tu app: 8 semanas, en vivo y con otras mujeres que van al mismo paso que tú.</p>
+        <a class="btn" href="/#unirme"><span class="btn__label">Quiero mi lugar</span> <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="/assets/brand/logo-cream.webp" width="180" height="112" alt="El Club de las Emprendedoras" loading="lazy">
+    <p class="footer__by">Un proyecto de Pame y Manu · <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a></p>
+    <p class="caption"><a href="/recetas/">Recetas de Emprendimiento e IA</a> · © 2026 El Club de las Emprendedoras.</p>
+  </footer>
+</body>
+</html>

@@ -80,6 +80,7 @@
   /* Motion: durations, beats and curves. Mirrors the "Club/Motion" component in docs (brand/motion.md).
      Idle loops animate translate/scale, reveals animate transform, tilts own rotate: never mix them. */
   --dur-fade: 300ms;       /* hero art crossfade, quick opacity */
+  --dur-menu: 260ms;       /* nav dropdown opening */
   --dur-reveal-fade: 500ms;
   --dur-reveal: 900ms;     /* drop / rise into place */
   --dur-sort: 1000ms;      /* idea stickers leaving the heap */

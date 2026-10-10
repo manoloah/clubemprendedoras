@@ -6,8 +6,9 @@ An 8-week, live, Spanish-language program where non-technical women turn an idea
 app with AI, then launch it and sell it.
 
 The page has one job: collect name and email for the waitlist (plus optional profile answers).
+Everyone on the waitlist gets a weekly newsletter on Wednesdays at 08:00 (Mexico City).
 
-**Live:** https://clubemprendedoras.vercel.app
+**Live:** https://www.clubdelasemprendedoras.com (also https://clubemprendedoras.vercel.app)
 
 **Figma:** [brand system](https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/Club-de-Emprendedoras?node-id=1-2&m=dev) · [06 · Componentes reutilizables · v2](https://www.figma.com/design/J8iryor1WNwHz7VZTsfuFt/Club-de-Emprendedoras?node-id=47-115&m=dev) (the components the CSS classes mirror)
 
@@ -17,7 +18,9 @@ The page has one job: collect name and email for the waitlist (plus optional pro
 site/                     the landing page (static HTML/CSS/JS, no build step)  → site/README.md
   assets/motion.js        all animation (scroll reveals, ideas heap, hero video loop)
   assets/video/           club-women.mp4, the transparent hero loop (stacked alpha)
-sheets/                   Google Apps Script that writes sign-ups into the Sheet  → sheets/README.md
+  recetas/               Recetas de Emprendimiento e IA: the hub, each receta, recetas.json (recetas.json)  → site/recetas/README.md
+sheets/                   Google Apps Script: writes sign-ups into the Sheet, syncs them to Resend  → sheets/README.md
+newsletter/               weekly newsletter: newsletter.py, email template, issues, weekly routine  → newsletter/README.md
 scripts/
   rank-hero.mjs           ranks hero headline options for our ICP (TypeSafe / Jev)
   hero-video/             rebuilds the hero loop from a source MP4
@@ -41,17 +44,33 @@ or the animated hero falls back to the static image. Safari also won't play the 
 > The waitlist endpoint in `site/assets/config.js` is the live one, so a form submitted
 > locally writes a real row to the Sheet.
 
+## Adding a receta
+
+Recetas are our tutorials, at `/recetas/` ("Recetas de Emprendimiento e IA"). To publish a new one
+(or ask Claude to, with the draft attached):
+
+1. **Copy** `site/recetas/reel-con-claude-cowork/` to `site/recetas/<slug>/` and rewrite it in the
+   club's voice (`brand/voice.md`; no kitchen puns). Update the `<head>` tags, the hero, "Lo que
+   necesitas" (visible to everyone), the steps inside `.receta__locked` (first one `id="paso-1"`)
+   and `data-gate="receta-<slug>"`.
+2. **Hub:** add a card at the top of `.receta-list` in `site/recetas/index.html` (alternate the
+   colour, put a cover image in the phone) and update the "La receta #N llega…" note.
+3. **Newsletter:** append the receta to `site/recetas/recetas.json`.
+4. **Check** the hub and the receta at 393px and 320px, with and without `?utm_source=newsletter`.
+5. **Merge before Tuesday 17:00** (CDMX) so the weekly routine features it on Wednesday.
+
+Step-by-step guide, building blocks and how the signup gate works: `site/recetas/README.md`.
+
 ## Deploy
 
 Hosted on Vercel (project `clubemprendedoras`), linked to this GitHub repo with `site/` as the
 project root. No build step: Vercel serves `site/` as-is.
 
-- Merging to `main` deploys to production at https://clubemprendedoras.vercel.app.
+- Merging to `main` deploys to production at https://www.clubdelasemprendedoras.com (the bare
+  domain redirects to `www`; `clubemprendedoras.vercel.app` still works). DNS is at Porkbun.
 - Every other branch gets its own preview URL. Previews may ask for a Vercel login; production is public.
 - `site/vercel.json` sets cache headers (images and video: 1 day) and basic security headers.
   `site/.vercelignore` keeps the developer README out of the deploy.
-- If the site moves to a custom domain, update `og:url`, `og:image` and the canonical link in
-  `site/index.html`.
 
 ## How it works
 
@@ -69,6 +88,18 @@ project root. No build step: Vercel serves `site/` as-is.
   H.264 file with the colour on the left half and the transparency mask on the right, turned
   into real transparency in a small WebGL canvas, so it looks the same in every browser.
   To regenerate it from a new render: `brand/scripts/hero-video/build.sh path/to/render.mp4`.
+- **Recetas:** `/recetas/` lists our tutorials ("Recetas de Emprendimiento e IA"); each receta
+  shows its intro and ingredients to everyone and asks newcomers for name + email (they join the
+  waitlist) before the steps. Readers coming from the newsletter skip that. Details:
+  `site/recetas/README.md`.
+- **Newsletter:** every Tuesday at 17:00 a Claude routine takes that week's news from the news
+  Sheet (Status SENT or APPROVED), the newest receta in `site/recetas/recetas.json` and
+  the voice in `brand/voice.md`, drafts the issue, sends a test and schedules a Resend Broadcast
+  for Wednesday 08:00. It goes from `hola@clubdelasemprendedoras.com` (replies land in the
+  `info@` Porkbun mailbox) with Resend's unsubscribe link and click tracking through
+  `links.clubdelasemprendedoras.com`. The Apps Script copies new sign-ups to Resend once a day
+  and writes unsubscribes back into the Sheet. The routine stops instead of sending when there's
+  no approved news, no receta, or more than 100 subscribers. Details: `newsletter/README.md`.
 
 ## History
 
@@ -92,8 +123,27 @@ project root. No build step: Vercel serves `site/` as-is.
 - Vercel project linked to the repo; production at https://clubemprendedoras.vercel.app.
 - Absolute `og:image`/`og:url` and a canonical link, so link previews on Instagram and WhatsApp show the image.
 
+**PR #9 · Weekly newsletter**
+- `newsletter/`: picks the news and receta, renders the email in the brand's colours, sends
+  tests (`test`, and `test --broadcast` for a real one-person send) and schedules the Wednesday
+  broadcast. Limit check at 100 subscribers.
+- Apps Script `syncResend()`: daily sync of sign-ups to the Resend segment (first name only,
+  capitalised) and of unsubscribes back to the Sheet. New deployment URL in `config.js`.
+- Domain `clubdelasemprendedoras.com`: site on Vercel, sending and tracking verified in Resend,
+  `hola@` forwarded to the `info@` mailbox.
+- First issue (2026-10-14): welcome to the club, the week's news, the reel receta.
+- A Claude scheduled task drafts and schedules each issue on Tuesdays (`newsletter/ROUTINE.md`).
+
+**PR (next) · Recetas**
+- `/recetas/` hub and the first receta, "Así hicimos el reel de Pame sin editar ni un segundo",
+  with the brand's components and motion, a "Copiar" prompt button and a signup gate.
+- Tutorials renamed to recetas across the newsletter (`newsletter.py receta`, `recetas.json`).
+  Newsletter links to the site carry UTMs that skip the gate.
+
 ## Next
 
 - Test on a real iPhone (the live site passes the iPhone checks in Chrome's and Safari's engines).
-- Custom domain, if wanted (then update the URLs in `site/index.html`).
+- The new domain is a few days old, so the first emails may land in spam: ask readers to reply
+  and mark it "not spam". Consider turning off open tracking in Resend.
+- Archive the old Apps Script deployment ("Registration from site") once this PR is live.
 - Confirm the claims in the copy: "Más de 500 personas", "2 de cada 3 son mujeres", "entre 4 y 6 horas a la semana".

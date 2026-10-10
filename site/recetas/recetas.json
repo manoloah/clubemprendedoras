@@ -1,0 +1,12 @@
+{
+  "recetas": [
+    {
+      "numero": 1,
+      "slug": "reel-con-claude-cowork",
+      "titulo": "Así hicimos el reel de Pame sin editar ni un segundo",
+      "resumen": "Tú grabas con tu celular y Claude Cowork corta, pone subtítulos, anima y exporta. 5 pasos y el prompt listo para copiar.",
+      "fecha": "2026-10-14",
+      "url": "/recetas/reel-con-claude-cowork/"
+    }
+  ]
+}
