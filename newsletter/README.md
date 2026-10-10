@@ -6,7 +6,7 @@ entrepreneurship news, a tutorial from the site, and news about the taller. It g
 unsubscribe tracking are all Resend's.
 
 ```
-Sheet de registros ──(Apps Script syncResend, cada hora)──► Resend · segmento "Club · Newsletter"
+Sheet de registros ──(Apps Script syncResend, diario)──► Resend · segmento "Club · Newsletter"
                                       ▲                               │
               "Desuscrita del newsletter" ◄── unsubscribes ───────────┤
                                                                       ▼

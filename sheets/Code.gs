@@ -198,7 +198,7 @@ function json_(obj) {
 
 /* ---------- Newsletter: sync the Sheet with Resend ----------
  * The weekly newsletter goes out as a Resend Broadcast to one segment.
- * syncResend() runs every hour (installNewsletterTrigger) and:
+ * syncResend() runs once a day, 14:00–15:00 (installNewsletterTrigger), and:
  *   1. adds every email in the Sheet that isn't in the segment yet;
  *   2. writes "Sí" in "Desuscrita del newsletter" for people who clicked
  *      unsubscribe (Resend keeps that flag, the Sheet just mirrors it).
@@ -211,7 +211,9 @@ function installNewsletterTrigger() {
   ScriptApp.getProjectTriggers().forEach(function (t) {
     if (t.getHandlerFunction() === "syncResend") ScriptApp.deleteTrigger(t);
   });
-  ScriptApp.newTrigger("syncResend").timeBased().everyHours(1).create();
+  // Daily, before the Tuesday 17:00 newsletter routine. Not "On change": that
+  // trigger ignores rows written by scripts, and every sign-up is one.
+  ScriptApp.newTrigger("syncResend").timeBased().everyDays(1).atHour(14).create();
 }
 
 function syncResend() {
