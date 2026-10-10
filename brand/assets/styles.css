@@ -444,26 +444,39 @@ ul, ol { padding: 0; list-style: none; }
 .receta-by img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; object-position: top; border: var(--stroke-ui) solid var(--border-default); background: var(--surface-expressive); }
 .receta-by a { font-weight: 500; }
 
-/* Hub cards */
-.receta-grid { display: grid; gap: var(--space-24); }
-.receta-card {
-  position: relative; display: flex; flex-direction: column; gap: var(--space-12);
-  padding: var(--space-24); border: var(--stroke-ui) solid var(--border-default); border-radius: var(--radius-24);
-  box-shadow: var(--shadow-hard); text-decoration: none; color: var(--text-default);
-  transition: transform 160ms ease, box-shadow 160ms ease;
+/* Hub: one big card per receta, newest first, with a cover */
+.receta-list { display: flex; flex-direction: column; gap: var(--space-48); }
+.receta-feature {
+  display: flex; flex-direction: column; gap: var(--space-24); overflow: hidden;
+  padding: var(--space-32) var(--space-24) var(--space-24); text-decoration: none; color: var(--text-default);
+  border: var(--stroke-ui) solid var(--border-default); border-radius: var(--radius-24); box-shadow: var(--shadow-hard);
+  rotate: -0.6deg; transition: transform 160ms ease, box-shadow 160ms ease;
 }
-.receta-grid > li { display: flex; }
-.receta-grid > li > .receta-card { flex: 1; }
-.receta-grid > li:nth-child(odd) .receta-card { rotate: -1deg; }
-.receta-grid > li:nth-child(even) .receta-card { rotate: 1deg; }
-.receta-card--pink { background: var(--brand-secondary); }
-.receta-card--lilac { background: var(--brand-tertiary); }
-.receta-card--butter { background: var(--surface-optimistic); }
-a.receta-card:hover { transform: translateY(-4px); box-shadow: 0 8px 0 0 var(--club-navy); }
-a.receta-card:active { transform: translateY(2px); box-shadow: 0 2px 0 0 var(--club-navy); }
-.receta-card__go { font: var(--type-body-strong); color: var(--text-accent); margin-top: auto; }
-.receta-card--soon { background: transparent; border-style: dashed; box-shadow: none; }
-.receta-card .sticker { position: absolute; right: -6px; top: -18px; rotate: 8deg; font-size: 18px; line-height: 20px; padding: 6px 14px; border-width: 3px; }
+.receta-list > li:nth-child(even) .receta-feature { rotate: 0.6deg; }
+.receta-feature--pink { background: var(--brand-secondary); }
+.receta-feature--lilac { background: var(--brand-tertiary); }
+.receta-feature--butter { background: var(--surface-optimistic); }
+.receta-feature:hover { transform: translateY(-4px); box-shadow: 0 8px 0 0 var(--club-navy); }
+.receta-feature:active { transform: translateY(2px); box-shadow: 0 2px 0 0 var(--club-navy); }
+.receta-feature__copy { display: flex; flex-direction: column; gap: var(--space-16); }
+.receta-feature__go { align-self: flex-start; }
+.receta-cover { position: relative; align-self: center; padding: 0 var(--space-24); }
+.receta-cover__phone { width: 180px; height: 340px; }
+.receta-cover__screen { position: relative; padding: 0; background: var(--surface-inverse); }
+.receta-cover__screen img { width: 100%; height: 100%; object-fit: cover; object-position: center top; background: var(--brand-secondary); }
+.receta-cover__screen::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 45%, rgba(23, 37, 74, 0.75)); }
+.receta-cover__sub {
+  position: absolute; z-index: 1; left: 12px; right: 12px; bottom: 56px; text-align: center;
+  font: 700 19px/1.15 var(--font-body); color: var(--text-inverse);
+}
+.receta-cover__sub em { font: italic 400 22px/1 var(--font-display); background: var(--brand-secondary); color: var(--text-default); padding: 2px 8px; border-radius: var(--radius-pill); }
+.receta-cover__play {
+  position: absolute; z-index: 1; left: 50%; bottom: 16px; translate: -50% 0; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--brand-primary); border: var(--stroke-ui) solid var(--text-inverse);
+}
+.receta-cover__play::after { content: ""; position: absolute; left: 11px; top: 8px; border-style: solid; border-width: 6px 0 6px 9px; border-color: transparent transparent transparent var(--text-inverse); }
+.receta-cover__sticker { position: absolute; right: -4px; top: 28px; rotate: 9deg; font-size: 20px; line-height: 22px; padding: 8px 16px; border-width: 3px; }
+.receta-next { margin-top: var(--space-32); max-width: 300px; }
 
 /* Ingredients */
 .ingredientes {
@@ -539,7 +552,10 @@ a.receta-card:active { transform: translateY(2px); box-shadow: 0 2px 0 0 var(--c
   .recetas-decor--flower { width: 88px; right: 10%; top: 64px; }
   .recetas-decor--heart { width: 96px; right: 16%; bottom: 56px; }
   .recetas-decor--spark { width: 40px; right: 24%; top: 120px; }
-  .receta-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-32); }
+  .receta-feature { flex-direction: row; align-items: center; gap: var(--space-48); padding: var(--space-48); max-width: 980px; }
+  .receta-list > li:nth-child(even) .receta-feature { flex-direction: row-reverse; }
+  .receta-cover__phone { width: 220px; height: 420px; }
+  .receta-cover__sub { font-size: 22px; bottom: 64px; }
   .receta-intro { display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: start; max-width: none; gap: var(--space-48); }
   .frases { grid-template-columns: 1fr 1fr; }
   .bubbles { max-width: 560px; }
@@ -685,7 +701,8 @@ a.receta-card:active { transform: translateY(2px); box-shadow: 0 2px 0 0 var(--c
   .recetas-decor, .receta-ojo img { animation: club-breathe var(--dur-breathe) var(--ease-soft) infinite; }
   .recetas-decor--heart { animation-delay: -1.2s; }
   .recetas-decor--spark { animation-duration: var(--dur-breathe-fast); animation-delay: -0.6s; }
-  .receta-card .sticker, .gate .sticker { animation: club-bob var(--dur-bob-sticker) var(--ease-soft) infinite; }
+  .gate .sticker, .receta-cover__sticker { animation: club-bob var(--dur-bob-sticker) var(--ease-soft) infinite; }
+  .receta-cover__phone { animation: club-bob var(--dur-bob-phone) var(--ease-soft) infinite; }
   .paso__num { animation: club-breathe var(--dur-breathe) var(--ease-soft) infinite; }
   .paso:nth-child(2) .paso__num { animation-delay: -0.6s; }
   .paso:nth-child(3) .paso__num { animation-delay: -1.2s; }

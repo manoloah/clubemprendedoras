@@ -8,7 +8,7 @@ clases reales, es [`index.html`](index.html).
 |---|---|---|---|
 | `Club/Logo` | Color = Tomato · Navy · Cream | `assets/brand/logo-{tomato,navy,cream}.webp` | — |
 | `Club/Nav` | — | `.nav` + `.btn--sm` | logo + **Unirme** |
-| *Club/Menu* (aún no en Figma) | Closed · Open | `.menu` (`<details data-menu>`) + `.menu__panel`, `.menu__item--feature` | Menú → Recetas de Emprendimiento y IA · El taller · Quiénes somos · Preguntas |
+| *Club/Menu* (aún no en Figma) | Closed · Open | `.menu` (`<details data-menu>`) + `.menu__panel`, `.menu__item--feature` | Menú → Recetas de Emprendimiento y IA (única opción) |
 | `Club/Button` | Style = Primary · Secondary; State = Default · Pressed | `.btn`, `.btn--sm`, `.btn--block` | **Quiero mi lugar →** |
 | `Club/Kicker` | Tone = Tomato · Navy · Cream | `.kicker--tomato / --navy / --cream` | Waitlist abierta · Taller 2027 |
 | `Club/Input` | State = Default · Focus · Filled · Error | `.field` (`:focus`, `aria-invalid`) | Tu correo · tu@correo.com |
@@ -23,7 +23,7 @@ clases reales, es [`index.html`](index.html).
 | `Club/Graphic/*`, `Club/Sticker Art/*` | — | `assets/brand/*`, `assets/img/*` | — |
 | `Club/Illustration/Community` | square · tall (· wide) | `assets/img/community-*.webp`, `assets/img/club-women.webp` | — |
 | Fotos de fondo (02B, 02D, 03B) y post-it (03C) | — | `assets/img/photo-*.webp` | Apoyo entre hermanas · Tú también puedes |
-| *Recetas* (aún no en Figma) | Card · Ingredientes · Paso · Frase · Prompt · Bubble · Gate | `.receta-card--{pink,lilac,butter,soon}`, `.ingredientes` + `.check-list`, `.paso` + `.paso__num`, `.frase`, `.prompt` + `[data-copy]`, `.bubble`, `.gate` | Receta #1 · Abre la receta completa · Quiero la receta → |
+| *Recetas* (aún no en Figma) | Card · Ingredientes · Paso · Frase · Prompt · Bubble · Gate | `.receta-feature--{pink,lilac,butter}` + `.receta-cover` (portada en `.phone`), `.ingredientes` + `.check-list`, `.paso` + `.paso__num`, `.frase`, `.prompt` + `[data-copy]`, `.bubble`, `.gate` | Receta #1 · Abre la receta completa · Quiero la receta → |
 | **`Club/Motion`** | Breathe · Bob · Hop · Ring · Reveal · Sort | tokens `--dur-*`, `--ease-*`, `--stagger-*` + bloque Motion de `styles.css` + `motion.js` | ver [motion.md](motion.md) |
 
 ## Composición
