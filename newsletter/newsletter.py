@@ -123,7 +123,7 @@ def sent_log():
 
 
 def fetch_tutorials():
-    site = env("SITE_URL", "https://clubemprendedoras.vercel.app").rstrip("/")
+    site = env("SITE_URL", "https://www.clubdelasemprendedoras.com").rstrip("/")
     try:
         with urllib.request.urlopen(f"{site}/tutoriales/tutoriales.json", timeout=20) as r:
             data, source = json.load(r), "site"
@@ -325,7 +325,7 @@ def broadcast_test(resend, meta, page, to):
         r = resend.Broadcasts.create({
             "segment_id": seg,
             "from": env("NEWSLETTER_FROM", required=True),
-            "subject": "[PRUEBA] " + meta.get("subject", ""),
+            "subject": meta.get("subject", ""),  # real subject: this test is about the inbox placement
             "html": page,
             "name": "Prueba " + meta.get("subject", ""),
             "send": True,

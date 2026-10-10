@@ -2,7 +2,7 @@
 
 One folder per tutorial (`site/tutoriales/<slug>/index.html`) and one entry in
 `tutoriales.json`. The weekly newsletter reads the live
-`https://clubemprendedoras.vercel.app/tutoriales/tutoriales.json` and features the newest
+`https://www.clubdelasemprendedoras.com/tutoriales/tutoriales.json` and features the newest
 entry it hasn't sent yet (`newsletter/sent.json`).
 
 ```json
