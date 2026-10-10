@@ -90,7 +90,7 @@ Sin ser técnica · Con IA · Tú puedes · Hola, somos Pame y Manu
 - Éxito garantizado, "hazte rica", "crush the competition". Nada de presión, clichés ni promesas vacías.
 - "Si no puedes es porque no quieres."
 - Jerga técnica sin explicar (API, backend, deploy, stack).
-- "Tutorial": son **recetas** (ingredientes, pasos, prompt listo para copiar).
+- "Tutorial": son **recetas** (lo que necesitas, pasos, prompt listo para copiar). El nombre es "receta", pero el copy no juega con la cocina (nada de ingredientes, hornear o probaditas): tono más Gen Z, directo ("dale play", "cero rollo", "spoiler").
 - "Curso" para lo que ofrecemos: es un **taller** en vivo y en grupo (la frase "No es otro curso…" es la excepción, por contraste).
 - Mayúsculas gritonas y signos de exclamación en cadena. Un "¡" por pantalla es suficiente.
 

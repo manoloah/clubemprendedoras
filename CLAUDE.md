@@ -43,6 +43,17 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 - **Cache busting:** `index.html` loads `tokens.css?v=N`, `styles.css?v=N`, `app.js?v=N`, `config.js?v=N` and `motion.js?v=N`. Bump N whenever you change that file, or returning visitors keep the old one.
 - **Keep it static:** no frameworks or bundlers in `site/`. Images are WebP; keep the page light.
 
+## Creating a receta
+
+Follow `site/recetas/README.md` ("Creating a new receta"). The checklist:
+
+- Copy rewritten in the club's voice from the user's draft: keep every fact, link and number, explain or drop jargon, **no kitchen puns** (no ingredientes/hornear/probadita/cocina; Gen Z and direct instead), no hype.
+- New folder `site/recetas/<slug>/` copied from `reel-con-claude-cowork/`: head tags, hero, `.ingredientes` ("Lo que necesitas", public), steps in `.receta__locked` with the first `id="paso-1"`, `data-gate="receta-<slug>"`. Reuse the existing building blocks (`.check-list`, `.frases`, `.prompt` + `data-copy`, `.bubbles`, `.note`, `.receta-ojo`) before adding CSS.
+- Hub card at the top of `.receta-list` (alternate pink/lilac/butter, cover in `.receta-cover`), and update the "La receta #N llega…" note.
+- Entry appended to `site/recetas/recetas.json` (the newsletter reads it).
+- Test at 393 and 320 (plus 1280), gated and with `?utm_source=newsletter`; stub `fetch` before submitting the gate.
+- Merge before the Tuesday 17:00 routine. The menu stays one option (the hub) until the user adds more.
+
 ## Recetas gate
 
 - An inline script in each receta's `<head>` adds `html.is-gated` before paint unless the URL has `utm_source=newsletter` or `localStorage.club_receta_ok === "1"` (set by the gate, by a landing sign-up, or by a newsletter visit). Gated content is `.receta__locked` (blurred, clipped) with the `.gate` signup card over it.

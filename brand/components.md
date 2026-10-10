@@ -23,7 +23,7 @@ clases reales, es [`index.html`](index.html).
 | `Club/Graphic/*`, `Club/Sticker Art/*` | — | `assets/brand/*`, `assets/img/*` | — |
 | `Club/Illustration/Community` | square · tall (· wide) | `assets/img/community-*.webp`, `assets/img/club-women.webp` | — |
 | Fotos de fondo (02B, 02D, 03B) y post-it (03C) | — | `assets/img/photo-*.webp` | Apoyo entre hermanas · Tú también puedes |
-| *Recetas* (aún no en Figma) | Card · Ingredientes · Paso · Frase · Prompt · Bubble · Gate | `.receta-feature--{pink,lilac,butter}` + `.receta-cover` (portada en `.phone`), `.ingredientes` + `.check-list`, `.paso` + `.paso__num`, `.frase`, `.prompt` + `[data-copy]`, `.bubble`, `.gate` | Receta #1 · Abre la receta completa · Quiero la receta → |
+| *Recetas* (aún no en Figma) | Card · Lo que necesitas · Paso · Frase · Prompt · Bubble · Gate | `.receta-feature--{pink,lilac,butter}` + `.receta-cover` (portada en `.phone`), `.ingredientes` + `.check-list`, `.paso` + `.paso__num`, `.frase`, `.prompt` + `[data-copy]`, `.bubble`, `.gate` | Receta #1 · Abre la receta completa · Quiero la receta → |
 | **`Club/Motion`** | Breathe · Bob · Hop · Ring · Reveal · Sort | tokens `--dur-*`, `--ease-*`, `--stagger-*` + bloque Motion de `styles.css` + `motion.js` | ver [motion.md](motion.md) |
 
 ## Composición
@@ -35,7 +35,7 @@ clases reales, es [`index.html`](index.html).
 - **Formulario**: el nombre y el correo van primero; lo demás es el paso 2, opcional (un modal estilo Typeform, una pregunta por pantalla).
 - **Secciones**: alternan fondo (hero rosa → banda navy → crema → lila → crema → rosa → crema → mantequilla → cierre tomato → footer) y cada una abre con un kicker inclinado.
 
-- **Recetas** (`site/recetas/`): hero mantequilla o rosa, "Ingredientes" en tarjeta blanca, pasos con número en círculo inclinado (tomato/lila alternando), el prompt en bloque navy con barra rosa y botón **Copiar**, y el cierre tomato hacia la waitlist. Lo que queda detrás del registro va en `.receta__locked`.
+- **Recetas** (`site/recetas/`): hero mantequilla o rosa, "Lo que necesitas" en tarjeta blanca (clase `.ingredientes`), pasos con número en círculo inclinado (tomato/lila alternando), el prompt en bloque navy con barra rosa y botón **Copiar**, y el cierre tomato hacia la waitlist. Lo que queda detrás del registro va en `.receta__locked`.
 
 ## Pendiente en Figma
 

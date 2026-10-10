@@ -44,6 +44,23 @@ or the animated hero falls back to the static image. Safari also won't play the 
 > The waitlist endpoint in `site/assets/config.js` is the live one, so a form submitted
 > locally writes a real row to the Sheet.
 
+## Adding a receta
+
+Recetas are our tutorials, at `/recetas/` ("Recetas de Emprendimiento e IA"). To publish a new one
+(or ask Claude to, with the draft attached):
+
+1. **Copy** `site/recetas/reel-con-claude-cowork/` to `site/recetas/<slug>/` and rewrite it in the
+   club's voice (`brand/voice.md`; no kitchen puns). Update the `<head>` tags, the hero, "Lo que
+   necesitas" (visible to everyone), the steps inside `.receta__locked` (first one `id="paso-1"`)
+   and `data-gate="receta-<slug>"`.
+2. **Hub:** add a card at the top of `.receta-list` in `site/recetas/index.html` (alternate the
+   colour, put a cover image in the phone) and update the "La receta #N llega…" note.
+3. **Newsletter:** append the receta to `site/recetas/recetas.json`.
+4. **Check** the hub and the receta at 393px and 320px, with and without `?utm_source=newsletter`.
+5. **Merge before Tuesday 17:00** (CDMX) so the weekly routine features it on Wednesday.
+
+Step-by-step guide, building blocks and how the signup gate works: `site/recetas/README.md`.
+
 ## Deploy
 
 Hosted on Vercel (project `clubemprendedoras`), linked to this GitHub repo with `site/` as the
