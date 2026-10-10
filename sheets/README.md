@@ -47,3 +47,17 @@ Don't rename headers in the Sheet without updating `COLUMNS`, or the script will
 - A hidden honeypot field drops simple bots; at most 30 saves per minute site-wide.
 - Next step if spam shows up: Cloudflare Turnstile, verified in `doPost` with a secret in
   Script Properties.
+
+## Newsletter sync (Resend)
+
+`syncResend()` copies every sign-up into the Resend segment the weekly newsletter goes to, and
+mirrors unsubscribes back into a **Desuscrita del newsletter** column (Resend owns that flag;
+the sync never re-subscribes anyone). The process is described in `newsletter/README.md`.
+
+1. **Configuración del proyecto ⚙️ → Propiedades de la secuencia de comandos**:
+   - `RESEND_API_KEY`: a **Full access** key (a "Sending access" key can't manage contacts).
+   - `RESEND_SEGMENT_ID`: from `python newsletter/newsletter.py setup --create`.
+2. Paste the new `Code.gs`, save, choose `syncResend` in the toolbar and **Ejecutar** once
+   (authorize the external request). Check the log says `added N`.
+3. Choose `installNewsletterTrigger` and **Ejecutar**. From then on it syncs every hour.
+4. Redeploy the web app (new version, same `/exec` URL) so `doPost` ignores the new column.

@@ -46,11 +46,13 @@ const COLUMNS = {
   utm_campaign: "utm_campaign",
   utm_content: "utm_content",
   referrer: "referrer",
+  // Written by syncResend() below, never by the page:
+  desuscrita: "Desuscrita del newsletter",
 };
 
 // Keys the page may send. Anything else is ignored.
 const ALLOWED_KEYS = Object.keys(COLUMNS).filter(function (k) {
-  return k !== "created_at" && k !== "updated_at";
+  return k !== "created_at" && k !== "updated_at" && k !== "desuscrita";
 });
 
 const MAX_LEN = 1000;
@@ -192,4 +194,84 @@ function clean_(value) {
 
 function json_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+/* ---------- Newsletter: sync the Sheet with Resend ----------
+ * The weekly newsletter goes out as a Resend Broadcast to one segment.
+ * syncResend() runs every hour (installNewsletterTrigger) and:
+ *   1. adds every email in the Sheet that isn't in the segment yet;
+ *   2. writes "Sí" in "Desuscrita del newsletter" for people who clicked
+ *      unsubscribe (Resend keeps that flag, the Sheet just mirrors it).
+ * It never sets `unsubscribed`, so a sync can't re-subscribe anyone.
+ * Needs Script Properties RESEND_API_KEY (full access) and RESEND_SEGMENT_ID.
+ */
+const RESEND_MAX_ADDS_PER_RUN = 150;
+
+function installNewsletterTrigger() {
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === "syncResend") ScriptApp.deleteTrigger(t);
+  });
+  ScriptApp.newTrigger("syncResend").timeBased().everyHours(1).create();
+}
+
+function syncResend() {
+  const props = PropertiesService.getScriptProperties();
+  const key = props.getProperty("RESEND_API_KEY");
+  const segment = props.getProperty("RESEND_SEGMENT_ID");
+  if (!key || !segment) throw new Error("Set RESEND_API_KEY and RESEND_SEGMENT_ID in Script Properties");
+
+  const inSegment = {}; // email -> unsubscribed
+  let after = "";
+  do {
+    const page = resend_(key, "get", "/segments/" + segment + "/contacts?limit=100" + (after ? "&after=" + after : ""));
+    (page.data || []).forEach(function (c) { inSegment[String(c.email).toLowerCase()] = !!c.unsubscribed; });
+    after = page.has_more && page.data.length ? page.data[page.data.length - 1].id : "";
+  } while (after);
+
+  const sheet = getSheet_();
+  const colOf = ensureHeaders_(sheet, ["email", "nombre", "desuscrita"]);
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 2) return;
+  const width = sheet.getLastColumn();
+  const rows = sheet.getRange(2, 1, lastRow - 1, width).getValues();
+
+  let added = 0;
+  const flags = rows.map(function (r) {
+    const email = String(r[colOf.email - 1]).trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return [r[colOf.desuscrita - 1]];
+    if (!(email in inSegment) && added < RESEND_MAX_ADDS_PER_RUN) {
+      addContact_(key, segment, email, String(r[colOf.nombre - 1]).trim().split(/\s+/)[0]);
+      inSegment[email] = false;
+      added++;
+    }
+    return [inSegment[email] ? "Sí" : ""];
+  });
+  sheet.getRange(2, colOf.desuscrita, flags.length, 1).setValues(flags);
+  console.log("syncResend: added " + added + ", segment size " + Object.keys(inSegment).length);
+}
+
+function addContact_(key, segment, email, firstName) {
+  const body = { email: email, segments: [{ id: segment }] };
+  if (firstName) body.first_name = firstName;
+  try {
+    resend_(key, "post", "/contacts", body);
+  } catch (err) {
+    // Already a contact (e.g. in another segment): just add it to ours.
+    resend_(key, "post", "/contacts/" + encodeURIComponent(email) + "/segments/" + segment);
+  }
+}
+
+function resend_(key, method, path, body) {
+  Utilities.sleep(250); // stay under Resend's per-second rate limit
+  const res = UrlFetchApp.fetch("https://api.resend.com" + path, {
+    method: method,
+    contentType: "application/json",
+    headers: { Authorization: "Bearer " + key },
+    payload: body ? JSON.stringify(body) : undefined,
+    muteHttpExceptions: true,
+  });
+  const code = res.getResponseCode();
+  const text = res.getContentText();
+  if (code >= 300) throw new Error("Resend " + method.toUpperCase() + " " + path + " → " + code + " " + text);
+  return text ? JSON.parse(text) : {};
 }

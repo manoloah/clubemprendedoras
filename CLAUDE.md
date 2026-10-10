@@ -17,6 +17,7 @@ node scripts/rank-hero.mjs                               # score hero copy; need
 brand/scripts/hero-video/build.sh path/to/render.mp4           # rebuild brand/assets/video/club-women.mp4 and copy it to site/
 OUT=/tmp/test.mp4 brand/scripts/hero-video/build.sh render.mp4 # same, without touching the repo files
 scripts/sync-brand.sh --check                            # is brand/ in step with site/? (drop --check to copy)
+.venv/bin/python newsletter/newsletter.py news           # newsletter: this week's news (see newsletter/README.md)
 ```
 
 No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (see Workflow).
@@ -30,6 +31,7 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 - `site/assets/motion.js`: every animation, plus the hero video's WebGL compositing.
 - `site/assets/config.js`: Apps Script `/exec` endpoint. Public by design.
 - `brand/`: the brand system (`voice.md`, `foundations.md`, `components.md`, `motion.md`) and a living style guide, `brand/index.html`, rendered with its own copy of the CSS/JS. Not deployed. It is a self-contained, copy-paste folder (`brand/assets/` holds tokens, styles, motion.js, logos, images and the hero video). `site/` is the source for the shared files: after changing `site/assets/{tokens.css,styles.css,motion.js}` or its `brand/`, `img/` or `video/` files, run `scripts/sync-brand.sh`. Preview: `.claude/launch.json` "brand" (port 4180, serves `brand/`). Keep the docs in step when copy, tokens or components change.
+- `newsletter/`: weekly Wednesday 08:00 newsletter via Resend Broadcasts (`newsletter.py`, issues in `newsletter/issues/`, the routine in `ROUTINE.md`, process in `README.md`). Tutorials it features are listed in `site/tutoriales/tutoriales.json`. Secrets in `.env`; Python deps in `.venv`.
 - `sheets/Code.gs`: the Apps Script. It isn't deployed from here; it gets pasted into the Sheet (see `sheets/README.md`).
 
 ## Conventions
@@ -72,7 +74,8 @@ Durations, staggers and curves are tokens in `tokens.css` (`--dur-*`, `--stagger
 ## Waitlist backend
 
 - Field names (`name`, `email`, honeypot `company`, profile fields in the modal) must match `COLUMNS` in `sheets/Code.gs`. Change both together, and remember the script has to be redeployed in Apps Script (new version, same `/exec` URL).
-- The endpoint can only add a row or fill empty cells, and it never returns data. Spam fallback if needed: Cloudflare Turnstile.
+- The endpoint can only add a row or fill empty cells, and it never returns data.
+- `syncResend()` (hourly trigger) pushes sign-ups to the Resend newsletter segment and mirrors unsubscribes into "Desuscrita del newsletter". Never send `unsubscribed: false` to Resend: that would re-subscribe people. Spam fallback if needed: Cloudflare Turnstile.
 
 ## Workflow
 
