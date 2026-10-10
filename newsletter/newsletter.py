@@ -23,6 +23,7 @@ import os
 import re
 import subprocess
 import sys
+import time as time_module
 import urllib.error
 import urllib.request
 from datetime import date, datetime, time, timedelta
@@ -301,6 +302,8 @@ def cmd_test(a):
     meta, page, out = build(a.issue)
     resend = resend_client()
     to = a.to or env("NEWSLETTER_TEST_TO", required=True)
+    if a.broadcast:
+        return broadcast_test(resend, meta, page, to)
     r = resend.Emails.send({
         "from": env("NEWSLETTER_FROM", required=True),
         "to": to,
@@ -309,6 +312,32 @@ def cmd_test(a):
         "html": for_test(page),
     })
     print(f"Prueba enviada a {to} (id {r['id']}). Cuenta para el límite diario de transaccionales.")
+
+
+def broadcast_test(resend, meta, page, to):
+    """Real broadcast to a throwaway one-person segment: checks the name and unsubscribe link."""
+    seg = resend.Segments.create({"name": f"Prueba {datetime.now(TZ):%Y-%m-%d %H:%M}"})["id"]
+    try:
+        try:
+            resend.Contacts.create({"email": to, "segments": [{"id": seg}]})
+        except Exception:  # already a contact: just add it to the test segment
+            resend.Contacts.Segments.add({"email": to, "segment_id": seg})
+        r = resend.Broadcasts.create({
+            "segment_id": seg,
+            "from": env("NEWSLETTER_FROM", required=True),
+            "subject": "[PRUEBA] " + meta.get("subject", ""),
+            "html": page,
+            "name": "Prueba " + meta.get("subject", ""),
+            "send": True,
+        })
+        for _ in range(36):  # wait until Resend has sent it before removing the segment
+            time_module.sleep(5)
+            if resend.Broadcasts.get(r["id"]).get("status") == "sent":
+                break
+        print(f"Broadcast de prueba enviado a {to} (id {r['id']}).")
+        print("Ojo: si das clic en 'Ya no quiero recibir estos correos', te desuscribe de verdad.")
+    finally:
+        resend.Segments.remove(seg)
 
 
 def cmd_schedule(a):
@@ -379,7 +408,9 @@ def main():
     sub.add_parser("tutorial").set_defaults(fn=cmd_tutorial)
     sub.add_parser("audience").set_defaults(fn=cmd_audience)
     p = sub.add_parser("build"); p.add_argument("issue"); p.set_defaults(fn=cmd_build)
-    p = sub.add_parser("test"); p.add_argument("issue"); p.add_argument("--to"); p.set_defaults(fn=cmd_test)
+    p = sub.add_parser("test"); p.add_argument("issue"); p.add_argument("--to")
+    p.add_argument("--broadcast", action="store_true", help="envío real (nombre y desuscripción funcionan)")
+    p.set_defaults(fn=cmd_test)
     p = sub.add_parser("schedule")
     p.add_argument("issue")
     p.add_argument("--at", help="YYYY-MM-DDTHH:MM en hora de CDMX (default: próximo miércoles 8:00)")
