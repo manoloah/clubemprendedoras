@@ -18,7 +18,7 @@ Everyone on the waitlist gets a weekly newsletter on Wednesdays at 08:00 (Mexico
 site/                     the landing page (static HTML/CSS/JS, no build step)  → site/README.md
   assets/motion.js        all animation (scroll reveals, ideas heap, hero video loop)
   assets/video/           club-women.mp4, the transparent hero loop (stacked alpha)
-  tutoriales/             tutorials featured in the newsletter (tutoriales.json)  → site/tutoriales/README.md
+  recetas/               Recetas de Emprendimiento y IA: the hub, each receta, recetas.json (recetas.json)  → site/recetas/README.md
 sheets/                   Google Apps Script: writes sign-ups into the Sheet, syncs them to Resend  → sheets/README.md
 newsletter/               weekly newsletter: newsletter.py, email template, issues, weekly routine  → newsletter/README.md
 scripts/
@@ -71,14 +71,18 @@ project root. No build step: Vercel serves `site/` as-is.
   H.264 file with the colour on the left half and the transparency mask on the right, turned
   into real transparency in a small WebGL canvas, so it looks the same in every browser.
   To regenerate it from a new render: `brand/scripts/hero-video/build.sh path/to/render.mp4`.
+- **Recetas:** `/recetas/` lists our tutorials ("Recetas de Emprendimiento y IA"); each receta
+  shows its intro and ingredients to everyone and asks newcomers for name + email (they join the
+  waitlist) before the steps. Readers coming from the newsletter skip that. Details:
+  `site/recetas/README.md`.
 - **Newsletter:** every Tuesday at 17:00 a Claude routine takes that week's news from the news
-  Sheet (Status SENT or APPROVED), the newest tutorial in `site/tutoriales/tutoriales.json` and
+  Sheet (Status SENT or APPROVED), the newest receta in `site/recetas/recetas.json` and
   the voice in `brand/voice.md`, drafts the issue, sends a test and schedules a Resend Broadcast
   for Wednesday 08:00. It goes from `hola@clubdelasemprendedoras.com` (replies land in the
   `info@` Porkbun mailbox) with Resend's unsubscribe link and click tracking through
   `links.clubdelasemprendedoras.com`. The Apps Script copies new sign-ups to Resend once a day
   and writes unsubscribes back into the Sheet. The routine stops instead of sending when there's
-  no approved news, no tutorial, or more than 100 subscribers. Details: `newsletter/README.md`.
+  no approved news, no receta, or more than 100 subscribers. Details: `newsletter/README.md`.
 
 ## History
 
@@ -103,15 +107,21 @@ project root. No build step: Vercel serves `site/` as-is.
 - Absolute `og:image`/`og:url` and a canonical link, so link previews on Instagram and WhatsApp show the image.
 
 **PR #9 · Weekly newsletter**
-- `newsletter/`: picks the news and tutorial, renders the email in the brand's colours, sends
+- `newsletter/`: picks the news and receta, renders the email in the brand's colours, sends
   tests (`test`, and `test --broadcast` for a real one-person send) and schedules the Wednesday
   broadcast. Limit check at 100 subscribers.
 - Apps Script `syncResend()`: daily sync of sign-ups to the Resend segment (first name only,
   capitalised) and of unsubscribes back to the Sheet. New deployment URL in `config.js`.
 - Domain `clubdelasemprendedoras.com`: site on Vercel, sending and tracking verified in Resend,
   `hola@` forwarded to the `info@` mailbox.
-- First issue (2026-10-14): welcome to the club, the week's news, the reel tutorial.
+- First issue (2026-10-14): welcome to the club, the week's news, the reel receta.
 - A Claude scheduled task drafts and schedules each issue on Tuesdays (`newsletter/ROUTINE.md`).
+
+**PR (next) · Recetas**
+- `/recetas/` hub and the first receta, "Así hicimos el reel de Pame sin editar ni un segundo",
+  with the brand's components and motion, a "Copiar" prompt button and a signup gate.
+- Tutorials renamed to recetas across the newsletter (`newsletter.py receta`, `recetas.json`).
+  Newsletter links to the site carry UTMs that skip the gate.
 
 ## Next
 

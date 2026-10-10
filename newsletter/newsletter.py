@@ -3,7 +3,7 @@
 Newsletter semanal del Club de las Emprendedoras (Resend Broadcasts).
 
     python newsletter/newsletter.py news                 # noticias aprobadas de esta semana
-    python newsletter/newsletter.py tutorial             # tutorial nuevo en el sitio
+    python newsletter/newsletter.py receta               # receta nueva en el sitio
     python newsletter/newsletter.py audience             # suscritas / desuscritas (+ aviso del límite)
     python newsletter/newsletter.py build   ISSUE.md     # genera newsletter/build/ISSUE.html
     python newsletter/newsletter.py test    ISSUE.md     # manda una prueba a NEWSLETTER_TEST_TO
@@ -35,7 +35,7 @@ HERE = ROOT / "newsletter"
 BUILD = HERE / "build"
 SENT_LOG = HERE / "sent.json"
 TEMPLATE = HERE / "template.html"
-LOCAL_TUTORIALS = ROOT / "site" / "tutoriales" / "tutoriales.json"
+LOCAL_RECETAS = ROOT / "site" / "recetas" / "recetas.json"
 
 TZ = ZoneInfo("America/Mexico_City")
 SEND_TIME = time(8, 0)
@@ -116,29 +116,29 @@ def fetch_news(today):
     return picks[-1] if picks else None
 
 
-# ---------- tutorials ----------
+# ---------- recetas ----------
 
 def sent_log():
     return json.loads(SENT_LOG.read_text()) if SENT_LOG.exists() else []
 
 
-def fetch_tutorials():
+def fetch_recetas():
     site = env("SITE_URL", "https://www.clubdelasemprendedoras.com").rstrip("/")
     try:
-        with urllib.request.urlopen(f"{site}/tutoriales/tutoriales.json", timeout=20) as r:
+        with urllib.request.urlopen(f"{site}/recetas/recetas.json", timeout=20) as r:
             data, source = json.load(r), "site"
     except (urllib.error.URLError, json.JSONDecodeError):
-        data, source = json.loads(LOCAL_TUTORIALS.read_text()), "local"
-    items = data.get("tutoriales", [])
+        data, source = json.loads(LOCAL_RECETAS.read_text()), "local"
+    items = data.get("recetas", [])
     for t in items:
         if t.get("url", "").startswith("/"):
             t["url"] = site + t["url"]
     return items, source
 
 
-def new_tutorial():
-    used = {e.get("tutorial_url") for e in sent_log()}
-    items, source = fetch_tutorials()
+def new_receta():
+    used = {e.get("receta_url") for e in sent_log()}
+    items, source = fetch_recetas()
     fresh = [t for t in items if t.get("url") and t["url"] not in used]
     fresh.sort(key=lambda t: t.get("fecha", ""))
     return (fresh[-1] if fresh else None), source
@@ -241,12 +241,27 @@ def md_to_html(md):
     return "\n".join(out)
 
 
+def add_utm(page, campaign):
+    """Tags links to our own site. utm_source=newsletter is also what opens a receta
+    without the signup gate (see site/assets/recetas.js)."""
+    def tag(m):
+        url = m[1]
+        if "utm_source=" in url:
+            return m[0]
+        base, _, frag = url.partition("#")
+        sep = "&amp;" if "?" in base else "?"
+        base += f"{sep}utm_source=newsletter&amp;utm_medium=email&amp;utm_campaign={campaign}"
+        return f'href="{base}{"#" + frag if frag else ""}"'
+    return re.sub(r'href="(https://(?:www\.)?clubdelasemprendedoras\.com[^"]*)"', tag, page)
+
+
 def build(path):
     meta, body = read_issue(path)
     page = TEMPLATE.read_text()
     page = page.replace("{{SUBJECT}}", html.escape(meta.get("subject", "")))
     page = page.replace("{{PREHEADER}}", html.escape(meta.get("preheader", "")))
     page = page.replace("{{BODY}}", md_to_html(body))
+    page = add_utm(page, Path(path).stem)
     BUILD.mkdir(exist_ok=True)
     out = BUILD / (Path(path).stem + ".html")
     out.write_text(page)
@@ -279,10 +294,10 @@ def cmd_news(a):
     print(json.dumps(pick, ensure_ascii=False, indent=2))
 
 
-def cmd_tutorial(a):
-    t, source = new_tutorial()
+def cmd_receta(a):
+    t, source = new_receta()
     if not t:
-        notify("Newsletter", "Todavía no hay un tutorial nuevo en el sitio (tutoriales.json).")
+        notify("Newsletter", "Todavía no hay una receta nueva en el sitio (recetas.json).")
         sys.exit(1)
     print(json.dumps({**t, "source": source}, ensure_ascii=False, indent=2))
 
@@ -376,7 +391,7 @@ def cmd_schedule(a):
         "scheduled_at": when.isoformat(),
         "recipients": len(active),
         "news_date": meta.get("news_date", ""),
-        "tutorial_url": meta.get("tutorial_url", ""),
+        "receta_url": meta.get("receta_url", ""),
     })
     SENT_LOG.write_text(json.dumps(log, ensure_ascii=False, indent=2) + "\n")
     print(f"Programado: {r['id']} para {when:%A %d %b %H:%M} CDMX.")
@@ -405,7 +420,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("news"); p.add_argument("--date"); p.set_defaults(fn=cmd_news)
-    sub.add_parser("tutorial").set_defaults(fn=cmd_tutorial)
+    sub.add_parser("receta").set_defaults(fn=cmd_receta)
     sub.add_parser("audience").set_defaults(fn=cmd_audience)
     p = sub.add_parser("build"); p.add_argument("issue"); p.set_defaults(fn=cmd_build)
     p = sub.add_parser("test"); p.add_argument("issue"); p.add_argument("--to")

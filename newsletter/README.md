@@ -1,7 +1,7 @@
 # Newsletter semanal · Miércoles de IA
 
 Every **Wednesday at 08:00 (CDMX)** the waitlist gets an email with that week's AI and
-entrepreneurship news, a tutorial from the site, and news about the taller. It goes out as a
+entrepreneurship news, a receta from the site (our tutorials), and news about the taller. It goes out as a
 **Resend Broadcast**, so the unsubscribe link, the `List-Unsubscribe` header and the
 unsubscribe tracking are all Resend's.
 
@@ -11,7 +11,7 @@ Sheet de registros ──(Apps Script syncResend, diario)──► Resend · seg
               "Desuscrita del newsletter" ◄── unsubscribes ───────────┤
                                                                       ▼
 Sheet de noticias (SENT/APPROVED) ─┐                           Broadcast miércoles 8:00
-site/tutoriales/tutoriales.json ───┼─► rutina del martes 17:00 ─► newsletter/issues/<fecha>.md
+site/recetas/recetas.json ───┼─► rutina del martes 17:00 ─► newsletter/issues/<fecha>.md
 brand/voice.md ────────────────────┘     (ROUTINE.md)              + correo de prueba
 ```
 
@@ -20,12 +20,12 @@ brand/voice.md ────────────────────┘  
 | When | Who | What |
 |---|---|---|
 | Mon | Pame/Manu | News in the [news Sheet](https://docs.google.com/spreadsheets/d/1TB4WNIQhHSeBrLXEUQ5gi-CJRdBDxaXErudeUspcIyg/edit), Status `SENT` (went out on WhatsApp) or `APPROVED`. |
-| Mon–Tue | Manu | Tutorial published on the site and added to `site/tutoriales/tutoriales.json`. |
+| Mon–Tue | Manu | Receta published on the site and added to `site/recetas/recetas.json`. |
 | Tue 17:00 | Routine | Drafts the issue in our voice, sends a test, schedules it for Wed 08:00 ([ROUTINE.md](ROUTINE.md)). |
 | Tue evening | Pame/Manu | Read the test email. To stop it: `newsletter.py cancel <id>` or cancel it in Resend. |
 | Wed 08:00 | Resend | Sends to every subscribed contact. |
 
-The routine stops and says why when there's no approved news, when the tutorial is missing
+The routine stops and says why when there's no approved news, when the receta is missing
 (it drafts but doesn't schedule), or when there are more subscribers than the daily limit.
 
 ## Commands
@@ -33,7 +33,7 @@ The routine stops and says why when there's no approved news, when the tutorial 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r newsletter/requirements.txt   # once
 .venv/bin/python newsletter/newsletter.py news          # this week's approved news
-.venv/bin/python newsletter/newsletter.py tutorial      # newest tutorial not sent yet
+.venv/bin/python newsletter/newsletter.py receta        # newest receta not sent yet
 .venv/bin/python newsletter/newsletter.py audience      # subscribed / unsubscribed counts
 .venv/bin/python newsletter/newsletter.py build newsletter/issues/2026-10-14.md
 .venv/bin/python newsletter/newsletter.py test newsletter/issues/2026-10-14.md
@@ -50,7 +50,7 @@ contacts. Check your plan's real limits at resend.com/settings/usage before rais
 
 Markdown with a front matter block. Supported: paragraphs, `## títulos`, `- listas`,
 `1. listas`, `> nota rosa`, `**negritas**`, `[links](https://…)`, `---`, and one button per
-line: `[Ver el tutorial →](https://…){boton}`. Personalization: `{{{contact.first_name|emprendedora}}}`.
+line: `[Ver la receta →](https://…){boton}`. Personalization: `{{{contact.first_name|emprendedora}}}`.
 
 ## Setup (once)
 

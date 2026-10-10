@@ -83,13 +83,14 @@ Sin ser técnica · Con IA · Tú puedes · Hola, somos Pame y Manu
 
 ## Vocabulario
 
-**Sí:** ideas, juntas, apoyo, comunidad, crecimiento, libertad, taller, club, waitlist, "tu app", "a tu medida".
+**Sí:** recetas (así llamamos a los tutoriales: "Recetas de Emprendimiento y IA"), ideas, juntas, apoyo, comunidad, crecimiento, libertad, taller, club, waitlist, "tu app", "a tu medida".
 
 **Evitar:**
 
 - Éxito garantizado, "hazte rica", "crush the competition". Nada de presión, clichés ni promesas vacías.
 - "Si no puedes es porque no quieres."
 - Jerga técnica sin explicar (API, backend, deploy, stack).
+- "Tutorial": son **recetas** (ingredientes, pasos, prompt listo para copiar).
 - "Curso" para lo que ofrecemos: es un **taller** en vivo y en grupo (la frase "No es otro curso…" es la excepción, por contraste).
 - Mayúsculas gritonas y signos de exclamación en cadena. Un "¡" por pantalla es suficiente.
 

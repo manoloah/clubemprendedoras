@@ -197,6 +197,15 @@
     [".perk", "up"],
     [".faq__item", "up"],
     [".cta__inner > *", "up"],
+    [".recetas-hero__inner > *, .receta-hero__inner > *", "up"],
+    [".receta-card", "drop"],
+    [".ingredientes, .receta-why", "up"],
+    [".gate", "up"],
+    [".paso__head, .paso > p, .paso > ol, .paso > ul", "up"],
+    [".frase", "drop"],
+    [".prompt", "up"],
+    [".bubble", "up"],
+    [".receta-done > *", "up"],
     [".footer > *", "up"],
   ];
   const seen = new Set();

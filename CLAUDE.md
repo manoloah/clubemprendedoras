@@ -30,8 +30,9 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 - `site/assets/app.js`: waitlist form (validation, honeypot, UTM capture, success state, step-2 profile modal).
 - `site/assets/motion.js`: every animation, plus the hero video's WebGL compositing.
 - `site/assets/config.js`: Apps Script `/exec` endpoint. Public by design.
+- `site/recetas/`: "Recetas de Emprendimiento y IA" (our tutorials; never call them tutoriales in copy). Hub `index.html`, one folder per receta, `recetas.json` for the newsletter. Pages use absolute `/assets/...` paths. `site/assets/recetas.js` runs the signup gate and "Copiar" buttons. How to add one: `site/recetas/README.md`.
 - `brand/`: the brand system (`voice.md`, `foundations.md`, `components.md`, `motion.md`) and a living style guide, `brand/index.html`, rendered with its own copy of the CSS/JS. Not deployed. It is a self-contained, copy-paste folder (`brand/assets/` holds tokens, styles, motion.js, logos, images and the hero video). `site/` is the source for the shared files: after changing `site/assets/{tokens.css,styles.css,motion.js}` or its `brand/`, `img/` or `video/` files, run `scripts/sync-brand.sh`. Preview: `.claude/launch.json` "brand" (port 4180, serves `brand/`). Keep the docs in step when copy, tokens or components change.
-- `newsletter/`: weekly Wednesday 08:00 newsletter via Resend Broadcasts (`newsletter.py`, issues in `newsletter/issues/`, the routine in `ROUTINE.md`, process in `README.md`). Tutorials it features are listed in `site/tutoriales/tutoriales.json`. Secrets in `.env`; Python deps in `.venv`.
+- `newsletter/`: weekly Wednesday 08:00 newsletter via Resend Broadcasts (`newsletter.py`, issues in `newsletter/issues/`, the routine in `ROUTINE.md`, process in `README.md`). The recetas (our name for tutorials) it features are listed in `site/recetas/recetas.json`. Secrets in `.env`; Python deps in `.venv`.
 - `sheets/Code.gs`: the Apps Script. It isn't deployed from here; it gets pasted into the Sheet (see `sheets/README.md`).
 
 ## Conventions
@@ -40,6 +41,13 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 - **Design:** class names map 1:1 to Figma components (table in `site/README.md`). Nothing is perfectly straight: tilts use the CSS `rotate` property (`.tilt-l`, `.tilt-r`, per-element `rotate:`).
 - **Cache busting:** `index.html` loads `tokens.css?v=N`, `styles.css?v=N`, `app.js?v=N`, `config.js?v=N` and `motion.js?v=N`. Bump N whenever you change that file, or returning visitors keep the old one.
 - **Keep it static:** no frameworks or bundlers in `site/`. Images are WebP; keep the page light.
+
+## Recetas gate
+
+- An inline script in each receta's `<head>` adds `html.is-gated` before paint unless the URL has `utm_source=newsletter` or `localStorage.club_receta_ok === "1"` (set by the gate, by a landing sign-up, or by a newsletter visit). Gated content is `.receta__locked` (blurred, clipped) with the `.gate` signup card over it.
+- The gate posts the same payload as the waitlist (`nombre`, `email`, `source: receta-<slug>`, UTMs) to the Apps Script. Members re-enter their email to unlock: the Sheet dedups and never overwrites. Don't add an "is this email on the list?" endpoint; the backend never returns data.
+- `newsletter.py build` appends `utm_source=newsletter&utm_medium=email&utm_campaign=<issue>` to every link to our domain, which is what skips the gate.
+- Testing the gate locally posts to the live Sheet. Stub `window.fetch` in the page first.
 
 ## Motion rules (learned the hard way)
 

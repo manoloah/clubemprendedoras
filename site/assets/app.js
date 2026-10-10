@@ -278,6 +278,8 @@
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({ event: "waitlist_signup", source: config.source });
         if (typeof window.fbq === "function") window.fbq("track", "Lead");
+        // She's in the club now: the recetas open without their signup gate.
+        try { localStorage.setItem("club_receta_ok", "1"); } catch (_) { /* private mode */ }
         const firstName = name.split(" ")[0];
         const success = showSuccess(form, firstName);
         openProfile(email, firstName, success);
