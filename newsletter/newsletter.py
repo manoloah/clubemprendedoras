@@ -356,6 +356,8 @@ def broadcast_test(resend, meta, page, to):
 
 
 def cmd_schedule(a):
+    if any(e.get("issue") == Path(a.issue).name for e in sent_log()):
+        sys.exit(f"{Path(a.issue).name} ya se envió (newsletter/sent.json). Crea un issue nuevo.")
     meta, page, out = build(a.issue)
     missing = sorted(set(PLACEHOLDER.findall(page)))
     if missing and not a.force:

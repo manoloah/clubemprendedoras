@@ -16,7 +16,8 @@ Run every command from the repo root with `.venv/bin/python`. Never print or com
    site's `recetas.json` that hasn't gone out yet. If it exits 1, draft anyway with the
    `[[RECETA_TITULO]]`, `[[RECETA_RESUMEN]]`, `[[RECETA_URL]]` markers, **don't
    schedule**, and report "Falta la receta de la semana".
-4. **Draft** `newsletter/issues/<YYYY-MM-DD>.md`. If that file already exists (written by hand),
+4. **Draft** `newsletter/issues/<YYYY-MM-DD>.md`. If that issue is already in `newsletter/sent.json`, it went out
+   early: name the new one `<YYYY-MM-DD>-b.md`. If the file exists and wasn't sent (written by hand),
    don't rewrite it: only fill the `[[RECETA_*]]` markers and `receta_url`. Otherwise copy the structure of the most recent
    issue in that folder (front matter: `subject`, `preheader`, `news_date`, `receta_url`):
    - Read `brand/voice.md` first and follow it: Mexican Spanish, *tú*, written to women,
