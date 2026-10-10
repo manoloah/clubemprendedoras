@@ -8,6 +8,7 @@ clases reales, es [`index.html`](index.html).
 |---|---|---|---|
 | `Club/Logo` | Color = Tomato · Navy · Cream | `assets/brand/logo-{tomato,navy,cream}.webp` | — |
 | `Club/Nav` | — | `.nav` + `.btn--sm` | logo + **Unirme** |
+| *Club/Menu* (aún no en Figma) | Closed · Open | `.menu` (`<details data-menu>`) + `.menu__panel`, `.menu__item--feature` | Menú → Recetas de Emprendimiento y IA · El taller · Quiénes somos · Preguntas |
 | `Club/Button` | Style = Primary · Secondary; State = Default · Pressed | `.btn`, `.btn--sm`, `.btn--block` | **Quiero mi lugar →** |
 | `Club/Kicker` | Tone = Tomato · Navy · Cream | `.kicker--tomato / --navy / --cream` | Waitlist abierta · Taller 2027 |
 | `Club/Input` | State = Default · Focus · Filled · Error | `.field` (`:focus`, `aria-invalid`) | Tu correo · tu@correo.com |

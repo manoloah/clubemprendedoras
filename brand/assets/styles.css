@@ -117,6 +117,34 @@ ul, ol { padding: 0; list-style: none; }
 }
 .nav.is-scrolled { box-shadow: 0 2px 0 0 var(--border-default); }
 .nav__logo img { width: 96px; }
+.nav__actions { display: flex; align-items: center; gap: var(--space-8); }
+
+/* ---------- Club/Menu: dropdown in the nav ---------- */
+.menu__toggle {
+  display: inline-flex; align-items: center; gap: var(--space-8); cursor: pointer; list-style: none;
+  font: var(--type-label); font-size: 15px; padding: 9px 14px; border-radius: var(--radius-pill);
+  border: var(--stroke-ui) solid var(--border-default); background: var(--surface-default); color: var(--text-default);
+  -webkit-tap-highlight-color: transparent;
+}
+.menu__toggle::-webkit-details-marker { display: none; }
+.menu__icon { position: relative; width: 16px; height: 2px; background: currentColor; border-radius: 2px; box-shadow: 0 -5px 0 currentColor, 0 5px 0 currentColor; }
+.menu[open] .menu__toggle { background: var(--surface-inverse); color: var(--text-inverse); }
+.menu[open] .menu__icon { background: transparent; box-shadow: none; }
+.menu[open] .menu__icon::before, .menu[open] .menu__icon::after { content: ""; position: absolute; inset: 0; background: currentColor; border-radius: 2px; rotate: 45deg; }
+.menu[open] .menu__icon::after { rotate: -45deg; }
+/* The panel hangs from the nav (not the button) so it never runs off a narrow screen. */
+.menu__panel {
+  position: absolute; top: calc(100% + 6px); left: var(--space-16); right: var(--space-16);
+  display: flex; flex-direction: column; gap: 2px; padding: var(--space-8);
+  background: var(--surface-default); border: var(--stroke-ui) solid var(--border-default); border-radius: var(--radius-24);
+  box-shadow: var(--shadow-hard); rotate: 0.6deg;
+}
+.menu__item { display: block; padding: 12px 14px; border-radius: var(--radius-16); text-decoration: none; font: var(--type-body-strong); }
+.menu__item:hover, .menu__item[aria-current="page"] { background: var(--field-surface); }
+.menu__item--feature { display: flex; flex-direction: column; gap: 4px; background: var(--brand-secondary); margin-bottom: 4px; }
+.menu__item--feature:hover, .menu__item--feature[aria-current="page"] { background: var(--brand-secondary); box-shadow: inset 0 0 0 2px var(--border-default); }
+.menu__item--feature strong { font: var(--type-h3); font-size: 20px; line-height: 24px; }
+.menu__item--feature small { font: var(--type-caption); opacity: 0.8; }
 
 /* ---------- 01 Hero ---------- */
 .hero { background: var(--surface-expressive); overflow: hidden; }
@@ -527,6 +555,7 @@ a.receta-card:active { transform: translateY(2px); box-shadow: 0 2px 0 0 var(--c
   }
   .nav { padding: var(--space-16) max(var(--space-48), calc((100vw - var(--content-max)) / 2 + var(--gutter))); }
   .nav__logo img { width: 120px; }
+  .menu__panel { left: auto; right: max(var(--space-48), calc((100vw - var(--content-max)) / 2 + var(--gutter))); width: 360px; }
   .hero__inner {
     max-width: var(--content-max); margin: 0 auto;
     display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto auto auto 1fr auto; column-gap: var(--space-48); row-gap: var(--space-16);
@@ -662,6 +691,8 @@ a.receta-card:active { transform: translateY(2px); box-shadow: 0 2px 0 0 var(--c
   .paso:nth-child(3) .paso__num { animation-delay: -1.2s; }
   .paso:nth-child(4) .paso__num { animation-delay: -1.8s; }
   .paso:nth-child(5) .paso__num { animation-delay: -2.4s; }
+  .menu[open] .menu__panel { animation: menu-in var(--dur-menu) var(--ease-pop) both; }
+  @keyframes menu-in { from { opacity: 0; transform: translateY(-10px); } }
   .receta__locked.is-unlocked { animation: receta-unlock var(--dur-reveal) var(--ease-pop) both; }
   @keyframes receta-unlock { from { opacity: 0; transform: translateY(24px); } }
 }

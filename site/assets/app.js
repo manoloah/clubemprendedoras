@@ -11,6 +11,16 @@
     window.addEventListener("scroll", onScroll, { passive: true });
   }
 
+  // Nav menu (<details>): close on a tap outside, on Escape and after picking a link.
+  const menu = document.querySelector("[data-menu]");
+  if (menu) {
+    document.addEventListener("click", (e) => { if (menu.open && !menu.contains(e.target)) menu.open = false; });
+    menu.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && menu.open) { menu.open = false; menu.querySelector("summary").focus(); }
+    });
+    menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => { menu.open = false; }));
+  }
+
   // Keep campaign data so we know which post or ad brought each signup.
   const params = new URLSearchParams(location.search);
   const attribution = {};

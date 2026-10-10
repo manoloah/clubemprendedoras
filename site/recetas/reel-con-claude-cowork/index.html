@@ -34,10 +34,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap">
 
-  <link rel="stylesheet" href="/assets/tokens.css?v=2">
-  <link rel="stylesheet" href="/assets/styles.css?v=10">
+  <link rel="stylesheet" href="/assets/tokens.css?v=3">
+  <link rel="stylesheet" href="/assets/styles.css?v=11">
   <script src="/assets/config.js?v=4"></script>
-  <script src="/assets/recetas.js?v=1" defer></script>
+  <script src="/assets/recetas.js?v=2" defer></script>
   <script src="/assets/motion.js?v=10" defer></script>
 </head>
 <body class="receta-page">
@@ -47,7 +47,19 @@
     <a class="nav__logo" href="/" aria-label="El Club de las Emprendedoras, inicio">
       <img src="/assets/brand/logo-tomato.webp" width="104" height="65" alt="El Club de las Emprendedoras">
     </a>
-    <a class="btn btn--sm" href="/recetas/">Más recetas</a>
+    <div class="nav__actions">
+      <details class="menu" data-menu>
+        <summary class="menu__toggle"><span>Menú</span><span class="menu__icon" aria-hidden="true"></span></summary>
+        <nav class="menu__panel" aria-label="Secciones">
+          <a class="menu__item menu__item--feature" href="/recetas/"><span class="kicker kicker--tomato">Nuevo</span><strong>Recetas de Emprendimiento y IA</strong><small>Pasos cortitos para hacer algo real con IA</small></a>
+          <a class="menu__item" href="/recetas/reel-con-claude-cowork/" aria-current="page">Receta #1 · Tu reel sin editar</a>
+          <a class="menu__item" href="/#taller">El taller, paso a paso</a>
+          <a class="menu__item" href="/#quienes">Quiénes somos</a>
+          <a class="menu__item" href="/#faq">Preguntas frecuentes</a>
+        </nav>
+      </details>
+      <a class="btn btn--sm" href="/#unirme">Unirme</a>
+    </div>
   </header>
 
   <main>
