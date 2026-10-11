@@ -2,6 +2,7 @@
 """
 Newsletter semanal del Club de las Emprendedoras (Resend Broadcasts).
 
+    python newsletter/newsletter.py check                # ¿hay noticias y receta nuevas? (exit 2 si falta algo)
     python newsletter/newsletter.py news                 # noticias aprobadas de esta semana
     python newsletter/newsletter.py receta               # receta nueva en el sitio
     python newsletter/newsletter.py audience             # suscritas / desuscritas (+ aviso del límite)
@@ -48,6 +49,7 @@ NEWS_WINDOW_DAYS = 10  # a row counts as "this week's" if dated within this many
 OK_STATUS = re.compile(r"^\s*(SENT|ENVIADA|ENVIADO|APPROV|APROB)", re.I)
 PLACEHOLDER = re.compile(r"\[\[[A-Z_]+\]\]")
 EXIT_OVER_LIMIT = 3
+EXIT_MISSING = 2
 
 
 # ---------- config ----------
@@ -100,6 +102,7 @@ def parse_day(s):
 
 
 def fetch_news(today):
+    sent_days = {e.get("news_date") for e in sent_log()}
     with urllib.request.urlopen(NEWS_SHEET_CSV, timeout=30) as r:
         rows = list(csv.DictReader(io.StringIO(r.read().decode("utf-8"))))
     picks = []
@@ -109,6 +112,8 @@ def fetch_news(today):
         if not day or not OK_STATUS.match(status):
             continue
         if not (today - timedelta(days=NEWS_WINDOW_DAYS) < day <= today):
+            continue
+        if day.isoformat() in sent_days:  # already went out in an earlier issue
             continue
         text = (row.get("Manu's improved version") or "").strip() or (row.get("Noticia") or "").strip()
         text = "\n".join(l for l in text.splitlines() if not l.strip().upper().startswith("APPROVE AI NEWS"))
@@ -288,11 +293,31 @@ def next_send_at(now=None):
 
 # ---------- commands ----------
 
+def cmd_check(a):
+    """Is everything ready for Wednesday? Exit 0 if so, EXIT_MISSING if not (prints JSON)."""
+    today = date.fromisoformat(a.date) if a.date else datetime.now(TZ).date()
+    news = fetch_news(today)
+    receta, _ = new_receta()
+    missing = []
+    if not news:
+        missing.append("noticias")
+    if not receta:
+        missing.append("receta")
+    print(json.dumps({
+        "para_el_miercoles": next_send_at().date().isoformat(),
+        "noticias": {"ok": bool(news), "fecha": news and news["date"], "status": news and news["status"]},
+        "receta": {"ok": bool(receta), "titulo": receta and receta.get("titulo"), "url": receta and receta.get("url")},
+        "falta": missing,
+    }, ensure_ascii=False, indent=2))
+    if missing:
+        sys.exit(EXIT_MISSING)
+
+
 def cmd_news(a):
     today = date.fromisoformat(a.date) if a.date else datetime.now(TZ).date()
     pick = fetch_news(today)
     if not pick:
-        notify("Newsletter", f"No hay noticias aprobadas o enviadas por WhatsApp en los últimos {NEWS_WINDOW_DAYS} días.")
+        notify("Newsletter", f"No hay noticias nuevas (SENT/APPROVED, sin enviar) en los últimos {NEWS_WINDOW_DAYS} días.")
         sys.exit(1)
     print(json.dumps(pick, ensure_ascii=False, indent=2))
 
@@ -424,6 +449,7 @@ def main():
     load_env()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
+    p = sub.add_parser("check"); p.add_argument("--date"); p.set_defaults(fn=cmd_check)
     p = sub.add_parser("news"); p.add_argument("--date"); p.set_defaults(fn=cmd_news)
     sub.add_parser("receta").set_defaults(fn=cmd_receta)
     sub.add_parser("audience").set_defaults(fn=cmd_audience)
