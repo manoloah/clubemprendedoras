@@ -129,6 +129,26 @@ def sent_log():
     return json.loads(SENT_LOG.read_text()) if SENT_LOG.exists() else []
 
 
+def reconcile_sent_log():
+    """Drops broadcasts that were canceled in the Resend dashboard (not via `cancel`), so their
+    news and receta count as unused again. Only checks the last 3 weeks, to keep API calls low."""
+    log = sent_log()
+    if not log or not os.environ.get("RESEND_API_KEY"):
+        return
+    resend = resend_client()
+    cutoff = datetime.now(TZ) - timedelta(days=21)
+    keep = []
+    for e in log:
+        if datetime.fromisoformat(e["scheduled_at"]) >= cutoff:
+            status = (resend.Broadcasts.get(e["broadcast_id"]).get("status") or "").lower()
+            if status in ("canceled", "cancelled", "draft"):
+                print(f"{e['issue']}: el broadcast se canceló en Resend, se quita de sent.json.")
+                continue
+        keep.append(e)
+    if len(keep) != len(log):
+        SENT_LOG.write_text(json.dumps(keep, ensure_ascii=False, indent=2) + "\n")
+
+
 def fetch_recetas():
     site = env("SITE_URL", "https://www.clubdelasemprendedoras.com").rstrip("/")
     try:
@@ -295,6 +315,7 @@ def next_send_at(now=None):
 # ---------- commands ----------
 
 def cmd_check(a):
+    reconcile_sent_log()
     """Is everything ready for Wednesday? Exit 0 if so, EXIT_MISSING if not (prints JSON)."""
     today = date.fromisoformat(a.date) if a.date else datetime.now(TZ).date()
     news = fetch_news(today)
@@ -315,6 +336,7 @@ def cmd_check(a):
 
 
 def cmd_news(a):
+    reconcile_sent_log()
     today = date.fromisoformat(a.date) if a.date else datetime.now(TZ).date()
     pick = fetch_news(today)
     if not pick:
@@ -324,6 +346,7 @@ def cmd_news(a):
 
 
 def cmd_receta(a):
+    reconcile_sent_log()
     t, source = new_receta()
     if not t:
         notify("Newsletter", "Todavía no hay una receta nueva en el sitio (recetas.json).")
@@ -385,6 +408,7 @@ def broadcast_test(resend, meta, page, to):
 
 
 def cmd_schedule(a):
+    reconcile_sent_log()
     if any(e.get("issue") == Path(a.issue).name for e in sent_log()):
         sys.exit(f"{Path(a.issue).name} ya se envió (newsletter/sent.json). Crea un issue nuevo.")
     meta, page, out = build(a.issue)

@@ -23,7 +23,7 @@ brand/voice.md ────────────────────┘  
 | Mon–Tue | Manu | Receta published on the site and added to `site/recetas/recetas.json`. |
 | Mon 12:00 | Reminder | Runs `newsletter.py check`; if news or the receta is missing, posts in Slack `#general`. |
 | Tue 17:00 | Routine | Drafts the issue in our voice, sends a test, schedules it for Wed 08:00 ([ROUTINE.md](ROUTINE.md)). |
-| Tue evening | Pame/Manu | Read the test email. To stop it: `newsletter.py cancel <id>` or cancel it in Resend. |
+| Tue evening | Pame/Manu | Read the test email. To stop it: `newsletter.py cancel <id>` or cancel it in Resend (the script notices a dashboard cancel and frees that issue's news and receta). |
 | Wed 08:00 | Resend | Sends to every subscribed contact. |
 
 The routine never sends an incomplete newsletter. If there's no new approved news (one that
