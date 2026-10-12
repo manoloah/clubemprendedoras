@@ -21,23 +21,28 @@ brand/voice.md ────────────────────┘  
 |---|---|---|
 | Mon | Pame/Manu | News in the [news Sheet](https://docs.google.com/spreadsheets/d/1TB4WNIQhHSeBrLXEUQ5gi-CJRdBDxaXErudeUspcIyg/edit), Status `SENT` (went out on WhatsApp) or `APPROVED`. |
 | Mon–Tue | Manu | Receta published on the site and added to `site/recetas/recetas.json`. |
+| Mon 12:00 | Reminder | Runs `newsletter.py check`; if news or the receta is missing, posts in Slack `#general`. |
 | Tue 17:00 | Routine | Drafts the issue in our voice, sends a test, schedules it for Wed 08:00 ([ROUTINE.md](ROUTINE.md)). |
-| Tue evening | Pame/Manu | Read the test email. To stop it: `newsletter.py cancel <id>` or cancel it in Resend. |
+| Tue evening | Pame/Manu | Read the test email. To stop it: `newsletter.py cancel <id>` or cancel it in Resend (the script notices a dashboard cancel and frees that issue's news and receta). |
 | Wed 08:00 | Resend | Sends to every subscribed contact. |
 
-The routine stops and says why when there's no approved news, when the receta is missing
-(it drafts but doesn't schedule), or when there are more subscribers than the daily limit.
+The routine never sends an incomplete newsletter. If there's no new approved news (one that
+wasn't in an earlier issue) or no new receta, it stops before drafting and posts what's missing
+in Slack `#general`. It also stops and posts there when subscribers pass the daily limit.
+Once the missing piece is in, press **Run now** on the scheduled task (or ask Claude).
 
 ## Commands
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r newsletter/requirements.txt   # once
-.venv/bin/python newsletter/newsletter.py news          # this week's approved news
+.venv/bin/python newsletter/newsletter.py check         # is there new news + a new receta? (exit 2 = missing)
+.venv/bin/python newsletter/newsletter.py news          # this week's approved news (skips news already sent)
 .venv/bin/python newsletter/newsletter.py receta        # newest receta not sent yet
 .venv/bin/python newsletter/newsletter.py audience      # subscribed / unsubscribed counts
 .venv/bin/python newsletter/newsletter.py build newsletter/issues/2026-10-14.md
 .venv/bin/python newsletter/newsletter.py test newsletter/issues/2026-10-14.md
 .venv/bin/python newsletter/newsletter.py schedule newsletter/issues/2026-10-14.md [--dry-run]
+.venv/bin/python newsletter/newsletter.py stats           # refresh sent/delivered/opened/clicked in sent.json
 .venv/bin/python newsletter/newsletter.py cancel <broadcast_id>
 ```
 

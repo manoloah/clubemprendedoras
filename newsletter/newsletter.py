@@ -2,12 +2,14 @@
 """
 Newsletter semanal del Club de las Emprendedoras (Resend Broadcasts).
 
+    python newsletter/newsletter.py check                # ¿hay noticias y receta nuevas? (exit 2 si falta algo)
     python newsletter/newsletter.py news                 # noticias aprobadas de esta semana
     python newsletter/newsletter.py receta               # receta nueva en el sitio
     python newsletter/newsletter.py audience             # suscritas / desuscritas (+ aviso del límite)
     python newsletter/newsletter.py build   ISSUE.md     # genera newsletter/build/ISSUE.html
     python newsletter/newsletter.py test    ISSUE.md     # manda una prueba a NEWSLETTER_TEST_TO
     python newsletter/newsletter.py schedule ISSUE.md    # programa el broadcast (miércoles 8:00 CDMX)
+    python newsletter/newsletter.py stats  [BROADCAST_ID] # guarda las métricas en sent.json
     python newsletter/newsletter.py cancel  BROADCAST_ID # cancela uno programado
     python newsletter/newsletter.py setup                # crea el segmento en Resend (una vez)
 
@@ -25,6 +27,7 @@ import subprocess
 import sys
 import time as time_module
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import date, datetime, time, timedelta
 from pathlib import Path
@@ -47,6 +50,7 @@ NEWS_WINDOW_DAYS = 10  # a row counts as "this week's" if dated within this many
 OK_STATUS = re.compile(r"^\s*(SENT|ENVIADA|ENVIADO|APPROV|APROB)", re.I)
 PLACEHOLDER = re.compile(r"\[\[[A-Z_]+\]\]")
 EXIT_OVER_LIMIT = 3
+EXIT_MISSING = 2
 
 
 # ---------- config ----------
@@ -99,6 +103,7 @@ def parse_day(s):
 
 
 def fetch_news(today):
+    sent_days = {e.get("news_date") for e in sent_log()}
     with urllib.request.urlopen(NEWS_SHEET_CSV, timeout=30) as r:
         rows = list(csv.DictReader(io.StringIO(r.read().decode("utf-8"))))
     picks = []
@@ -108,6 +113,8 @@ def fetch_news(today):
         if not day or not OK_STATUS.match(status):
             continue
         if not (today - timedelta(days=NEWS_WINDOW_DAYS) < day <= today):
+            continue
+        if day.isoformat() in sent_days:  # already went out in an earlier issue
             continue
         text = (row.get("Manu's improved version") or "").strip() or (row.get("Noticia") or "").strip()
         text = "\n".join(l for l in text.splitlines() if not l.strip().upper().startswith("APPROVE AI NEWS"))
@@ -120,6 +127,26 @@ def fetch_news(today):
 
 def sent_log():
     return json.loads(SENT_LOG.read_text()) if SENT_LOG.exists() else []
+
+
+def reconcile_sent_log():
+    """Drops broadcasts that were canceled in the Resend dashboard (not via `cancel`), so their
+    news and receta count as unused again. Only checks the last 3 weeks, to keep API calls low."""
+    log = sent_log()
+    if not log or not os.environ.get("RESEND_API_KEY"):
+        return
+    resend = resend_client()
+    cutoff = datetime.now(TZ) - timedelta(days=21)
+    keep = []
+    for e in log:
+        if datetime.fromisoformat(e["scheduled_at"]) >= cutoff:
+            status = (resend.Broadcasts.get(e["broadcast_id"]).get("status") or "").lower()
+            if status in ("canceled", "cancelled", "draft"):
+                print(f"{e['issue']}: el broadcast se canceló en Resend, se quita de sent.json.")
+                continue
+        keep.append(e)
+    if len(keep) != len(log):
+        SENT_LOG.write_text(json.dumps(keep, ensure_ascii=False, indent=2) + "\n")
 
 
 def fetch_recetas():
@@ -137,9 +164,11 @@ def fetch_recetas():
 
 
 def new_receta():
-    used = {e.get("receta_url") for e in sent_log()}
+    # Compare paths, not full URLs: SITE_URL may point at another host (e.g. vercel.app).
+    path = lambda u: urllib.parse.urlsplit(u or "").path.rstrip("/")
+    used = {path(e.get("receta_url")) for e in sent_log()}
     items, source = fetch_recetas()
-    fresh = [t for t in items if t.get("url") and t["url"] not in used]
+    fresh = [t for t in items if t.get("url") and path(t["url"]) not in used]
     fresh.sort(key=lambda t: t.get("fecha", ""))
     return (fresh[-1] if fresh else None), source
 
@@ -285,16 +314,39 @@ def next_send_at(now=None):
 
 # ---------- commands ----------
 
+def cmd_check(a):
+    reconcile_sent_log()
+    """Is everything ready for Wednesday? Exit 0 if so, EXIT_MISSING if not (prints JSON)."""
+    today = date.fromisoformat(a.date) if a.date else datetime.now(TZ).date()
+    news = fetch_news(today)
+    receta, _ = new_receta()
+    missing = []
+    if not news:
+        missing.append("noticias")
+    if not receta:
+        missing.append("receta")
+    print(json.dumps({
+        "para_el_miercoles": next_send_at().date().isoformat(),
+        "noticias": {"ok": bool(news), "fecha": news and news["date"], "status": news and news["status"]},
+        "receta": {"ok": bool(receta), "titulo": receta and receta.get("titulo"), "url": receta and receta.get("url")},
+        "falta": missing,
+    }, ensure_ascii=False, indent=2))
+    if missing:
+        sys.exit(EXIT_MISSING)
+
+
 def cmd_news(a):
+    reconcile_sent_log()
     today = date.fromisoformat(a.date) if a.date else datetime.now(TZ).date()
     pick = fetch_news(today)
     if not pick:
-        notify("Newsletter", f"No hay noticias aprobadas o enviadas por WhatsApp en los últimos {NEWS_WINDOW_DAYS} días.")
+        notify("Newsletter", f"No hay noticias nuevas (SENT/APPROVED, sin enviar) en los últimos {NEWS_WINDOW_DAYS} días.")
         sys.exit(1)
     print(json.dumps(pick, ensure_ascii=False, indent=2))
 
 
 def cmd_receta(a):
+    reconcile_sent_log()
     t, source = new_receta()
     if not t:
         notify("Newsletter", "Todavía no hay una receta nueva en el sitio (recetas.json).")
@@ -356,6 +408,9 @@ def broadcast_test(resend, meta, page, to):
 
 
 def cmd_schedule(a):
+    reconcile_sent_log()
+    if any(e.get("issue") == Path(a.issue).name for e in sent_log()):
+        sys.exit(f"{Path(a.issue).name} ya se envió (newsletter/sent.json). Crea un issue nuevo.")
     meta, page, out = build(a.issue)
     missing = sorted(set(PLACEHOLDER.findall(page)))
     if missing and not a.force:
@@ -398,6 +453,42 @@ def cmd_schedule(a):
     print("Para cancelarlo: python newsletter/newsletter.py cancel " + r["id"])
 
 
+def cmd_stats(a):
+    """Pulls each sent broadcast's numbers from Resend and saves them in sent.json."""
+    resend = resend_client()
+    log = sent_log()
+    for e in log:
+        if a.broadcast_id and e.get("broadcast_id") != a.broadcast_id:
+            continue
+        bid = e["broadcast_id"]
+
+        def count(kind):
+            total, after = 0, None
+            while True:
+                params = {"type": kind, "limit": 100, **({"after": after} if after else {})}
+                page = resend.Broadcasts.recipients(bid, params)
+                rows = page.get("data", [])
+                total += len(rows)
+                if not page.get("has_more") or not rows:
+                    return total
+                after = rows[-1]["id"]
+
+        stats = {k: count(k) for k in ("sent", "delivered", "opened", "clicked", "bounced", "complained", "unsubscribed")}
+        try:
+            links = resend.Broadcasts.clicked_links(bid, {}).get("data", [])
+            stats["links"] = [{"url": l["url"].split("?")[0], "clicks": l["clicks"], "unique": l["unique_clicks"]} for l in links]
+        except Exception:  # older SDKs / plans without click data
+            pass
+        stats["as_of"] = datetime.now(TZ).isoformat(timespec="minutes")
+        e["stats"] = stats
+        d = max(stats["delivered"], 1)
+        print(f"{e['issue']}: {stats['delivered']}/{stats['sent']} entregados · "
+              f"{stats['opened']} abiertos ({stats['opened'] * 100 // d}%) · "
+              f"{stats['clicked']} con clic ({stats['clicked'] * 100 // d}%) · "
+              f"{stats['bounced']} rebotes · {stats['unsubscribed']} bajas · {stats['complained']} spam")
+    SENT_LOG.write_text(json.dumps(log, ensure_ascii=False, indent=2) + "\n")
+
+
 def cmd_cancel(a):
     resend = resend_client()
     resend.Broadcasts.cancel(a.broadcast_id)
@@ -419,6 +510,7 @@ def main():
     load_env()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
+    p = sub.add_parser("check"); p.add_argument("--date"); p.set_defaults(fn=cmd_check)
     p = sub.add_parser("news"); p.add_argument("--date"); p.set_defaults(fn=cmd_news)
     sub.add_parser("receta").set_defaults(fn=cmd_receta)
     sub.add_parser("audience").set_defaults(fn=cmd_audience)
@@ -433,6 +525,7 @@ def main():
     p.add_argument("--force", action="store_true", help="programar aunque queden marcadores [[...]]")
     p.add_argument("--dry-run", action="store_true")
     p.set_defaults(fn=cmd_schedule)
+    p = sub.add_parser("stats"); p.add_argument("broadcast_id", nargs="?"); p.set_defaults(fn=cmd_stats)
     p = sub.add_parser("cancel"); p.add_argument("broadcast_id"); p.set_defaults(fn=cmd_cancel)
     p = sub.add_parser("setup"); p.add_argument("--create", action="store_true"); p.set_defaults(fn=cmd_setup)
     a = ap.parse_args()

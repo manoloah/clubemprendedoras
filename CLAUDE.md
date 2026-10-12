@@ -104,6 +104,8 @@ Durations, staggers and curves are tokens in `tokens.css` (`--dur-*`, `--stagger
 - Personalisation: `{{{contact.first_name|emprendedora}}}` and `{{{RESEND_UNSUBSCRIBE_URL}}}` (Resend's current syntax; `{{{FIRST_NAME}}}` is the old one). They only resolve in broadcasts, so check with `newsletter.py test ISSUE --broadcast --to <email>`, which sends a real broadcast to a throwaway one-person segment. Plain `test` fills them with fallbacks and adds `[PRUEBA]`.
 - Edit an issue by changing its `.md`, then `build` (or `test --broadcast`) to look at it. `schedule` refuses while `[[MARKERS]]` remain and exits 3 above `NEWSLETTER_DAILY_LIMIT`.
 - Every test email is a real send. Ask before sending to anyone but the address the user gave.
+- After a send, `newsletter.py stats` saves delivered/opened/clicked/bounces/unsubscribes and top links into that issue's entry in `sent.json`; commit it.
+- Nothing incomplete goes out: `newsletter.py check` (exit 2 = missing) gates the routine. Missing news (new = SENT/APPROVED, last 10 days, `news_date` not in `sent.json`) or a missing receta → no draft, a Slack post in `#general` (`C0BKT6BE42E`, via the Slack connector) and a stop. A Monday 12:00 reminder task (`club-newsletter-recordatorio`) runs the same check early.
 - The routine is a local scheduled task (`club-newsletter-semanal`, Tuesdays 16:00 Mazatlán = 17:00 CDMX) that follows `newsletter/ROUTINE.md`. It only runs while the Claude app is open.
 - Deliverability: the domain was registered 2026-10-06, so expect some spam-folder placement at first. DKIM, SPF (via Resend's `send`/`rsend` CNAMEs) and DMARC `p=none` are set.
 
