@@ -9,6 +9,7 @@ Newsletter semanal del Club de las Emprendedoras (Resend Broadcasts).
     python newsletter/newsletter.py build   ISSUE.md     # genera newsletter/build/ISSUE.html
     python newsletter/newsletter.py test    ISSUE.md     # manda una prueba a NEWSLETTER_TEST_TO
     python newsletter/newsletter.py schedule ISSUE.md    # programa el broadcast (miércoles 8:00 CDMX)
+    python newsletter/newsletter.py stats  [BROADCAST_ID] # guarda las métricas en sent.json
     python newsletter/newsletter.py cancel  BROADCAST_ID # cancela uno programado
     python newsletter/newsletter.py setup                # crea el segmento en Resend (una vez)
 
@@ -428,6 +429,42 @@ def cmd_schedule(a):
     print("Para cancelarlo: python newsletter/newsletter.py cancel " + r["id"])
 
 
+def cmd_stats(a):
+    """Pulls each sent broadcast's numbers from Resend and saves them in sent.json."""
+    resend = resend_client()
+    log = sent_log()
+    for e in log:
+        if a.broadcast_id and e.get("broadcast_id") != a.broadcast_id:
+            continue
+        bid = e["broadcast_id"]
+
+        def count(kind):
+            total, after = 0, None
+            while True:
+                params = {"type": kind, "limit": 100, **({"after": after} if after else {})}
+                page = resend.Broadcasts.recipients(bid, params)
+                rows = page.get("data", [])
+                total += len(rows)
+                if not page.get("has_more") or not rows:
+                    return total
+                after = rows[-1]["id"]
+
+        stats = {k: count(k) for k in ("sent", "delivered", "opened", "clicked", "bounced", "complained", "unsubscribed")}
+        try:
+            links = resend.Broadcasts.clicked_links(bid, {}).get("data", [])
+            stats["links"] = [{"url": l["url"].split("?")[0], "clicks": l["clicks"], "unique": l["unique_clicks"]} for l in links]
+        except Exception:  # older SDKs / plans without click data
+            pass
+        stats["as_of"] = datetime.now(TZ).isoformat(timespec="minutes")
+        e["stats"] = stats
+        d = max(stats["delivered"], 1)
+        print(f"{e['issue']}: {stats['delivered']}/{stats['sent']} entregados · "
+              f"{stats['opened']} abiertos ({stats['opened'] * 100 // d}%) · "
+              f"{stats['clicked']} con clic ({stats['clicked'] * 100 // d}%) · "
+              f"{stats['bounced']} rebotes · {stats['unsubscribed']} bajas · {stats['complained']} spam")
+    SENT_LOG.write_text(json.dumps(log, ensure_ascii=False, indent=2) + "\n")
+
+
 def cmd_cancel(a):
     resend = resend_client()
     resend.Broadcasts.cancel(a.broadcast_id)
@@ -464,6 +501,7 @@ def main():
     p.add_argument("--force", action="store_true", help="programar aunque queden marcadores [[...]]")
     p.add_argument("--dry-run", action="store_true")
     p.set_defaults(fn=cmd_schedule)
+    p = sub.add_parser("stats"); p.add_argument("broadcast_id", nargs="?"); p.set_defaults(fn=cmd_stats)
     p = sub.add_parser("cancel"); p.add_argument("broadcast_id"); p.set_defaults(fn=cmd_cancel)
     p = sub.add_parser("setup"); p.add_argument("--create", action="store_true"); p.set_defaults(fn=cmd_setup)
     a = ap.parse_args()

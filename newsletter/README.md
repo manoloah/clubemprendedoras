@@ -42,6 +42,7 @@ python3 -m venv .venv && .venv/bin/pip install -r newsletter/requirements.txt   
 .venv/bin/python newsletter/newsletter.py build newsletter/issues/2026-10-14.md
 .venv/bin/python newsletter/newsletter.py test newsletter/issues/2026-10-14.md
 .venv/bin/python newsletter/newsletter.py schedule newsletter/issues/2026-10-14.md [--dry-run]
+.venv/bin/python newsletter/newsletter.py stats           # refresh sent/delivered/opened/clicked in sent.json
 .venv/bin/python newsletter/newsletter.py cancel <broadcast_id>
 ```
 
