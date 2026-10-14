@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Descubre cómo está hecha la app que te encanta y haz tu versión · Recetas del Club</title>
+  <meta name="description" content="Con REA, Claude Code revisa por dentro la página o app que admiras, te explica cómo funciona y te ayuda a hacer la tuya. 5 pasos y el prompt listo para copiar.">
+  <meta name="theme-color" content="#F2C75C">
+  <link rel="canonical" href="https://www.clubdelasemprendedoras.com/recetas/ingenieria-inversa-con-rea/">
+  <link rel="icon" href="/assets/brand/asterisk.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="es_MX">
+  <meta property="og:title" content="Descubre cómo está hecha la app que te encanta y haz tu versión">
+  <meta property="og:description" content="Ingeniería inversa sin saber programar: entiende cómo funciona una app y haz tu versión. 5 pasos y el prompt listo para copiar.">
+  <meta property="og:url" content="https://www.clubdelasemprendedoras.com/recetas/ingenieria-inversa-con-rea/">
+  <meta property="og:image" content="https://www.clubdelasemprendedoras.com/assets/img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Signup gate, decided before paint: open if she came from the newsletter
+       or already signed up on this browser (see site/recetas/README.md). -->
+  <script>
+    (function () {
+      var ok = /[?&]utm_source=newsletter(&|$)/.test(location.search);
+      try {
+        if (ok) localStorage.setItem("club_receta_ok", "1");
+        else ok = localStorage.getItem("club_receta_ok") === "1";
+      } catch (e) {}
+      if (!ok) document.documentElement.classList.add("is-gated");
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap">
+
+  <link rel="stylesheet" href="/assets/tokens.css?v=3">
+  <link rel="stylesheet" href="/assets/styles.css?v=12">
+  <script src="/assets/config.js?v=4"></script>
+  <script src="/assets/recetas.js?v=2" defer></script>
+  <script src="/assets/motion.js?v=11" defer></script>
+</head>
+<body class="receta-page">
+  <a class="skip-link" href="#ingredientes">Ir a la receta</a>
+
+  <header class="nav" data-nav>
+    <a class="nav__logo" href="/" aria-label="El Club de las Emprendedoras, inicio">
+      <img src="/assets/brand/logo-tomato.webp" width="104" height="65" alt="El Club de las Emprendedoras">
+    </a>
+    <div class="nav__actions">
+      <details class="menu" data-menu>
+        <summary class="menu__toggle"><span>Menú</span><span class="menu__icon" aria-hidden="true"></span></summary>
+        <nav class="menu__panel" aria-label="Secciones">
+          <a class="menu__item menu__item--feature" href="/recetas/"><span class="kicker kicker--tomato">Nuevo</span><strong>Recetas de Emprendimiento e IA</strong><small>Pasos sencillos para ayudarte a emprender con IA</small></a>
+        </nav>
+      </details>
+      <a class="btn btn--sm" href="/#unirme">Unirme</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="receta-hero" aria-labelledby="receta-title">
+      <img class="recetas-decor recetas-decor--heart" src="/assets/img/lilac-heart.webp" width="72" height="69" alt="" aria-hidden="true">
+      <div class="receta-hero__inner">
+        <p class="kicker kicker--tomato tilt-l">Receta #3 · Gratis para el club</p>
+        <h1 id="receta-title" class="display">Descubre cómo está hecha la app que te encanta <span class="accent">y haz tu versión</span></h1>
+        <p class="lead">¿Viste en otra página o app algo que quieres para tu negocio? Con REA, Claude Code lo revisa por dentro, te explica cómo funciona en español sencillo y te ayuda a hacer el tuyo. Te dejamos el prompt listo.</p>
+        <div class="receta-meta">
+          <span class="sticker sticker--pink">5 pasos</span>
+          <span class="sticker sticker--olive">Sin saber programar</span>
+          <span class="sticker sticker--lilac">1 tarde</span>
+        </div>
+        <p class="receta-by">
+          <img src="/assets/img/pame.webp" width="48" height="48" alt="">
+          <span>Por Pame · <a href="https://www.instagram.com/PameVls/" target="_blank" rel="noopener">@PameVls</a></span>
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--cream" id="ingredientes" aria-labelledby="ingredientes-title">
+      <div class="section__inner">
+        <div class="receta-intro">
+          <div class="ingredientes">
+            <p class="kicker kicker--navy">Antes de empezar</p>
+            <h2 id="ingredientes-title" class="h2">Lo que necesitas</h2>
+            <ul class="check-list">
+              <li><strong>Claude Code</strong>, en la pestaña Code de la app de escritorio de Claude, que bajas en <a href="https://claude.com/download" target="_blank" rel="noopener">claude.com/download</a>. Funciona con cualquier plan de pago (Pro, Max, Team o Enterprise).</li>
+              <li><strong>Node.js</strong>, gratis en <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a>. Es lo que hace funcionar REA: lo instalas una vez y te olvidas.</li>
+              <li><strong>Google Chrome</strong> (o Brave, o cualquier navegador de la familia Chrome).</li>
+              <li><strong>Lo que quieres entender</strong> (una página o app que admiras) y <strong>tu proyecto</strong>: tu web, tu app o tu producto digital.</li>
+              <li><strong>Una tarde</strong> y curiosidad.</li>
+            </ul>
+          </div>
+          <div class="receta-why">
+            <h3 class="h3">¿Qué es eso de ingeniería inversa?</h3>
+            <p>Es ver algo ya terminado y descubrir cómo está hecho. Como cuando te encanta un vestido y le das la vuelta para ver las costuras: no te lo llevas, aprendes el patrón y haces el tuyo, con tu tela y tu estilo.</p>
+            <p><a href="https://github.com/morluto/rea" target="_blank" rel="noopener">REA</a> (Reverse Engineer Anything) es un complemento gratuito para Claude Code que le da herramientas para "darle la vuelta" a páginas web y apps. Ya tiene más de 200,000 estrellas en GitHub, que es como se mide qué tan querido es un proyecto.</p>
+            <p class="note note--pink tilt-r">Ver cómo funciona: sí. Copiar textos, fotos o marca: nunca ♡</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Signup gate: shown only while html.is-gated -->
+    <section class="section section--cream section--flush" aria-label="Receta paso a paso">
+      <div class="section__inner">
+        <div class="receta__locked" data-locked>
+          <ol class="pasos">
+            <li class="paso" id="paso-1">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">1</span><h2 class="h2">Instala lo básico</h2></div>
+              <ol>
+                <li>Baja Node.js de <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> (el botón que dice <strong>LTS</strong>) e instálalo: siguiente, siguiente, listo.</li>
+                <li>Abre la app de Claude, entra a la pestaña <strong>Code</strong> e inicia sesión si te lo pide.</li>
+                <li>Revisa que tengas Chrome.</li>
+              </ol>
+              <p><strong>¿Qué es Claude Code?</strong> La versión de Claude que trabaja directo en tu compu: crea carpetas, escribe archivos y corre comandos por ti. Siempre te pide permiso antes de hacer algo.</p>
+            </li>
+
+            <li class="paso" id="paso-2">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">2</span><h2 class="h2">Instala REA con un comando</h2></div>
+              <p>Lo haces una sola vez, en la Terminal (la ventanita donde se escriben comandos):</p>
+              <ol>
+                <li>Cierra por completo la app de Claude. Si está abierta, puede borrar lo que REA configura.</li>
+                <li>Abre la Terminal. En Mac: <code>Cmd + Espacio</code>, escribe Terminal y dale Enter. En Windows: busca PowerShell.</li>
+                <li>Pega este comando y dale Enter:</li>
+              </ol>
+              <div class="prompt">
+                <div class="prompt__bar">
+                  <span>Tu comando</span>
+                  <button class="btn btn--sm" type="button" data-copy="prompt-setup"><span class="btn__label">Copiar</span></button>
+                </div>
+<pre id="prompt-setup">npx rea-agents setup</pre>
+              </div>
+              <ul class="check-list">
+                <li><strong>"Ok to proceed?":</strong> escribe <code>y</code> y Enter.</li>
+                <li><strong>¿Para qué agentes?</strong> Muévete con las flechas, marca <strong>Claude Code</strong> con la barra espaciadora y dale Enter.</li>
+                <li><strong>¿Instalar Hopper?</strong> Dile que no. Es para apps de escritorio; para páginas web no lo necesitas.</li>
+                <li><strong>Revisa y acepta</strong> los cambios que te muestra. Cuando termine, vuelve a abrir Claude.</li>
+              </ul>
+              <div class="receta-ojo">
+                <img src="/assets/brand/asterisk.svg" width="26" height="46" alt="">
+                <p><strong>Ojo:</strong> REA es tan famoso que hay copias con nombres parecidos. Instálalo solo desde <a href="https://github.com/morluto/rea" target="_blank" rel="noopener">github.com/morluto/rea</a>, <a href="https://rea.tools" target="_blank" rel="noopener">rea.tools</a> o el comando de arriba.</p>
+              </div>
+            </li>
+
+            <li class="paso" id="paso-3">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">3</span><h2 class="h2">Escoge una sola cosa que quieras entender</h2></div>
+              <p>Entre más concreta, mejor. Ideas que le sirven a una emprendedora:</p>
+              <div class="frases">
+                <div class="frase">
+                  <p class="kicker kicker--navy">Quiz</p>
+                  <p class="frase__what">Te recomienda un producto</p>
+                  <p class="frase__eg">"El quiz de una marca de skincare que te pregunta tu tipo de piel y te dice qué comprar."</p>
+                </div>
+                <div class="frase">
+                  <p class="kicker kicker--navy">Agenda</p>
+                  <p class="frase__what">Reservar una cita</p>
+                  <p class="frase__eg">"Cómo una estética deja que sus clientas escojan día y hora y paguen el anticipo."</p>
+                </div>
+                <div class="frase">
+                  <p class="kicker kicker--navy">Bienvenida</p>
+                  <p class="frase__what">Las primeras pantallas de una app</p>
+                  <p class="frase__eg">"Cómo una app de hábitos te hace 3 preguntas y te arma un plan antes de cobrarte."</p>
+                </div>
+                <div class="frase">
+                  <p class="kicker kicker--tomato">Tu web</p>
+                  <p class="frase__what">Algo tuyo que no entiendes</p>
+                  <p class="frase__eg">"Por qué mi página tarda en cargar, o a dónde se van los datos de mi formulario."</p>
+                </div>
+              </div>
+              <p>En el prompt usamos el quiz como ejemplo. Cámbialo por lo tuyo.</p>
+            </li>
+
+            <li class="paso" id="paso-4">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">4</span><h2 class="h2">Pídele a Claude Code que lo investigue</h2></div>
+              <ol>
+                <li>Crea una carpeta, por ejemplo <code>Mi investigación</code>, y ábrela en la pestaña Code.</li>
+                <li>Copia el prompt y cambia lo que está entre [corchetes].</li>
+                <li>Cuando Claude te pida que uses la página en Chrome, hazlo: él observa mientras tú das clics.</li>
+              </ol>
+              <div class="prompt">
+                <div class="prompt__bar">
+                  <span>Tu prompt</span>
+                  <button class="btn btn--sm" type="button" data-copy="prompt-rea"><span class="btn__label">Copiar</span></button>
+                </div>
+<pre id="prompt-rea">Usa REA para entender cómo funciona [el quiz que recomienda
+productos] de [https://www.ejemplo.com/quiz].
+
+Cómo quiero que lo hagas:
+- Abre una ventana de Chrome aparte (un perfil nuevo y limpio,
+  sin mis cuentas) con esa página, y conéctale REA.
+- Cuando necesites que yo use la página, dime exactamente qué
+  hacer ("contesta la pregunta 1", "da clic en Ver resultados")
+  y avísame cuando estés observando.
+- Solo mira lo que ve cualquier visitante. No inicies sesión,
+  no pagues y no intentes saltarte nada.
+
+Explícame en español sencillo, sin tecnicismos:
+1. Qué pasa paso a paso, desde que entro hasta el resultado.
+2. Qué datos me pide y a dónde los manda.
+3. Cómo decide qué recomendarme (las reglas, si se ven).
+4. Qué herramientas usa (por ejemplo Shopify, Typeform o
+   Klaviyo) y si yo podría usar las mismas.
+5. Qué lo hace tan fácil y agradable de usar.
+En cada punto dime en qué evidencia de REA te basas y qué no
+pudiste confirmar. No adivines.
+
+Al final, dame un plan para hacer mi propia versión en
+[mi tienda de Shopify] con [mis productos], mis textos y mi
+marca. No copies sus textos, fotos ni código.</pre>
+              </div>
+              <p>Claude te va a pedir permiso antes de correr cada comando. Lee qué va a hacer y acepta.</p>
+              <p class="note note--butter tilt-l">¿Es una app del celular? Si tiene versión web, empieza por ahí.</p>
+              <p>REA también lee apps de Android (archivos APK), pero pide instalar más herramientas. Si vas por ahí, pídele a Claude Code que te guíe.</p>
+            </li>
+
+            <li class="paso" id="paso-5">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">5</span><h2 class="h2">Haz tu versión</h2></div>
+              <p>Con el plan en la mano, sigue en la misma conversación. Pide así:</p>
+              <ul class="bubbles">
+                <li class="bubble">Hazme mi quiz con ese plan, con 5 preguntas sobre [tema]</li>
+                <li class="bubble">Usa mis colores y las fotos de la carpeta [fotos]</li>
+                <li class="bubble">Explícame otra vez el punto 3, más sencillo</li>
+                <li class="bubble">Que se vea bien en el celular</li>
+                <li class="bubble">¿Cómo lo pongo en mi página de [Shopify]?</li>
+              </ul>
+              <div class="receta-ojo">
+                <img src="/assets/brand/asterisk.svg" width="26" height="46" alt="">
+                <p><strong>Ojo:</strong> REA es para aprender y para analizar lo que es tuyo o tienes permiso de revisar. Úsalo con tus productos o para entender algo público, nunca para entrar donde se necesita contraseña o pago, y haz tu versión con tus textos, fotos y marca. Si dudas, lee los términos de esa página.</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="receta-done">
+            <p class="kicker kicker--tomato tilt-l">¿Lo hiciste?</p>
+            <h2 class="h2">Mándanos lo que descubriste, queremos verlo.</h2>
+            <p>O mejor: tu versión. Etiquétanos en <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a> o respóndenos el correo del miércoles. Los mejores los compartimos.</p>
+          </div>
+        </div>
+
+        <div class="gate" data-gate="receta-ingenieria-inversa-con-rea">
+          <div class="waitlist">
+            <span class="sticker sticker--tomato" aria-hidden="true">Gratis</span>
+            <form class="waitlist__form" novalidate>
+              <h2 class="h3">Abre la receta completa</h2>
+              <p>Déjanos tu nombre y tu correo y es tuya. ¿Ya eres del club? Pon el correo de siempre y entras directo.</p>
+              <div class="field">
+                <label for="gate-name">Tu nombre</label>
+                <input id="gate-name" name="name" type="text" autocomplete="given-name" placeholder="¿Cómo te llamas?" required maxlength="120">
+              </div>
+              <div class="field">
+                <label for="gate-email">Tu correo</label>
+                <input id="gate-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254">
+              </div>
+              <div class="hp" aria-hidden="true">
+                <label for="gate-company">No llenes este campo</label>
+                <input id="gate-company" name="company" type="text" tabindex="-1" autocomplete="off">
+              </div>
+              <button class="btn btn--block" type="submit">
+                <span class="btn__label">Quiero la receta</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <p class="caption">Cada miércoles te mandamos una receta nueva y las noticias de IA que importan para emprender. Te sales cuando quieras.</p>
+              <p class="waitlist__status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="cta__inner">
+        <span class="sticker sticker--lilac cta__sticker" aria-hidden="true">Tú puedes</span>
+        <h2 id="cta-title" class="display display--inverse">Esto es un spoiler del taller.</h2>
+        <p class="lead lead--inverse">En 2027 hacemos esto, pero con tu app: 8 semanas, en vivo y con otras mujeres que van al mismo paso que tú.</p>
+        <a class="btn" href="/#unirme"><span class="btn__label">Quiero mi lugar</span> <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="/assets/brand/logo-cream.webp" width="180" height="112" alt="El Club de las Emprendedoras" loading="lazy">
+    <p class="footer__by">Un proyecto de Pame y Manu · <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a></p>
+    <p class="caption"><a href="/recetas/">Recetas de Emprendimiento e IA</a> · © 2026 El Club de las Emprendedoras.</p>
+  </footer>
+</body>
+</html>

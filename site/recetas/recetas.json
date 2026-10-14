@@ -15,6 +15,14 @@
       "resumen": "Tú anotas ventas y gastos en Google Sheets, Excel o CSV. Claude arma un dashboard en vivo que trae tus números cada vez que lo abres. 5 pasos y el prompt listo para copiar.",
       "fecha": "2026-10-14",
       "url": "/recetas/dashboard-finanzas-en-vivo/"
+    },
+    {
+      "numero": 3,
+      "slug": "ingenieria-inversa-con-rea",
+      "titulo": "Descubre cómo está hecha la app que te encanta y haz tu versión",
+      "resumen": "Viste en otra página o app algo que quieres para tu negocio. REA y Claude Code te explican cómo funciona por dentro, en español sencillo, y te ayudan a hacer el tuyo. 5 pasos y el prompt listo para copiar.",
+      "fecha": "2026-10-21",
+      "url": "/recetas/ingenieria-inversa-con-rea/"
     }
   ]
 }
