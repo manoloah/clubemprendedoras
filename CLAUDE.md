@@ -48,6 +48,9 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 Use the project skill **`/nueva-receta`** (`.claude/skills/nueva-receta/`): it walks the whole flow and its script scaffolds (`receta.mjs new <slug>`) and checks (`receta.mjs check <slug>`) a receta. The steps live in `site/recetas/README.md` ("Creating a new receta"). The checklist:
 
 - Copy rewritten in the club's voice from the user's draft: keep every fact, link and number, explain or drop jargon, **no kitchen puns** (no ingredientes/hornear/probadita/cocina; Gen Z and direct instead), no hype.
+- **Readers are not technical at all** (no terminal, no installs). Any technical step (installing a program, running a command, cloning a repo) goes inside the prompt: she pastes the GitHub/tool link and asks Claude Code or Cowork to do it, and only gives the inputs that are really hers (her idea, her link, her files).
+- **Prompts stay general so the AI does the thinking:** point Claude at her data and let it read the columns, pick the charts, take the brand from her website link, etc. Don't make her describe columns, currencies, colours or a list of visualizations; give a goal and a frame ("piensa como el CFO de [empresas que te inspiren]").
+- UI how-tos use real screenshots of the Claude app (the user's, or taken with the built-in browser), not mock-ups.
 - New folder `site/recetas/<slug>/` copied from `reel-con-claude-cowork/`: head tags, hero, `.ingredientes` ("Lo que necesitas", public), steps in `.receta__locked` with the first `id="paso-1"`, `data-gate="receta-<slug>"`. Reuse the existing building blocks (`.check-list`, `.frases`, `.prompt` + `data-copy`, `.bubbles`, `.note`, `.receta-ojo`) before adding CSS.
 - Hub card at the top of `.receta-list` (alternate pink/lilac/butter, cover in `.receta-cover`), and update the "La receta #N llega…" note.
 - Entry appended to `site/recetas/recetas.json` (the newsletter reads it).

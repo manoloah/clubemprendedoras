@@ -71,8 +71,8 @@
           <span class="sticker sticker--lilac">1 hora</span>
         </div>
         <p class="receta-by">
-          <img src="/assets/img/manu.webp" width="48" height="48" alt="">
-          <span>Por Manu · <a href="https://www.instagram.com/thebreathmanu/" target="_blank" rel="noopener">@TheBreathManu</a></span>
+          <img src="/assets/img/pame.webp" width="48" height="48" alt="">
+          <span>Por Pame · <a href="https://www.instagram.com/PameVls/" target="_blank" rel="noopener">@PameVls</a></span>
         </p>
       </div>
     </section>
@@ -127,7 +127,7 @@
                 <div class="frase">
                   <p class="kicker kicker--tomato">Google Sheets</p>
                   <p class="frase__what">Se actualiza solo</p>
-                  <p class="frase__eg">En Claude, ve a Configuración → Conectores y conecta Google Drive. Claude lee tu hoja cada vez que abres el dashboard.</p>
+                  <p class="frase__eg">Conecta Google Sheets (abajo te enseñamos cómo). Claude lee tu hoja cada vez que abres el dashboard.</p>
                 </div>
                 <div class="frase">
                   <p class="kicker kicker--navy">Excel</p>
@@ -140,9 +140,10 @@
                   <p class="frase__eg">Adjúntalo al chat con el clip. Para ponerlo al día, adjuntas el archivo nuevo y le dices "actualiza con este". ¿Lo quieres en vivo? Impórtalo a Google Sheets.</p>
                 </div>
               </div>
-              <figure>
-                <img src="/assets/img/receta-dashboard-conector.webp" width="680" height="1219" alt="Cómo conectar Google Drive en Claude: 1, toca tus iniciales y entra a Configuración; 2, abre Conectores; 3, busca Google Drive y dale Conectar." loading="lazy">
-              </figure>
+              <p><strong>Así conectas Google Sheets:</strong> en el chat, dale al <strong>+</strong> → Connectors → Add connector → Browse connectors. Busca "Google Sheets" (y si quieres, Google Drive), dale conectar y entra con tu cuenta de Google.</p>
+              <figure><img src="/assets/img/receta-dashboard-conector-1.webp" width="732" height="844" alt="El menú del botón + en el chat de Claude, con la opción Connectors." loading="lazy"></figure>
+              <figure><img src="/assets/img/receta-dashboard-conector-2.webp" width="900" height="194" alt="Connectors → Add connector → Browse connectors." loading="lazy"></figure>
+              <figure><img src="/assets/img/receta-dashboard-conector-3.webp" width="900" height="284" alt="La ventana Connectors con Google Sheets y Google Drive conectados." loading="lazy"></figure>
               <p>¿Prefieres verlo en video? Anthropic tiene uno en la <a href="https://claude.com/connectors/google-drive" target="_blank" rel="noopener">página del conector de Google Drive</a>, y aquí está la <a href="https://support.claude.com/en/articles/10166901-use-google-workspace-connectors" target="_blank" rel="noopener">guía paso a paso</a> (en inglés). Si tu Claude es de trabajo (Team o Enterprise), quien lo administra tiene que activar el conector primero.</p>
               <p>Revisa también que en Configuración → Capacidades esté prendida la ejecución de código y creación de archivos ("Code execution and file creation"). Sin eso, Claude no puede crear artifacts.</p>
             </li>
@@ -152,7 +153,7 @@
               <ol>
                 <li>Abre un chat nuevo en Claude.</li>
                 <li>Copia el prompt y cambia lo que está entre [corchetes].</li>
-                <li>Pega el link de tu Google Sheet donde dice.</li>
+                <li>Pega el link de tu Google Sheet y el de tu página donde dice.</li>
               </ol>
               <div class="prompt">
                 <div class="prompt__bar">
@@ -160,45 +161,35 @@
                   <button class="btn btn--sm" type="button" data-copy="prompt-dashboard"><span class="btn__label">Copiar</span></button>
                 </div>
 <pre id="prompt-dashboard">Quiero un dashboard en vivo (un artifact) con las finanzas de
-mi negocio: [una tienda de ropa que vende por Instagram].
+mi negocio.
 
-Mis datos:
-- Están en [link de tu Google Sheet], pestaña [Movimientos].
-  Léela con mi conector de Google Drive cada vez que se abra el
-  dashboard, para que siempre muestre los números de hoy.
-- Cada fila es una venta o un gasto. Columnas: Fecha, Concepto,
-  Tipo (Ingreso o Gasto), Categoría, Monto y Canal.
-  Moneda: [pesos mexicanos, MXN].
+Mis datos están en [link de tu Google Sheet]. Léela con mi
+conector de Google Sheets cada vez que se abra el dashboard,
+para que siempre muestre los números de hoy.
 
 Antes de construir nada:
-1. Lee la hoja y dime qué columnas encontraste, cuántas filas
-   hay y de qué fecha a qué fecha van.
-2. Avísame de filas raras (sin monto, sin categoría, fechas mal
-   escritas o repetidas) y pregúntame qué hago con ellas.
-   No cambies nada en mi hoja: solo léela.
+1. Lee la hoja tú sola: entiende qué hay en cada columna y
+   pestaña, qué tipo de negocio es y qué periodo cubre.
+   Cuéntame en pocas líneas lo que entendiste.
+2. Avísame si algo no cuadra (filas incompletas, repetidas o
+   raras) y pregúntame qué hago. No cambies nada en mi hoja.
 
 El dashboard:
 Crea las visualizaciones más importantes para la CEO de una
 empresa de alto crecimiento. Piensa como si fueras el CFO de
 empresas como [Lista de empresas que te inspiren: Glossier,
-Airbnb, Mercado Libre]. Antes de construir, dime qué gráficas
-y números elegiste y por qué, en una línea cada uno.
+Airbnb, Mercado Libre]. Dime qué elegiste y por qué, en una
+línea cada cosa.
 
-Diseño:
-- Que se lea bien primero en el celular.
-- Limpio y con aire. Colores: [rosa #FBC0D7, azul marino
-  #17254A y amarillo #F2C75C].
-- Cantidades como $12,345 y fechas como 14 oct 2026.
-- Arriba, la hora de la última actualización y un botón para
-  actualizar.
-- Si no puede leer la hoja, que lo diga claro en lugar de
-  mostrar números viejos.
+Diseño: usa la marca de [link de tu página web o Instagram]
+(colores, letras y estilo). Que se lea bien en el celular y
+que diga arriba cuándo se actualizó.
 
-Reglas: usa solo mis datos. Nunca inventes ni redondees cifras
-para que se vean mejor. Si algo no cuadra, pregúntame.</pre>
+Reglas: usa solo mis datos. Nunca inventes ni redondees cifras.
+Si algo no cuadra, pregúntame.</pre>
               </div>
-              <p>¿Usas un CSV? Cambia la parte de "Mis datos" por "Te adjunto mi archivo [ventas.csv]" y adjúntalo.</p>
-              <p>Los colores del prompt son los del club. Cambia esa línea por los de tu marca.</p>
+              <p>¿Usas un CSV? Cambia la parte de "Mis datos" por "Te adjunto mi archivo" y adjúntalo.</p>
+              <p>No tienes que explicarle tus columnas ni tus colores: Claude los lee de tu hoja y de tu página.</p>
             </li>
 
             <li class="paso" id="paso-4">
@@ -218,10 +209,11 @@ para que se vean mejor. Si algo no cuadra, pregúntame.</pre>
               <div class="paso__head"><span class="paso__num" aria-hidden="true">5</span><h2 class="h2">Úsalo cada semana</h2></div>
               <ul class="check-list">
                 <li><strong>Anota como siempre:</strong> cada venta y cada gasto en tu hoja, de preferencia el mismo día.</li>
-                <li><strong>Ábrelo:</strong> lo encuentras en Artifacts, en el menú de Claude. Trae tus números de hoy; si ves algo viejo, dale al botón de actualizar.</li>
+                <li><strong>Ábrelo:</strong> lo encuentras en <strong>Artifacts</strong>, arriba en el menú de Claude. Trae tus números de hoy; si ves algo viejo, dale al botón de actualizar.</li>
                 <li><strong>Pregúntale:</strong> en el mismo chat, "¿en qué mes gasté más en publicidad?" o "¿qué canal me deja más?".</li>
                 <li><strong>Ponte una cita:</strong> 15 minutos cada lunes con tu dashboard. Ahí salen las decisiones.</li>
               </ul>
+              <figure><img src="/assets/img/receta-dashboard-artifacts.webp" width="526" height="396" alt="El menú de Claude con la opción Artifacts, debajo de New." loading="lazy"></figure>
               <div class="receta-ojo">
                 <img src="/assets/brand/asterisk.svg" width="26" height="46" alt="">
                 <p><strong>Ojo:</strong> tus finanzas son privadas. El artifact empieza privado; si lo compartes, cada persona ve solo lo que su propia cuenta puede abrir y gasta de su propio plan. Nunca pongas contraseñas ni números de tarjeta en tu hoja.</p>
