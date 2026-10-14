@@ -48,8 +48,10 @@ and, if something is missing, posts a heads-up in Slack `#general` so there's ti
    - Run the `humanizer` skill on the text.
 5. **Check.** `newsletter/newsletter.py build <issue>`, then open `newsletter/build/<issue>.html`
    at 393px wide and look at it.
-6. **Test email.** `newsletter/newsletter.py test <issue>`.
-7. **Tell Slack.** Post in `#general` (`C0BKT6BE42E`) that the test is in `NEWSLETTER_TEST_TO`:
+6. **Test email** to **manolo7_11@hotmail.com** (also `NEWSLETTER_TEST_TO` in `.env`):
+   `newsletter/newsletter.py test <issue> --to manolo7_11@hotmail.com`. Never to anyone else.
+7. **Tell Slack, always, right after the test.** Post in `#general` (`C0BKT6BE42E`) that the test
+   was sent to manolo7_11@hotmail.com:
    subject, news date, receta, number of subscribers (`newsletter/newsletter.py audience`), when
    it goes out and how to cancel. That gives Pame and Manu time for final fixes.
 8. **Schedule at least 2 hours after the test.** `newsletter/newsletter.py schedule <issue>` (the
