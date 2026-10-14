@@ -8,7 +8,7 @@ cover the **how**. Nothing here is deployed: Vercel only serves `site/`.
 
 | # | Initiative | Status | Branch / PR |
 |---|---|---|---|
-| [0001](0001-club-2027/prd.md) | Landing: from "taller de 8 semanas" to "el club 2027" | draft | `docs/club-2027-prd` |
+| [0001](0001-club-2027/prd.md) | Landing: from "taller de 8 semanas" to "el club 2027" | draft | `docs/club-2027-prd`, [PR #18](https://github.com/manoloah/clubemprendedoras/pull/18) |
 
 Keep this table current. It's the first thing an agent reads to see what's planned, in progress or shipped.
 

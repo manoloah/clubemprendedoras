@@ -6,7 +6,7 @@ owner: Manu (with Pame)
 created: 2026-10-14
 updated: 2026-10-14
 branch: docs/club-2027-prd   # implementation goes on its own branch, e.g. club/2027-comunidad
-pr:
+pr: https://github.com/manoloah/clubemprendedoras/pull/18
 ---
 
 # Landing: from "taller de 8 semanas" to "el club 2027"
