@@ -59,6 +59,11 @@ Rules (from `brand/voice.md` and the first receta):
   colours or visualizations.
 - **Real screenshots for UI steps** (where a menu or button is): use the user's screenshots or take
   them with the built-in browser. Don't draw mock-ups of Claude's UI.
+- **Screenshot layout:** never drop a bare `<figure><img>` in a step; app screenshots are huge next to
+  the text on desktop. Use `.shot` (max 360px, navy border, hard shadow, `<figcaption>` saying what
+  to look at), `.shot--sm` (260px) for tall menus, `.shot--wide` (520px) for wide strips. Two or more
+  screenshots in a row go inside `.shots` (tall one left, others stacked right on desktop; stacked on
+  phones). Convert to WebP, check at 393 and 1280.
 - **No jargon.** Explain a technical word in one plain line the first time ("Cowork trabaja
   directo en una carpeta de tu compu") or drop it. API, backend, deploy, repo, stack: never bare.
 - **No kitchen puns,** even though it's a "receta": no ingredientes, hornear, probadita, cocina,
