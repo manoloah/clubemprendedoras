@@ -47,7 +47,7 @@ or the animated hero falls back to the static image. Safari also won't play the 
 ## Adding a receta
 
 Recetas are our tutorials, at `/recetas/` ("Recetas de Emprendimiento e IA"). To publish a new one
-(or ask Claude to, with the draft attached):
+(or ask Claude to with `/nueva-receta`, with the draft attached):
 
 1. **Copy** `site/recetas/reel-con-claude-cowork/` to `site/recetas/<slug>/` and rewrite it in the
    club's voice (`brand/voice.md`; no kitchen puns). Update the `<head>` tags, the hero, "Lo que

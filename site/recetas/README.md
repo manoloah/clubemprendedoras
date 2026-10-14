@@ -12,8 +12,15 @@ site/assets/recetas.js                  signup gate, "Copiar" buttons, nav menu
 
 ## Creating a new receta
 
-You can ask Claude: *"Crea la receta #N a partir de este documento"* and attach the draft.
-It follows these steps.
+You can ask Claude: *"Crea la receta #N a partir de este documento"* (or `/nueva-receta`) and attach the
+draft. The project skill in `.claude/skills/nueva-receta/` follows these steps, and its script does the
+mechanical parts:
+
+```bash
+node .claude/skills/nueva-receta/scripts/receta.mjs next          # next number, Wednesday, hub colour, ?v= versions
+node .claude/skills/nueva-receta/scripts/receta.mjs new <slug>    # copy the template with URLs, gate and versions set
+node .claude/skills/nueva-receta/scripts/receta.mjs check <slug>  # page, hub card, recetas.json and copy lint
+```
 
 ### 1. Write the copy
 
