@@ -59,5 +59,5 @@ the sync never re-subscribes anyone). The process is described in `newsletter/RE
    - `RESEND_SEGMENT_ID`: from `python newsletter/newsletter.py setup --create`.
 2. Paste the new `Code.gs`, save, choose `syncResend` in the toolbar and **Ejecutar** once
    (authorize the external request). Check the log says `added N`.
-3. Choose `installNewsletterTrigger` and **Ejecutar**. From then on it syncs once a day, between 14:00 and 15:00.
-4. Redeploy the web app (new version, same `/exec` URL) so `doPost` ignores the new column.
+3. Choose `installNewsletterTrigger` and **Ejecutar**. From then on it syncs every hour. New sign-ups are also added to Resend the moment they arrive (`doPost` → `addToNewsletter_`), so the hourly run only catches failures and mirrors unsubscribes.
+4. Redeploy the web app (Implementar → Administrar implementaciones → lápiz → Versión: Nueva versión, same `/exec` URL) so `doPost` runs the new code: it ignores the new column and adds each sign-up to Resend.

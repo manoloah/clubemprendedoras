@@ -99,7 +99,7 @@ Durations, staggers and curves are tokens in `tokens.css` (`--dur-*`, `--stagger
 - Field names (`name`, `email`, honeypot `company`, profile fields in the modal) must match `COLUMNS` in `sheets/Code.gs`. Change both together, and remember the script has to be redeployed in Apps Script (new version, same `/exec` URL).
 - The endpoint can only add a row or fill empty cells, and it never returns data.
 - Apps Script deployments: update the existing one (Deploy → Manage deployments → pencil → Version: New version). "New deployment" makes a new `/exec` URL, which then has to go into `config.js` (and bump its `?v=`).
-- `syncResend()` (daily trigger, 14:00–15:00; not "On change", which ignores rows written by scripts) pushes sign-ups to the Resend newsletter segment and mirrors unsubscribes into "Desuscrita del newsletter". Never send `unsubscribed: false` to Resend: that would re-subscribe people. Spam fallback if needed: Cloudflare Turnstile.
+- Each new sign-up goes to Resend right away from `doPost` (`addToNewsletter_`, best effort). `syncResend()` (hourly trigger; not "On change", which ignores rows written by scripts) is the safety net: it pushes missed sign-ups to the Resend newsletter segment and mirrors unsubscribes into "Desuscrita del newsletter". Never send `unsubscribed: false` to Resend: that would re-subscribe people. Spam fallback if needed: Cloudflare Turnstile.
 
 ## Newsletter
 

@@ -81,12 +81,14 @@ function doPost(e) {
 
     const lock = LockService.getScriptLock();
     lock.waitLock(10000);
+    let isNew;
     try {
       if (!underRateLimit_()) return json_({ ok: false, error: "rate_limited" });
-      upsert_(row);
+      isNew = upsert_(row);
     } finally {
       lock.releaseLock();
     }
+    if (isNew) addToNewsletter_(email, row.nombre);
     return json_({ ok: true });
   } catch (err) {
     console.error(err);
@@ -122,7 +124,7 @@ function upsert_(row) {
     values[colOf.updated_at - 1] = now;
     Object.keys(row).forEach(function (k) { values[colOf[k] - 1] = row[k]; });
     sheet.appendRow(values);
-    return;
+    return true;
   }
 
   // Existing person: only fill cells that are still empty. Never overwrite.
@@ -134,6 +136,7 @@ function upsert_(row) {
     if (values[i] === "") values[i] = row[k];
   });
   range.setValues([values]);
+  return false;
 }
 
 // Counts saves in the current minute (called while holding the lock).
@@ -198,7 +201,8 @@ function json_(obj) {
 
 /* ---------- Newsletter: sync the Sheet with Resend ----------
  * The weekly newsletter goes out as a Resend Broadcast to one segment.
- * syncResend() runs once a day, 14:00–15:00 (installNewsletterTrigger), and:
+ * Each new sign-up is added to the segment right away (addToNewsletter_).
+ * syncResend() runs every hour as a safety net (installNewsletterTrigger), and:
  *   1. adds every email in the Sheet that isn't in the segment yet;
  *   2. writes "Sí" in "Desuscrita del newsletter" for people who clicked
  *      unsubscribe (Resend keeps that flag, the Sheet just mirrors it).
@@ -211,9 +215,23 @@ function installNewsletterTrigger() {
   ScriptApp.getProjectTriggers().forEach(function (t) {
     if (t.getHandlerFunction() === "syncResend") ScriptApp.deleteTrigger(t);
   });
-  // Daily, before the Tuesday 17:00 newsletter routine. Not "On change": that
-  // trigger ignores rows written by scripts, and every sign-up is one.
-  ScriptApp.newTrigger("syncResend").timeBased().everyDays(1).atHour(14).create();
+  // Hourly, so a sign-up that couldn't be added in doPost waits an hour at most.
+  // Not "On change": that trigger ignores rows written by scripts, and every
+  // sign-up is one.
+  ScriptApp.newTrigger("syncResend").timeBased().everyHours(1).create();
+}
+
+// Called by doPost for a new email. Best effort: if Resend fails, the sign-up
+// is already saved and the next hourly syncResend() adds it.
+function addToNewsletter_(email, name) {
+  try {
+    const props = PropertiesService.getScriptProperties();
+    const key = props.getProperty("RESEND_API_KEY");
+    const segment = props.getProperty("RESEND_SEGMENT_ID");
+    if (key && segment) addContact_(key, segment, email, firstName_(name));
+  } catch (err) {
+    console.error("addToNewsletter_: " + err);
+  }
 }
 
 function syncResend() {
