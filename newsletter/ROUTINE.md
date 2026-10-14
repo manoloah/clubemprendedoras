@@ -54,13 +54,14 @@ and, if something is missing, posts a heads-up in Slack `#general` so there's ti
    was sent to manolo7_11@hotmail.com:
    subject, news date, receta, number of subscribers (`newsletter/newsletter.py audience`), when
    it goes out and how to cancel. That gives Pame and Manu time for final fixes.
-8. **Schedule at least 2 hours after the test.** `newsletter/newsletter.py schedule <issue>` (the
-   default, Wednesday 08:00, is already well past that; with `--at`, leave 2 hours or more). If
-   there are more subscribers than `NEWSLETTER_DAILY_LIMIT` (100), it exits 3: **don't** pass
-   `--allow-over-limit`. Split instead: `--batch 99` sends to at most 99 who haven't received the
-   issue (the test email counts toward the 100), and running the same command again with an `--at`
-   at least 24 hours later sends to the rest. Resend's plan allows 3 segments: the main one plus
-   one per part. Part segments of earlier issues are deleted automatically once sent.
+8. **Schedule at least 2 hours after the test.** `newsletter/newsletter.py schedule <issue> --split 100`
+   (the default, Wednesday 08:00, is well past that). Up to 100 subscribers it goes out in one
+   send. Above that it goes in parts of 100, one per day at 08:00: Wednesday, Thursday, Friday…
+   Resend's free plan allows 3 segments, so only two parts can be scheduled at a time. The task
+   `club-newsletter-partes` runs `newsletter.py continue` Thursday to Saturday at 07:00 and
+   schedules the next part once the previous one has gone out. **Never** pass
+   `--allow-over-limit`. Past 300 subscribers it's time to pay for Resend: raise
+   `NEWSLETTER_DAILY_LIMIT` and `RESEND_MAX_SEGMENTS` in `.env`.
 9. **Commit** the issue and `newsletter/sent.json`, push, and open a PR against `main`.
 10. **Report** in 3–5 lines: subject, news date used, receta, number of recipients, broadcast
    id and send time, and how to cancel (`newsletter/newsletter.py cancel <id>`).

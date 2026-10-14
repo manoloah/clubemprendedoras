@@ -175,10 +175,20 @@ def new_receta():
 
 # ---------- audience ----------
 
+def segment_contacts(resend, seg):
+    contacts, after = [], None
+    while True:
+        params = {"limit": 100, **({"after": after} if after else {})}
+        page = resend.Contacts.list(segment_id=seg, params=params)
+        contacts += page["data"]
+        if not page.get("has_more") or not page["data"]:
+            return contacts
+        after = page["data"][-1]["id"]
+
+
 def audience():
     resend = resend_client()
-    seg = env("RESEND_SEGMENT_ID", required=True)
-    contacts = resend.Contacts.list(segment_id=seg)["data"]
+    contacts = segment_contacts(resend, env("RESEND_SEGMENT_ID", required=True))
     active = [c for c in contacts if not c.get("unsubscribed")]
     return active, len(contacts) - len(active)
 
@@ -408,50 +418,116 @@ def broadcast_test(resend, meta, page, to):
         resend.Segments.remove(seg)
 
 
-def free_part_segments(resend, keep_issue=None):
-    """The plan allows 3 segments: deletes the part segments of other issues once sent."""
-    for e in sent_log():
-        if e.get("segment_id") and e.get("issue") != keep_issue:
+# ---------- sending in parts (Resend free plan: 100 emails a day, 3 segments) ----------
+#
+# Above the daily limit an issue goes out in parts, one per day, 08:00 CDMX: part 1 on
+# Wednesday, part 2 on Thursday... Each part is a segment with the next `size` active
+# contacts in sign-up order (created_at, id). sent.json keeps each part's `cutoff`, the
+# last contact it took, so no emails are stored. People who sign up mid-week land in the
+# last part. With 3 segments (the main one + 2 parts) only two parts can be scheduled at a
+# time: `continue` (a daily task) deletes sent parts' segments and schedules the next one.
+
+MAX_SEGMENTS = int(os.environ.get("RESEND_MAX_SEGMENTS", "3"))
+
+
+def order_key(c):
+    return [c.get("created_at", ""), c["id"]]
+
+
+def issue_parts(issue):
+    return [e for e in sent_log() if e.get("issue") == issue]
+
+
+def free_part_segments(resend):
+    """Deletes the segments of parts that have already been sent."""
+    log, changed = sent_log(), False
+    for e in log:
+        if e.get("segment_id") and not e.get("segment_freed"):
             if (resend.Broadcasts.get(e["broadcast_id"]).get("status") or "").lower() == "sent":
                 try:
                     resend.Segments.remove(e["segment_id"])
                 except Exception:  # already gone
                     pass
+                e["segment_freed"], changed = True, True
+    if changed:
+        SENT_LOG.write_text(json.dumps(log, ensure_ascii=False, indent=2) + "\n")
 
 
-def batch_segment(resend, issue, active, size):
-    """Splits a send over several days: makes a segment with up to `size` active contacts who
-    aren't in an earlier part of this issue (those parts' segments are kept in sent.json)."""
-    parts = [e for e in sent_log() if e.get("issue") == issue]
-    done = set()
-    for e in parts:
-        if not e.get("segment_id"):
-            sys.exit(f"{issue} ya se envió completo (newsletter/sent.json). Crea un issue nuevo.")
-        done |= {c["email"].lower() for c in resend.Contacts.list(segment_id=e["segment_id"])["data"]}
-    pending = sorted((c for c in active if c["email"].lower() not in done), key=lambda c: c.get("created_at", ""))
+def pending_for(issue, active):
+    parts = issue_parts(issue)
+    if any("cutoff" not in e for e in parts):
+        sys.exit(f"{issue} ya se envió (newsletter/sent.json). Crea un issue nuevo.")
+    cutoff = max((e["cutoff"] for e in parts), default=None)
+    return sorted((c for c in active if cutoff is None or order_key(c) > cutoff), key=order_key)
+
+
+def schedule_part(resend, issue, meta, page, active, size, when, parts_total, dry_run=False, offset=0):
+    """Schedules the next part of `issue` at `when`. Returns False if no segment is free."""
+    pending = pending_for(issue, active)
     if not pending:
-        sys.exit(f"Todas las suscritas ya recibieron {issue}. No hay nada que programar.")
-    part = len(parts) + 1
+        print(f"Todas las suscritas ya tienen {issue}.")
+        return False
+    part = len(issue_parts(issue)) + 1 + offset  # offset: parts a dry run "scheduled" before
+    last = part >= parts_total
+    # The last part also takes mid-week sign-ups, up to the daily limit.
+    batch = pending[:int(env("NEWSLETTER_DAILY_LIMIT", "100")) if last else size]
+    if dry_run:
+        print(f"[dry-run] Parte {part}/{parts_total}: {len(batch)} el {when:%A %d %b %H:%M} CDMX.")
+        return True
+    free_part_segments(resend)
     name = f"Newsletter {Path(issue).stem} · parte {part}"
-    # The plan allows 3 segments: reuse this part's segment if a canceled run left it behind.
-    seg = next((s["id"] for s in resend.Segments.list()["data"] if s["name"] == name), None)
+    segments = resend.Segments.list()["data"]
+    seg = next((x["id"] for x in segments if x["name"] == name), None)  # left by a canceled run
     if seg:
-        batch = [c for c in resend.Contacts.list(segment_id=seg)["data"] if not c.get("unsubscribed")]
+        for c in segment_contacts(resend, seg):
+            resend.Contacts.Segments.remove({"email": c["email"], "segment_id": seg})
+            time_module.sleep(0.6)
+    elif len(segments) >= MAX_SEGMENTS:
+        print(f"Parte {part}/{parts_total}: no hay segmento libre (máximo {MAX_SEGMENTS}); "
+              "la programa `newsletter.py continue` cuando salga la parte anterior.")
+        return False
     else:
-        batch = pending[:size]
-        free_part_segments(resend, keep_issue=issue)
         seg = resend.Segments.create({"name": name})["id"]
-        for c in batch:
-            resend.Contacts.Segments.add({"email": c["email"], "segment_id": seg})
-            time_module.sleep(0.6)  # Resend allows ~2 requests per second
-    print(f"Parte {part}: {len(batch)} de {len(pending)} pendientes (segmento {seg}).")
-    return batch, seg, part
+    for c in batch:
+        resend.Contacts.Segments.add({"email": c["email"], "segment_id": seg})
+        time_module.sleep(0.6)  # Resend allows ~2 requests per second
+    broadcast(resend, issue, meta, page, seg, when, len(batch),
+              {"part": part, "parts_total": parts_total, "segment_id": seg, "cutoff": order_key(batch[-1])})
+    return True
+
+
+def broadcast(resend, issue, meta, page, segment, when, recipients, extra=None):
+    params = {
+        "segment_id": segment,
+        "from": env("NEWSLETTER_FROM", required=True),
+        "subject": meta["subject"],
+        "html": page,
+        "name": f"Newsletter {Path(issue).stem}" + (f" · parte {extra['part']}" if extra else ""),
+        "send": True,
+        "scheduled_at": when.isoformat(),
+    }
+    if env("NEWSLETTER_REPLY_TO"):
+        params["reply_to"] = env("NEWSLETTER_REPLY_TO")
+    r = resend.Broadcasts.create(params)
+    log = sent_log()
+    log.append({
+        "issue": issue,
+        "broadcast_id": r["id"],
+        "scheduled_at": when.isoformat(),
+        "recipients": recipients,
+        "news_date": meta.get("news_date", ""),
+        "receta_url": meta.get("receta_url", ""),
+        **(extra or {}),
+    })
+    SENT_LOG.write_text(json.dumps(log, ensure_ascii=False, indent=2) + "\n")
+    label = f"Parte {extra['part']}/{extra['parts_total']}: " if extra else ""
+    print(f"{label}{recipients} destinatarias, programado {r['id']} para {when:%A %d %b %H:%M} CDMX.")
+    print("Para cancelarlo: python newsletter/newsletter.py cancel " + r["id"])
 
 
 def cmd_schedule(a):
     reconcile_sent_log()
-    if not a.batch and any(e.get("issue") == Path(a.issue).name for e in sent_log()):
-        sys.exit(f"{Path(a.issue).name} ya se envió (newsletter/sent.json). Crea un issue nuevo.")
+    issue = Path(a.issue).name
     meta, page, out = build(a.issue)
     missing = sorted(set(PLACEHOLDER.findall(page)))
     if missing and not a.force:
@@ -463,42 +539,46 @@ def cmd_schedule(a):
     print(f"Destinatarias: {len(active)} suscritas ({unsub} desuscritas se omiten).")
     when = datetime.fromisoformat(a.at).replace(tzinfo=TZ) if a.at else next_send_at()
     resend = resend_client()
-    segment, part = env("RESEND_SEGMENT_ID", required=True), None
-    if a.batch:
-        if a.dry_run:
-            print(f"[dry-run] Mandaría hasta {a.batch} de {len(active)} suscritas el {when:%A %d %b %H:%M} CDMX.")
-            return
-        active, segment, part = batch_segment(resend, Path(a.issue).name, active, a.batch)
-    check_limit(len(active), a.allow_over_limit)
+    limit = int(env("NEWSLETTER_DAILY_LIMIT", "100"))
 
-    params = {
-        "segment_id": segment,
-        "from": env("NEWSLETTER_FROM", required=True),
-        "subject": meta["subject"],
-        "html": page,
-        "name": f"Newsletter {Path(a.issue).stem}" + (f" · parte {part}" if part else ""),
-        "send": True,
-        "scheduled_at": when.isoformat(),
-    }
-    if env("NEWSLETTER_REPLY_TO"):
-        params["reply_to"] = env("NEWSLETTER_REPLY_TO")
+    if a.split and len(active) > limit and not issue_parts(issue):
+        total = -(-len(active) // a.split)  # ceil
+        print(f"Pasa del límite de {limit} al día: va en {total} partes de hasta {a.split}, un día cada una.")
+        for i in range(total):
+            if not schedule_part(resend, issue, meta, page, active, a.split, when + timedelta(days=i), total,
+                                 a.dry_run, offset=i if a.dry_run else 0):
+                break
+        return
+    if a.split and issue_parts(issue):
+        sys.exit(f"{issue} ya tiene partes programadas: las que faltan las programa `newsletter.py continue`.")
+    if issue_parts(issue):
+        sys.exit(f"{issue} ya se envió (newsletter/sent.json). Crea un issue nuevo.")
+    check_limit(len(active), a.allow_over_limit)
     if a.dry_run:
         print(f"[dry-run] Se programaría para {when:%A %d %b %H:%M} CDMX. HTML: {out}")
         return
-    r = resend.Broadcasts.create(params)
-    log = sent_log()
-    log.append({
-        "issue": Path(a.issue).name,
-        "broadcast_id": r["id"],
-        "scheduled_at": when.isoformat(),
-        "recipients": len(active),
-        "news_date": meta.get("news_date", ""),
-        "receta_url": meta.get("receta_url", ""),
-        **({"part": part, "segment_id": segment} if part else {}),
-    })
-    SENT_LOG.write_text(json.dumps(log, ensure_ascii=False, indent=2) + "\n")
-    print(f"Programado: {r['id']} para {when:%A %d %b %H:%M} CDMX.")
-    print("Para cancelarlo: python newsletter/newsletter.py cancel " + r["id"])
+    broadcast(resend, issue, meta, page, env("RESEND_SEGMENT_ID", required=True), when, len(active))
+
+
+def cmd_continue(a):
+    """Daily: schedules the next part of any issue that's still going out in parts."""
+    reconcile_sent_log()
+    resend, now = resend_client(), datetime.now(TZ)
+    issues = {e["issue"]: e for e in sent_log() if e.get("parts_total")}
+    did = False
+    for issue in issues:
+        parts = issue_parts(issue)
+        total = parts[0]["parts_total"]
+        if len(parts) >= total:
+            continue
+        last = max(datetime.fromisoformat(e["scheduled_at"]) for e in parts)
+        when = max(last + timedelta(days=1), now + timedelta(minutes=10))  # 24h+ after the last part
+        path = HERE / "issues" / issue
+        meta, page, _ = build(path)
+        active, _ = audience()
+        did |= schedule_part(resend, issue, meta, page, active, parts[0]["recipients"], when, total)
+    if not did:
+        print("Nada que programar.")
 
 
 def cmd_stats(a):
@@ -572,9 +652,10 @@ def main():
     p.add_argument("--allow-over-limit", action="store_true")
     p.add_argument("--force", action="store_true", help="programar aunque queden marcadores [[...]]")
     p.add_argument("--dry-run", action="store_true")
-    p.add_argument("--batch", type=int, metavar="N",
-                   help="manda a lo más N (las que no lo han recibido); repítelo otro día para el resto")
+    p.add_argument("--split", type=int, metavar="N",
+                   help="si pasa del límite diario: partes de N, una por día (el resto con `continue`)")
     p.set_defaults(fn=cmd_schedule)
+    sub.add_parser("continue").set_defaults(fn=cmd_continue)
     p = sub.add_parser("stats"); p.add_argument("broadcast_id", nargs="?"); p.set_defaults(fn=cmd_stats)
     p = sub.add_parser("cancel"); p.add_argument("broadcast_id"); p.set_defaults(fn=cmd_cancel)
     p = sub.add_parser("setup"); p.add_argument("--create", action="store_true"); p.set_defaults(fn=cmd_setup)
