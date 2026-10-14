@@ -45,7 +45,7 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 
 ## Creating a receta
 
-Follow `site/recetas/README.md` ("Creating a new receta"). The checklist:
+Use the project skill **`/nueva-receta`** (`.claude/skills/nueva-receta/`): it walks the whole flow and its script scaffolds (`receta.mjs new <slug>`) and checks (`receta.mjs check <slug>`) a receta. The steps live in `site/recetas/README.md` ("Creating a new receta"). The checklist:
 
 - Copy rewritten in the club's voice from the user's draft: keep every fact, link and number, explain or drop jargon, **no kitchen puns** (no ingredientes/hornear/probadita/cocina; Gen Z and direct instead), no hype.
 - New folder `site/recetas/<slug>/` copied from `reel-con-claude-cowork/`: head tags, hero, `.ingredientes` ("Lo que necesitas", public), steps in `.receta__locked` with the first `id="paso-1"`, `data-gate="receta-<slug>"`. Reuse the existing building blocks (`.check-list`, `.frases`, `.prompt` + `data-copy`, `.bubbles`, `.note`, `.receta-ojo`) before adding CSS.
