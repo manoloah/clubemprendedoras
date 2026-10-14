@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Arma el dashboard de tu negocio que se actualiza solo · Recetas del Club</title>
+  <meta name="description" content="Anota tus ventas y gastos en Google Sheets, Excel o CSV y Claude arma un dashboard en vivo con tus números del día. 5 pasos y el prompt listo para copiar.">
+  <meta name="theme-color" content="#F2C75C">
+  <link rel="canonical" href="https://www.clubdelasemprendedoras.com/recetas/dashboard-finanzas-en-vivo/">
+  <link rel="icon" href="/assets/brand/asterisk.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="es_MX">
+  <meta property="og:title" content="Arma el dashboard de tu negocio que se actualiza solo">
+  <meta property="og:description" content="Claude arma el dashboard de tu negocio y lo actualiza cada vez que lo abres. 5 pasos y el prompt listo para copiar.">
+  <meta property="og:url" content="https://www.clubdelasemprendedoras.com/recetas/dashboard-finanzas-en-vivo/">
+  <meta property="og:image" content="https://www.clubdelasemprendedoras.com/assets/img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Signup gate, decided before paint: open if she came from the newsletter
+       or already signed up on this browser (see site/recetas/README.md). -->
+  <script>
+    (function () {
+      var ok = /[?&]utm_source=newsletter(&|$)/.test(location.search);
+      try {
+        if (ok) localStorage.setItem("club_receta_ok", "1");
+        else ok = localStorage.getItem("club_receta_ok") === "1";
+      } catch (e) {}
+      if (!ok) document.documentElement.classList.add("is-gated");
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap">
+
+  <link rel="stylesheet" href="/assets/tokens.css?v=3">
+  <link rel="stylesheet" href="/assets/styles.css?v=12">
+  <script src="/assets/config.js?v=4"></script>
+  <script src="/assets/recetas.js?v=2" defer></script>
+  <script src="/assets/motion.js?v=11" defer></script>
+</head>
+<body class="receta-page">
+  <a class="skip-link" href="#ingredientes">Ir a la receta</a>
+
+  <header class="nav" data-nav>
+    <a class="nav__logo" href="/" aria-label="El Club de las Emprendedoras, inicio">
+      <img src="/assets/brand/logo-tomato.webp" width="104" height="65" alt="El Club de las Emprendedoras">
+    </a>
+    <div class="nav__actions">
+      <details class="menu" data-menu>
+        <summary class="menu__toggle"><span>Menú</span><span class="menu__icon" aria-hidden="true"></span></summary>
+        <nav class="menu__panel" aria-label="Secciones">
+          <a class="menu__item menu__item--feature" href="/recetas/"><span class="kicker kicker--tomato">Nuevo</span><strong>Recetas de Emprendimiento e IA</strong><small>Pasos sencillos para ayudarte a emprender con IA</small></a>
+        </nav>
+      </details>
+      <a class="btn btn--sm" href="/#unirme">Unirme</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="receta-hero" aria-labelledby="receta-title">
+      <img class="recetas-decor recetas-decor--heart" src="/assets/img/lilac-heart.webp" width="72" height="69" alt="" aria-hidden="true">
+      <div class="receta-hero__inner">
+        <p class="kicker kicker--tomato tilt-l">Receta #2 · Gratis para el club</p>
+        <h1 id="receta-title" class="display">Arma el dashboard de tu negocio que <span class="accent">se actualiza solo</span></h1>
+        <p class="lead">Tú anotas tus ventas y gastos en una hoja, como siempre. Claude arma un dashboard con tus ingresos, gastos y ganancia, y cada vez que lo abres trae tus números del día. Te dejamos el prompt completo.</p>
+        <div class="receta-meta">
+          <span class="sticker sticker--pink">5 pasos</span>
+          <span class="sticker sticker--olive">Sin fórmulas</span>
+          <span class="sticker sticker--lilac">1 hora</span>
+        </div>
+        <p class="receta-by">
+          <img src="/assets/img/pame.webp" width="48" height="48" alt="">
+          <span>Por Pame · <a href="https://www.instagram.com/PameVls/" target="_blank" rel="noopener">@PameVls</a></span>
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--cream" id="ingredientes" aria-labelledby="ingredientes-title">
+      <div class="section__inner">
+        <div class="receta-intro">
+          <div class="ingredientes">
+            <p class="kicker kicker--navy">Antes de empezar</p>
+            <h2 id="ingredientes-title" class="h2">Lo que necesitas</h2>
+            <ul class="check-list">
+              <li><strong>Claude con un plan de pago</strong> (Pro, Max, Team o Enterprise). Conectar tus apps no viene en el plan gratis. Lo usas en <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> o en la app de escritorio, que bajas en <a href="https://claude.com/download" target="_blank" rel="noopener">claude.com/download</a>.</li>
+              <li><strong>Tus números en Google Sheets, Excel o CSV:</strong> tus ventas y tus gastos, aunque estén desordenados. ¿No tienes nada? En el paso 1 te damos una plantilla.</li>
+              <li><strong>2 o 3 meses de movimientos</strong>, para que haya con qué comparar.</li>
+              <li><strong>Una hora</strong> para armarlo y ajustarlo.</li>
+            </ul>
+          </div>
+          <div class="receta-why">
+            <h3 class="h3">¿Qué es un Live Artifact?</h3>
+            <p>Un artifact es una página que Claude construye para ti: un dashboard, un tracker, una mini app. Uno <em>en vivo</em> se conecta a tus datos (tu Google Sheet, tu Drive) y cada vez que lo abres trae los números de hoy. No es una foto de tus finanzas: es una ventana a ellas.</p>
+            <p>Desde agosto de 2026 Claude les dice solo "artifacts", pero se siguen conectando a tus apps. <a href="https://support.claude.com/en/articles/17153992-what-are-artifacts-and-how-do-i-use-them" target="_blank" rel="noopener">Aquí lo explica Anthropic</a> (en inglés).</p>
+            <p class="note note--pink tilt-r">Se lo vimos a <a href="https://www.instagram.com/p/DcKq3cxCV7B/" target="_blank" rel="noopener">@lilodomit_ia</a> y armamos el nuestro ♡</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Signup gate: shown only while html.is-gated -->
+    <section class="section section--cream section--flush" aria-label="Receta paso a paso">
+      <div class="section__inner">
+        <div class="receta__locked" data-locked>
+          <ol class="pasos">
+            <li class="paso" id="paso-1">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">1</span><h2 class="h2">Ordena tus números en una tabla</h2></div>
+              <p>Claude lee mejor una tabla sencilla: una fila por cada venta o gasto. Revisa que tu hoja tenga algo parecido a estas columnas:</p>
+              <ul class="check-list">
+                <li><strong>Fecha:</strong> el día de la venta o del gasto.</li>
+                <li><strong>Concepto:</strong> qué fue ("Pedido de Ana", "Renta del taller").</li>
+                <li><strong>Tipo:</strong> Ingreso o Gasto.</li>
+                <li><strong>Categoría:</strong> Ventas, Materiales, Publicidad, Envíos, Renta…</li>
+                <li><strong>Monto:</strong> en pesos, solo el número.</li>
+                <li><strong>Canal</strong> (opcional): Instagram, WhatsApp, bazar… para ver dónde vendes más.</li>
+              </ul>
+              <p>¿Empiezas de cero? Baja <a href="/recetas/dashboard-finanzas-en-vivo/plantilla-finanzas.csv" download>nuestra plantilla</a>, ábrela en Google Sheets (Archivo → Importar) y cambia los ejemplos por tus movimientos.</p>
+              <p class="note note--butter tilt-l">No tiene que estar perfecta. Claude te avisa qué filas no entiende.</p>
+            </li>
+
+            <li class="paso" id="paso-2">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">2</span><h2 class="h2">Dale acceso a tus números</h2></div>
+              <p>Aquí decides si tu dashboard va a estar en vivo o va a ser una foto del momento:</p>
+              <div class="frases">
+                <div class="frase">
+                  <p class="kicker kicker--tomato">Google Sheets</p>
+                  <p class="frase__what">Se actualiza solo</p>
+                  <p class="frase__eg">En Claude, ve a Configuración → Conectores y conecta Google Drive. Claude lee tu hoja cada vez que abres el dashboard.</p>
+                </div>
+                <div class="frase">
+                  <p class="kicker kicker--navy">Excel</p>
+                  <p class="frase__what">Pásalo a Sheets</p>
+                  <p class="frase__eg">Súbelo a Google Drive y ábrelo con Google Sheets (Archivo → Guardar como Hojas de cálculo de Google). ¿Ves Microsoft 365 en Conectores? Conecta tu Excel de OneDrive directo.</p>
+                </div>
+                <div class="frase">
+                  <p class="kicker kicker--navy">CSV</p>
+                  <p class="frase__what">Una foto del momento</p>
+                  <p class="frase__eg">Adjúntalo al chat con el clip. Para ponerlo al día, adjuntas el archivo nuevo y le dices "actualiza con este". ¿Lo quieres en vivo? Impórtalo a Google Sheets.</p>
+                </div>
+              </div>
+              <p>Revisa también que en Configuración → Capacidades esté prendida la ejecución de código y creación de archivos ("Code execution and file creation"). Sin eso, Claude no puede crear artifacts.</p>
+            </li>
+
+            <li class="paso" id="paso-3">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">3</span><h2 class="h2">Abre un chat nuevo y pega este prompt</h2></div>
+              <ol>
+                <li>Abre un chat nuevo en Claude.</li>
+                <li>Copia el prompt y cambia lo que está entre [corchetes].</li>
+                <li>Pega el link de tu Google Sheet donde dice.</li>
+              </ol>
+              <div class="prompt">
+                <div class="prompt__bar">
+                  <span>Tu prompt</span>
+                  <button class="btn btn--sm" type="button" data-copy="prompt-dashboard"><span class="btn__label">Copiar</span></button>
+                </div>
+<pre id="prompt-dashboard">Quiero un dashboard en vivo (un artifact) con las finanzas de
+mi negocio: [una tienda de ropa que vende por Instagram].
+
+Mis datos:
+- Están en [link de tu Google Sheet], pestaña [Movimientos].
+  Léela con mi conector de Google Drive cada vez que se abra el
+  dashboard, para que siempre muestre los números de hoy.
+- Cada fila es una venta o un gasto. Columnas: Fecha, Concepto,
+  Tipo (Ingreso o Gasto), Categoría, Monto y Canal.
+  Moneda: [pesos mexicanos, MXN].
+
+Antes de construir nada:
+1. Lee la hoja y dime qué columnas encontraste, cuántas filas
+   hay y de qué fecha a qué fecha van.
+2. Avísame de filas raras (sin monto, sin categoría, fechas mal
+   escritas o repetidas) y pregúntame qué hago con ellas.
+   No cambies nada en mi hoja: solo léela.
+
+El dashboard:
+- Arriba, 4 números del mes actual comparados con el mes
+  pasado: Ingresos, Gastos, Ganancia (ingresos menos gastos) y
+  Margen (ganancia entre ingresos, en %).
+- Una gráfica de barras con ingresos y gastos de los últimos
+  [6] meses, y la ganancia como línea.
+- Gastos del mes por categoría, de mayor a menor.
+- Ventas por canal y mis [5] ventas más grandes del mes.
+- Meta del mes: [$50,000] de ingresos, con barra de avance y
+  cuánto me falta.
+- Un filtro para elegir el mes.
+- 3 observaciones en español sencillo y con números: qué
+  subió, qué bajó y qué gasto debo vigilar.
+
+Diseño:
+- Que se lea bien primero en el celular.
+- Limpio y con aire. Colores: [rosa #FBC0D7, azul marino
+  #17254A y amarillo #F2C75C].
+- Cantidades como $12,345 y fechas como 14 oct 2026.
+- Arriba, la hora de la última actualización y un botón para
+  actualizar.
+- Si no puede leer la hoja, que lo diga claro en lugar de
+  mostrar números viejos.
+
+Reglas: usa solo mis datos. Nunca inventes ni redondees cifras
+para que se vean mejor. Si algo no cuadra, pregúntame.</pre>
+              </div>
+              <p>¿Usas un CSV? Cambia la parte de "Mis datos" por "Te adjunto mi archivo [ventas.csv]" y adjúntalo.</p>
+              <p>Los colores del prompt son los del club. Cambia esa línea por los de tu marca.</p>
+            </li>
+
+            <li class="paso" id="paso-4">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">4</span><h2 class="h2">Pide cambios en una frase</h2></div>
+              <p>La primera versión casi nunca sale perfecta. Spoiler: vas a darle 3 o 4 vueltas, y está bien. Pide así:</p>
+              <ul class="bubbles">
+                <li class="bubble">Junta Envíos y Paquetería en una sola categoría</li>
+                <li class="bubble">Quita la tabla de ventas, no la uso</li>
+                <li class="bubble">Muéstrame la ganancia por semana, no por mes</li>
+                <li class="bubble">Los números se ven chiquitos en el celular, hazlos más grandes</li>
+                <li class="bubble">¿Por qué septiembre salió en negativo? Enséñame las filas</li>
+              </ul>
+              <p>Cada cambio guarda una versión nueva. Si algo se rompe, regresas a la anterior.</p>
+            </li>
+
+            <li class="paso" id="paso-5">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">5</span><h2 class="h2">Úsalo cada semana</h2></div>
+              <ul class="check-list">
+                <li><strong>Anota como siempre:</strong> cada venta y cada gasto en tu hoja, de preferencia el mismo día.</li>
+                <li><strong>Ábrelo:</strong> lo encuentras en Artifacts, en el menú de Claude. Trae tus números de hoy; si ves algo viejo, dale al botón de actualizar.</li>
+                <li><strong>Pregúntale:</strong> en el mismo chat, "¿en qué mes gasté más en publicidad?" o "¿qué canal me deja más?".</li>
+                <li><strong>Ponte una cita:</strong> 15 minutos cada lunes con tu dashboard. Ahí salen las decisiones.</li>
+              </ul>
+              <div class="receta-ojo">
+                <img src="/assets/brand/asterisk.svg" width="26" height="46" alt="">
+                <p><strong>Ojo:</strong> tus finanzas son privadas. El artifact empieza privado; si lo compartes, cada persona ve solo lo que su propia cuenta puede abrir y gasta de su propio plan. Nunca pongas contraseñas ni números de tarjeta en tu hoja.</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="receta-done">
+            <p class="kicker kicker--tomato tilt-l">¿Lo hiciste?</p>
+            <h2 class="h2">Mándanos tu dashboard, queremos verlo.</h2>
+            <p>Tapa los números si quieres. Etiquétanos en <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a> o respóndenos el correo del miércoles. Los mejores los compartimos.</p>
+          </div>
+        </div>
+
+        <div class="gate" data-gate="receta-dashboard-finanzas-en-vivo">
+          <div class="waitlist">
+            <span class="sticker sticker--tomato" aria-hidden="true">Gratis</span>
+            <form class="waitlist__form" novalidate>
+              <h2 class="h3">Abre la receta completa</h2>
+              <p>Déjanos tu nombre y tu correo y es tuya. ¿Ya eres del club? Pon el correo de siempre y entras directo.</p>
+              <div class="field">
+                <label for="gate-name">Tu nombre</label>
+                <input id="gate-name" name="name" type="text" autocomplete="given-name" placeholder="¿Cómo te llamas?" required maxlength="120">
+              </div>
+              <div class="field">
+                <label for="gate-email">Tu correo</label>
+                <input id="gate-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254">
+              </div>
+              <div class="hp" aria-hidden="true">
+                <label for="gate-company">No llenes este campo</label>
+                <input id="gate-company" name="company" type="text" tabindex="-1" autocomplete="off">
+              </div>
+              <button class="btn btn--block" type="submit">
+                <span class="btn__label">Quiero la receta</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <p class="caption">Cada miércoles te mandamos una receta nueva y las noticias de IA que importan para emprender. Te sales cuando quieras.</p>
+              <p class="waitlist__status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="cta__inner">
+        <span class="sticker sticker--lilac cta__sticker" aria-hidden="true">Tú puedes</span>
+        <h2 id="cta-title" class="display display--inverse">Esto es un spoiler del taller.</h2>
+        <p class="lead lead--inverse">En 2027 hacemos esto, pero con tu app: 8 semanas, en vivo y con otras mujeres que van al mismo paso que tú.</p>
+        <a class="btn" href="/#unirme"><span class="btn__label">Quiero mi lugar</span> <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="/assets/brand/logo-cream.webp" width="180" height="112" alt="El Club de las Emprendedoras" loading="lazy">
+    <p class="footer__by">Un proyecto de Pame y Manu · <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a></p>
+    <p class="caption"><a href="/recetas/">Recetas de Emprendimiento e IA</a> · © 2026 El Club de las Emprendedoras.</p>
+  </footer>
+</body>
+</html>
