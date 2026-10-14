@@ -506,6 +506,21 @@ ul, ol { padding: 0; list-style: none; }
 .paso code { font: 600 0.92em/1 ui-monospace, "SF Mono", Menlo, monospace; background: var(--surface-expressive); padding: 2px 6px; border-radius: 6px; }
 .paso .note { max-width: 300px; }
 
+/* Screenshots inside steps: capped so app UI never outsizes the text */
+.shot { display: flex; flex-direction: column; gap: var(--space-8); max-width: 360px; }
+.shot img { border: var(--stroke-ui) solid var(--border-default); border-radius: var(--radius-8); box-shadow: var(--shadow-hard); background: var(--surface-inverse); }
+.shot figcaption { font: var(--type-caption); opacity: 0.8; }
+.shot--sm { max-width: 260px; }
+.shot--wide { max-width: 520px; }
+.shots { display: grid; gap: var(--space-16); }
+.shots .shot { max-width: none; }
+.shots .shot--sm { max-width: 260px; }
+.shots .shot:first-child { max-width: 240px; }
+@media (min-width: 900px) {
+  .shots { grid-template-columns: 240px minmax(0, 1fr); align-items: start; column-gap: var(--space-24); }
+  .shots .shot:first-child { grid-row: span 2; }
+}
+
 /* The 4 sentences */
 .frases { display: grid; gap: var(--space-16); }
 .frase { display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-16) var(--space-16) var(--space-24); border-radius: var(--radius-16); border: var(--stroke-ui) solid var(--border-default); }

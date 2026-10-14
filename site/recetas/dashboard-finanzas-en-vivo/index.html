@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap">
 
   <link rel="stylesheet" href="/assets/tokens.css?v=3">
-  <link rel="stylesheet" href="/assets/styles.css?v=12">
+  <link rel="stylesheet" href="/assets/styles.css?v=14">
   <script src="/assets/config.js?v=4"></script>
   <script src="/assets/recetas.js?v=2" defer></script>
   <script src="/assets/motion.js?v=11" defer></script>
@@ -141,15 +141,27 @@
                 </div>
               </div>
               <p><strong>Así conectas Google Sheets:</strong> en el chat, dale al <strong>+</strong> → Connectors → Add connector → Browse connectors. Busca "Google Sheets" (y si quieres, Google Drive), dale conectar y entra con tu cuenta de Google.</p>
-              <figure><img src="/assets/img/receta-dashboard-conector-1.webp" width="732" height="844" alt="El menú del botón + en el chat de Claude, con la opción Connectors." loading="lazy"></figure>
-              <figure><img src="/assets/img/receta-dashboard-conector-2.webp" width="900" height="194" alt="Connectors → Add connector → Browse connectors." loading="lazy"></figure>
-              <figure><img src="/assets/img/receta-dashboard-conector-3.webp" width="900" height="284" alt="La ventana Connectors con Google Sheets y Google Drive conectados." loading="lazy"></figure>
+              <div class="shots">
+                <figure class="shot"><img src="/assets/img/receta-dashboard-conector-1.webp" width="732" height="844" alt="El menú del botón + en el chat de Claude, con la opción Connectors." loading="lazy"><figcaption>1. El botón + del chat → Connectors.</figcaption></figure>
+                <figure class="shot"><img src="/assets/img/receta-dashboard-conector-2.webp" width="900" height="194" alt="Connectors → Add connector → Browse connectors." loading="lazy"><figcaption>2. Add connector → Browse connectors.</figcaption></figure>
+                <figure class="shot"><img src="/assets/img/receta-dashboard-conector-3.webp" width="900" height="284" alt="La ventana Connectors con Google Sheets y Google Drive conectados." loading="lazy"><figcaption>3. Listo: Google Sheets (y Drive) dicen Connected.</figcaption></figure>
+              </div>
               <p>¿Prefieres verlo en video? Anthropic tiene uno en la <a href="https://claude.com/connectors/google-drive" target="_blank" rel="noopener">página del conector de Google Drive</a> (Google Sheets se conecta igual, pero es otro conector: asegúrate de conectar ese), y aquí está la <a href="https://support.claude.com/en/articles/10166901-use-google-workspace-connectors" target="_blank" rel="noopener">guía paso a paso</a> (en inglés). Si tu Claude es de trabajo (Team o Enterprise), quien lo administra tiene que activar el conector primero.</p>
               <div class="receta-ojo">
                 <img src="/assets/brand/asterisk.svg" width="26" height="46" alt="">
                 <p><strong>Un tip de seguridad:</strong> al conectar Drive o Sheets, Claude puede leer tus archivos. Antes, mueve a otro lado los documentos con contraseñas, datos de tarjetas o información personal de tus clientas. Lo ideal: una carpeta solo para tus números del negocio.</p>
               </div>
-              <p>Revisa también que en Configuración → Capacidades esté prendida la ejecución de código y creación de archivos ("Code execution and file creation"). Sin eso, Claude no puede crear artifacts.</p>
+              <h3 class="h3">Un último ajuste: prende la ejecución de código</h3>
+              <p>Sin esto Claude no puede crear el dashboard (los artifacts). Casi siempre ya viene prendido, pero revísalo en 30 segundos:</p>
+              <ol>
+                <li>Abajo a la izquierda, dale a tu nombre y elige <strong>Settings</strong> (Configuración).</li>
+                <li>Entra a <strong>Capabilities</strong> (Capacidades).</li>
+                <li>En "Code execution and file creation", prende <strong>Cloud code execution and file creation</strong>.</li>
+                <li>Prende también <strong>Allow network egress</strong>, para que Claude pueda instalar las librerías que necesite.</li>
+              </ol>
+              <figure class="shot shot--sm"><img src="/assets/img/receta-dashboard-ajustes.webp" width="456" height="530" alt="El menú de tu perfil en Claude, con Settings arriba." loading="lazy"><figcaption>Tu nombre → Settings.</figcaption></figure>
+              <figure class="shot shot--wide"><img src="/assets/img/receta-dashboard-capacidades.webp" width="1200" height="228" alt="Settings → Capabilities, con Cloud code execution and file creation y Allow network egress prendidos." loading="lazy"><figcaption>Capabilities: los dos interruptores prendidos (azules).</figcaption></figure>
+              <p class="note note--butter tilt-l">Si tu Claude es de trabajo (Team o Enterprise) y no puedes prenderlos, pídeselo a quien lo administra.</p>
             </li>
 
             <li class="paso" id="paso-3">
@@ -217,7 +229,7 @@ Si algo no cuadra, pregúntame.</pre>
                 <li><strong>Pregúntale:</strong> en el mismo chat, "¿en qué mes gasté más en publicidad?" o "¿qué canal me deja más?".</li>
                 <li><strong>Ponte una cita:</strong> 15 minutos cada lunes con tu dashboard. Ahí salen las decisiones.</li>
               </ul>
-              <figure><img src="/assets/img/receta-dashboard-artifacts.webp" width="526" height="396" alt="El menú de Claude con la opción Artifacts, debajo de New." loading="lazy"></figure>
+              <figure class="shot shot--sm"><img src="/assets/img/receta-dashboard-artifacts.webp" width="526" height="396" alt="El menú de Claude con la opción Artifacts, debajo de New." loading="lazy"></figure>
               <div class="receta-ojo">
                 <img src="/assets/brand/asterisk.svg" width="26" height="46" alt="">
                 <p><strong>Ojo:</strong> tus finanzas son privadas. El artifact empieza privado; si lo compartes, cada persona ve solo lo que su propia cuenta puede abrir y gasta de su propio plan. Nunca pongas contraseñas ni números de tarjeta en tu hoja.</p>
