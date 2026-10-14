@@ -50,6 +50,15 @@ Rules (from `brand/voice.md` and the first receta):
 - **Keep every fact, link and number** from the draft. Never invent results, users, prices or
   times. If the draft has a real result (a number, a view count), use it; it's what sells.
 - **Mexican Spanish, *tú*, written to women** (emprendedora, lista, tú misma). Warm and direct.
+- **She is not technical at all.** No terminal, no installers, no commands in the steps. Put every
+  technical step inside the prompt: give the GitHub repo or tool link and ask Claude Code (or Cowork)
+  to install and set it up, then she only supplies her own inputs (her link, her files, her idea).
+- **Keep prompts general so the AI thinks, not her.** Have Claude read her data itself (columns,
+  periods, currency), take her brand from her website link, and choose what to build from a goal
+  and a frame ("piensa como el CFO de [empresas que te inspiren]"). Don't make her list columns,
+  colours or visualizations.
+- **Real screenshots for UI steps** (where a menu or button is): use the user's screenshots or take
+  them with the built-in browser. Don't draw mock-ups of Claude's UI.
 - **No jargon.** Explain a technical word in one plain line the first time ("Cowork trabaja
   directo en una carpeta de tu compu") or drop it. API, backend, deploy, repo, stack: never bare.
 - **No kitchen puns,** even though it's a "receta": no ingredientes, hornear, probadita, cocina,

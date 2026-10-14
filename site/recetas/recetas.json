@@ -7,6 +7,14 @@
       "resumen": "Tú grabas con tu celular y Claude Cowork corta, pone subtítulos, anima y exporta. 5 pasos y el prompt listo para copiar.",
       "fecha": "2026-10-14",
       "url": "/recetas/reel-con-claude-cowork/"
+    },
+    {
+      "numero": 2,
+      "slug": "dashboard-finanzas-en-vivo",
+      "titulo": "Arma el dashboard de tu negocio que se actualiza solo",
+      "resumen": "Tú anotas ventas y gastos en Google Sheets, Excel o CSV. Claude arma un dashboard en vivo que trae tus números cada vez que lo abres. 5 pasos y el prompt listo para copiar.",
+      "fecha": "2026-10-14",
+      "url": "/recetas/dashboard-finanzas-en-vivo/"
     }
   ]
 }
