@@ -49,11 +49,16 @@ and, if something is missing, posts a heads-up in Slack `#general` so there's ti
 5. **Check.** `newsletter/newsletter.py build <issue>`, then open `newsletter/build/<issue>.html`
    at 393px wide and look at it.
 6. **Test email.** `newsletter/newsletter.py test <issue>`.
-7. **Schedule.** `newsletter/newsletter.py schedule <issue>`. If it exits 3, there are more
-   subscribers than `NEWSLETTER_DAILY_LIMIT` (100): **don't** pass `--allow-over-limit`. Post in
-   Slack `#general` (`C0BKT6BE42E`): "⚠️ Newsletter del miércoles {fecha}: no se programó. Hay {N}
-   suscritas y el límite es {límite}. Revisen el plan en resend.com/settings/usage y suban
-   `NEWSLETTER_DAILY_LIMIT`." and report it.
-8. **Commit** the issue and `newsletter/sent.json`, push, and open a PR against `main`.
-9. **Report** in 3–5 lines: subject, news date used, receta, number of recipients, broadcast
+7. **Tell Slack.** Post in `#general` (`C0BKT6BE42E`) that the test is in `NEWSLETTER_TEST_TO`:
+   subject, news date, receta, number of subscribers (`newsletter/newsletter.py audience`), when
+   it goes out and how to cancel. That gives Pame and Manu time for final fixes.
+8. **Schedule at least 2 hours after the test.** `newsletter/newsletter.py schedule <issue>` (the
+   default, Wednesday 08:00, is already well past that; with `--at`, leave 2 hours or more). If
+   there are more subscribers than `NEWSLETTER_DAILY_LIMIT` (100), it exits 3: **don't** pass
+   `--allow-over-limit`. Split instead: `--batch 99` sends to at most 99 who haven't received the
+   issue (the test email counts toward the 100), and running the same command again with an `--at`
+   at least 24 hours later sends to the rest. Resend's plan allows 3 segments: the main one plus
+   one per part. Part segments of earlier issues are deleted automatically once sent.
+9. **Commit** the issue and `newsletter/sent.json`, push, and open a PR against `main`.
+10. **Report** in 3–5 lines: subject, news date used, receta, number of recipients, broadcast
    id and send time, and how to cancel (`newsletter/newsletter.py cancel <id>`).
