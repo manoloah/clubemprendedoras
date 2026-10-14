@@ -28,5 +28,25 @@
       ],
       "as_of": "2026-10-11T18:32-06:00"
     }
+  },
+  {
+    "issue": "2026-10-14-b.md",
+    "broadcast_id": "ab759d82-84e7-47c0-b372-be6fc1ee7b8c",
+    "scheduled_at": "2026-10-14T15:00:00-06:00",
+    "recipients": 99,
+    "news_date": "2026-10-12",
+    "receta_url": "https://www.clubdelasemprendedoras.com/recetas/dashboard-finanzas-en-vivo/",
+    "part": 1,
+    "segment_id": "7c9d8152-33a7-416f-900e-4bc10da35859"
+  },
+  {
+    "issue": "2026-10-14-b.md",
+    "broadcast_id": "6df20458-b687-43dd-a883-dc8774a37311",
+    "scheduled_at": "2026-10-15T15:15:00-06:00",
+    "recipients": 12,
+    "news_date": "2026-10-12",
+    "receta_url": "https://www.clubdelasemprendedoras.com/recetas/dashboard-finanzas-en-vivo/",
+    "part": 2,
+    "segment_id": "2beac265-1b02-4dd4-9c62-6e5a168b1846"
   }
 ]

@@ -74,6 +74,6 @@ RESEND_API_KEY=re_...            # Full access
 RESEND_SEGMENT_ID=...
 NEWSLETTER_FROM=Pame y Manu <hola@clubdelasemprendedoras.com>
 NEWSLETTER_REPLY_TO=info@clubdelasemprendedoras.com
-NEWSLETTER_TEST_TO=info@clubdelasemprendedoras.com
+NEWSLETTER_TEST_TO=manolo7_11@hotmail.com
 NEWSLETTER_DAILY_LIMIT=100
 ```
