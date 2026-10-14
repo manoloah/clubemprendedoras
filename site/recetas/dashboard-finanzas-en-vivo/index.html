@@ -71,8 +71,8 @@
           <span class="sticker sticker--lilac">1 hora</span>
         </div>
         <p class="receta-by">
-          <img src="/assets/img/pame.webp" width="48" height="48" alt="">
-          <span>Por Pame · <a href="https://www.instagram.com/PameVls/" target="_blank" rel="noopener">@PameVls</a></span>
+          <img src="/assets/img/manu.webp" width="48" height="48" alt="">
+          <span>Por Manu · <a href="https://www.instagram.com/thebreathmanu/" target="_blank" rel="noopener">@TheBreathManu</a></span>
         </p>
       </div>
     </section>
@@ -94,7 +94,7 @@
             <h3 class="h3">¿Qué es un Live Artifact?</h3>
             <p>Un artifact es una página que Claude construye para ti: un dashboard, un tracker, una mini app. Uno <em>en vivo</em> se conecta a tus datos (tu Google Sheet, tu Drive) y cada vez que lo abres trae los números de hoy. No es una foto de tus finanzas: es una ventana a ellas.</p>
             <p>Desde agosto de 2026 Claude les dice solo "artifacts", pero se siguen conectando a tus apps. <a href="https://support.claude.com/en/articles/17153992-what-are-artifacts-and-how-do-i-use-them" target="_blank" rel="noopener">Aquí lo explica Anthropic</a> (en inglés).</p>
-            <p class="note note--pink tilt-r">Se lo vimos a <a href="https://www.instagram.com/p/DcKq3cxCV7B/" target="_blank" rel="noopener">@lilodomit_ia</a> y armamos el nuestro ♡</p>
+            <p class="note note--pink tilt-r">Tus números de hoy, sin abrir ni una fórmula ♡</p>
           </div>
         </div>
       </div>
@@ -140,6 +140,10 @@
                   <p class="frase__eg">Adjúntalo al chat con el clip. Para ponerlo al día, adjuntas el archivo nuevo y le dices "actualiza con este". ¿Lo quieres en vivo? Impórtalo a Google Sheets.</p>
                 </div>
               </div>
+              <figure>
+                <img src="/assets/img/receta-dashboard-conector.webp" width="680" height="1219" alt="Cómo conectar Google Drive en Claude: 1, toca tus iniciales y entra a Configuración; 2, abre Conectores; 3, busca Google Drive y dale Conectar." loading="lazy">
+              </figure>
+              <p>¿Prefieres verlo en video? Anthropic tiene uno en la <a href="https://claude.com/connectors/google-drive" target="_blank" rel="noopener">página del conector de Google Drive</a>, y aquí está la <a href="https://support.claude.com/en/articles/10166901-use-google-workspace-connectors" target="_blank" rel="noopener">guía paso a paso</a> (en inglés). Si tu Claude es de trabajo (Team o Enterprise), quien lo administra tiene que activar el conector primero.</p>
               <p>Revisa también que en Configuración → Capacidades esté prendida la ejecución de código y creación de archivos ("Code execution and file creation"). Sin eso, Claude no puede crear artifacts.</p>
             </li>
 
@@ -174,18 +178,11 @@ Antes de construir nada:
    No cambies nada en mi hoja: solo léela.
 
 El dashboard:
-- Arriba, 4 números del mes actual comparados con el mes
-  pasado: Ingresos, Gastos, Ganancia (ingresos menos gastos) y
-  Margen (ganancia entre ingresos, en %).
-- Una gráfica de barras con ingresos y gastos de los últimos
-  [6] meses, y la ganancia como línea.
-- Gastos del mes por categoría, de mayor a menor.
-- Ventas por canal y mis [5] ventas más grandes del mes.
-- Meta del mes: [$50,000] de ingresos, con barra de avance y
-  cuánto me falta.
-- Un filtro para elegir el mes.
-- 3 observaciones en español sencillo y con números: qué
-  subió, qué bajó y qué gasto debo vigilar.
+Crea las visualizaciones más importantes para la CEO de una
+empresa de alto crecimiento. Piensa como si fueras el CFO de
+empresas como [Lista de empresas que te inspiren: Glossier,
+Airbnb, Mercado Libre]. Antes de construir, dime qué gráficas
+y números elegiste y por qué, en una línea cada uno.
 
 Diseño:
 - Que se lea bien primero en el celular.
