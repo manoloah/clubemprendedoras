@@ -85,8 +85,7 @@
             <h2 id="ingredientes-title" class="h2">Lo que necesitas</h2>
             <ul class="check-list">
               <li><strong>Claude Code</strong>, en la pestaña Code de la app de escritorio de Claude, que bajas en <a href="https://claude.com/download" target="_blank" rel="noopener">claude.com/download</a>. Funciona con cualquier plan de pago (Pro, Max, Team o Enterprise).</li>
-              <li><strong>Node.js</strong>, gratis en <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a>. Es lo que hace funcionar REA: lo instalas una vez y te olvidas.</li>
-              <li><strong>Google Chrome</strong> (o Brave, o cualquier navegador de la familia Chrome).</li>
+              <li><strong>Google Chrome</strong>. Lo demás (programas, complementos) lo instala Claude Code por ti.</li>
               <li><strong>Lo que quieres entender</strong> (una página o app que admiras) y <strong>tu proyecto</strong>: tu web, tu app o tu producto digital.</li>
               <li><strong>Una tarde</strong> y curiosidad.</li>
             </ul>
@@ -108,44 +107,16 @@
         <div class="receta__locked" data-locked>
           <ol class="pasos">
             <li class="paso" id="paso-1">
-              <div class="paso__head"><span class="paso__num" aria-hidden="true">1</span><h2 class="h2">Instala lo básico</h2></div>
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">1</span><h2 class="h2">Abre Claude Code</h2></div>
               <ol>
-                <li>Baja Node.js de <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> (el botón que dice <strong>LTS</strong>) e instálalo: siguiente, siguiente, listo.</li>
-                <li>Abre la app de Claude, entra a la pestaña <strong>Code</strong> e inicia sesión si te lo pide.</li>
-                <li>Revisa que tengas Chrome.</li>
+                <li>Baja la app de Claude en <a href="https://claude.com/download" target="_blank" rel="noopener">claude.com/download</a> y entra a la pestaña <strong>Code</strong>.</li>
+                <li>Crea una carpeta en tu compu, por ejemplo <code>Mi investigación</code>, y elígela como lugar de trabajo.</li>
               </ol>
-              <p><strong>¿Qué es Claude Code?</strong> La versión de Claude que trabaja directo en tu compu: crea carpetas, escribe archivos y corre comandos por ti. Siempre te pide permiso antes de hacer algo.</p>
+              <p><strong>¿Qué es Claude Code?</strong> La versión de Claude que trabaja directo en tu compu: instala programas, crea archivos y hace los pasos técnicos por ti. Tú solo le dices qué quieres.</p>
             </li>
 
             <li class="paso" id="paso-2">
-              <div class="paso__head"><span class="paso__num" aria-hidden="true">2</span><h2 class="h2">Instala REA con un comando</h2></div>
-              <p>Lo haces una sola vez, en la Terminal (la ventanita donde se escriben comandos):</p>
-              <ol>
-                <li>Cierra por completo la app de Claude. Si está abierta, puede borrar lo que REA configura.</li>
-                <li>Abre la Terminal. En Mac: <code>Cmd + Espacio</code>, escribe Terminal y dale Enter. En Windows: busca PowerShell.</li>
-                <li>Pega este comando y dale Enter:</li>
-              </ol>
-              <div class="prompt">
-                <div class="prompt__bar">
-                  <span>Tu comando</span>
-                  <button class="btn btn--sm" type="button" data-copy="prompt-setup"><span class="btn__label">Copiar</span></button>
-                </div>
-<pre id="prompt-setup">npx rea-agents setup</pre>
-              </div>
-              <ul class="check-list">
-                <li><strong>"Ok to proceed?":</strong> escribe <code>y</code> y Enter.</li>
-                <li><strong>¿Para qué agentes?</strong> Muévete con las flechas, marca <strong>Claude Code</strong> con la barra espaciadora y dale Enter.</li>
-                <li><strong>¿Instalar Hopper?</strong> Dile que no. Es para apps de escritorio; para páginas web no lo necesitas.</li>
-                <li><strong>Revisa y acepta</strong> los cambios que te muestra. Cuando termine, vuelve a abrir Claude.</li>
-              </ul>
-              <div class="receta-ojo">
-                <img src="/assets/brand/asterisk.svg" width="26" height="46" alt="">
-                <p><strong>Ojo:</strong> REA es tan famoso que hay copias con nombres parecidos. Instálalo solo desde <a href="https://github.com/morluto/rea" target="_blank" rel="noopener">github.com/morluto/rea</a>, <a href="https://rea.tools" target="_blank" rel="noopener">rea.tools</a> o el comando de arriba.</p>
-              </div>
-            </li>
-
-            <li class="paso" id="paso-3">
-              <div class="paso__head"><span class="paso__num" aria-hidden="true">3</span><h2 class="h2">Escoge una sola cosa que quieras entender</h2></div>
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">2</span><h2 class="h2">Escoge una sola cosa que quieras entender</h2></div>
               <p>Entre más concreta, mejor. Ideas que le sirven a una emprendedora:</p>
               <div class="frases">
                 <div class="frase">
@@ -172,47 +143,48 @@
               <p>En el prompt usamos el quiz como ejemplo. Cámbialo por lo tuyo.</p>
             </li>
 
-            <li class="paso" id="paso-4">
-              <div class="paso__head"><span class="paso__num" aria-hidden="true">4</span><h2 class="h2">Pídele a Claude Code que lo investigue</h2></div>
-              <ol>
-                <li>Crea una carpeta, por ejemplo <code>Mi investigación</code>, y ábrela en la pestaña Code.</li>
-                <li>Copia el prompt y cambia lo que está entre [corchetes].</li>
-                <li>Cuando Claude te pida que uses la página en Chrome, hazlo: él observa mientras tú das clics.</li>
-              </ol>
+            <li class="paso" id="paso-3">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">3</span><h2 class="h2">Pega este prompt</h2></div>
+              <p>Copia el prompt y cambia lo que está entre [corchetes]. Claude Code instala REA y todo lo que haga falta; tú no tocas nada técnico.</p>
               <div class="prompt">
                 <div class="prompt__bar">
                   <span>Tu prompt</span>
                   <button class="btn btn--sm" type="button" data-copy="prompt-rea"><span class="btn__label">Copiar</span></button>
                 </div>
-<pre id="prompt-rea">Usa REA para entender cómo funciona [el quiz que recomienda
-productos] de [https://www.ejemplo.com/quiz].
+<pre id="prompt-rea">No soy técnica, así que haz tú todos los pasos técnicos y
+explícame lo que hagas en una frase sencilla.
 
-Cómo quiero que lo hagas:
-- Abre una ventana de Chrome aparte (un perfil nuevo y limpio,
-  sin mis cuentas) con esa página, y conéctale REA.
-- Cuando necesites que yo use la página, dime exactamente qué
-  hacer ("contesta la pregunta 1", "da clic en Ver resultados")
-  y avísame cuando estés observando.
-- Solo mira lo que ve cualquier visitante. No inicies sesión,
-  no pagues y no intentes saltarte nada.
+1. Instala y configura REA desde https://github.com/morluto/rea
+   (solo de ese repo oficial), con todo lo que necesite para
+   analizar páginas web. Si me tienes que pedir algo, dime
+   exactamente qué hacer.
 
-Explícame en español sencillo, sin tecnicismos:
-1. Qué pasa paso a paso, desde que entro hasta el resultado.
-2. Qué datos me pide y a dónde los manda.
-3. Cómo decide qué recomendarme (las reglas, si se ven).
-4. Qué herramientas usa (por ejemplo Shopify, Typeform o
-   Klaviyo) y si yo podría usar las mismas.
-5. Qué lo hace tan fácil y agradable de usar.
-En cada punto dime en qué evidencia de REA te basas y qué no
-pudiste confirmar. No adivines.
+2. Usa REA para entender cómo funciona [el quiz que recomienda
+   productos] de [https://www.ejemplo.com/quiz]. Ábrela en una
+   ventana de Chrome aparte, sin mis cuentas. Si necesitas que
+   yo use la página, dime qué clics dar. Solo mira lo que ve
+   cualquier visitante: no inicies sesión, no pagues y no te
+   saltes nada.
 
-Al final, dame un plan para hacer mi propia versión en
-[mi tienda de Shopify] con [mis productos], mis textos y mi
-marca. No copies sus textos, fotos ni código.</pre>
+3. Explícame, sin tecnicismos, cómo funciona por dentro: qué
+   pasa paso a paso, qué datos pide y a dónde van, cómo decide
+   y qué herramientas usa. Dime en qué evidencia te basas y qué
+   no pudiste confirmar.
+
+4. Propónme cómo hacer mi propia versión en [mi página o app],
+   con mis textos y mi marca. No copies sus textos, fotos ni
+   código.</pre>
               </div>
-              <p>Claude te va a pedir permiso antes de correr cada comando. Lee qué va a hacer y acepta.</p>
+            </li>
+
+            <li class="paso" id="paso-4">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">4</span><h2 class="h2">Acompaña a Claude mientras trabaja</h2></div>
+              <ul class="check-list">
+                <li><strong>Te va a pedir permiso</strong> antes de instalar o correr algo. Lee la frase que te explica y dale aceptar.</li>
+                <li><strong>Si te pide reiniciar</strong> la app de Claude para activar REA, hazlo y escríbele "sigue".</li>
+                <li><strong>Cuando te diga qué clics dar</strong> en Chrome, dalos: Claude observa mientras tú usas la página.</li>
+              </ul>
               <p class="note note--butter tilt-l">¿Es una app del celular? Si tiene versión web, empieza por ahí.</p>
-              <p>REA también lee apps de Android (archivos APK), pero pide instalar más herramientas. Si vas por ahí, pídele a Claude Code que te guíe.</p>
             </li>
 
             <li class="paso" id="paso-5">
