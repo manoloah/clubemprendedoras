@@ -14,6 +14,7 @@ brand/
   foundations.md        color, tipografía, espacio, forma, inclinación, gráficos
   components.md         mapa Figma ↔ clases CSS y reglas de composición
   motion.md             Club/Motion: tokens, patrones, reglas, video
+  prompts.md            los prompts con los que creamos la marca y la pasamos a Figma (plantilla + originales)
   assets/
     tokens.css          variables: color, tipografía, espacio, forma, movimiento
     styles.css          componentes (.btn, .kicker, .sticker, .note, .card-week, .faq__item, .phone…) y bloque Motion
