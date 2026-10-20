@@ -23,6 +23,14 @@
       "resumen": "Viste en otra página o app algo que quieres para tu negocio. REA y Claude Code te explican cómo funciona por dentro, en español sencillo, y te ayudan a hacer el tuyo. 5 pasos y el prompt listo para copiar.",
       "fecha": "2026-10-21",
       "url": "/recetas/ingenieria-inversa-con-rea/"
+    },
+    {
+      "numero": 4,
+      "slug": "disena-en-figma-con-claude",
+      "titulo": "Así hicimos el logo del club: Claude lo diseñó directo en Figma",
+      "resumen": "Le das a Claude Code una imagen de referencia y un espacio en tu Figma, y diseña ahí mismo tu logo, con cada letra editable. 5 pasos y el prompt listo para copiar.",
+      "fecha": "2026-10-28",
+      "url": "/recetas/disena-en-figma-con-claude/"
     }
   ]
 }
