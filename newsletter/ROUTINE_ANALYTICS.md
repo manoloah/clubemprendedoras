@@ -13,6 +13,8 @@ or commit secrets, and never paste subscribers' emails anywhere (Slack, PR, fina
      row per email per send: sent, delivered, opened, clicked, bounced, spam, unsubscribed,
      suppressed, which links), `broadcasts.csv` (totals and rates per send), `history.csv`
      (a snapshot per run, to see numbers grow after the send);
+   - ranks the most engaged readers (1 point per send opened + 3 per send clicked) in `readers.csv`
+     and the dashboard's top 10 (emails masked on the dashboard, full in the local CSV);
    - rebuilds `dashboard.html` and `dashboard.png` (no emails in them);
    - posts the PNG with a summary in `#emprendeconpm` (tags Manu);
    - refreshes each of those broadcasts' `stats` in `newsletter/sent.json`.

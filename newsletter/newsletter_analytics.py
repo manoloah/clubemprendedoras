@@ -7,6 +7,7 @@
 `run` pulls every broadcast from sent.json scheduled in the last N days (default 14) that Resend
 reports as sent, and writes into newsletter/analytics/ (gitignored, it holds subscribers' emails):
 
+    readers.csv      ranking of the most engaged readers (1 point per send opened, 3 per send clicked)
     recipients.csv   one row per email per broadcast: sent, delivered, opened (+count), clicked
                      (+count, links), bounced, complained (spam), unsubscribed, suppressed
     broadcasts.csv   one row per broadcast with totals and rates
@@ -161,6 +162,28 @@ def group_issues(rows):
     return out[::-1]
 
 
+def engaged_readers(people):
+    """Ranks readers by engagement over the window: 1 point per send opened, 3 per send clicked."""
+    agg = {}
+    for r in people:
+        a = agg.setdefault(r["email"], {"email": r["email"], "received": 0, "opened": 0, "clicked": 0, "clicks": 0, "opens": 0})
+        if r["delivered"] == "True":
+            a["received"] += 1
+        a["opened"] += r["opened"] == "True"
+        a["clicked"] += r["clicked"] == "True"
+        a["clicks"] += int(r["click_count"] or 0)
+        a["opens"] += int(r["open_count"] or 0)
+    for a in agg.values():
+        a["score"] = a["opened"] + 3 * a["clicked"]
+    ranked = sorted(agg.values(), key=lambda a: (-a["score"], -a["clicks"], -a["opens"], a["email"]))
+    return [dict(a, rank=i + 1) for i, a in enumerate(ranked) if a["score"] > 0]
+
+
+def mask(email):
+    name, _, dom = email.partition("@")
+    return f"{name[:2]}***@{dom}"
+
+
 def tile(label, value, sub="", color="var(--navy)"):
     return (f'<div class="tile"><div class="tl">{html.escape(label)}</div>'
             f'<div class="tv" style="color:{color}">{value}</div><div class="ts">{html.escape(sub)}</div></div>')
@@ -185,7 +208,7 @@ def bars(issues, key, color):
     return "".join(rows)
 
 
-def dashboard_html(broadcasts, links, as_of, days):
+def dashboard_html(broadcasts, links, as_of, days, readers=()):
     issues = group_issues(broadcasts)
     if not issues:
         body = "<p>No hubo envíos en este periodo.</p>"
@@ -219,6 +242,9 @@ def dashboard_html(broadcasts, links, as_of, days):
         headp = head.replace("Asunto", "Hora")
         link_rows = "".join(f'<tr><td class="l">{html.escape(l["url"])}</td><td>{l["clicks"]}</td><td>{l["unique"]}</td></tr>'
                             for l in links) or '<tr><td class="l" colspan="3">Sin clics todavía</td></tr>'
+        top = "".join(f'<tr><td>{r["rank"]}</td><td class="l">{html.escape(mask(r["email"]))}</td><td>{r["received"]}</td>'
+                      f'<td>{r["opened"]}</td><td>{r["clicked"]}</td><td>{r["clicks"]}</td><td><b>{r["score"]}</b></td></tr>'
+                      for r in list(readers)[:10]) or '<tr><td class="l" colspan="7">Todavía no hay aperturas</td></tr>'
         body = f"""
 <h2>Última edición · {html.escape(latest["issue"])}{pending}</h2><p class="sub">{html.escape(latest["subject"])}</p>
 <div class="tiles">{tiles}</div>
@@ -227,6 +253,8 @@ def dashboard_html(broadcasts, links, as_of, days):
 <div class="cols"><div><h3>Aperturas</h3>{bars(issues, "open_rate", "var(--lilac)")}</div>
 <div><h3>Clics</h3>{bars(issues, "click_rate", "var(--tomato)")}</div></div>
 <h2>Cada envío</h2><table>{headp}{parts}</table>
+<h2>Lectoras más activas</h2><p class="sub">Puntos: 1 por envío abierto + 3 por envío con clic. Top 10 de {len(readers)} lectoras con actividad; correos parcialmente ocultos.</p>
+<table><tr><th>#</th><th class="l">Correo</th><th>Recibidos</th><th>Abiertos</th><th>Con clic</th><th>Clics</th><th>Puntos</th></tr>{top}</table>
 <h2>Links más clicados</h2><table><tr><th class="l">Link</th><th>Clics</th><th>Personas</th></tr>{link_rows}</table>"""
     return f"""<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Newsletter · resultados</title><style>
@@ -271,8 +299,10 @@ def build_dashboard(days):
     broadcasts = read_csv(OUT / "broadcasts.csv")
     links = json.loads((OUT / "links.json").read_text()) if (OUT / "links.json").exists() else []
     as_of = max((b["as_of"] for b in broadcasts), default=datetime.now(nl.TZ).isoformat(timespec="minutes"))
+    readers = engaged_readers(read_csv(OUT / "recipients.csv"))
+    write_csv(OUT / "readers.csv", ["rank", "email", "score", "received", "opened", "clicked", "clicks", "opens"], readers)
     page = OUT / "dashboard.html"
-    page.write_text(dashboard_html(broadcasts, links, as_of[:16].replace("T", " "), days), encoding="utf-8")
+    page.write_text(dashboard_html(broadcasts, links, as_of[:16].replace("T", " "), days, readers), encoding="utf-8")
     return page, group_issues(broadcasts)
 
 
