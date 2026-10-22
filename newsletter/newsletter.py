@@ -9,6 +9,7 @@ Newsletter semanal del Club de las Emprendedoras (Resend Broadcasts).
     python newsletter/newsletter.py build   ISSUE.md     # genera newsletter/build/ISSUE.html
     python newsletter/newsletter.py test    ISSUE.md     # manda una prueba a NEWSLETTER_TEST_TO
     python newsletter/newsletter.py pdf     ISSUE.md [--slack MSG] # build/ISSUE.pdf (y lo sube a Slack)
+    python newsletter/newsletter.py slack   "MSG"        # publica en #emprendeconpm y etiqueta a Manu
     python newsletter/newsletter.py schedule ISSUE.md    # programa el broadcast (miércoles 8:00 CDMX)
     python newsletter/newsletter.py stats  [BROADCAST_ID] # guarda las métricas en sent.json
     python newsletter/newsletter.py cancel  BROADCAST_ID # cancela uno programado
@@ -53,6 +54,9 @@ PLACEHOLDER = re.compile(r"\[\[[A-Z_]+\]\]")
 EXIT_OVER_LIMIT = 3
 EXIT_MISSING = 2
 EXIT_NO_SLACK = 4
+# Overridable in .env (read in main(), after load_env): #emprendeconpm, tagging Manu.
+SLACK_CHANNEL = "C0C0Z3LPQ80"
+SLACK_MENTION = "<@U0AGV3HNYRE>"
 
 
 # ---------- config ----------
@@ -420,20 +424,34 @@ def slack_api(method, token, data=None, form=None):
     return res
 
 
-def slack_upload(path, title, comment):
-    """Posts `comment` in SLACK_CHANNEL with the file attached (needs a bot token with files:write)."""
+def slack_token():
     token = env("SLACK_BOT_TOKEN")
     if not token:
-        print("Falta SLACK_BOT_TOKEN en .env: no se subió el PDF a Slack.")
+        print("Falta SLACK_BOT_TOKEN en .env: no se publicó en Slack.")
         sys.exit(EXIT_NO_SLACK)
+    return token
+
+
+def with_mention(text):
+    """Tags SLACK_MENTION so the post notifies Manu (a bot's mention pings; a self-mention doesn't)."""
+    return f"{SLACK_MENTION} {text}" if SLACK_MENTION and SLACK_MENTION not in text else text
+
+
+def slack_post(text):
+    slack_api("chat.postMessage", slack_token(), {"channel": SLACK_CHANNEL, "text": with_mention(text)})
+
+
+def slack_upload(path, title, comment):
+    """Posts `comment` in SLACK_CHANNEL with the file attached (needs a bot token with files:write)."""
+    token = slack_token()
     data = path.read_bytes()
     up = slack_api("files.getUploadURLExternal", token, form={"filename": path.name, "length": len(data)})
     with urllib.request.urlopen(urllib.request.Request(up["upload_url"], data=data), timeout=120):
         pass
     slack_api("files.completeUploadExternal", token, {
         "files": [{"id": up["file_id"], "title": title}],
-        "channel_id": env("SLACK_CHANNEL", "C0BKT6BE42E"),
-        "initial_comment": comment,
+        "channel_id": SLACK_CHANNEL,
+        "initial_comment": with_mention(comment),
     })
 
 
@@ -442,7 +460,12 @@ def cmd_pdf(a):
     print(f"PDF: {pdf}")
     if a.slack:
         slack_upload(pdf, meta.get("subject", pdf.stem), a.slack)
-        print(f"Publicado en Slack con el PDF ({env('SLACK_CHANNEL', 'C0BKT6BE42E')}).")
+        print(f"Publicado en Slack con el PDF ({SLACK_CHANNEL}).")
+
+
+def cmd_slack(a):
+    slack_post(a.message)
+    print(f"Publicado en Slack ({SLACK_CHANNEL}).")
 
 
 def broadcast_test(resend, meta, page, to):
@@ -689,7 +712,10 @@ def cmd_setup(a):
 
 
 def main():
+    global SLACK_CHANNEL, SLACK_MENTION
     load_env()
+    SLACK_CHANNEL = env("SLACK_CHANNEL", SLACK_CHANNEL)
+    SLACK_MENTION = env("SLACK_MENTION", SLACK_MENTION)
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("check"); p.add_argument("--date"); p.set_defaults(fn=cmd_check)
@@ -703,6 +729,7 @@ def main():
     p = sub.add_parser("pdf"); p.add_argument("issue")
     p.add_argument("--slack", metavar="MENSAJE", help="publica MENSAJE en SLACK_CHANNEL con el PDF adjunto")
     p.set_defaults(fn=cmd_pdf)
+    p = sub.add_parser("slack"); p.add_argument("message"); p.set_defaults(fn=cmd_slack)
     p = sub.add_parser("schedule")
     p.add_argument("issue")
     p.add_argument("--at", help="YYYY-MM-DDTHH:MM en hora de CDMX (default: próximo miércoles 8:00)")

@@ -6,7 +6,7 @@ Pame and Manu the evening to read the test email and cancel if needed.
 
 Run every command from the repo root with `.venv/bin/python`. Never print or commit secrets.
 A separate reminder runs **every Monday at 12:00 (CDMX)**: it only runs `newsletter.py check`
-and, if something is missing, posts a heads-up in Slack `#general` so there's time to add it.
+and, if something is missing, posts a heads-up in Slack `#emprendeconpm` so there's time to add it.
 
 1. **Sync the repo.** `git checkout main && git pull`. Work on a branch
    `newsletter/<YYYY-MM-DD>` (the Wednesday date).
@@ -16,8 +16,10 @@ and, if something is missing, posts a heads-up in Slack `#general` so there's ti
    - **receta:** the newest receta in the site's `recetas.json` that hasn't gone out yet.
 
    If it exits 2, something is missing. **Stop here: don't draft, test or schedule anything**
-   (we never send an incomplete newsletter). Post in Slack `#general` (channel `C0BKT6BE42E`)
-   with the Slack connector, then report the same in your final message:
+   (we never send an incomplete newsletter). Post in Slack `#emprendeconpm` (channel `C0C0Z3LPQ80`)
+   with `newsletter/newsletter.py slack "<message>"` (the bot tags Manu so he gets notified; if it
+   exits 4, use the Slack connector and start the message with `<@U0AGV3HNYRE>`), then report the
+   same in your final message:
 
    > ⚠️ *Newsletter del miércoles {fecha}: no se armó.* Falta:
    > • *Noticias aprobadas:* agrega las de esta semana en el Sheet con Status APPROVED o SENT → https://docs.google.com/spreadsheets/d/1TB4WNIQhHSeBrLXEUQ5gi-CJRdBDxaXErudeUspcIyg/edit
@@ -50,7 +52,7 @@ and, if something is missing, posts a heads-up in Slack `#general` so there's ti
    at 393px wide and look at it.
 6. **Test email** to **manolo7_11@hotmail.com** (also `NEWSLETTER_TEST_TO` in `.env`):
    `newsletter/newsletter.py test <issue> --to manolo7_11@hotmail.com`. Never to anyone else.
-7. **Tell Slack, always, right after the test.** Post in `#general` (`C0BKT6BE42E`) that the test
+7. **Tell Slack, always, right after the test.** Post in `#emprendeconpm` (`C0C0Z3LPQ80`) that the test
    was sent to manolo7_11@hotmail.com:
    subject, news date, receta, number of subscribers (`newsletter/newsletter.py audience`), when
    it goes out and how to cancel. That gives Pame and Manu time for final fixes.

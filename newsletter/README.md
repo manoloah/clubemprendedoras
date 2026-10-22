@@ -21,14 +21,14 @@ brand/voice.md ────────────────────┘  
 |---|---|---|
 | Mon | Pame/Manu | News in the [news Sheet](https://docs.google.com/spreadsheets/d/1TB4WNIQhHSeBrLXEUQ5gi-CJRdBDxaXErudeUspcIyg/edit), Status `SENT` (went out on WhatsApp) or `APPROVED`. |
 | Mon–Tue | Manu | Receta published on the site and added to `site/recetas/recetas.json`. |
-| Mon 12:00 | Reminder | Runs `newsletter.py check`; if news or the receta is missing, posts in Slack `#general`. |
+| Mon 12:00 | Reminder | Runs `newsletter.py check`; if news or the receta is missing, posts in Slack `#emprendeconpm`. |
 | Tue 17:00 | Routine | Drafts the issue in our voice, sends a test, schedules it for Wed 08:00 ([ROUTINE.md](ROUTINE.md)). |
 | Tue evening | Pame/Manu | Read the test email. To stop it: `newsletter.py cancel <id>` or cancel it in Resend (the script notices a dashboard cancel and frees that issue's news and receta). |
 | Wed 08:00 | Resend | Sends to every subscribed contact. |
 
 The routine never sends an incomplete newsletter. If there's no new approved news (one that
 wasn't in an earlier issue) or no new receta, it stops before drafting and posts what's missing
-in Slack `#general`. It also stops and posts there when subscribers pass the daily limit.
+in Slack `#emprendeconpm`. It also stops and posts there when subscribers pass the daily limit.
 Once the missing piece is in, press **Run now** on the scheduled task (or ask Claude).
 
 ## Commands
@@ -76,14 +76,16 @@ NEWSLETTER_FROM=Pame y Manu <hola@clubdelasemprendedoras.com>
 NEWSLETTER_REPLY_TO=info@clubdelasemprendedoras.com
 NEWSLETTER_TEST_TO=manolo7_11@hotmail.com
 NEWSLETTER_DAILY_LIMIT=100
-SLACK_BOT_TOKEN=xoxb-...         # optional: attaches the test PDF to the Slack post
-SLACK_CHANNEL=C0BKT6BE42E        # #general (default)
+SLACK_BOT_TOKEN=xoxb-...         # Slack bot: posts, tags Manu, attaches the test PDF
+SLACK_CHANNEL=C0C0Z3LPQ80        # #emprendeconpm (default)
+SLACK_MENTION=<@U0AGV3HNYRE>     # tagged in every post so Manu gets notified (default)
 ```
 
-6. **PDF of the test in Slack (optional).** `newsletter.py pdf ISSUE --slack "mensaje"` prints
-   the email to `newsletter/build/ISSUE.pdf` with headless Chrome and posts the message in
-   `#general` with the PDF attached. The Slack connector can't upload files, so this needs its
-   own bot token: create an app at api.slack.com/apps, add the bot scopes `files:write` and
-   `chat:write`, install it in the workspace, invite the bot to `#general` (`/invite @name`)
-   and put the `xoxb-` token in `.env`. Without it the command exits 4 and the routine posts
-   the plain message instead.
+6. **Slack bot (posts in `#emprendeconpm`, tags Manu, attaches the test PDF).**
+   `newsletter.py slack "mensaje"` posts a notice; `newsletter.py pdf ISSUE --slack "mensaje"`
+   prints the email to `newsletter/build/ISSUE.pdf` with headless Chrome and posts the message
+   with the PDF attached. Both tag `SLACK_MENTION` so Manu gets notified (the Slack connector
+   posts as Manu, and a self-mention never notifies; it also can't upload files). Setup: create an app at
+   api.slack.com/apps, add the bot scopes `chat:write` and `files:write`, install it in the workspace, invite the bot to `#emprendeconpm` (`/invite @name`)
+   and put the `xoxb-` token in `.env`. Without it the commands exit 4 and the routine posts
+   with the connector instead (no PDF, no notification).
