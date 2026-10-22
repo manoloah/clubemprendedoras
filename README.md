@@ -24,6 +24,7 @@ newsletter/               weekly newsletter: newsletter.py, email template, issu
 scripts/
   rank-hero.mjs           ranks hero headline options for our ICP (TypeSafe / Jev)
   hero-video/             rebuilds the hero loop from a source MP4
+product/                  PRDs and product improvements: one folder per initiative (prd.md + log.md)  → product/README.md
 brand/                    self-contained, copy-paste brand system: tokens, components, motion (JS + hero video), logos,
                           illustrations, photos, voice docs and a living guide  → brand/README.md
 scripts/sync-brand.sh      keeps brand/ in step with site/ (--check to verify)
