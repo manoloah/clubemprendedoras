@@ -3,3 +3,4 @@
 .env
 .venv/
 newsletter/build/
+newsletter/analytics/
