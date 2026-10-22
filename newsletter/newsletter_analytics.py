@@ -84,6 +84,7 @@ def fetch(resend, entry):
                 p["open_count"] = r.get("count", 1)
             if kind == "clicked":
                 p["click_count"] = r.get("count", 1)
+                p["_links"] = [(l["url"].split("?")[0], l["clicks"]) for l in r.get("clicked_links", [])]
                 p["clicked_links"] = " | ".join(
                     f'{l["url"].split("?")[0]} x{l["clicks"]}' for l in r.get("clicked_links", []))
     try:
@@ -253,8 +254,8 @@ def dashboard_html(broadcasts, links, as_of, days, readers=()):
         pending = '<span class="chip">en curso · faltan partes por enviar</span>' if latest["pending"] else ""
         tiles = "".join([
             tile("Entregados", f'{latest["delivered"]}<small> de {latest["sent"]}</small>', fmt(latest["delivery_rate"]) + " de los enviados"),
-            tile("Aperturas", fmt(latest["open_rate"]), f'{plural(latest["opened"], "persona", "personas")}<br>{delta(latest["open_rate"], prev and prev["open_rate"])}'),
-            tile("Clics", fmt(latest["click_rate"]), f'{plural(latest["clicked"], "persona", "personas")} · {fmt(latest["click_to_open"])} de quienes abrieron<br>{delta(latest["click_rate"], prev and prev["click_rate"])}'),
+            tile("Aperturas", fmt(latest["open_rate"]), f'{plural(latest["opened"], "correo abierto", "correos abiertos")}<br>{delta(latest["open_rate"], prev and prev["open_rate"])}'),
+            tile("Clics", fmt(latest["click_rate"]), f'{plural(latest["clicked"], "correo con clic", "correos con clic")} · {fmt(latest["click_to_open"])} de quienes abrieron<br>{delta(latest["click_rate"], prev and prev["click_rate"])}'),
             tile("Rebotes", latest["bounced"], fmt(latest["bounce_rate"]) + " de los enviados"),
             tile("Spam", latest["complained"], f'{fmt(latest["spam_rate"])} · suprimidos: {latest["suppressed"]}', "bad" if latest["complained"] else ""),
             tile("Bajas", latest["unsubscribed"], fmt(latest["unsub_rate"]) + " de los entregados", "bad" if latest["unsub_rate"] > 1 else ""),
@@ -325,14 +326,16 @@ def render_png(html_path, height=1850):
     return png
 
 
-def aggregate_links(per_broadcast_links):
+def aggregate_links(people):
+    """Clicks and distinct people per URL across every send: one person clicking the same link in two issues counts once."""
     agg = {}
-    for links in per_broadcast_links:
-        for l in links:
-            a = agg.setdefault(l["url"], {"url": l["url"], "clicks": 0, "unique": 0})
-            a["clicks"] += l["clicks"]
-            a["unique"] += l["unique"]
-    return sorted(agg.values(), key=lambda l: -l["clicks"])
+    for p in people:
+        for url, n in p.get("_links", []):
+            a = agg.setdefault(url, {"url": url, "clicks": 0, "emails": set()})
+            a["clicks"] += n
+            a["emails"].add(p["email"])
+    rows = [{"url": a["url"], "clicks": a["clicks"], "unique": len(a["emails"])} for a in agg.values()]
+    return sorted(rows, key=lambda l: -l["clicks"])
 
 
 def build_dashboard(days):
@@ -396,7 +399,7 @@ def cmd_run(a):
         if new:
             w.writeheader()
         w.writerows(b_rows)
-    (OUT / "links.json").write_text(json.dumps(aggregate_links(all_links), ensure_ascii=False, indent=1))
+    (OUT / "links.json").write_text(json.dumps(aggregate_links(all_people), ensure_ascii=False, indent=1))
     if not a.no_sent_json:
         nl.SENT_LOG.write_text(json.dumps(log, ensure_ascii=False, indent=2) + "\n")
     page, issues = build_dashboard(a.days)
