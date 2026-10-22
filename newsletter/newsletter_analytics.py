@@ -142,24 +142,58 @@ def read_csv(path):
 
 # ---------- dashboard ----------
 
+DAYS = ["lun", "mar", "mié", "jue", "vie", "sáb", "dom"]
+MONTHS = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
+
+
+def day_label(d):
+    return f"{DAYS[d.weekday()]} {d.day} {MONTHS[d.month - 1]}"
+
+
+def when_label(iso):
+    d = datetime.fromisoformat(iso.replace(" ", "T")).astimezone(nl.TZ)
+    return f"{day_label(d)} {d.year}, {d.strftime('%I:%M').lstrip('0')} {'am' if d.hour < 12 else 'pm'}"
+
+
+def fmt(v):
+    """12.0 -> '12%', 14.13 -> '14.1%'."""
+    return f"{v:g}%"
+
+
+def plural(n, one, many):
+    return f"{n} {one if n == 1 else many}"
+
+
 def group_issues(rows):
-    """Combines the parts of one issue (split sends) into one row, newest issue first."""
-    issues = OrderedDict()
+    """One row per newsletter date: every send and part of that day is added together. Newest first."""
+    issues, subs = OrderedDict(), {}
     for r in sorted(rows, key=lambda r: r["sent_at"]):
-        g = issues.setdefault(r["issue"], {"issue": r["issue"], "subject": r["subject"], "sent_at": r["sent_at"],
-                                           "parts": 0, "parts_total": 1, **{k: 0 for k in EVENTS}})
-        g["parts"] += 1
-        g["parts_total"] = max(g["parts_total"], int(r.get("parts_total") or 1))
+        key = r["issue"][:10]
+        g = issues.setdefault(key, {"issue": key, "subjects": [], "sent_at": r["sent_at"], "sends": 0,
+                                    **{k: 0 for k in EVENTS}})
+        if r["subject"] not in g["subjects"]:
+            g["subjects"].append(r["subject"])
+        g["sends"] += 1
         for k in EVENTS:
             g[k] += int(r[k])
+        s = subs.setdefault(r["issue"], {"day": key, "sent": 0, "total": 1})
+        s["sent"] += 1
+        s["total"] = max(s["total"], int(r.get("parts_total") or 1))
     out = []
     for g in issues.values():
         d = g["delivered"]
+        g["subject"] = " · ".join(g["subjects"])
+        g["pending"] = any(s["sent"] < s["total"] for s in subs.values() if s["day"] == g["issue"])
         g.update(open_rate=pct(g["opened"], d), click_rate=pct(g["clicked"], d), delivery_rate=pct(g["delivered"], g["sent"]),
                  click_to_open=pct(g["clicked"], g["opened"]), bounce_rate=pct(g["bounced"], g["sent"]),
                  spam_rate=pct(g["complained"], d), unsub_rate=pct(g["unsubscribed"], d))
         out.append(g)
     return out[::-1]
+
+
+def edition_label(g):
+    d = datetime.strptime(g["issue"], "%Y-%m-%d")
+    return day_label(d)
 
 
 def engaged_readers(people):
@@ -184,9 +218,9 @@ def mask(email):
     return f"{name[:2]}***@{dom}"
 
 
-def tile(label, value, sub="", color="var(--navy)"):
-    return (f'<div class="tile"><div class="tl">{html.escape(label)}</div>'
-            f'<div class="tv" style="color:{color}">{value}</div><div class="ts">{html.escape(sub)}</div></div>')
+def tile(label, value, sub="", tone=""):
+    return (f'<div class="tile {tone}"><div class="tl">{html.escape(label)}</div>'
+            f'<div class="tv">{value}</div><div class="ts">{sub}</div></div>')
 
 
 def delta(cur, prev):
@@ -194,93 +228,99 @@ def delta(cur, prev):
         return ""
     d = round(cur - prev, 1)
     if d == 0:
-        return "igual que la anterior"
-    return f'{"+" if d > 0 else ""}{d} pts vs. la anterior'
+        return '<span class="flat">= igual que la anterior</span>'
+    cls, arrow = ("up", "▲") if d > 0 else ("down", "▼")
+    return f'<span class="{cls}">{arrow} {abs(d):g} pts vs. anterior</span>'
 
 
 def bars(issues, key, color):
     rows = []
     for g in issues[::-1]:
         v = g[key]
-        rows.append(f'<div class="bar"><span class="bl">{html.escape(g["issue"])}</span>'
+        rows.append(f'<div class="bar"><span class="bl">{edition_label(g)}</span>'
                     f'<span class="bt"><i style="width:{min(v, 100)}%;background:{color}"></i></span>'
-                    f'<span class="bv">{v}%</span></div>')
+                    f'<span class="bv">{fmt(v)}</span></div>')
     return "".join(rows)
 
 
 def dashboard_html(broadcasts, links, as_of, days, readers=()):
     issues = group_issues(broadcasts)
     if not issues:
-        body = "<p>No hubo envíos en este periodo.</p>"
-        latest = None
+        body = '<section class="card"><p>No hubo envíos en este periodo.</p></section>'
     else:
         latest = issues[0]
-        pending = (f' <small>(en curso: {latest["parts"]} de {latest["parts_total"]} partes enviadas)</small>'
-                   if latest["parts"] < latest["parts_total"] else "")
         prev = issues[1] if len(issues) > 1 else None
-        spam_color = "var(--red)" if latest["complained"] else "var(--navy)"
+        pending = '<span class="chip">en curso · faltan partes por enviar</span>' if latest["pending"] else ""
         tiles = "".join([
-            tile("Entregados", f'{latest["delivered"]}<small>/{latest["sent"]}</small>', f'{latest["delivery_rate"]}% de los enviados'),
-            tile("Aperturas", f'{latest["open_rate"]}%', f'{latest["opened"]} personas · ' + delta(latest["open_rate"], prev and prev["open_rate"])),
-            tile("Clics", f'{latest["click_rate"]}%', f'{latest["clicked"]} personas · ' + delta(latest["click_rate"], prev and prev["click_rate"])),
-            tile("Clic entre quienes abrieron", f'{latest["click_to_open"]}%'),
-            tile("Rebotes", latest["bounced"], f'{latest["bounce_rate"]}% de los enviados'),
-            tile("Spam", latest["complained"], f'{latest["spam_rate"]}% · suprimidos: {latest["suppressed"]}', spam_color),
-            tile("Bajas", latest["unsubscribed"], f'{latest["unsub_rate"]}%'),
+            tile("Entregados", f'{latest["delivered"]}<small> de {latest["sent"]}</small>', fmt(latest["delivery_rate"]) + " de los enviados"),
+            tile("Aperturas", fmt(latest["open_rate"]), f'{plural(latest["opened"], "persona", "personas")}<br>{delta(latest["open_rate"], prev and prev["open_rate"])}'),
+            tile("Clics", fmt(latest["click_rate"]), f'{plural(latest["clicked"], "persona", "personas")} · {fmt(latest["click_to_open"])} de quienes abrieron<br>{delta(latest["click_rate"], prev and prev["click_rate"])}'),
+            tile("Rebotes", latest["bounced"], fmt(latest["bounce_rate"]) + " de los enviados"),
+            tile("Spam", latest["complained"], f'{fmt(latest["spam_rate"])} · suprimidos: {latest["suppressed"]}', "bad" if latest["complained"] else ""),
+            tile("Bajas", latest["unsubscribed"], fmt(latest["unsub_rate"]) + " de los entregados", "bad" if latest["unsub_rate"] > 1 else ""),
         ])
-        def row(g):
-            return (f'<tr><td>{html.escape(g["issue"])}</td><td class="l">{html.escape(g["subject"])}</td><td>{g["sent"]}</td>'
-                    f'<td>{g["delivered"]}</td><td>{g["opened"]} · {g["open_rate"]}%</td><td>{g["clicked"]} · {g["click_rate"]}%</td>'
-                    f'<td>{g["bounced"]}</td><td>{g["complained"]}</td><td>{g["unsubscribed"]}</td></tr>')
-        parts = "".join(
-            f'<tr><td>{html.escape(b["issue"])} · parte {b["part"]}</td><td class="l">{html.escape(b["sent_at"][:16])} UTC</td>'
-            f'<td>{b["sent"]}</td><td>{b["delivered"]}</td><td>{b["opened"]} · {b["open_rate"]}%</td><td>{b["clicked"]} · {b["click_rate"]}%</td>'
-            f'<td>{b["bounced"]}</td><td>{b["complained"]}</td><td>{b["unsubscribed"]}</td></tr>'
-            for b in sorted(broadcasts, key=lambda b: b["sent_at"], reverse=True))
-        head = ('<tr><th>Envío</th><th class="l">Asunto</th><th>Enviados</th><th>Entregados</th>'
-                '<th>Abiertos</th><th>Clics</th><th>Rebotes</th><th>Spam</th><th>Bajas</th></tr>')
-        headp = head.replace("Asunto", "Hora")
-        link_rows = "".join(f'<tr><td class="l">{html.escape(l["url"])}</td><td>{l["clicks"]}</td><td>{l["unique"]}</td></tr>'
-                            for l in links) or '<tr><td class="l" colspan="3">Sin clics todavía</td></tr>'
-        top = "".join(f'<tr><td>{r["rank"]}</td><td class="l">{html.escape(mask(r["email"]))}</td><td>{r["received"]}</td>'
-                      f'<td>{r["opened"]}</td><td>{r["clicked"]}</td><td>{r["clicks"]}</td><td><b>{r["score"]}</b></td></tr>'
-                      for r in list(readers)[:10]) or '<tr><td class="l" colspan="7">Todavía no hay aperturas</td></tr>'
+        rows = "".join(
+            f'<tr><td class="l"><b>{edition_label(g)}</b>{"<span class=chip>en curso</span>" if g["pending"] else ""}'
+            f'<div class="subj">{html.escape(g["subject"])}</div></td>'
+            f'<td>{g["sent"]}</td><td>{g["delivered"]}</td>'
+            f'<td class="n">{g["opened"]} <small>{fmt(g["open_rate"])}</small></td>'
+            f'<td class="n">{g["clicked"]} <small>{fmt(g["click_rate"])}</small></td>'
+            f'<td>{g["bounced"]}</td><td>{g["complained"]}</td><td>{g["unsubscribed"]}</td></tr>' for g in issues)
+        top = "".join(
+            f'<tr><td class="rk">{r["rank"]}</td><td class="l">{html.escape(mask(r["email"]))}</td>'
+            f'<td>{r["received"]}</td><td>{r["opened"]}</td><td>{r["clicked"]}</td><td>{r["clicks"]}</td>'
+            f'<td><span class="pts">{r["score"]}</span></td></tr>' for r in list(readers)[:10]
+        ) or '<tr><td class="l" colspan="7">Todavía no hay aperturas</td></tr>'
+        link_rows = "".join(f'<tr><td class="l link">{html.escape(l["url"].replace("https://", "").replace("www.", "").rstrip("/"))}</td>'
+                            f'<td>{l["clicks"]}</td><td>{l["unique"]}</td></tr>' for l in links
+                            ) or '<tr><td class="l" colspan="3">Sin clics todavía</td></tr>'
         body = f"""
-<h2>Última edición · {html.escape(latest["issue"])}{pending}</h2><p class="sub">{html.escape(latest["subject"])}</p>
-<div class="tiles">{tiles}</div>
-<h2>Últimas {days} días, por edición</h2>
-<table>{head}{"".join(row(g) for g in issues)}</table>
+<section class="card"><div class="eyebrow">Última edición {pending}</div>
+<h2>{edition_label(latest)} · {html.escape(latest["subject"])}</h2><div class="tiles">{tiles}</div></section>
+<section class="card"><h2>Comparación · últimos {days} días</h2>
+<table><tr><th class="l">Edición</th><th>Enviados</th><th>Entregados</th><th>Abiertos</th><th>Con clic</th><th>Rebotes</th><th>Spam</th><th>Bajas</th></tr>{rows}</table>
 <div class="cols"><div><h3>Aperturas</h3>{bars(issues, "open_rate", "var(--lilac)")}</div>
-<div><h3>Clics</h3>{bars(issues, "click_rate", "var(--tomato)")}</div></div>
-<h2>Cada envío</h2><table>{headp}{parts}</table>
-<h2>Lectoras más activas</h2><p class="sub">Puntos: 1 por envío abierto + 3 por envío con clic. Top 10 de {len(readers)} lectoras con actividad; correos parcialmente ocultos.</p>
-<table><tr><th>#</th><th class="l">Correo</th><th>Recibidos</th><th>Abiertos</th><th>Con clic</th><th>Clics</th><th>Puntos</th></tr>{top}</table>
-<h2>Links más clicados</h2><table><tr><th class="l">Link</th><th>Clics</th><th>Personas</th></tr>{link_rows}</table>"""
+<div><h3>Clics</h3>{bars(issues, "click_rate", "var(--tomato)")}</div></div></section>
+<section class="card"><h2>Lectoras más activas</h2>
+<p class="sub">1 punto por envío abierto y 3 por cada envío con clic. Top 10 de {len(readers)} lectoras con actividad (correos parcialmente ocultos).</p>
+<table><tr><th class="rk">#</th><th class="l">Correo</th><th>Recibidos</th><th>Abiertos</th><th>Con clic</th><th>Clics</th><th>Puntos</th></tr>{top}</table></section>
+<section class="card"><h2>Links más clicados</h2>
+<table><tr><th class="l">Link</th><th>Clics</th><th>Personas</th></tr>{link_rows}</table></section>"""
     return f"""<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Newsletter · resultados</title><style>
-:root{{--navy:#17254A;--cream:#FFF8EC;--tomato:#F02717;--red:#C4170C;--lilac:#B9A6F0;--pink:#FBC9D8;--line:#17254A22}}
-*{{box-sizing:border-box}}body{{margin:0;padding:24px 16px;background:var(--cream);color:var(--navy);font:15px/1.4 'DM Sans',Helvetica,Arial,sans-serif}}
-main{{max-width:880px;margin:0 auto}}h1{{font:700 28px Georgia,serif;margin:0 0 4px}}h1 b{{color:var(--tomato)}}
-h2{{font:700 19px Georgia,serif;margin:28px 0 8px}}h3{{font-size:14px;margin:0 0 6px}}.sub,.meta{{margin:0 0 12px;opacity:.75}}
-.tiles{{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}}
-.tile{{background:#fff;border:1.5px solid var(--navy);border-radius:14px;padding:12px}}.tl{{font-size:12px;opacity:.7}}
-.tv{{font:700 30px Georgia,serif}}.tv small{{font-size:15px;opacity:.6}}.ts{{font-size:12px;opacity:.7}}
-table{{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;font-size:13px}}
-th,td{{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right}}th{{background:var(--pink)}}.l{{text-align:left;overflow-wrap:anywhere}}
-.cols{{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}}@media(max-width:600px){{.cols{{grid-template-columns:1fr}}}}
-.bar{{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:12px}}.bl{{width:110px}}.bt{{flex:1;height:14px;background:#fff;border:1px solid var(--line);border-radius:7px;overflow:hidden}}
-.bt i{{display:block;height:100%}}.bv{{width:44px;text-align:right}}.note{{font-size:12px;opacity:.65;margin-top:24px}}
+:root{{--navy:#17254A;--cream:#FFF8EC;--tomato:#F02717;--lilac:#B9A6F0;--pink:#FBC9D8;--line:#17254A1F;--green:#2E7D4F}}
+*{{box-sizing:border-box}}body{{margin:0;padding:28px 20px 36px;background:var(--cream);color:var(--navy);font:15px/1.45 'DM Sans',Helvetica,Arial,sans-serif;font-variant-numeric:tabular-nums}}
+main{{max-width:960px;margin:0 auto}}header{{margin-bottom:18px}}h1{{font:700 28px Georgia,serif;margin:0 0 2px}}h1 b{{color:var(--tomato)}}
+.meta{{margin:0;opacity:.7;font-size:13px}}
+.card{{background:#fff;border:1.5px solid var(--navy);border-radius:18px;padding:20px 22px;margin-bottom:16px}}
+h2{{font:700 19px Georgia,serif;margin:0 0 14px}}h3{{font-size:13px;margin:0 0 8px;text-transform:uppercase;letter-spacing:.04em;opacity:.7}}
+.eyebrow{{font-size:12px;text-transform:uppercase;letter-spacing:.06em;opacity:.7;margin-bottom:4px}}.eyebrow .chip{{opacity:1}}
+.chip{{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:99px;background:var(--pink);font-size:11px;text-transform:none;letter-spacing:0;font-weight:600;white-space:nowrap}}
+.sub{{margin:-6px 0 12px;font-size:13px;opacity:.7}}
+.tiles{{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}}@media(max-width:640px){{.tiles{{grid-template-columns:1fr 1fr}}}}
+.tile{{background:var(--cream);border-radius:14px;padding:14px 16px}}.tl{{font-size:12px;text-transform:uppercase;letter-spacing:.05em;opacity:.7}}
+.tv{{font:700 34px/1.15 Georgia,serif}}.tv small{{font:400 14px 'DM Sans',sans-serif;opacity:.6}}.ts{{font-size:12px;opacity:.8;min-height:34px}}
+.tile.bad .tv{{color:var(--tomato)}}.up{{color:var(--green);font-weight:600}}.down{{color:var(--tomato);font-weight:600}}.flat{{opacity:.7}}
+table{{width:100%;border-collapse:collapse;font-size:13px}}th{{font-size:11px;text-transform:uppercase;letter-spacing:.05em;opacity:.65;font-weight:600;border-bottom:1.5px solid var(--navy)}}
+th,td{{padding:9px 8px;text-align:right;white-space:nowrap}}td{{border-bottom:1px solid var(--line)}}tr:last-child td{{border-bottom:0}}
+.l{{text-align:left!important;white-space:normal;overflow-wrap:anywhere}}.n small{{opacity:.6}}.subj{{font-size:12px;opacity:.7;font-weight:400;max-width:320px}}
+.rk{{width:34px;text-align:center!important}}td.rk{{font-weight:700}}.pts{{display:inline-block;min-width:28px;padding:1px 8px;border-radius:99px;background:var(--pink);font-weight:700;text-align:center}}
+.link{{font-size:12px}}
+.cols{{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:20px}}@media(max-width:640px){{.cols{{grid-template-columns:1fr}}}}
+.bar{{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:12px}}.bl{{width:76px;white-space:nowrap}}.bt{{flex:1;height:12px;background:var(--cream);border-radius:6px;overflow:hidden}}
+.bt i{{display:block;height:100%;border-radius:6px}}.bv{{width:48px;text-align:right}}
+.note{{font-size:12px;opacity:.6;margin:20px 4px 0}}
 </style></head><body><main>
-<h1>El Club de las <b>Emprendedoras</b> · newsletter</h1>
-<p class="meta">Resultados de los últimos {days} días · actualizado {html.escape(as_of)} (CDMX)</p>{body}
-<p class="note">Las aperturas se cuentan con una imagen invisible: Apple Mail y Gmail a veces abren el correo por la persona, así que la tasa real es algo menor. Los clics son más confiables. El detalle por correo está en <code>newsletter/analytics/recipients.csv</code> (solo local).</p>
+<header><h1>El Club de las <b>Emprendedoras</b> · newsletter</h1>
+<p class="meta">Resultados de los últimos {days} días · actualizado {html.escape(as_of)} (CDMX)</p></header>{body}
+<p class="note">Las aperturas se cuentan con una imagen invisible: Apple Mail y Gmail a veces abren el correo por la persona, así que la tasa real es algo menor. Los clics son más confiables. El detalle por correo y por envío está en <code>newsletter/analytics/</code> (solo local).</p>
 </main></body></html>"""
 
 
-def render_png(html_path):
+def render_png(html_path, height=1850):
     png = html_path.with_suffix(".png")
     chrome = nl.env("CHROME_PATH", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
-    subprocess.run([chrome, "--headless", "--disable-gpu", "--hide-scrollbars", "--window-size=920,1500",
+    subprocess.run([chrome, "--headless", "--disable-gpu", "--hide-scrollbars", f"--window-size=1000,{height}",
                     f"--screenshot={png}", html_path.as_uri()], check=True, capture_output=True, timeout=120)
     return png
 
@@ -302,7 +342,7 @@ def build_dashboard(days):
     readers = engaged_readers(read_csv(OUT / "recipients.csv"))
     write_csv(OUT / "readers.csv", ["rank", "email", "score", "received", "opened", "clicked", "clicks", "opens"], readers)
     page = OUT / "dashboard.html"
-    page.write_text(dashboard_html(broadcasts, links, as_of[:16].replace("T", " "), days, readers), encoding="utf-8")
+    page.write_text(dashboard_html(broadcasts, links, when_label(as_of), days, readers), encoding="utf-8")
     return page, group_issues(broadcasts)
 
 
@@ -310,14 +350,14 @@ def slack_summary(issues):
     if not issues:
         return "📊 *Newsletter:* no hubo envíos en las últimas 2 semanas."
     g = issues[0]
-    wip = f" (en curso: {g['parts']} de {g['parts_total']} partes enviadas)" if g["parts"] < g["parts_total"] else ""
-    line = (f"📊 *Resultados del newsletter {g['issue']}*{wip} — _{g['subject']}_\n"
+    wip = " (en curso: faltan partes por enviar)" if g["pending"] else ""
+    line = (f"📊 *Resultados del newsletter {edition_label(g)}*{wip} — _{g['subject']}_\n"
             f"• Entregados: *{g['delivered']}/{g['sent']}* ({g['delivery_rate']}%)\n"
             f"• Aperturas: *{g['open_rate']}%* ({g['opened']}) · Clics: *{g['click_rate']}%* ({g['clicked']})\n"
             f"• Rebotes: {g['bounced']} · Spam: {g['complained']} · Bajas: {g['unsubscribed']}")
     if len(issues) > 1:
         p = issues[1]
-        line += (f"\n• Vs. {p['issue']}: aperturas {p['open_rate']}% → {g['open_rate']}%, "
+        line += (f"\n• Vs. {edition_label(p)}: aperturas {p['open_rate']}% → {g['open_rate']}%, "
                  f"clics {p['click_rate']}% → {g['click_rate']}%")
     if g["complained"]:
         line += "\n⚠️ Hubo quejas de spam: revisen el asunto y el contenido."
