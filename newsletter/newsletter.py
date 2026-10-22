@@ -446,8 +446,16 @@ def slack_upload(path, title, comment):
     token = slack_token()
     data = path.read_bytes()
     up = slack_api("files.getUploadURLExternal", token, form={"filename": path.name, "length": len(data)})
-    with urllib.request.urlopen(urllib.request.Request(up["upload_url"], data=data), timeout=120):
-        pass
+    for attempt in range(3):  # Slack's upload host sometimes answers 5xx; it works on a retry
+        try:
+            req = urllib.request.Request(up["upload_url"], data=data,
+                                         headers={"Content-Type": "application/octet-stream"})
+            with urllib.request.urlopen(req, timeout=120):
+                break
+        except urllib.error.HTTPError as e:
+            if e.code < 500 or attempt == 2:
+                raise
+            time_module.sleep(5)
     slack_api("files.completeUploadExternal", token, {
         "files": [{"id": up["file_id"], "title": title}],
         "channel_id": SLACK_CHANNEL,
