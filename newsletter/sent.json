@@ -37,7 +37,8 @@
     "news_date": "2026-10-12",
     "receta_url": "https://www.clubdelasemprendedoras.com/recetas/dashboard-finanzas-en-vivo/",
     "part": 1,
-    "segment_id": "7c9d8152-33a7-416f-900e-4bc10da35859"
+    "segment_id": "7c9d8152-33a7-416f-900e-4bc10da35859",
+    "segment_freed": true
   },
   {
     "issue": "2026-10-14-b.md",
@@ -47,6 +48,37 @@
     "news_date": "2026-10-12",
     "receta_url": "https://www.clubdelasemprendedoras.com/recetas/dashboard-finanzas-en-vivo/",
     "part": 2,
-    "segment_id": "2beac265-1b02-4dd4-9c62-6e5a168b1846"
+    "segment_id": "2beac265-1b02-4dd4-9c62-6e5a168b1846",
+    "segment_freed": true
+  },
+  {
+    "issue": "2026-10-21.md",
+    "broadcast_id": "f82fa557-e26c-4a7d-bc66-ee62b328b32e",
+    "scheduled_at": "2026-10-21T19:00:00-06:00",
+    "recipients": 99,
+    "news_date": "2026-10-19",
+    "receta_url": "https://www.clubdelasemprendedoras.com/recetas/ingenieria-inversa-con-rea/",
+    "part": 1,
+    "parts_total": 2,
+    "segment_id": "d17d80ed-b132-4fc6-9a27-d0853a91c045",
+    "cutoff": [
+      "2026-10-14 18:44:35.066487+00",
+      "11d279ba-83dc-431b-b065-84a973510aa8"
+    ]
+  },
+  {
+    "issue": "2026-10-21.md",
+    "broadcast_id": "5a1e4ea6-6f17-4a88-af84-2187df07498e",
+    "scheduled_at": "2026-10-22T19:00:00-06:00",
+    "recipients": 25,
+    "news_date": "2026-10-19",
+    "receta_url": "https://www.clubdelasemprendedoras.com/recetas/ingenieria-inversa-con-rea/",
+    "part": 2,
+    "parts_total": 2,
+    "segment_id": "20d73cc9-3474-4e45-ab8a-fae8c7d27340",
+    "cutoff": [
+      "2026-10-21 21:03:51.701927+00",
+      "b4e9393d-c6c8-40ca-ac67-99bda6c20eb4"
+    ]
   }
 ]
