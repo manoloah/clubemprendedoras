@@ -51,6 +51,13 @@ notification) when subscribers > `NEWSLETTER_DAILY_LIMIT`. The free Resend plan 
 transactional emails a day (test emails count) and marketing broadcasts to up to 1,000
 contacts. Check your plan's real limits at resend.com/settings/usage before raising it.
 
+## Analytics
+
+`newsletter_analytics.py run --slack` pulls the last 14 days of sends from Resend, writes per-email
+and per-send CSV logs plus a dashboard into `newsletter/analytics/` (gitignored: it holds
+subscribers' emails) and posts the dashboard in Slack. The weekly Monday routine is in
+[ROUTINE_ANALYTICS.md](ROUTINE_ANALYTICS.md).
+
 ## Issue format
 
 Markdown with a front matter block. Supported: paragraphs, `## títulos`, `- listas`,
