@@ -8,6 +8,7 @@ Newsletter semanal del Club de las Emprendedoras (Resend Broadcasts).
     python newsletter/newsletter.py audience             # suscritas / desuscritas (+ aviso del límite)
     python newsletter/newsletter.py build   ISSUE.md     # genera newsletter/build/ISSUE.html
     python newsletter/newsletter.py test    ISSUE.md     # manda una prueba a NEWSLETTER_TEST_TO
+    python newsletter/newsletter.py pdf     ISSUE.md [--slack MSG] # build/ISSUE.pdf (y lo sube a Slack)
     python newsletter/newsletter.py schedule ISSUE.md    # programa el broadcast (miércoles 8:00 CDMX)
     python newsletter/newsletter.py stats  [BROADCAST_ID] # guarda las métricas en sent.json
     python newsletter/newsletter.py cancel  BROADCAST_ID # cancela uno programado
@@ -51,6 +52,7 @@ OK_STATUS = re.compile(r"^\s*(SENT|ENVIADA|ENVIADO|APPROV|APROB)", re.I)
 PLACEHOLDER = re.compile(r"\[\[[A-Z_]+\]\]")
 EXIT_OVER_LIMIT = 3
 EXIT_MISSING = 2
+EXIT_NO_SLACK = 4
 
 
 # ---------- config ----------
@@ -391,6 +393,58 @@ def cmd_test(a):
     print(f"Prueba enviada a {to} (id {r['id']}). Cuenta para el límite diario de transaccionales.")
 
 
+def render_pdf(issue):
+    """newsletter/build/ISSUE.pdf, printed by headless Chrome from the test version of the email."""
+    meta, page, out = build(issue)
+    preview = out.with_suffix(".preview.html")
+    preview.write_text(for_test(page))
+    pdf = out.with_suffix(".pdf")
+    chrome = env("CHROME_PATH", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+    subprocess.run([chrome, "--headless", "--disable-gpu", "--no-pdf-header-footer",
+                    f"--print-to-pdf={pdf}", preview.as_uri()],
+                   check=True, capture_output=True, timeout=120)
+    return meta, pdf
+
+
+def slack_api(method, token, data=None, form=None):
+    if form is not None:
+        body, ctype = urllib.parse.urlencode(form).encode(), "application/x-www-form-urlencoded"
+    else:
+        body, ctype = json.dumps(data).encode(), "application/json; charset=utf-8"
+    req = urllib.request.Request(f"https://slack.com/api/{method}", data=body,
+                                 headers={"Authorization": f"Bearer {token}", "Content-Type": ctype})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        res = json.load(r)
+    if not res.get("ok"):
+        sys.exit(f"Slack {method}: {res.get('error')}")
+    return res
+
+
+def slack_upload(path, title, comment):
+    """Posts `comment` in SLACK_CHANNEL with the file attached (needs a bot token with files:write)."""
+    token = env("SLACK_BOT_TOKEN")
+    if not token:
+        print("Falta SLACK_BOT_TOKEN en .env: no se subió el PDF a Slack.")
+        sys.exit(EXIT_NO_SLACK)
+    data = path.read_bytes()
+    up = slack_api("files.getUploadURLExternal", token, form={"filename": path.name, "length": len(data)})
+    with urllib.request.urlopen(urllib.request.Request(up["upload_url"], data=data), timeout=120):
+        pass
+    slack_api("files.completeUploadExternal", token, {
+        "files": [{"id": up["file_id"], "title": title}],
+        "channel_id": env("SLACK_CHANNEL", "C0BKT6BE42E"),
+        "initial_comment": comment,
+    })
+
+
+def cmd_pdf(a):
+    meta, pdf = render_pdf(a.issue)
+    print(f"PDF: {pdf}")
+    if a.slack:
+        slack_upload(pdf, meta.get("subject", pdf.stem), a.slack)
+        print(f"Publicado en Slack con el PDF ({env('SLACK_CHANNEL', 'C0BKT6BE42E')}).")
+
+
 def broadcast_test(resend, meta, page, to):
     """Real broadcast to a throwaway one-person segment: checks the name and unsubscribe link."""
     free_part_segments(resend)
@@ -646,6 +700,9 @@ def main():
     p = sub.add_parser("test"); p.add_argument("issue"); p.add_argument("--to")
     p.add_argument("--broadcast", action="store_true", help="envío real (nombre y desuscripción funcionan)")
     p.set_defaults(fn=cmd_test)
+    p = sub.add_parser("pdf"); p.add_argument("issue")
+    p.add_argument("--slack", metavar="MENSAJE", help="publica MENSAJE en SLACK_CHANNEL con el PDF adjunto")
+    p.set_defaults(fn=cmd_pdf)
     p = sub.add_parser("schedule")
     p.add_argument("issue")
     p.add_argument("--at", help="YYYY-MM-DDTHH:MM en hora de CDMX (default: próximo miércoles 8:00)")

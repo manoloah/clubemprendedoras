@@ -76,4 +76,14 @@ NEWSLETTER_FROM=Pame y Manu <hola@clubdelasemprendedoras.com>
 NEWSLETTER_REPLY_TO=info@clubdelasemprendedoras.com
 NEWSLETTER_TEST_TO=manolo7_11@hotmail.com
 NEWSLETTER_DAILY_LIMIT=100
+SLACK_BOT_TOKEN=xoxb-...         # optional: attaches the test PDF to the Slack post
+SLACK_CHANNEL=C0BKT6BE42E        # #general (default)
 ```
+
+6. **PDF of the test in Slack (optional).** `newsletter.py pdf ISSUE --slack "mensaje"` prints
+   the email to `newsletter/build/ISSUE.pdf` with headless Chrome and posts the message in
+   `#general` with the PDF attached. The Slack connector can't upload files, so this needs its
+   own bot token: create an app at api.slack.com/apps, add the bot scopes `files:write` and
+   `chat:write`, install it in the workspace, invite the bot to `#general` (`/invite @name`)
+   and put the `xoxb-` token in `.env`. Without it the command exits 4 and the routine posts
+   the plain message instead.

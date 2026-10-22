@@ -54,6 +54,10 @@ and, if something is missing, posts a heads-up in Slack `#general` so there's ti
    was sent to manolo7_11@hotmail.com:
    subject, news date, receta, number of subscribers (`newsletter/newsletter.py audience`), when
    it goes out and how to cancel. That gives Pame and Manu time for final fixes.
+   Post it with the email attached as a PDF:
+   `newsletter/newsletter.py pdf <issue> --slack "<the message, Slack mrkdwn>"`. If that exits 4
+   (no `SLACK_BOT_TOKEN`), post the same message with the Slack connector and add that the PDF
+   is in `newsletter/build/<issue>.pdf`.
 8. **Schedule at least 2 hours after the test.** `newsletter/newsletter.py schedule <issue> --split 100`
    (the default, Wednesday 08:00, is well past that). Up to 100 subscribers it goes out in one
    send. Above that it goes in parts of 100, one per day at 08:00: Wednesday, Thursday, Friday…
