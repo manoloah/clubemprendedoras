@@ -175,6 +175,9 @@ def new_receta():
     used = {path(e.get("receta_url")) for e in sent_log()}
     items, source = fetch_recetas()
     fresh = [t for t in items if t.get("url") and path(t["url"]) not in used]
+    # A receta merged early waits for its own Wednesday instead of jumping the queue.
+    upcoming = next_send_at().date().isoformat()
+    fresh = [t for t in fresh if t.get("fecha", "") <= upcoming]
     fresh.sort(key=lambda t: t.get("fecha", ""))
     return (fresh[-1] if fresh else None), source
 

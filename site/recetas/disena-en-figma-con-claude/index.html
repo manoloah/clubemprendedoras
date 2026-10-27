@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ya no gastes $$ en tu logo: créalo tú misma con IA · Recetas del Club</title>
+  <meta name="description" content="Moodboard en Pinterest, dos logos de ChatGPT y Claude Code que pasa el tuyo a Figma, con cada letra editable. 7 pasos y los prompts listos.">
+  <meta name="theme-color" content="#F2C75C">
+  <link rel="canonical" href="https://www.clubdelasemprendedoras.com/recetas/disena-en-figma-con-claude/">
+  <link rel="icon" href="/assets/brand/asterisk.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="es_MX">
+  <meta property="og:title" content="Ya no gastes $$ en tu logo: créalo tú misma con IA">
+  <meta property="og:description" content="Del moodboard en Pinterest a un logo editable en Figma, con ChatGPT y Claude Code. 7 pasos y los prompts listos para copiar.">
+  <meta property="og:url" content="https://www.clubdelasemprendedoras.com/recetas/disena-en-figma-con-claude/">
+  <meta property="og:image" content="https://www.clubdelasemprendedoras.com/assets/img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Signup gate, decided before paint: open if she came from the newsletter
+       or already signed up on this browser (see site/recetas/README.md). -->
+  <script>
+    (function () {
+      var ok = /[?&]utm_source=newsletter(&|$)/.test(location.search);
+      try {
+        if (ok) localStorage.setItem("club_receta_ok", "1");
+        else ok = localStorage.getItem("club_receta_ok") === "1";
+      } catch (e) {}
+      if (!ok) document.documentElement.classList.add("is-gated");
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap">
+
+  <link rel="stylesheet" href="/assets/tokens.css?v=3">
+  <link rel="stylesheet" href="/assets/styles.css?v=14">
+  <script src="/assets/config.js?v=4"></script>
+  <script src="/assets/recetas.js?v=2" defer></script>
+  <script src="/assets/motion.js?v=11" defer></script>
+</head>
+<body class="receta-page">
+  <a class="skip-link" href="#ingredientes">Ir a la receta</a>
+
+  <header class="nav" data-nav>
+    <a class="nav__logo" href="/" aria-label="El Club de las Emprendedoras, inicio">
+      <img src="/assets/brand/logo-tomato.webp" width="104" height="65" alt="El Club de las Emprendedoras">
+    </a>
+    <div class="nav__actions">
+      <details class="menu" data-menu>
+        <summary class="menu__toggle"><span>Menú</span><span class="menu__icon" aria-hidden="true"></span></summary>
+        <nav class="menu__panel" aria-label="Secciones">
+          <a class="menu__item menu__item--feature" href="/recetas/"><span class="kicker kicker--tomato">Nuevo</span><strong>Recetas de Emprendimiento e IA</strong><small>Pasos sencillos para ayudarte a emprender con IA</small></a>
+        </nav>
+      </details>
+      <a class="btn btn--sm" href="/#unirme">Unirme</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="receta-hero" aria-labelledby="receta-title">
+      <img class="recetas-decor recetas-decor--heart" src="/assets/img/lilac-heart.webp" width="72" height="69" alt="" aria-hidden="true">
+      <div class="receta-hero__inner">
+        <p class="kicker kicker--tomato tilt-l">Receta #4 · Gratis para el club</p>
+        <h1 id="receta-title" class="display">Ya no gastes $$ en tu logo: <span class="accent">créalo tú misma con IA</span></h1>
+        <p class="lead">Juntas en Pinterest lo que te encanta y ChatGPT te propone dos logos. Luego Claude Code pasa el que escojas a tu Figma, letra por letra, y todo queda editable: lo mueves, le cambias el color o lo usas en tu merch. Así hicimos el logo del club, y aquí van los pasos y los prompts.</p>
+        <div class="receta-meta">
+          <span class="sticker sticker--pink">7 pasos</span>
+          <span class="sticker sticker--olive">Sin saber diseñar</span>
+          <span class="sticker sticker--lilac">ChatGPT + Claude + Figma</span>
+        </div>
+        <p class="receta-by">
+          <img src="/assets/img/manu.webp" width="48" height="48" alt="">
+          <span>Por Manu · <a href="https://www.instagram.com/thebreathmanu/" target="_blank" rel="noopener">@TheBreathManu</a></span>
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--cream" id="ingredientes" aria-labelledby="ingredientes-title">
+      <div class="section__inner">
+        <div class="receta-intro">
+          <div class="ingredientes">
+            <p class="kicker kicker--navy">Antes de empezar</p>
+            <h2 id="ingredientes-title" class="h2">Lo que necesitas</h2>
+            <ul class="check-list">
+              <li><strong>Figma de pago.</strong> El Dev Mode y el permiso para que Claude dibuje en tu archivo solo vienen en los planes de pago: Professional o más, con un asiento Dev o Full. El plan gratis (Starter) no trae Dev Mode y su conector solo deja 20 acciones al mes. Precios en <a href="https://www.figma.com/pricing/" target="_blank" rel="noopener">figma.com/pricing</a>.</li>
+              <li><strong>Claude Code</strong>, en la pestaña Code de la app de escritorio de Claude, que bajas en <a href="https://claude.com/download" target="_blank" rel="noopener">claude.com/download</a>. Funciona con cualquier plan de pago (Pro, Max, Team o Enterprise).</li>
+              <li><strong>Pinterest y ChatGPT</strong>, en <a href="https://www.pinterest.com" target="_blank" rel="noopener">pinterest.com</a> y <a href="https://chatgpt.com" target="_blank" rel="noopener">chatgpt.com</a>. Los dos tienen plan gratis; el de ChatGPT hace menos imágenes al día.</li>
+              <li><strong>El nombre de tu marca</strong> y ganas de jugar con ideas.</li>
+            </ul>
+          </div>
+          <div class="receta-why">
+            <h3 class="h3">¿Por qué no quedarte con la imagen de ChatGPT?</h3>
+            <p>ChatGPT es buenísimo para explorar ideas rápido, pero su imagen es como una foto: no le puedes mover una letra. En Figma, Claude redibuja cada letra como una pieza aparte, que puedes mover, cambiar de color o exportar al tamaño que quieras, del celular a una lona.</p>
+            <figure class="shot shot--wide"><img src="/assets/img/receta-figma-logo.webp" width="900" height="590" alt="El logo de El Club de las Emprendedoras en Figma: letras rojas inclinadas sobre fondo rosa, con un subrayado y un asterisco." loading="lazy"><figcaption>Nuestro logo, en Figma. Cada letra se puede editar.</figcaption></figure>
+            <p class="note note--pink tilt-r">24 letras, ajustadas una por una: quedó 90% igual a la referencia ♡</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Signup gate: shown only while html.is-gated -->
+    <section class="section section--cream section--flush" aria-label="Receta paso a paso">
+      <div class="section__inner">
+        <div class="receta__locked" data-locked>
+          <ol class="pasos">
+            <li class="paso" id="paso-1">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">1</span><h2 class="h2">Arma tu moodboard en Pinterest</h2></div>
+              <p>Un moodboard es un tablero con todo lo que quieres que se sienta en tu marca. Crea uno en <a href="https://www.pinterest.com" target="_blank" rel="noopener">pinterest.com</a> y guarda pines de:</p>
+              <ul class="check-list">
+                <li><strong>Colores:</strong> paletas, lugares u objetos cuyos colores te encantan.</li>
+                <li><strong>Letras:</strong> logos, letreros o tipografías que te gusten.</li>
+                <li><strong>Voz:</strong> frases o posts que suenan como quieres sonar tú.</li>
+                <li><strong>Fotos:</strong> el estilo de fotos e ilustraciones que va contigo.</li>
+              </ul>
+              <p class="note note--butter tilt-l">Déjalo público para que ChatGPT pueda abrir el link, y toma 3 a 6 capturas por si no carga.</p>
+            </li>
+
+            <li class="paso" id="paso-2">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">2</span><h2 class="h2">Pídele a ChatGPT dos opciones de logo</h2></div>
+              <p>Entra a <a href="https://chatgpt.com" target="_blank" rel="noopener">chatgpt.com</a>, abre un chat nuevo, adjunta las capturas de tu tablero y pega este prompt. Cambia lo que está entre [corchetes].</p>
+              <div class="prompt">
+                <div class="prompt__bar">
+                  <span>Tu prompt para ChatGPT</span>
+                  <button class="btn btn--sm" type="button" data-copy="prompt-chatgpt"><span class="btn__label">Copiar</span></button>
+                </div>
+<pre id="prompt-chatgpt">DATOS
+- Mi moodboard: [link de tu tablero de Pinterest]
+- Por si el link no abre: te adjunto 3 a 6 capturas del
+  tablero.
+- Nombre de mi marca: [nombre]
+
+LO QUE NECESITO
+Ayúdame a crear un logo inspirado en este moodboard para
+"[nombre]".
+
+Dame DOS opciones distintas (A y B), cada una como una sola
+imagen de marca, no como descripción. Cada imagen muestra:
+el logo, la paleta con códigos hex, la tipografía, el estilo
+de fotos, el estilo de ilustración y un par de aplicaciones
+(un post para redes y una pantalla de una web o app).
+
+REGLAS
+- No te salgas del estilo del tablero.
+- Nada de logos copiados ni letras raras o mal escritas.
+- Las dos opciones tienen que ser realmente diferentes.
+- Al final dime cuál escogerías tú y por qué.</pre>
+              </div>
+              <p>Escoge la que más te guste, pide cambios en el mismo chat si algo no te convence y descarga la imagen: es la referencia que le vas a pasar a Claude. Así empezamos nosotros: la primera versión de la marca del club salió de ChatGPT.</p>
+            </li>
+
+            <li class="paso" id="paso-3">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">3</span><h2 class="h2">Abre Claude Code</h2></div>
+              <ol>
+                <li>Baja la app de Claude en <a href="https://claude.com/download" target="_blank" rel="noopener">claude.com/download</a> y entra a la pestaña <strong>Code</strong>: es el ícono <code>&lt;/&gt;</code> arriba a la izquierda, junto al de chat.</li>
+                <li>Crea una carpeta en tu compu, por ejemplo <code>Mi marca</code>, y elígela como lugar de trabajo.</li>
+              </ol>
+              <figure class="shot"><img src="/assets/img/receta-rea-pestana-code.webp" width="514" height="334" alt="La app de Claude con la pestaña Code, el ícono &lt;/&gt; arriba a la izquierda junto al ícono de chat." loading="lazy"><figcaption>La pestaña Code, junto al chat.</figcaption></figure>
+              <p><strong>¿Qué es Claude Code?</strong> La versión de Claude que trabaja directo en tu compu y en tus herramientas, como Figma. Tú le dices qué quieres y Claude hace los pasos.</p>
+            </li>
+
+            <li class="paso" id="paso-4">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">4</span><h2 class="h2">Conecta Figma a Claude</h2></div>
+              <p>Un conector es el permiso para que Claude entre a tu Figma, lea tus diseños y dibuje en ellos.</p>
+              <ol>
+                <li>Abajo a la izquierda, da clic en tu nombre → <strong>Settings</strong> → <strong>Connectors</strong>.</li>
+                <li>Entra a <strong>Discover</strong>, busca <code>figma</code> y dale <strong>Connect</strong>.</li>
+                <li>Inicia sesión con tu cuenta de Figma y acepta los permisos.</li>
+              </ol>
+              <figure class="shot"><img src="/assets/img/receta-figma-conector.webp" width="560" height="375" alt="Settings → Connectors en la app de Claude, con la búsqueda figma y el conector de Figma marcado como Connected." loading="lazy"><figcaption>Listo cuando Figma dice Connected.</figcaption></figure>
+            </li>
+
+            <li class="paso" id="paso-5">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">5</span><h2 class="h2">Crea tu archivo y un espacio para el diseño</h2></div>
+              <p>En Figma, crea un archivo nuevo de diseño (<strong>New design file</strong>). Luego hazle un lugar a tu logo:</p>
+              <ol>
+                <li>En la barra de abajo, abre la flechita junto al ícono <code>#</code> y escoge <strong>Frame</strong> o <strong>Section</strong>.</li>
+                <li>Dibuja un rectángulo arrastrando el mouse y ponle nombre, por ejemplo <code>Logo</code>.</li>
+              </ol>
+              <figure class="shot shot--sm"><img src="/assets/img/receta-figma-frame.webp" width="231" height="185" alt="El menú de la herramienta Frame en Figma con las opciones Frame, Section y Slice." loading="lazy"><figcaption>Frame (F) o Section (Shift + S).</figcaption></figure>
+              <p>Un <strong>frame</strong> es como una hoja dentro de tu archivo. Una <strong>section</strong> es una zona que agrupa varias hojas. Cualquiera de las dos sirve.</p>
+              <p class="note note--butter tilt-l">¿Ya tienes tus fuentes? Escribe el nombre de tu marca con ellas en otro frame. Claude las toma de ahí.</p>
+            </li>
+
+            <li class="paso" id="paso-6">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">6</span><h2 class="h2">Prende el Dev Mode</h2></div>
+              <p>Abajo a la derecha, da clic en el ícono <code>&lt;/&gt;</code>. Se pone verde cuando está prendido.</p>
+              <figure class="shot shot--sm"><img src="/assets/img/receta-figma-dev-mode.webp" width="165" height="103" alt="La barra de abajo de Figma con el ícono &lt;/&gt; de Dev Mode prendido en verde." loading="lazy"><figcaption>El &lt;/&gt; en verde: Dev Mode prendido.</figcaption></figure>
+              <p><strong>¿Qué es Dev Mode?</strong> La vista de Figma para quien construye. La usamos porque te da el link exacto de cada pieza, que es lo que Claude necesita para saber dónde diseñar.</p>
+            </li>
+
+            <li class="paso" id="paso-7">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">7</span><h2 class="h2">Copia el link y pídele a Claude que diseñe</h2></div>
+              <ol>
+                <li>Da clic en tu frame o section. En el panel de la derecha, junto a su nombre, da clic en el ícono de cadena: <strong>Copy URL for selected layer</strong>.</li>
+                <li>En Claude Code, adjunta la imagen que escogiste en ChatGPT, pega este prompt y cambia lo que está entre [corchetes].</li>
+              </ol>
+              <figure class="shot"><img src="/assets/img/receta-figma-copiar-link.webp" width="332" height="128" alt="El panel Inspect de Figma con una section seleccionada y el botón de cadena Copy URL for selected layer." loading="lazy"><figcaption>El ícono de cadena copia el link de lo que tienes seleccionado.</figcaption></figure>
+              <div class="prompt">
+                <div class="prompt__bar">
+                  <span>Tu prompt para Claude Code</span>
+                  <button class="btn btn--sm" type="button" data-copy="prompt-figma"><span class="btn__label">Copiar</span></button>
+                </div>
+<pre id="prompt-figma">Estoy creando la marca de [nombre de tu negocio]. No soy
+diseñadora: explícame en una frase lo que vayas haciendo.
+
+Con el conector de Figma, diseña mi logo lo más parecido
+posible a la imagen que te adjunto (la hice con ChatGPT).
+Créalo aquí: [pega el link de tu frame].
+
+Usa los colores de esa imagen y las fuentes de mi marca:
+[nombre de tus fuentes o el link del frame donde están]. Si
+no tengo, propónme 2 o 3 parecidas a las de la imagen antes
+de empezar.
+
+Lo importante es cómo se acomodan las letras: la forma, el
+tamaño y los detalles. Deja cada letra como una pieza
+aparte para que yo pueda moverla o cambiarle el color.
+Al terminar, compara tu diseño con la referencia, dime qué
+tan parecido quedó y corrige lo que se vea distinto.</pre>
+              </div>
+              <p>Claude te va a pedir permiso antes de usar Figma: dale permitir. Cuando termine, ábrelo en Figma y sigue en la misma conversación:</p>
+              <ul class="bubbles">
+                <li class="bubble">Compara los dos y esfuérzate más. Fíjate en los detalles de la forma</li>
+                <li class="bubble">Ahora hazme una versión compacta para merch aquí: [link]</li>
+                <li class="bubble">Ponlo sobre fondo [rosa] y en [rojo]</li>
+                <li class="bubble">Hazme la versión para mi foto de perfil de Instagram</li>
+              </ul>
+              <p class="note note--lilac tilt-r">El primero se lo dijimos tal cual: pasó de 68% a 90% de parecido ♡</p>
+              <div class="receta-ojo">
+                <img src="/assets/brand/asterisk.svg" width="26" height="46" alt="">
+                <p><strong>Ojo:</strong> con un asiento Dev, Claude dibuja en tus borradores (Drafts, donde caen los archivos nuevos); con un asiento Full, en cualquier archivo que puedas editar. Hoy dibujar con IA en Figma no cuesta extra porque está en beta; Figma dice que después se cobrará por uso.</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="receta-done">
+            <p class="kicker kicker--tomato tilt-l">¿Lo hiciste?</p>
+            <h2 class="h2">Mándanos tu logo, queremos verlo.</h2>
+            <p>Etiquétanos en <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a> o respóndenos el correo del miércoles. Los mejores los compartimos.</p>
+          </div>
+        </div>
+
+        <div class="gate" data-gate="receta-disena-en-figma-con-claude">
+          <div class="waitlist">
+            <span class="sticker sticker--tomato" aria-hidden="true">Gratis</span>
+            <form class="waitlist__form" novalidate>
+              <h2 class="h3">Abre la receta completa</h2>
+              <p>Déjanos tu nombre y tu correo y es tuya. ¿Ya eres del club? Pon el correo de siempre y entras directo.</p>
+              <div class="field">
+                <label for="gate-name">Tu nombre</label>
+                <input id="gate-name" name="name" type="text" autocomplete="given-name" placeholder="¿Cómo te llamas?" required maxlength="120">
+              </div>
+              <div class="field">
+                <label for="gate-email">Tu correo</label>
+                <input id="gate-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254">
+              </div>
+              <div class="hp" aria-hidden="true">
+                <label for="gate-company">No llenes este campo</label>
+                <input id="gate-company" name="company" type="text" tabindex="-1" autocomplete="off">
+              </div>
+              <button class="btn btn--block" type="submit">
+                <span class="btn__label">Quiero la receta</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <p class="caption">Cada miércoles te mandamos una receta nueva y las noticias de IA que importan para emprender. Te sales cuando quieras.</p>
+              <p class="waitlist__status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="cta__inner">
+        <span class="sticker sticker--lilac cta__sticker" aria-hidden="true">Tú puedes</span>
+        <h2 id="cta-title" class="display display--inverse">Esto es un spoiler del taller.</h2>
+        <p class="lead lead--inverse">En 2027 hacemos esto, pero con tu app: 8 semanas, en vivo y con otras mujeres que van al mismo paso que tú.</p>
+        <a class="btn" href="/#unirme"><span class="btn__label">Quiero mi lugar</span> <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="/assets/brand/logo-cream.webp" width="180" height="112" alt="El Club de las Emprendedoras" loading="lazy">
+    <p class="footer__by">Un proyecto de Pame y Manu · <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a></p>
+    <p class="caption"><a href="/recetas/">Recetas de Emprendimiento e IA</a> · © 2026 El Club de las Emprendedoras.</p>
+  </footer>
+</body>
+</html>
