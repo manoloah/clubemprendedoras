@@ -38,7 +38,29 @@
     "receta_url": "https://www.clubdelasemprendedoras.com/recetas/dashboard-finanzas-en-vivo/",
     "part": 1,
     "segment_id": "7c9d8152-33a7-416f-900e-4bc10da35859",
-    "segment_freed": true
+    "segment_freed": true,
+    "stats": {
+      "sent": 99,
+      "delivered": 99,
+      "opened": 60,
+      "clicked": 5,
+      "bounced": 0,
+      "complained": 0,
+      "unsubscribed": 0,
+      "links": [
+        {
+          "url": "https://www.clubdelasemprendedoras.com/recetas/dashboard-finanzas-en-vivo/",
+          "clicks": 6,
+          "unique": 4
+        },
+        {
+          "url": "https://instagram.com/emprendeconpm",
+          "clicks": 1,
+          "unique": 1
+        }
+      ],
+      "as_of": "2026-10-28T17:21-06:00"
+    }
   },
   {
     "issue": "2026-10-14-b.md",
@@ -49,7 +71,24 @@
     "receta_url": "https://www.clubdelasemprendedoras.com/recetas/dashboard-finanzas-en-vivo/",
     "part": 2,
     "segment_id": "2beac265-1b02-4dd4-9c62-6e5a168b1846",
-    "segment_freed": true
+    "segment_freed": true,
+    "stats": {
+      "sent": 12,
+      "delivered": 12,
+      "opened": 8,
+      "clicked": 2,
+      "bounced": 0,
+      "complained": 0,
+      "unsubscribed": 0,
+      "links": [
+        {
+          "url": "https://www.clubdelasemprendedoras.com/recetas/dashboard-finanzas-en-vivo/",
+          "clicks": 2,
+          "unique": 2
+        }
+      ],
+      "as_of": "2026-10-28T17:21-06:00"
+    }
   },
   {
     "issue": "2026-10-21.md",
@@ -64,7 +103,29 @@
     "cutoff": [
       "2026-10-14 18:44:35.066487+00",
       "11d279ba-83dc-431b-b065-84a973510aa8"
-    ]
+    ],
+    "stats": {
+      "sent": 99,
+      "delivered": 99,
+      "opened": 42,
+      "clicked": 5,
+      "bounced": 0,
+      "complained": 0,
+      "unsubscribed": 0,
+      "links": [
+        {
+          "url": "https://www.clubdelasemprendedoras.com/recetas/ingenieria-inversa-con-rea/",
+          "clicks": 5,
+          "unique": 5
+        },
+        {
+          "url": "https://help.openai.com/en/articles/20001598-intelligent-ui-in-chatgpt",
+          "clicks": 1,
+          "unique": 1
+        }
+      ],
+      "as_of": "2026-10-28T17:21-06:00"
+    }
   },
   {
     "issue": "2026-10-21.md",
@@ -79,6 +140,23 @@
     "cutoff": [
       "2026-10-21 21:03:51.701927+00",
       "b4e9393d-c6c8-40ca-ac67-99bda6c20eb4"
-    ]
+    ],
+    "stats": {
+      "sent": 25,
+      "delivered": 25,
+      "opened": 13,
+      "clicked": 1,
+      "bounced": 0,
+      "complained": 0,
+      "unsubscribed": 0,
+      "links": [
+        {
+          "url": "https://www.clubdelasemprendedoras.com/recetas/ingenieria-inversa-con-rea/",
+          "clicks": 1,
+          "unique": 1
+        }
+      ],
+      "as_of": "2026-10-28T17:21-06:00"
+    }
   }
 ]
