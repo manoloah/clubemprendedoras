@@ -9,6 +9,9 @@ taller in 2027 where non-technical women turn an idea into a mobile app with AI.
 conversion is the waitlist form. Audience: Spanish-speaking women in Mexico/LATAM, 28–42, not
 technical, reading on their phone from Instagram.
 
+The 2027 offer is being reshaped from the 8-week taller into a club (community, live sessions,
+on-demand workshops, 1:1 mentoring): see `product/0001-club-2027/prd.md` before touching landing copy.
+
 ## Commands
 
 ```bash
@@ -34,6 +37,7 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 - `site/recetas/`: "Recetas de Emprendimiento e IA" (our tutorials; never call them tutoriales in copy). Hub `index.html`, one folder per receta, `recetas.json` for the newsletter. Pages use absolute `/assets/...` paths. `site/assets/recetas.js` runs the signup gate and "Copiar" buttons. How to add one: `site/recetas/README.md`.
 - `brand/`: the brand system (`voice.md`, `foundations.md`, `components.md`, `motion.md`) and a living style guide, `brand/index.html`, rendered with its own copy of the CSS/JS. Not deployed. It is a self-contained, copy-paste folder (`brand/assets/` holds tokens, styles, motion.js, logos, images and the hero video). `site/` is the source for the shared files: after changing `site/assets/{tokens.css,styles.css,motion.js}` or its `brand/`, `img/` or `video/` files, run `scripts/sync-brand.sh`. Preview: `.claude/launch.json` "brand" (port 4180, serves `brand/`). Keep the docs in step when copy, tokens or components change.
 - `newsletter/`: weekly Wednesday 08:00 newsletter via Resend Broadcasts (`newsletter.py`, issues in `newsletter/issues/`, the routine in `ROUTINE.md`, process in `README.md`). The recetas (our name for tutorials) it features are listed in `site/recetas/recetas.json`. Secrets in `.env`; Python deps in `.venv`.
+- `product/`: PRDs and product improvements, the **what and why** before building (`NNNN-slug/prd.md` + append-only `log.md`). Rules, statuses and the index: `product/README.md`. Read the matching PRD before implementing a planned change; don't implement one still in `draft`. Append a `log.md` entry when you work on it.
 - `sheets/Code.gs`: the Apps Script. It isn't deployed from here; it gets pasted into the Sheet (see `sheets/README.md`).
 
 ## Conventions
