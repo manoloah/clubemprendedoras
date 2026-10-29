@@ -3,6 +3,4 @@
 .env
 .venv/
 newsletter/build/
-
-# newsletter analytics logs (subscribers emails, local only)
 newsletter/analytics/
