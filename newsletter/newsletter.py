@@ -3,7 +3,7 @@
 Newsletter semanal del Club de las Emprendedoras (Resend Broadcasts).
 
     python newsletter/newsletter.py check                # ¿hay noticias y receta nuevas? (exit 2 si falta algo)
-    python newsletter/newsletter.py news                 # noticias aprobadas de esta semana
+    python newsletter/newsletter.py news                 # noticias de esta semana (approved = false: revisarlas)
     python newsletter/newsletter.py receta               # receta nueva en el sitio
     python newsletter/newsletter.py audience             # suscritas / desuscritas (+ aviso del límite)
     python newsletter/newsletter.py build   ISSUE.md     # genera newsletter/build/ISSUE.html
@@ -50,6 +50,7 @@ NEWS_SHEET_CSV = (
 )
 NEWS_WINDOW_DAYS = 10  # a row counts as "this week's" if dated within this many days
 OK_STATUS = re.compile(r"^\s*(SENT|ENVIADA|ENVIADO|APPROV|APROB)", re.I)
+NO_STATUS = re.compile(r"^\s*(REJECT|RECHAZ|DESCART|DISCARD)", re.I)  # rows someone turned down
 PLACEHOLDER = re.compile(r"\[\[[A-Z_]+\]\]")
 EXIT_OVER_LIMIT = 3
 EXIT_MISSING = 2
@@ -109,6 +110,9 @@ def parse_day(s):
 
 
 def fetch_news(today):
+    """Newest unused row of the last NEWS_WINDOW_DAYS, approved or not. An approved (or SENT) row
+    wins over a newer unapproved one; an unapproved pick comes back with approved=False, and the
+    routine reviews, researches and rewrites it before using it (newsletter/ROUTINE.md, step 3)."""
     sent_days = {e.get("news_date") for e in sent_log()}
     with urllib.request.urlopen(NEWS_SHEET_CSV, timeout=30) as r:
         rows = list(csv.DictReader(io.StringIO(r.read().decode("utf-8"))))
@@ -116,7 +120,7 @@ def fetch_news(today):
     for row in rows:
         day = parse_day(row.get("Día"))
         status = row.get("Status", "")
-        if not day or not OK_STATUS.match(status):
+        if not day or NO_STATUS.match(status):
             continue
         if not (today - timedelta(days=NEWS_WINDOW_DAYS) < day <= today):
             continue
@@ -124,8 +128,11 @@ def fetch_news(today):
             continue
         text = (row.get("Manu's improved version") or "").strip() or (row.get("Noticia") or "").strip()
         text = "\n".join(l for l in text.splitlines() if not l.strip().upper().startswith("APPROVE AI NEWS"))
-        picks.append({"date": day.isoformat(), "status": status.strip(), "text": text.strip()})
-    picks.sort(key=lambda p: p["date"])
+        if not text.strip():
+            continue
+        picks.append({"date": day.isoformat(), "status": status.strip(),
+                      "approved": bool(OK_STATUS.match(status)), "text": text.strip()})
+    picks.sort(key=lambda p: (p["approved"], p["date"]))
     return picks[-1] if picks else None
 
 
@@ -346,7 +353,8 @@ def cmd_check(a):
         missing.append("receta")
     print(json.dumps({
         "para_el_miercoles": next_send_at().date().isoformat(),
-        "noticias": {"ok": bool(news), "fecha": news and news["date"], "status": news and news["status"]},
+        "noticias": {"ok": bool(news), "fecha": news and news["date"], "status": news and news["status"],
+                     "aprobada": bool(news and news["approved"])},
         "receta": {"ok": bool(receta), "titulo": receta and receta.get("titulo"), "url": receta and receta.get("url")},
         "falta": missing,
     }, ensure_ascii=False, indent=2))
@@ -359,7 +367,7 @@ def cmd_news(a):
     today = date.fromisoformat(a.date) if a.date else datetime.now(TZ).date()
     pick = fetch_news(today)
     if not pick:
-        notify("Newsletter", f"No hay noticias nuevas (SENT/APPROVED, sin enviar) en los últimos {NEWS_WINDOW_DAYS} días.")
+        notify("Newsletter", f"No hay noticias nuevas (sin enviar) en los últimos {NEWS_WINDOW_DAYS} días.")
         sys.exit(1)
     print(json.dumps(pick, ensure_ascii=False, indent=2))
 
