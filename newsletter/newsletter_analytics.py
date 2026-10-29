@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Newsletter analytics: how the last weeks' broadcasts did, as CSV logs + a dashboard.
 
-    python newsletter/newsletter_analytics.py run [--days 14] [--slack] [--no-sent-json]
+    python newsletter/newsletter_analytics.py run [--days 60] [--slack] [--no-sent-json]
     python newsletter/newsletter_analytics.py dashboard          # rebuild the dashboard from the saved CSVs
 
-`run` pulls every broadcast from sent.json scheduled in the last N days (default 14) that Resend
+`run` pulls every broadcast from sent.json scheduled in the last N days (default 60) that Resend
 reports as sent, and writes into newsletter/analytics/ (gitignored, it holds subscribers' emails):
 
     readers.csv      ranking of the most engaged readers (1 point per send opened, 3 per send clicked)
@@ -422,12 +422,12 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("run")
-    p.add_argument("--days", type=int, default=14)
+    p.add_argument("--days", type=int, default=60)
     p.add_argument("--slack", action="store_true", help="publica el dashboard (PNG) en SLACK_CHANNEL")
     p.add_argument("--no-sent-json", action="store_true", help="no actualiza stats en sent.json")
     p.set_defaults(fn=cmd_run)
     p = sub.add_parser("dashboard")
-    p.add_argument("--days", type=int, default=14)
+    p.add_argument("--days", type=int, default=60)
     p.set_defaults(fn=cmd_dashboard)
     a = ap.parse_args()
     a.fn(a)

@@ -7,7 +7,7 @@ or commit secrets, and never paste subscribers' emails anywhere (Slack, PR, fina
 
 1. **Sync.** `git checkout main && git pull`, then a branch `newsletter/stats-<YYYY-MM-DD>`.
 2. **Run it.** `newsletter/newsletter_analytics.py run --slack`. In one go it:
-   - takes every broadcast in `sent.json` scheduled in the last 14 days that Resend reports as sent
+   - takes every broadcast in `sent.json` scheduled in the last 60 days that Resend reports as sent
      (split sends count each part);
    - writes the logs into `newsletter/analytics/` (**gitignored, local only**): `recipients.csv` (one
      row per email per send: sent, delivered, opened, clicked, bounced, spam, unsubscribed,
@@ -32,4 +32,4 @@ or commit secrets, and never paste subscribers' emails anywhere (Slack, PR, fina
    PR against `main`. If `sent.json` didn't change, skip the PR.
 
 Other commands: `newsletter_analytics.py dashboard` rebuilds the page from the saved CSVs without
-calling Resend; `run --days 28` looks further back; `run --no-sent-json` leaves `sent.json` alone.
+calling Resend; `run --days N` changes the window; `run --no-sent-json` leaves `sent.json` alone.
