@@ -48,10 +48,14 @@ and, if something is missing, posts a heads-up in Slack `#emprendeconpm` so ther
    - **Research to fill gaps.** If fewer than 3 good items are left, search the web (WebSearch) for
      news from the last 7 days that fit the list above and add them, up to 4 items in total, each
      with its primary-source link. Never add a claim you didn't read on the linked page.
-   - Then write them as step 4 says, and **approve the row**: with the Google Sheets connector,
-     find the row by its `Día` date and set its `Status` to `APPROVED` (best effort: if the
-     connector isn't there or fails, note it in the Slack post and carry on; `sent.json` already
-     records the row as used).
+   - Then write them as step 4 says, and **save and approve the row** with the Google Sheets
+     connector (find it by its `Día` date): first write the curated items into its
+     `Manu's improved version` cell (plain text, one item per line with its link, the way the
+     Sheet has them), which is what `newsletter.py news` reads, and only then set `Status` to
+     `APPROVED`. Never approve without saving the curated text: if the issue gets canceled and the
+     row is reused, the original, unchecked text would go out as approved. Best effort: if the
+     connector isn't there or the write fails, leave the row unapproved (a later run reviews it
+     again), note it in the Slack post and carry on.
    - In the Slack post of step 7, add one line saying you edited the news: what you kept, dropped
      and added, with the links.
 4. **Draft** `newsletter/issues/<YYYY-MM-DD>.md`. If that issue is already in `newsletter/sent.json`, it went out
