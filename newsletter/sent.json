@@ -9,24 +9,29 @@
     "stats": {
       "sent": 96,
       "delivered": 96,
-      "opened": 60,
-      "clicked": 8,
+      "opened": 68,
+      "clicked": 10,
       "bounced": 0,
       "complained": 0,
-      "unsubscribed": 0,
+      "unsubscribed": 1,
       "links": [
         {
           "url": "https://www.clubdelasemprendedoras.com/recetas/reel-con-claude-cowork/",
-          "clicks": 6,
-          "unique": 4
+          "clicks": 9,
+          "unique": 5
         },
         {
           "url": "https://instagram.com/PameVls",
           "clicks": 5,
           "unique": 4
+        },
+        {
+          "url": "https://unsubscribe.resend.com/",
+          "clicks": 1,
+          "unique": 1
         }
       ],
-      "as_of": "2026-10-11T18:32-06:00"
+      "as_of": "2026-10-28T18:14-06:00"
     }
   },
   {
@@ -59,7 +64,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-10-28T17:21-06:00"
+      "as_of": "2026-10-28T18:14-06:00"
     }
   },
   {
@@ -87,7 +92,7 @@
           "unique": 2
         }
       ],
-      "as_of": "2026-10-28T17:21-06:00"
+      "as_of": "2026-10-28T18:14-06:00"
     }
   },
   {
@@ -107,7 +112,7 @@
     "stats": {
       "sent": 99,
       "delivered": 99,
-      "opened": 42,
+      "opened": 43,
       "clicked": 5,
       "bounced": 0,
       "complained": 0,
@@ -124,7 +129,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-10-28T17:21-06:00"
+      "as_of": "2026-10-28T18:14-06:00"
     }
   },
   {
@@ -156,7 +161,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-10-28T17:21-06:00"
+      "as_of": "2026-10-28T18:14-06:00"
     }
   }
 ]
