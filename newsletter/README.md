@@ -1,4 +1,4 @@
-# Newsletter semanal · Miércoles de IA
+# Newsletter · IA para emprender
 
 Every **Wednesday at 08:00 (CDMX)** the waitlist gets an email with that week's AI and
 entrepreneurship news, a receta from the site (our tutorials), and news about the taller. It goes out as a
