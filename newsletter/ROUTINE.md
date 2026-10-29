@@ -11,8 +11,11 @@ and, if something is missing, posts a heads-up in Slack `#emprendeconpm` so ther
 1. **Sync the repo.** `git checkout main && git pull`. Work on a branch
    `newsletter/<YYYY-MM-DD>` (the Wednesday date).
 2. **Check that everything is ready.** `newsletter/newsletter.py check`. It looks for:
-   - **news:** the newest row of the news Sheet with Status SENT (already sent by WhatsApp) or
-     APPROVED, dated in the last 10 days and **not used in an earlier issue** (`sent.json`);
+   - **news:** the newest row of the news Sheet dated in the last 10 days and **not used in an
+     earlier issue** (`sent.json`). It doesn't need to be approved: a row with Status SENT (already
+     sent by WhatsApp) or APPROVED wins over a newer one without it, and an unapproved pick comes
+     back with `"aprobada": false`, which means you review and improve it in step 3. Rows marked
+     REJECTED/RECHAZADA are skipped;
    - **receta:** the newest receta in the site's `recetas.json` that hasn't gone out yet.
 
    If it exits 2, something is missing. **Stop here: don't draft, test or schedule anything**
@@ -22,7 +25,7 @@ and, if something is missing, posts a heads-up in Slack `#emprendeconpm` so ther
    same in your final message:
 
    > ⚠️ *Newsletter del miércoles {fecha}: no se armó.* Falta:
-   > • *Noticias aprobadas:* agrega las de esta semana en el Sheet con Status APPROVED o SENT → https://docs.google.com/spreadsheets/d/1TB4WNIQhHSeBrLXEUQ5gi-CJRdBDxaXErudeUspcIyg/edit
+   > • *Noticias:* no hay ninguna fila de los últimos 10 días en el Sheet → https://docs.google.com/spreadsheets/d/1TB4WNIQhHSeBrLXEUQ5gi-CJRdBDxaXErudeUspcIyg/edit
    > • *Receta nueva:* publícala en el sitio y agrégala a `site/recetas/recetas.json` (guía: `site/recetas/README.md`)
    > Cuando esté, avísenle a Claude o corran la rutina con "Run now" para que salga a las 8:00.
 
@@ -30,6 +33,27 @@ and, if something is missing, posts a heads-up in Slack `#emprendeconpm` so ther
    receta and continue.
 3. **Get the content.** `newsletter/newsletter.py news` (the news text, using "Manu's improved
    version" when it exists) and `newsletter/newsletter.py receta` (title, summary, URL).
+
+   **If the news isn't approved (`"approved": false`), you are the editor; don't stop and wait for approval.**
+   The agent that writes the Sheet's news is uneven, so curate them to the standard of the last
+   three issues in `newsletter/issues/` (read them first: that's the bar for picks, length and tone):
+   - **Check every item.** Open each link (WebFetch) and confirm the facts in the text are on that
+     page, it's from the last ~2 weeks (a standout older item is fine if the text says so) and it's
+     a primary source (the company's own announcement, docs or a solid outlet). Fix wrong facts
+     and replace weak links with the primary source; drop items you can't confirm.
+   - **Curate.** Keep what matters to a non-technical woman starting a business: tools she can use
+     (images, video, design, selling, writing, organizing), big moves by the AI companies she hears
+     about (OpenAI, Anthropic, Google, Meta, Canva…), and at most one "chisme"/fun item. Drop
+     developer-only news, funding rounds without a takeaway, and anything hype-y.
+   - **Research to fill gaps.** If fewer than 3 good items are left, search the web (WebSearch) for
+     news from the last 7 days that fit the list above and add them, up to 4 items in total, each
+     with its primary-source link. Never add a claim you didn't read on the linked page.
+   - Then write them as step 4 says, and **approve the row**: with the Google Sheets connector,
+     find the row by its `Día` date and set its `Status` to `APPROVED` (best effort: if the
+     connector isn't there or fails, note it in the Slack post and carry on; `sent.json` already
+     records the row as used).
+   - In the Slack post of step 7, add one line saying you edited the news: what you kept, dropped
+     and added, with the links.
 4. **Draft** `newsletter/issues/<YYYY-MM-DD>.md`. If that issue is already in `newsletter/sent.json`, it went out
    early: name the new one `<YYYY-MM-DD>-b.md`. If the file exists and wasn't sent (written by hand),
    don't rewrite it: only fill any `[[RECETA_*]]` markers and `receta_url`. Otherwise copy the structure of the most recent
@@ -38,10 +62,12 @@ and, if something is missing, posts a heads-up in Slack `#emprendeconpm` so ther
      warm and direct, no tech jargon (explain it or drop it), no hype, at most one "¡".
    - Open with `Hola, {{{contact.first_name|emprendedora}}}:` and one or two lines that
      connect to the week. Add a short welcome for new members ("Si acabas de llegar,
-     bienvenida al club…"); the full welcome only went in the first issue.
+     bienvenida al club. Cuando podemos, te mandamos…"; we no longer promise a weekly send, so
+     don't say "cada miércoles"); the full welcome only went in the first issue.
    - **Las noticias de la semana:** rewrite the Sheet's news simply, 3–4 items, one or
-     two sentences each, each with its link in `[texto](url)` form. Keep every fact and link
-     from the Sheet; don't add news or claims that aren't there.
+     two sentences each, each with its link in `[texto](url)` form. For an approved row, keep
+     every fact and link from the Sheet and don't add news or claims that aren't there; for an
+     unapproved one, use the items you curated in step 3.
    - **Tu receta de la semana:** title, the summary from `recetas.json`, and a
      `[Ver la receta →](url){boton}` button.
    - Close with a question they can answer by replying, "Tu idea lleva mucho tiempo

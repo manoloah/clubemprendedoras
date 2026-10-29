@@ -10,7 +10,7 @@ Sheet de registros ──(Apps Script syncResend, diario)──► Resend · seg
                                       ▲                               │
               "Desuscrita del newsletter" ◄── unsubscribes ───────────┤
                                                                       ▼
-Sheet de noticias (SENT/APPROVED) ─┐                           Broadcast miércoles 8:00
+Sheet de noticias (últimos 10 días) ┐                           Broadcast miércoles 8:00
 site/recetas/recetas.json ───┼─► rutina del martes 17:00 ─► newsletter/issues/<fecha>.md
 brand/voice.md ────────────────────┘     (ROUTINE.md)              + correo de prueba
 ```
@@ -19,14 +19,14 @@ brand/voice.md ────────────────────┘  
 
 | When | Who | What |
 |---|---|---|
-| Mon | Pame/Manu | News in the [news Sheet](https://docs.google.com/spreadsheets/d/1TB4WNIQhHSeBrLXEUQ5gi-CJRdBDxaXErudeUspcIyg/edit), Status `SENT` (went out on WhatsApp) or `APPROVED`. |
+| Mon | Pame/Manu (or the news agent) | News in the [news Sheet](https://docs.google.com/spreadsheets/d/1TB4WNIQhHSeBrLXEUQ5gi-CJRdBDxaXErudeUspcIyg/edit). Approval is optional: an unapproved row gets checked, curated and rewritten by the routine, which then sets its Status to `APPROVED`. `REJECTED` rows are skipped. |
 | Mon–Tue | Manu | Receta published on the site and added to `site/recetas/recetas.json`. |
 | Mon 12:00 | Reminder | Runs `newsletter.py check`; if news or the receta is missing, posts in Slack `#emprendeconpm`. |
 | Tue 17:00 | Routine | Drafts the issue in our voice, sends a test, schedules it for Wed 08:00 ([ROUTINE.md](ROUTINE.md)). |
 | Tue evening | Pame/Manu | Read the test email. To stop it: `newsletter.py cancel <id>` or cancel it in Resend (the script notices a dashboard cancel and frees that issue's news and receta). |
 | Wed 08:00 | Resend | Sends to every subscribed contact. |
 
-The routine never sends an incomplete newsletter. If there's no new approved news (one that
+The routine never sends an incomplete newsletter. If there are no new news (a Sheet row from the last 10 days that
 wasn't in an earlier issue) or no new receta, it stops before drafting and posts what's missing
 in Slack `#emprendeconpm`. It also stops and posts there when subscribers pass the daily limit.
 Once the missing piece is in, press **Run now** on the scheduled task (or ask Claude).
@@ -36,7 +36,7 @@ Once the missing piece is in, press **Run now** on the scheduled task (or ask Cl
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r newsletter/requirements.txt   # once
 .venv/bin/python newsletter/newsletter.py check         # is there new news + a new receta? (exit 2 = missing)
-.venv/bin/python newsletter/newsletter.py news          # this week's approved news (skips news already sent)
+.venv/bin/python newsletter/newsletter.py news          # this week's news (skips news already sent; "approved": false = review it)
 .venv/bin/python newsletter/newsletter.py receta        # newest receta not sent yet
 .venv/bin/python newsletter/newsletter.py audience      # subscribed / unsubscribed counts
 .venv/bin/python newsletter/newsletter.py build newsletter/issues/2026-10-14.md
