@@ -130,7 +130,8 @@
         }
       ],
       "as_of": "2026-10-28T18:14-06:00"
-    }
+    },
+    "segment_freed": true
   },
   {
     "issue": "2026-10-21.md",
@@ -162,6 +163,37 @@
         }
       ],
       "as_of": "2026-10-28T18:14-06:00"
-    }
+    },
+    "segment_freed": true
+  },
+  {
+    "issue": "2026-10-28.md",
+    "broadcast_id": "4532de92-75ee-47b3-82d8-9226fe75e0cf",
+    "scheduled_at": "2026-10-28T21:00:00-06:00",
+    "recipients": 99,
+    "news_date": "2026-10-26",
+    "receta_url": "https://www.clubdelasemprendedoras.com/recetas/disena-en-figma-con-claude/",
+    "part": 1,
+    "parts_total": 2,
+    "segment_id": "a9fe45b9-7b83-46e9-a127-ace3ebe8415d",
+    "cutoff": [
+      "2026-10-14 18:44:35.066487+00",
+      "11d279ba-83dc-431b-b065-84a973510aa8"
+    ]
+  },
+  {
+    "issue": "2026-10-28.md",
+    "broadcast_id": "e8d17e9d-f9f6-4f6b-920d-1068c8713f4e",
+    "scheduled_at": "2026-10-29T21:00:00-06:00",
+    "recipients": 33,
+    "news_date": "2026-10-26",
+    "receta_url": "https://www.clubdelasemprendedoras.com/recetas/disena-en-figma-con-claude/",
+    "part": 2,
+    "parts_total": 2,
+    "segment_id": "ab7afb83-6482-4d1b-a4eb-f0d6345fc7cc",
+    "cutoff": [
+      "2026-10-27 21:03:47.921774+00",
+      "8fca7ae2-1416-43b2-b454-d5e61d9533b4"
+    ]
   }
 ]
