@@ -50,7 +50,8 @@ def call(fn, *args):
         try:
             return fn(*args)
         except Exception as e:  # SDK raises its own error types
-            if "rate" not in str(e).lower() and "429" not in str(e) or attempt == 4:
+            msg = str(e).lower()
+            if not any(k in msg for k in ("rate", "429", "request failed")) or attempt == 4:
                 raise
             time_module.sleep(1.5 * (attempt + 1))
 

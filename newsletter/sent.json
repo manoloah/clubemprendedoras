@@ -31,7 +31,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-10-22T13:11-06:00"
+      "as_of": "2026-10-28T18:14-06:00"
     }
   },
   {
@@ -47,7 +47,7 @@
     "stats": {
       "sent": 99,
       "delivered": 99,
-      "opened": 59,
+      "opened": 60,
       "clicked": 5,
       "bounced": 0,
       "complained": 0,
@@ -55,7 +55,7 @@
       "links": [
         {
           "url": "https://www.clubdelasemprendedoras.com/recetas/dashboard-finanzas-en-vivo/",
-          "clicks": 5,
+          "clicks": 6,
           "unique": 4
         },
         {
@@ -64,7 +64,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-10-22T13:11-06:00"
+      "as_of": "2026-10-28T18:14-06:00"
     }
   },
   {
@@ -92,7 +92,7 @@
           "unique": 2
         }
       ],
-      "as_of": "2026-10-22T13:11-06:00"
+      "as_of": "2026-10-28T18:14-06:00"
     }
   },
   {
@@ -112,16 +112,16 @@
     "stats": {
       "sent": 99,
       "delivered": 99,
-      "opened": 33,
-      "clicked": 3,
+      "opened": 43,
+      "clicked": 5,
       "bounced": 0,
       "complained": 0,
       "unsubscribed": 0,
       "links": [
         {
           "url": "https://www.clubdelasemprendedoras.com/recetas/ingenieria-inversa-con-rea/",
-          "clicks": 3,
-          "unique": 3
+          "clicks": 5,
+          "unique": 5
         },
         {
           "url": "https://help.openai.com/en/articles/20001598-intelligent-ui-in-chatgpt",
@@ -129,7 +129,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-10-22T13:11-06:00"
+      "as_of": "2026-10-28T18:14-06:00"
     }
   },
   {
@@ -145,6 +145,23 @@
     "cutoff": [
       "2026-10-21 21:03:51.701927+00",
       "b4e9393d-c6c8-40ca-ac67-99bda6c20eb4"
-    ]
+    ],
+    "stats": {
+      "sent": 25,
+      "delivered": 25,
+      "opened": 13,
+      "clicked": 1,
+      "bounced": 0,
+      "complained": 0,
+      "unsubscribed": 0,
+      "links": [
+        {
+          "url": "https://www.clubdelasemprendedoras.com/recetas/ingenieria-inversa-con-rea/",
+          "clicks": 1,
+          "unique": 1
+        }
+      ],
+      "as_of": "2026-10-28T18:14-06:00"
+    }
   }
 ]
