@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Conecta CapCut a ChatGPT y edita tus videos platicando · Recetas del Club</title>
+  <meta name="description" content="Instala el plugin de CapCut en Codex, la parte de ChatGPT que hace tareas por ti, y edita tus videos pidiéndolos en español. 5 pasos y los prompts listos.">
+  <meta name="theme-color" content="#F2C75C">
+  <link rel="canonical" href="https://www.clubdelasemprendedoras.com/recetas/edita-videos-con-capcut-y-codex/">
+  <link rel="icon" href="/assets/brand/asterisk.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="es_MX">
+  <meta property="og:title" content="Conecta CapCut a ChatGPT y edita tus videos platicando">
+  <meta property="og:description" content="Instala el plugin de CapCut en Codex y edita tus videos pidiéndolos en español. 5 pasos y los prompts listos para copiar.">
+  <meta property="og:url" content="https://www.clubdelasemprendedoras.com/recetas/edita-videos-con-capcut-y-codex/">
+  <meta property="og:image" content="https://www.clubdelasemprendedoras.com/assets/img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Signup gate, decided before paint: open if she came from the newsletter
+       or already signed up on this browser (see site/recetas/README.md). -->
+  <script>
+    (function () {
+      var ok = /[?&]utm_source=newsletter(&|$)/.test(location.search);
+      try {
+        if (ok) localStorage.setItem("club_receta_ok", "1");
+        else ok = localStorage.getItem("club_receta_ok") === "1";
+      } catch (e) {}
+      if (!ok) document.documentElement.classList.add("is-gated");
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap">
+
+  <link rel="stylesheet" href="/assets/tokens.css?v=3">
+  <link rel="stylesheet" href="/assets/styles.css?v=14">
+  <script src="/assets/config.js?v=4"></script>
+  <script src="/assets/recetas.js?v=2" defer></script>
+  <script src="/assets/motion.js?v=11" defer></script>
+</head>
+<body class="receta-page">
+  <a class="skip-link" href="#ingredientes">Ir a la receta</a>
+
+  <header class="nav" data-nav>
+    <a class="nav__logo" href="/" aria-label="El Club de las Emprendedoras, inicio">
+      <img src="/assets/brand/logo-tomato.webp" width="104" height="65" alt="El Club de las Emprendedoras">
+    </a>
+    <div class="nav__actions">
+      <details class="menu" data-menu>
+        <summary class="menu__toggle"><span>Menú</span><span class="menu__icon" aria-hidden="true"></span></summary>
+        <nav class="menu__panel" aria-label="Secciones">
+          <a class="menu__item menu__item--feature" href="/recetas/"><span class="kicker kicker--tomato">Nuevo</span><strong>Recetas de Emprendimiento e IA</strong><small>Pasos sencillos para ayudarte a emprender con IA</small></a>
+        </nav>
+      </details>
+      <a class="btn btn--sm" href="/#unirme">Unirme</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="receta-hero" aria-labelledby="receta-title">
+      <img class="recetas-decor recetas-decor--heart" src="/assets/img/lilac-heart.webp" width="72" height="69" alt="" aria-hidden="true">
+      <div class="receta-hero__inner">
+        <p class="kicker kicker--tomato tilt-l">Receta #5 · Gratis para el club</p>
+        <h1 id="receta-title" class="display">Conecta CapCut a ChatGPT y <span class="accent">edita tus videos platicando</span></h1>
+        <p class="lead">Instalas el plugin de CapCut en Codex, la parte de ChatGPT que hace tareas por ti. Luego le dices en español qué video quieres y él corta, pone subtítulos y ajusta los tiempos en tu CapCut. Instalarlo toma unos 2 minutos, y aquí van los prompts.</p>
+        <div class="receta-meta">
+          <span class="sticker sticker--pink">5 pasos</span>
+          <span class="sticker sticker--olive">Sin saber editar</span>
+          <span class="sticker sticker--lilac">ChatGPT + CapCut</span>
+        </div>
+        <p class="receta-by">
+          <img src="/assets/img/pame.webp" width="48" height="48" alt="">
+          <span>Por Pame · <a href="https://www.instagram.com/PameVls/" target="_blank" rel="noopener">@PameVls</a></span>
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--cream" id="ingredientes" aria-labelledby="ingredientes-title">
+      <div class="section__inner">
+        <div class="receta-intro">
+          <div class="ingredientes">
+            <p class="kicker kicker--navy">Antes de empezar</p>
+            <h2 id="ingredientes-title" class="h2">Lo que necesitas</h2>
+            <ul class="check-list">
+              <li><strong>La app de escritorio de ChatGPT</strong>, que bajas gratis en <a href="https://chatgpt.com/download" target="_blank" rel="noopener">chatgpt.com/download</a>, y tu cuenta de ChatGPT. Codex ya viene dentro.</li>
+              <li><strong>Una cuenta de CapCut</strong>, en <a href="https://www.capcut.com" target="_blank" rel="noopener">capcut.com</a>. Si no tienes, la abres cuando Codex te lo pida.</li>
+              <li><strong>Tus clips:</strong> los videos que grabaste con tu celular.</li>
+              <li><strong>2 minutos</strong> para instalarlo y un rato para jugar con tu video.</li>
+            </ul>
+          </div>
+          <div class="receta-why">
+            <h3 class="h3">¿Qué es Codex?</h3>
+            <p>La parte de ChatGPT que no solo platica: hace tareas por ti en tu compu y en tus apps. Con el plugin de CapCut, tú le dices en español qué video quieres y él corta, pone subtítulos y ajusta los tiempos en tu CapCut.</p>
+            <p class="note note--lilac tilt-r">¿Eres más de Claude? En la <a href="/recetas/reel-con-claude-cowork/">receta #1</a> hicimos un reel con Cowork ♡</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Signup gate: shown only while html.is-gated -->
+    <section class="section section--cream section--flush" aria-label="Receta paso a paso">
+      <div class="section__inner">
+        <div class="receta__locked" data-locked>
+          <ol class="pasos">
+            <li class="paso" id="paso-1">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">1</span><h2 class="h2">Baja la app de ChatGPT</h2></div>
+              <p>Codex vive en la app de escritorio de ChatGPT, no en la página web.</p>
+              <ol>
+                <li>Bájala en <a href="https://chatgpt.com/download" target="_blank" rel="noopener">chatgpt.com/download</a> e instálala como cualquier app.</li>
+                <li>Ábrela e inicia sesión con tu cuenta de ChatGPT.</li>
+              </ol>
+            </li>
+
+            <li class="paso" id="paso-2">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">2</span><h2 class="h2">Entra a Codex</h2></div>
+              <p>Arriba a la izquierda de la ventana, da clic en el menú y escoge <strong>Codex</strong>.</p>
+              <p class="note note--butter tilt-l">Si no lo ves, revisa que la app esté actualizada y que entraste con tu cuenta.</p>
+            </li>
+
+            <li class="paso" id="paso-3">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">3</span><h2 class="h2">Pega este prompt para instalar CapCut</h2></div>
+              <p>Abre un chat nuevo en Codex, pega este prompt tal cual y dale Enter. Va en inglés a propósito: son las instrucciones oficiales de CapCut, así que no le cambies nada.</p>
+              <div class="prompt">
+                <div class="prompt__bar">
+                  <span>Tu prompt para instalar</span>
+                  <button class="btn btn--sm" type="button" data-copy="prompt-instalar"><span class="btn__label">Copiar</span></button>
+                </div>
+<pre id="prompt-instalar">Download and read https://sf16-sg.tiktokcdn.com/obj/eden-sg/962370eh7nupenuhbo/capcut_codex_plugin/SKILL.md, then follow it exactly to install and authorize the CapCut plugin. If needed, fork this chat, send my request and progress to the fork, and open it.</pre>
+              </div>
+              <p>Lo que pasa después:</p>
+              <ul class="check-list">
+                <li><strong>Codex lee las instrucciones</strong> de CapCut y él solito instala el plugin. Tú no descargas nada.</li>
+                <li><strong>Te pide autorizar CapCut:</strong> dale aprobar e inicia sesión con tu cuenta de CapCut. Es el permiso para que Codex edite en tu CapCut.</li>
+                <li><strong>Si abre otro chat para seguir</strong>, es normal: el prompt le da permiso de hacerlo sin perder lo que llevas.</li>
+              </ul>
+              <p><strong>¿Qué es un plugin?</strong> Una pieza que le suma una habilidad nueva a Codex. Este le enseña a usar CapCut.</p>
+            </li>
+
+            <li class="paso" id="paso-4">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">4</span><h2 class="h2">Pídele tu primer video</h2></div>
+              <p>Abre una tarea nueva en Codex, adjunta los clips que quieres editar (o dile el nombre del proyecto si ya están en tu CapCut), pega este prompt y cambia lo que está entre [corchetes].</p>
+              <div class="prompt">
+                <div class="prompt__bar">
+                  <span>Tu prompt para editar</span>
+                  <button class="btn btn--sm" type="button" data-copy="prompt-editar"><span class="btn__label">Copiar</span></button>
+                </div>
+<pre id="prompt-editar">Con el plugin de CapCut, edita un video con mis clips: [los que te adjunto / el proyecto "nombre" de mi CapCut].
+
+Es para [Instagram, TikTok…] y habla de [qué vendes o qué quieres contar]. Quiero que dure [30] segundos.
+
+Tú decide el orden, los cortes y el ritmo, como lo haría quien edita los videos de [una cuenta que te encante]. Ponle subtítulos en español, fáciles de leer en el celular.
+
+No soy editora: explícame en una frase cada cosa que hagas y avísame cuando esté listo, con dónde lo encuentro en CapCut.</pre>
+              </div>
+              <p class="note note--pink tilt-r">No le describas cada corte: dale la meta y deja que él piense ♡</p>
+            </li>
+
+            <li class="paso" id="paso-5">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">5</span><h2 class="h2">Ajústalo platicando</h2></div>
+              <p>Ábrelo en CapCut y míralo. Lo que no te guste, pídeselo en el mismo chat, como se lo dirías a alguien que edita contigo:</p>
+              <ul class="bubbles">
+                <li class="bubble">Haz más rápido el inicio, que enganche en los primeros 3 segundos</li>
+                <li class="bubble">Cambia el clip del segundo 10 por uno donde salga mi producto</li>
+                <li class="bubble">Reescribe los subtítulos más cortos y con más gancho</li>
+                <li class="bubble">Hazme otra versión de 15 segundos para historias</li>
+              </ul>
+              <p>Cuando te encante, descárgalo desde CapCut y súbelo.</p>
+              <div class="receta-ojo">
+                <img src="/assets/brand/asterisk.svg" width="26" height="46" alt="">
+                <p><strong>Ojo:</strong> el plugin es nuevo y lo que puede hacer va a ir creciendo. Si algo no le sale, pídeselo de otra forma o termina ese detalle tú en CapCut. ChatGPT y CapCut tienen límites de uso según tu plan.</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="receta-done">
+            <p class="kicker kicker--tomato tilt-l">¿Lo hiciste?</p>
+            <h2 class="h2">Mándanos tu video, queremos verlo.</h2>
+            <p>Etiquétanos en <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a> o respóndenos el correo del miércoles. Los mejores los compartimos.</p>
+          </div>
+        </div>
+
+        <div class="gate" data-gate="receta-edita-videos-con-capcut-y-codex">
+          <div class="waitlist">
+            <span class="sticker sticker--tomato" aria-hidden="true">Gratis</span>
+            <form class="waitlist__form" novalidate>
+              <h2 class="h3">Abre la receta completa</h2>
+              <p>Déjanos tu nombre y tu correo y es tuya. ¿Ya eres del club? Pon el correo de siempre y entras directo.</p>
+              <div class="field">
+                <label for="gate-name">Tu nombre</label>
+                <input id="gate-name" name="name" type="text" autocomplete="given-name" placeholder="¿Cómo te llamas?" required maxlength="120">
+              </div>
+              <div class="field">
+                <label for="gate-email">Tu correo</label>
+                <input id="gate-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254">
+              </div>
+              <div class="hp" aria-hidden="true">
+                <label for="gate-company">No llenes este campo</label>
+                <input id="gate-company" name="company" type="text" tabindex="-1" autocomplete="off">
+              </div>
+              <button class="btn btn--block" type="submit">
+                <span class="btn__label">Quiero la receta</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <p class="caption">Cada miércoles te mandamos una receta nueva y las noticias de IA que importan para emprender. Te sales cuando quieras.</p>
+              <p class="waitlist__status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="cta__inner">
+        <span class="sticker sticker--lilac cta__sticker" aria-hidden="true">Tú puedes</span>
+        <h2 id="cta-title" class="display display--inverse">Esto es un spoiler del taller.</h2>
+        <p class="lead lead--inverse">En 2027 hacemos esto, pero con tu app: 8 semanas, en vivo y con otras mujeres que van al mismo paso que tú.</p>
+        <a class="btn" href="/#unirme"><span class="btn__label">Quiero mi lugar</span> <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="/assets/brand/logo-cream.webp" width="180" height="112" alt="El Club de las Emprendedoras" loading="lazy">
+    <p class="footer__by">Un proyecto de Pame y Manu · <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a></p>
+    <p class="caption"><a href="/recetas/">Recetas de Emprendimiento e IA</a> · © 2026 El Club de las Emprendedoras.</p>
+  </footer>
+</body>
+</html>

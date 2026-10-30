@@ -31,6 +31,14 @@
       "resumen": "Juntas en Pinterest lo que te encanta, ChatGPT te propone dos logos y Claude Code pasa el tuyo a Figma, con cada letra editable. 7 pasos y los prompts listos para copiar.",
       "fecha": "2026-10-28",
       "url": "/recetas/disena-en-figma-con-claude/"
+    },
+    {
+      "numero": 5,
+      "slug": "edita-videos-con-capcut-y-codex",
+      "titulo": "Conecta CapCut a ChatGPT y edita tus videos platicando",
+      "resumen": "Instalas el plugin de CapCut en Codex, la parte de ChatGPT que hace tareas por ti, y editas tus videos pidiéndolos en español. 5 pasos y los prompts listos para copiar.",
+      "fecha": "2026-11-04",
+      "url": "/recetas/edita-videos-con-capcut-y-codex/"
     }
   ]
 }
