@@ -63,7 +63,7 @@ existing one:
 - Cover (`.receta-cover`): a phone mockup. Put a photo or screenshot inside `.receta-cover__screen`,
   a short caption in `.receta-cover__sub` (one word in `<em>`), and a sticker.
 - Kicker `Receta #N · X pasos`, title, one-line summary, meta stickers, "Ver la receta →".
-- Update the note under the list ("La receta #N+1 llega el miércoles a tu correo ♡").
+- Update the note under the list ("La receta #N+1 llega pronto a tu correo ♡").
 
 The nav menu doesn't change: it has a single option, the hub.
 

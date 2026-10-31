@@ -9,16 +9,17 @@ clases reales, es [`index.html`](index.html).
 | `Club/Logo` | Color = Tomato · Navy · Cream | `assets/brand/logo-{tomato,navy,cream}.webp` | — |
 | `Club/Nav` | — | `.nav` + `.btn--sm` | logo + **Unirme** |
 | *Club/Menu* (aún no en Figma) | Closed · Open | `.menu` (`<details data-menu>`) + `.menu__panel`, `.menu__item--feature` | Menú → Recetas de Emprendimiento e IA (única opción) |
-| `Club/Button` | Style = Primary · Secondary; State = Default · Pressed | `.btn`, `.btn--sm`, `.btn--block` | **Quiero mi lugar →** |
-| `Club/Kicker` | Tone = Tomato · Navy · Cream | `.kicker--tomato / --navy / --cream` | Waitlist abierta · Taller 2027 |
+| `Club/Button` | Style = Primary · Secondary; State = Default · Pressed | `.btn`, `.btn--sm`, `.btn--block` | **Empieza hoy →** |
+| `Club/Kicker` | Tone = Tomato · Navy · Cream | `.kicker--tomato / --navy / --cream` | Curso grabado · Empieza hoy |
 | `Club/Input` | State = Default · Focus · Filled · Error | `.field` (`:focus`, `aria-invalid`) | Tu correo · tu@correo.com |
 | `Club/Sticker` | Tone = Pink · Olive · Tomato · Lilac · Butter | `.sticker--*` | Sin ser técnica · Con IA · Tú puedes |
 | `Club/Note` | Tone = Pink · Butter · Lilac | `.note--*` | Al final: tu app funcionando en tu teléfono |
 | `Club/Card/ForYou` | Tone = Pink · Butter · Lilac · Cream | `.for-you__item--*` | Sientes que la IA va a mil y tú te estás quedando atrás. |
-| `Club/Card/Week` | Tone = Pink · Lilac · Butter · Cream | `.card-week--*` | Semanas 1 y 2 · Encuentra tu idea… |
+| `Club/Card/Week` | Tone = Pink · Lilac · Butter · Cream | `.card-week--*` (+ `.card-week--solo`, sin teléfono) | Módulo 1 · De idea a posicionamiento de producto |
 | `Club/FAQ Item` | State = Closed · Open | `.faq__item` (`<details>`) | ¿Necesito saber programar? |
-| `Club/Waitlist Form` | — | `.waitlist` + `[data-waitlist]` | Aparta tu lugar |
-| `Club/Phone` | — | `.phone`, `.phone__screen` | pantallas de ejemplo por semana |
+| `Club/Waitlist Form` | Default · Soft | `.waitlist`, `.waitlist--soft` + `[data-waitlist]` | ¿Todavía no te decides? (newsletter) |
+| *Club/Buy Card* (aún no en Figma) | Default · Tilt | `.buy`, `.buy--tilt` + botón `a[data-checkout]` (`checkout.js`) | Crea tu app con IA (sin saber programar) · Empieza hoy → |
+| `Club/Phone` | — | `.phone`, `.phone__screen` | pantallas de ejemplo por módulo |
 | `Club/Footer` | — | `.footer` | Un proyecto de Pame y Manu · @emprendeconpm |
 | `Club/Graphic/*`, `Club/Sticker Art/*` | — | `assets/brand/*`, `assets/img/*` | — |
 | `Club/Illustration/Community` | square · tall (· wide) | `assets/img/community-*.webp`, `assets/img/club-women.webp` | — |
@@ -30,9 +31,10 @@ clases reales, es [`index.html`](index.html).
 
 - **Rotación**: cada kicker, nota, sticker y teléfono lleva su inclinación (`.tilt-l`, `.tilt-r`, `rotate:` por elemento).
 - **Tono por color**: las tarjetas alternan rosa → lila → mantequilla (→ crema) para dar ritmo; nunca dos del mismo tono seguidas.
-- **Nota al pie de cada tarjeta de semana**: `Club/Note` con "Al final: …".
+- **Nota al pie de cada tarjeta de módulo**: `Club/Note` con "Al final: …".
 - **Stickers**: palabras sueltas en Caveat que acompañan una ilustración o una lista (hero, ideas, cierre); no llevan acción propia.
-- **Formulario**: el nombre y el correo van primero; lo demás es el paso 2, opcional (un modal estilo Typeform, una pregunta por pantalla).
+- **Compra**: cada botón de compra abre el pago de Hotmart dentro de la página (`checkout.js`) y lleva debajo "Pago seguro con Hotmart"; nunca se escribe el precio.
+- **Formulario** (newsletter): el nombre y el correo van primero; lo demás es el paso 2, opcional (un modal estilo Typeform, una pregunta por pantalla).
 - **Secciones**: alternan fondo (hero rosa → banda navy → crema → lila → crema → rosa → crema → mantequilla → cierre tomato → footer) y cada una abre con un kicker inclinado.
 
 - **Recetas** (`site/recetas/`): hero mantequilla o rosa, "Lo que necesitas" en tarjeta blanca (clase `.ingredientes`), pasos con número en círculo inclinado (tomato/lila alternando), el prompt en bloque navy con barra rosa y botón **Copiar**, y el cierre tomato hacia la waitlist. Lo que queda detrás del registro va en `.receta__locked`.

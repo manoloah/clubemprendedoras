@@ -93,6 +93,8 @@
     const tpl = document.getElementById("waitlist-success");
     const node = tpl.content.firstElementChild.cloneNode(true);
     node.querySelector("[data-success-title]").textContent = `¡Ya estás dentro, ${name}!`;
+    const popout = form.closest(".popout");
+    if (popout) popout.classList.add("is-done");
     form.replaceWith(node);
     return node;
   }
@@ -196,7 +198,7 @@
     flush();
     if (answered && profileReturn) {
       profileReturn.querySelector("p:not(.h3)").textContent =
-        "Gracias por contarnos de ti. Con esto armamos el taller pensando en ti. Desde esta semana te llega contenido sobre IA para que le pierdas el miedo a emprender, y te avisamos antes que a nadie cuando abramos.";
+        "Gracias por contarnos de ti. Con esto armamos recetas y cursos pensando en ti. Te escribimos cuando tengamos una receta nueva o noticias de IA que valgan la pena.";
     }
     if (dialog.open) dialog.close();
   }
@@ -261,7 +263,7 @@
 
       if (!name) {
         setError(nameInput);
-        status.textContent = "Dinos cómo te llamas para guardarte el lugar.";
+        status.textContent = "Dinos cómo te llamas.";
         firstInvalid = nameInput;
       }
       if (!EMAIL_RE.test(email)) {
@@ -275,18 +277,18 @@
 
       button.disabled = true;
       const original = buttonLabel.textContent;
-      buttonLabel.textContent = "Guardando tu lugar…";
+      buttonLabel.textContent = "Guardando…";
 
       try {
         await send({
           nombre: name.slice(0, 120),
           email: email.slice(0, 254),
           company: form.elements.company.value,
-          source: config.source || "landing-2027",
+          source: form.dataset.source || config.source || "landing",
           ...attribution,
         });
         window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: "waitlist_signup", source: config.source });
+        window.dataLayer.push({ event: "waitlist_signup", source: form.dataset.source || config.source });
         if (typeof window.fbq === "function") window.fbq("track", "Lead");
         // She's in the club now: the recetas open without their signup gate.
         try { localStorage.setItem("club_receta_ok", "1"); } catch (_) { /* private mode */ }
@@ -295,10 +297,87 @@
         openProfile(email, firstName, success);
       } catch (error) {
         console.error("[waitlist]", error);
-        status.textContent = "Ups, no pudimos guardar tu lugar. Intenta de nuevo en un momento.";
+        status.textContent = "Ups, no pudimos guardar tus datos. Intenta de nuevo en un momento.";
         button.disabled = false;
         buttonLabel.textContent = original;
       }
     });
   });
+
+  // Newsletter popout (landing): a small card at the bottom, never a modal.
+  // It shows once she has scrolled to the section marked [data-popout-at]
+  // (past the temario), unless she already tapped something on this visit,
+  // already signed up, or closed it in the last two weeks. It steps aside
+  // while the inline sign-up at #unirme is on screen.
+  const popout = document.getElementById("popout");
+  const popoutAt = document.querySelector("[data-popout-at]");
+  if (popout && popoutAt) {
+    const DISMISSED = "club_popout_closed";
+    const QUIET_DAYS = 14;
+    const MIN_SECONDS = 8;
+    const opened = Date.now();
+    let skip = false;
+    try {
+      skip = localStorage.getItem("club_receta_ok") === "1" ||
+        Date.now() - Number(localStorage.getItem(DISMISSED) || 0) < QUIET_DAYS * 864e5;
+    } catch (_) { /* private mode: show it */ }
+
+    let tapped = false;
+    let shown = false;
+    let inlineVisible = false;
+    const inline = document.getElementById("unirme");
+
+    function hide() {
+      popout.classList.remove("is-open");
+      setTimeout(() => { if (!popout.classList.contains("is-open")) popout.hidden = true; }, 400);
+    }
+
+    function close() {
+      try { localStorage.setItem(DISMISSED, String(Date.now())); } catch (_) { /* private mode */ }
+      hide();
+      document.removeEventListener("keydown", onKey);
+    }
+
+    function onKey(e) { if (e.key === "Escape" && !dialog.open) close(); }
+
+    function maybeShow() {
+      if (shown || tapped || inlineVisible || dialog.open ||
+          document.documentElement.classList.contains("is-checkout")) return;
+      if (popoutAt.getBoundingClientRect().top > innerHeight * 0.6) return;
+      if (Date.now() - opened < MIN_SECONDS * 1000) return;
+      shown = true;
+      window.removeEventListener("scroll", onScroll);
+      popout.hidden = false;
+      void popout.offsetWidth;
+      popout.classList.add("is-open");
+      document.addEventListener("keydown", onKey);
+    }
+
+    // One getBoundingClientRect per scroll event is cheap; no rAF, which a
+    // background or embedded page may never run.
+    const onScroll = () => maybeShow();
+
+    if (!skip) {
+      // Any tap on a link, button or field means she's busy: no interruption.
+      document.addEventListener("click", (e) => {
+        if (!popout.contains(e.target) && e.target.closest("a, button, summary, input, label")) tapped = true;
+      }, true);
+      window.addEventListener("scroll", onScroll, { passive: true });
+      if (inline && "IntersectionObserver" in window) {
+        new IntersectionObserver(([entry]) => {
+          inlineVisible = entry.isIntersecting;
+          if (inlineVisible && popout.classList.contains("is-open") && !popout.classList.contains("is-done")) hide();
+        }, { threshold: 0.15 }).observe(inline);
+      }
+      popout.querySelectorAll("[data-popout-close]").forEach((b) => b.addEventListener("click", close));
+      // It opens small (title, one line and the button); the first tap on the
+      // button shows the fields instead of submitting.
+      popout.querySelector("button[type=submit]").addEventListener("click", (e) => {
+        if (popout.classList.contains("is-expanded")) return;
+        e.preventDefault();
+        popout.classList.add("is-expanded");
+        popout.querySelector("input[name=name]").focus();
+      });
+    }
+  }
 })();

@@ -22,9 +22,10 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap">
 
   <link rel="stylesheet" href="/assets/tokens.css?v=3">
-  <link rel="stylesheet" href="/assets/styles.css?v=14">
-  <script src="/assets/recetas.js?v=2" defer></script>
-  <script src="/assets/motion.js?v=11" defer></script>
+  <link rel="stylesheet" href="/assets/styles.css?v=16">
+  <script src="/assets/config.js?v=5"></script>
+  <script src="/assets/app.js?v=11" defer></script>
+  <script src="/assets/motion.js?v=12" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#recetas">Ir a las recetas</a>
@@ -52,7 +53,7 @@
         <p class="kicker kicker--tomato tilt-l">Gratis para el club</p>
         <h1 id="recetas-title" class="display">Recetas de Emprendimiento <span class="accent underline" data-jump>e IA</span></h1>
         <p class="lead">Pasos sencillos para ayudarte a emprender con IA. Las probamos nosotras primero, sin tecnicismos y con el prompt listo para copiar.</p>
-        <p class="note note--butter tilt-r">Una receta nueva cada miércoles ♡</p>
+        <a class="btn recetas-hero__cta" href="#suscribete"><span class="btn__label">Recíbelas en tu correo</span> <span aria-hidden="true">↓</span></a>
       </div>
     </section>
 
@@ -157,7 +158,7 @@
             </a>
           </li>
         </ul>
-        <p class="note note--lilac tilt-l receta-next">La receta #5 llega el miércoles a tu correo ♡</p>
+        <p class="note note--lilac tilt-l receta-next">La receta #5 llega pronto a tu correo ♡</p>
       </div>
     </section>
 
@@ -188,12 +189,36 @@
       </div>
     </section>
 
-    <section class="cta" aria-labelledby="cta-title">
+    <section class="cta" id="suscribete" aria-labelledby="cta-title">
       <div class="cta__inner">
-        <span class="sticker sticker--lilac cta__sticker" aria-hidden="true">Tú puedes</span>
-        <h2 id="cta-title" class="display display--inverse">Esto es un spoiler del taller.</h2>
-        <p class="lead lead--inverse">En 2027 lo hacemos con tu app: 8 semanas, en vivo y con otras mujeres que van al mismo paso que tú.</p>
-        <a class="btn" href="/#unirme"><span class="btn__label">Quiero mi lugar</span> <span aria-hidden="true">→</span></a>
+        <span class="sticker sticker--lilac cta__sticker" aria-hidden="true">Gratis</span>
+        <h2 id="cta-title" class="display display--inverse">Recibe las recetas en tu correo.</h2>
+        <p class="lead lead--inverse">Cada receta nueva y las noticias de IA que importan para emprender. Te escribimos cuando tengamos algo bueno, sin llenarte el correo.</p>
+        <div class="waitlist waitlist--tilt">
+          <form class="waitlist__form" data-waitlist data-source="recetas-hub" novalidate>
+            <h3 class="h3">Quiero las recetas</h3>
+            <div class="field">
+              <label for="cta-name">Tu nombre</label>
+              <input id="cta-name" name="name" type="text" autocomplete="given-name" placeholder="¿Cómo te llamas?" required maxlength="120">
+            </div>
+            <div class="field">
+              <label for="cta-email">Tu correo</label>
+              <input id="cta-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254">
+              <p class="field__error" id="cta-email-error" hidden></p>
+            </div>
+            <div class="hp" aria-hidden="true">
+              <label for="cta-company">No llenes este campo</label>
+              <input id="cta-company" name="company" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <button class="btn btn--block" type="submit">
+              <span class="btn__label">Quiero las recetas</span>
+              <span aria-hidden="true">→</span>
+            </button>
+            <p class="caption">Gratis. Te sales cuando quieras.</p>
+            <p class="waitlist__status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+        <p class="lead lead--inverse cta__more">¿Y si lo siguiente es tu propia app? <a href="/">Conoce el curso Crea tu app con IA →</a></p>
       </div>
     </section>
   </main>
@@ -203,5 +228,156 @@
     <p class="footer__by">Un proyecto de Pame y Manu · <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a></p>
     <p class="caption">© 2026 El Club de las Emprendedoras.</p>
   </footer>
+
+  <!-- Step 2: profile questions (optional), one at a time -->
+  <dialog class="profile" id="profile" aria-labelledby="profile-title">
+    <form class="profile__form" method="dialog" novalidate>
+      <div class="profile__bar"><span class="profile__progress" data-progress></span></div>
+      <button class="profile__close" type="button" data-profile-skip aria-label="Cerrar">×</button>
+      <div class="profile__body">
+        <section class="profile__step profile__step--intro" data-step>
+          <p class="kicker kicker--tomato">Paso 2 de 2 · opcional</p>
+          <h2 id="profile-title" class="h2"><span data-profile-name>¡Listo!</span> Ya estás en el newsletter.</h2>
+          <p>¿Nos cuentas un poco más de ti? Son preguntas cortitas, una a la vez. Con esto armamos recetas y cursos a tu medida.</p>
+          <div class="profile__ok"><button class="btn" type="button" data-next><span class="btn__label">Va, empecemos</span> →</button><p class="profile__enter">Toma 1 minuto</p></div>
+        </section>
+        <section class="profile__step" data-step hidden>
+          <div class="field">
+            <label for="p-whatsapp">Tu WhatsApp <span class="profile__hint">(para avisarte cuando tengamos algo nuevo)</span></label>
+            <input id="p-whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="+52 55 1234 5678" maxlength="30">
+          </div>
+          <div class="profile__ok"><button class="btn" type="button" data-next><span class="btn__label">OK</span> ✓</button><p class="profile__enter">o presiona <kbd>Enter ↵</kbd></p></div>
+        </section>
+        <section class="profile__step" data-step data-auto hidden>
+          <fieldset class="profile__q">
+            <legend>¿Qué te describe mejor?</legend>
+            <div class="chips-select">
+              <label class="chip"><input type="radio" name="perfil" value="Trabajo en una empresa y quiero algo mío"><span>Trabajo en una empresa y quiero algo mío</span></label>
+              <label class="chip"><input type="radio" name="perfil" value="Ya tengo un negocio o emprendimiento"><span>Ya tengo un negocio o emprendimiento</span></label>
+              <label class="chip"><input type="radio" name="perfil" value="Soy freelance o creadora de contenido"><span>Soy freelance o creadora de contenido</span></label>
+              <label class="chip"><input type="radio" name="perfil" value="Estoy empezando de cero"><span>Estoy empezando de cero</span></label>
+            </div>
+          </fieldset>
+          <div class="profile__ok"><button class="btn" type="button" data-next><span class="btn__label">OK</span> ✓</button></div>
+        </section>
+        <section class="profile__step" data-step data-auto hidden>
+          <fieldset class="profile__q">
+            <legend>¿Dónde estás hoy con tu idea?</legend>
+            <div class="chips-select">
+              <label class="chip"><input type="radio" name="etapa_idea" value="Todavía no tengo idea"><span>Todavía no tengo idea</span></label>
+              <label class="chip"><input type="radio" name="etapa_idea" value="La tengo en la cabeza"><span>La tengo en la cabeza</span></label>
+              <label class="chip"><input type="radio" name="etapa_idea" value="Ya la platiqué con posibles clientas"><span>Ya la platiqué con posibles clientas</span></label>
+              <label class="chip"><input type="radio" name="etapa_idea" value="Ya estoy construyendo algo"><span>Ya estoy construyendo algo</span></label>
+              <label class="chip"><input type="radio" name="etapa_idea" value="Ya vendo y quiero crecer"><span>Ya vendo y quiero crecer</span></label>
+            </div>
+          </fieldset>
+          <div class="profile__ok"><button class="btn" type="button" data-next><span class="btn__label">OK</span> ✓</button></div>
+        </section>
+        <section class="profile__step" data-step hidden>
+          <fieldset class="profile__q">
+            <legend>Sé honesta: ¿qué te frena hoy? <span class="profile__hint">(elige todas las que apliquen)</span></legend>
+            <div class="chips-select">
+              <label class="chip"><input type="checkbox" name="freno" value="No sé por dónde empezar"><span>No sé por dónde empezar</span></label>
+              <label class="chip"><input type="checkbox" name="freno" value="Siento que no soy técnica"><span>Siento que no soy técnica</span></label>
+              <label class="chip"><input type="checkbox" name="freno" value="No tengo tiempo"><span>No tengo tiempo</span></label>
+              <label class="chip"><input type="checkbox" name="freno" value="Miedo a que no funcione"><span>Miedo a que no funcione</span></label>
+              <label class="chip"><input type="checkbox" name="freno" value="No sé si mi idea es buena"><span>No sé si mi idea es buena</span></label>
+              <label class="chip"><input type="checkbox" name="freno" value="No tengo dinero para invertir"><span>No tengo dinero para invertir</span></label>
+            </div>
+          </fieldset>
+          <div class="profile__ok"><button class="btn" type="button" data-next><span class="btn__label">OK</span> ✓</button></div>
+        </section>
+        <section class="profile__step" data-step data-auto hidden>
+          <fieldset class="profile__q">
+            <legend>¿Qué te interesa más ahorita?</legend>
+            <div class="chips-select">
+              <label class="chip"><input type="radio" name="interes_2027" value="Encontrar y validar mi idea"><span>Encontrar y validar mi idea</span></label>
+              <label class="chip"><input type="radio" name="interes_2027" value="Crear mi app con IA"><span>Crear mi app con IA</span></label>
+              <label class="chip"><input type="radio" name="interes_2027" value="Conseguir mis primeros usuarios y ventas"><span>Conseguir mis primeros usuarios y ventas</span></label>
+              <label class="chip"><input type="radio" name="interes_2027" value="Usar IA en mi negocio actual"><span>Usar IA en mi negocio actual</span></label>
+            </div>
+          </fieldset>
+          <div class="profile__ok"><button class="btn" type="button" data-next><span class="btn__label">OK</span> ✓</button></div>
+        </section>
+        <section class="profile__step" data-step data-auto hidden>
+          <fieldset class="profile__q">
+            <legend>¿Qué es lo que más te trabaría al tomar un curso?</legend>
+            <div class="chips-select">
+              <label class="chip"><input type="radio" name="traba_taller" value="La parte técnica"><span>La parte técnica</span></label>
+              <label class="chip"><input type="radio" name="traba_taller" value="Encontrar el tiempo"><span>Encontrar el tiempo</span></label>
+              <label class="chip"><input type="radio" name="traba_taller" value="Ser constante"><span>Ser constante</span></label>
+              <label class="chip"><input type="radio" name="traba_taller" value="Sentirme sola en el proceso"><span>Sentirme sola en el proceso</span></label>
+              <label class="chip"><input type="radio" name="traba_taller" value="Todavía no sé"><span>Todavía no sé</span></label>
+            </div>
+          </fieldset>
+          <div class="profile__ok"><button class="btn" type="button" data-next><span class="btn__label">OK</span> ✓</button></div>
+        </section>
+        <section class="profile__step" data-step data-auto hidden>
+          <fieldset class="profile__q">
+            <legend>¿En qué momento te acomoda más aprender?</legend>
+            <div class="chips-select">
+              <label class="chip"><input type="radio" name="horario" value="Entre semana en la noche"><span>Entre semana en la noche</span></label>
+              <label class="chip"><input type="radio" name="horario" value="Entre semana a mediodía"><span>Entre semana a mediodía</span></label>
+              <label class="chip"><input type="radio" name="horario" value="Fines de semana en la mañana"><span>Fines de semana en la mañana</span></label>
+              <label class="chip"><input type="radio" name="horario" value="Me adapto"><span>Me adapto</span></label>
+            </div>
+          </fieldset>
+          <div class="profile__ok"><button class="btn" type="button" data-next><span class="btn__label">OK</span> ✓</button></div>
+        </section>
+        <section class="profile__step" data-step data-auto hidden>
+          <fieldset class="profile__q">
+            <legend>¿Ya tomaste un taller o curso con nosotras?</legend>
+            <div class="chips-select">
+              <label class="chip"><input type="radio" name="curso_previo" value="Sí"><span>Sí</span></label>
+              <label class="chip"><input type="radio" name="curso_previo" value="No"><span>No</span></label>
+              <label class="chip"><input type="radio" name="curso_previo" value="Todavía no, pero las sigo"><span>Todavía no, pero las sigo</span></label>
+            </div>
+          </fieldset>
+          <div class="profile__ok"><button class="btn" type="button" data-next><span class="btn__label">OK</span> ✓</button></div>
+        </section>
+        <section class="profile__step" data-step hidden>
+          <div class="field">
+            <label for="p-meta">En una frase: ¿qué te gustaría construir o lograr con IA?</label>
+            <input id="p-meta" name="meta_ia" type="text" maxlength="300" placeholder="Una app para…">
+          </div>
+          <div class="profile__ok"><button class="btn" type="button" data-next><span class="btn__label">OK</span> ✓</button><p class="profile__enter">o presiona <kbd>Enter ↵</kbd></p></div>
+        </section>
+        <section class="profile__step" data-step hidden>
+          <div class="field">
+            <label for="p-negocio">Cuéntanos un poco más de ti y de tu negocio</label>
+            <textarea id="p-negocio" name="negocio" rows="3" maxlength="1000" placeholder="A qué te dedicas, qué vendes o qué te gustaría vender…"></textarea>
+          </div>
+          <div class="profile__ok"><button class="btn" type="button" data-next><span class="btn__label">OK</span> ✓</button></div>
+        </section>
+        <section class="profile__step" data-step hidden>
+          <div class="field">
+            <label for="p-ig">Tu Instagram o el de tu negocio</label>
+            <input id="p-ig" name="instagram" type="text" maxlength="100" autocapitalize="off" placeholder="@tunegocio">
+          </div>
+          <div class="profile__ok"><button class="btn" type="button" data-next><span class="btn__label">OK</span> ✓</button><p class="profile__enter">o presiona <kbd>Enter ↵</kbd></p></div>
+        </section>
+        <section class="profile__step profile__step--done" data-step hidden>
+          <img src="/assets/img/pink-heart.webp" width="64" height="59" alt="">
+          <h2 class="h2">¡Gracias!</h2>
+          <p>Con esto armamos recetas y cursos pensando en ti. Nos vemos en tu correo.</p>
+          <div class="profile__ok"><button class="btn" type="button" data-profile-skip><span class="btn__label">Listo</span></button></div>
+        </section>
+      </div>
+      <footer class="profile__foot">
+        <div class="profile__nav">
+          <button type="button" data-prev aria-label="Pregunta anterior">↑</button>
+          <button type="button" data-next aria-label="Siguiente pregunta">↓</button>
+        </div>
+      </footer>
+    </form>
+  </dialog>
+
+  <template id="waitlist-success">
+    <div class="waitlist__success" tabindex="-1">
+      <img src="/assets/img/pink-heart.webp" width="64" height="59" alt="">
+      <p class="h3" data-success-title></p>
+      <p>Ya puedes abrir todas las recetas, y te escribimos cuando haya una nueva o noticias de IA que valgan la pena. Revisa tu correo (y promociones, por si acaso).</p>
+    </div>
+  </template>
 </body>
 </html>

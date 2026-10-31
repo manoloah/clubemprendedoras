@@ -4,10 +4,13 @@ Working notes for Claude Code in this repo. Human-facing overview: `README.md`.
 
 ## Project
 
-Waitlist landing for **El Club de las Emprendedoras** (Pame and Manu, @emprendeconpm): an 8-week
-taller in 2027 where non-technical women turn an idea into a mobile app with AI. The only
-conversion is the waitlist form. Audience: Spanish-speaking women in Mexico/LATAM, 28–42, not
-technical, reading on their phone from Instagram.
+Landing for **El Club de las Emprendedoras** (Pame and Manu, @emprendeconpm). It sells the
+on-demand course "Crea tu app con IA (sin saber programar)": recorded classes, at her own pace,
+where non-technical women turn an idea into a mobile app with AI. The main conversion is buying
+the course (Hotmart checkout inside the page, `checkout.js`); the newsletter sign-up form at the
+bottom is the secondary one. The 2027 live taller and its waitlist are cancelled: don't bring back
+dates, cohorts or weekly live sessions in copy. Audience: Spanish-speaking women in Mexico/LATAM,
+28–42, not technical, reading on their phone from Instagram.
 
 ## Commands
 
@@ -27,9 +30,11 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 - `site/index.html`: all copy and markup.
 - `site/assets/tokens.css`: design tokens, mirroring Figma variables. Components use the semantic roles (`--surface-*`, `--brand-*`, `--text-*`), never the primitives.
 - `site/assets/styles.css`: components and layout, mobile first, desktop at `@media (min-width: 900px)`. The motion block sits near the end, before the reduced-motion block.
-- `site/assets/app.js`: waitlist form (validation, honeypot, UTM capture, success state, step-2 profile modal).
+- `site/assets/app.js`: newsletter sign-up forms, still called "waitlist" in the code (validation, honeypot, UTM capture, success state, step-2 profile modal), plus the newsletter popout. Each `[data-waitlist]` form can set its Sheet `source` with `data-source` (landing-popout, landing-newsletter, recetas-hub); otherwise `config.js` decides. The recetas hub loads `app.js` (with the same `#profile` dialog and `#waitlist-success` template), not `recetas.js`.
+- Newsletter popout (`#popout`, landing only): a non-modal card at the bottom of the screen. It shows once, when the section marked `data-popout-at` (Quiénes somos, after the temario) reaches 60% of the viewport, at least 8s after load, and only if she hasn't tapped a link/button/field on this visit, hasn't signed up (`club_receta_ok`) and hasn't closed it in 14 days (`club_popout_closed`). It opens small (title, one line, button); the first tap on "Quiero las recetas" reveals the name and email fields. It hides while the inline form at `#unirme` is on screen. × , "Ahora no" and Escape close it.
+- `site/assets/checkout.js`: Hotmart's embedded checkout in a `<dialog>` (full screen on phones). Every buy button is `<a class="btn" href="https://pay.hotmart.com/U102178202X?checkoutMode=10" data-checkout="U102178202X" data-sck="landing-hero">`, with a different `data-sck` per placement (landing-hero, landing-temario, landing-cta) so Hotmart's report says which one sold. Don't paste Hotmart's widget.min.js, and never hardcode prices (Hotmart shows them per country).
 - `site/assets/motion.js`: every animation, plus the hero video's WebGL compositing.
-- `site/assets/config.js`: Apps Script `/exec` endpoint. Public by design.
+- `site/assets/config.js`: Apps Script `/exec` endpoint (public by design) and the sign-up `source` (`landing-on-demand`).
 - Nav: logo, a **Menú** dropdown (`<details data-menu>`, same markup on the landing and every receta page) and **Unirme**. The menu has one option on purpose: Recetas de Emprendimiento e IA (`/recetas/`). Close logic lives in both `app.js` and `recetas.js`.
 - `site/recetas/`: "Recetas de Emprendimiento e IA" (our tutorials; never call them tutoriales in copy). Hub `index.html`, one folder per receta, `recetas.json` for the newsletter. Pages use absolute `/assets/...` paths. `site/assets/recetas.js` runs the signup gate and "Copiar" buttons. How to add one: `site/recetas/README.md`.
 - `brand/`: the brand system (`voice.md`, `foundations.md`, `components.md`, `motion.md`) and a living style guide, `brand/index.html`, rendered with its own copy of the CSS/JS. Not deployed. It is a self-contained, copy-paste folder (`brand/assets/` holds tokens, styles, motion.js, logos, images and the hero video). `site/` is the source for the shared files: after changing `site/assets/{tokens.css,styles.css,motion.js}` or its `brand/`, `img/` or `video/` files, run `scripts/sync-brand.sh`. Preview: `.claude/launch.json` "brand" (port 4180, serves `brand/`). Keep the docs in step when copy, tokens or components change.
@@ -40,7 +45,7 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 
 - **Copy:** Mexican Spanish, informal *tú*, warm and direct, written to women. No hype, no get-rich-quick, no tech jargon. Voice and the current copy bank: `brand/voice.md`. (The `emprendeconpm-brand-nuevo` skill is a different brand, "Club de Fundadoras"; don't use it here.)
 - **Design:** class names map 1:1 to Figma components (table in `site/README.md`). Nothing is perfectly straight: tilts use the CSS `rotate` property (`.tilt-l`, `.tilt-r`, per-element `rotate:`).
-- **Cache busting:** `index.html` loads `tokens.css?v=N`, `styles.css?v=N`, `app.js?v=N`, `config.js?v=N` and `motion.js?v=N`. Bump N whenever you change that file, or returning visitors keep the old one.
+- **Cache busting:** `index.html` loads `tokens.css?v=N`, `styles.css?v=N`, `app.js?v=N`, `config.js?v=N`, `checkout.js?v=N` and `motion.js?v=N`. Bump N whenever you change that file, or returning visitors keep the old one.
 - **Keep it static:** no frameworks or bundlers in `site/`. Images are WebP; keep the page light.
 
 ## Creating a receta
@@ -93,6 +98,7 @@ Durations, staggers and curves are tokens in `tokens.css` (`--dur-*`, `--stagger
 - Check layout and motion in both Chromium and WebKit at iPhone SE (320), iPhone 15 (393) and desktop (1280), served over http. Playwright works well for this (`devices["iPhone 15"]`).
 - Playwright's WebKit blocks muted autoplay unless there's a user gesture, even on a plain `<video autoplay muted>`. A static hero there is a false negative; `page.evaluate` counts as a gesture.
 - **Video can't be tested on protected Vercel previews from an iPhone:** iOS fetches media through a separate player that doesn't send the share-link cookie, so the MP4 request is redirected to Vercel login and fails with error 4. Test video on production (or a public URL).
+- **Checkout:** tapping each buy button should open the dialog with Hotmart's form inside (product, price, "Datos personales"). That's the whole test: close it, never pay. Console errors about framing `sso.hotmart.com` come from inside Hotmart's iframe and are harmless.
 - **The form posts to the live Sheet,** including from localhost. Don't submit test sign-ups unless you mean to, or point `config.js` at an empty endpoint locally. With no endpoint set, localhost logs the payload to the console.
 
 ## Waitlist backend

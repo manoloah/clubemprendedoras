@@ -5,7 +5,9 @@ Motivamos con pasos concretos, sin prometer éxito fácil.
 
 Todo lo que ve la usuaria va en **español mexicano**, informal (*tú*), escrito a mujeres.
 
-> Fuente de verdad del copy: `site/index.html` (rama `feat/typeform-profile`, la más reciente).
+> Fuente de verdad del copy: `site/index.html`. Desde octubre de 2026 la landing vende el curso
+> grabado **Crea tu app con IA (sin saber programar)** con el pago de Hotmart dentro de la página;
+> el taller en vivo de 2027 y su waitlist se cancelaron.
 > La tabla de Figma "05 · Voz" es anterior y sigue como guía de tono; donde sus ejemplos de CTA
 > difieren de la landing, manda la landing (ver [Reconciliación](#reconciliación-con-figma)).
 
@@ -15,12 +17,13 @@ Todo lo que ve la usuaria va en **español mexicano**, informal (*tú*), escrito
 |---|---|---|
 | **Invita** | Hablamos de tú y de nosotras. Escuchamos las dudas y no las minimizamos. | "Si algo no se entiende, lo explicamos otra vez. Y otra. Sin pena." |
 | **Acompaña** | Ideas + apoyo + acción. Celebramos el proceso y lo aprendido. | "Te llevamos de la mano a encontrar tu idea…" |
-| **Activa** | CTA breves y específicos, siempre con el siguiente paso claro. | "Quiero mi lugar →" |
+| **Activa** | CTA breves y específicos, siempre con el siguiente paso claro. | "Empieza hoy →" |
 
 Además:
 
 - **Sin tecnicismos.** Si hay que decir "onboarding" o "App Store", va con contexto, nunca como jerga.
-- **Concreto antes que inspiracional.** Números, semanas, resultados: "8 semanas", "4 y 6 horas a la semana", "99 USD al año".
+- **Concreto antes que inspiracional.** Números y resultados: "5 módulos", "unas 2 horas por módulo", "99 USD al año".
+- **Nada de fechas ni precios en el copy.** El curso es a tu ritmo (sin cohortes ni clases en vivo con fecha) y el precio lo muestra Hotmart según el país.
 - **Humor ligero.** Una línea con guiño por sección, no un chiste por párrafo ("Te cotizaron miles de dólares por una app y cerraste la pestaña.").
 - **Honestas con el esfuerzo.** Decimos para quién *no* es: quien busca hacerse rica en una semana.
 - **Femenino por defecto**: emprendedora, fundadora, técnica, creadora, posibles clientas.
@@ -29,10 +32,11 @@ Además:
 
 | Dónde | Copy |
 |---|---|
-| Titular del hero | **De cero a emprendedora en 8 semanas.** ("cero a emprendedora" va subrayado y salta) |
-| Promesa | Convierte tu idea en tu aplicación móvil sin ser técnica, sin miles de dólares y con IA, en un grupo de mujeres que se apoyan entre ellas. |
-| Fórmula del taller | 1 idea → 1 app → miles de usuarios |
-| Cierre de cada semana | "Al final: …" en una nota (`Club/Note`) |
+| Titular del hero | **De cero a emprendedora y a tu ritmo.** ("cero a emprendedora" va subrayado y salta; sin coma después del subrayado, porque en el celular quedaría sola al inicio de la línea) |
+| Promesa | Convierte tu idea en tu aplicación móvil sin ser técnica, sin miles de dólares y con IA. |
+| Nombre del curso | Crea tu app con IA (sin saber programar) |
+| Fórmula | 1 idea → 1 app → tus primeros usuarios |
+| Cierre de cada módulo | "Al final: …" en una nota (`Club/Note`) |
 | Cierre de página | Tu idea lleva mucho tiempo esperando. |
 | Firma | Un proyecto de Pame y Manu · @emprendeconpm |
 
@@ -42,40 +46,57 @@ Además:
 
 | Elemento | Copy |
 |---|---|
-| Botón del nav | **Unirme** |
-| Botón de envío (hero y cierre) | **Quiero mi lugar →** |
-| Título del form del hero | Aparta tu lugar |
-| Título del form de cierre | Quiero entrar al club |
-| Texto del CTA de cierre | Apártate un lugar en la waitlist y sé de las primeras en entrar al club en 2027. |
+| Botón del nav | **Unirme** (lleva al cierre, `#unirme`) |
+| Botón de compra (hero y cierre) | **Empieza hoy →** |
+| Botón de compra (temario) | **Quiero empezar hoy →** |
+| Bajo el botón de compra | Pago seguro con Hotmart, aquí mismo. Ves el precio de tu país antes de pagar. |
+| Enlace secundario del hero | Ver el temario ↓ |
+| Kicker del hero | Curso grabado · Empieza hoy |
+| Texto del CTA de cierre | Empieza hoy y avanza a tu ritmo, sin ser técnica y con IA. |
+| Newsletter (título del form) | ¿Todavía no te decides? |
+| Newsletter (texto) | Recibe las recetas de IA en tu correo, gratis. Te escribimos cuando tengamos algo que valga la pena. |
+| Popout (título · texto) | Recetas de IA en tu correo · Pasos sencillos para emprender con IA, con el prompt listo para copiar. Te escribimos solo cuando hay algo bueno. |
+| Popout (botones) | **Quiero las recetas →** · Ahora no |
+| Recetas: botón del hero | Recíbelas en tu correo ↓ |
+| Recetas: cierre | Recibe las recetas en tu correo. · Cada receta nueva y las noticias de IA que importan para emprender. Te escribimos cuando tengamos algo bueno, sin llenarte el correo. |
+| Newsletter (botón) | **Quiero el newsletter →** |
 | Etiquetas | Tu nombre · Tu correo |
 | Placeholders | ¿Cómo te llamas? · tu@correo.com |
-| Letra chica | Cada semana te mandamos contenido sobre IA para perderle el miedo a emprender, y te avisamos primero cuando abramos. Te sales cuando quieras. |
-| Kicker del hero | Waitlist abierta · Taller 2027 |
+| Letra chica del newsletter | Te sales cuando quieras. |
 | Prueba social | Más de 500 personas ya tomaron nuestros cursos. 2 de cada 3 son mujeres. |
 
 ### Mensajes del sistema
 
 | Momento | Copy |
 |---|---|
-| Éxito | ¡Ya estás dentro, {nombre}! Te avisamos antes que a nadie cuando abramos el taller… Revisa tu correo (y promociones, por si acaso). |
-| Falta el nombre | Dinos cómo te llamas para guardarte el lugar. |
-| Paso 2 (intro) | ¡Listo, {nombre}! Ya tienes tu lugar. ¿Nos cuentas un poco más de ti? Son preguntas cortitas, una a la vez. |
+| Éxito | ¡Ya estás dentro, {nombre}! Ya puedes abrir todas las recetas, y te escribimos cuando haya una nueva o noticias de IA que valgan la pena. Revisa tu correo (y promociones, por si acaso). |
+| Falta el nombre | Dinos cómo te llamas. |
+| Guardando | Guardando… |
+| Paso 2 (intro) | ¡Listo, {nombre}! Ya estás en el newsletter. ¿Nos cuentas un poco más de ti? Son preguntas cortitas, una a la vez. Con esto armamos recetas y cursos a tu medida. |
 | Paso 2 (botones) | Va, empecemos · OK ✓ · o presiona Enter ↵ · Listo |
-| Paso 2 (cierre) | ¡Gracias! Con esto armamos el taller pensando en ti. |
+| Paso 2 (cierre) | ¡Gracias! Con esto armamos recetas y cursos pensando en ti. Nos vemos en tu correo. |
 
 ### Kickers y secciones
 
-Waitlist abierta · Taller 2027 / Lo que viene / El taller, paso a paso / Ideas que crecen / ¿Es para ti? /
+Curso grabado · Empieza hoy / Así funciona / El temario, paso a paso / Ideas que crecen / ¿Es para ti? /
 Quiénes estamos detrás / Lo que nos hace distintas / Preguntas frecuentes
 
-### Las 8 semanas
+### El temario
 
-| Semanas | Titular | Cierre |
+Los títulos de los módulos son los oficiales del curso en Hotmart; el texto los explica sin jerga
+("MVP" → una primera versión sencilla; "Git" → guardar versiones para no romper nada; ".env" →
+proteger las claves secretas de tu app; "vibe coding" → le explicas a la IA lo que quieres y lo arman juntas).
+
+| Módulo | Titular | Cierre |
 |---|---|---|
-| 1 y 2 | Encuentra tu idea (y comprueba que alguien la quiere) | Al final: tu idea clara y tu waitlist arrancando ♡ |
-| 3 y 4 | Dale cara: tu marca, con movimiento y animación | Al final: tu marca animada y el diseño de tu app |
-| 5 y 6 | Construye tu app con IA sin saber programar | Al final: tu app funcionando en tu teléfono |
-| 7 y 8 | Cobra, lanza y consigue tus primeros usuarios | Al final: tu app lista para vender |
+| Introductorio | Ser nativa de IA | (sin nota; lista de temas) |
+| 1 | De idea a posicionamiento de producto | Al final: tu idea clara y tu waitlist arrancando ♡ |
+| 2 | De posicionamiento a diseño | Al final: tu identidad visual y los primeros diseños de tu app |
+| 3 | De diseño a app funcional | Al final: tu app funcionando en tu computadora |
+| 4 | Almacenamiento y pagos | Al final: tu app registra usuarios y cobra de verdad |
+| 5 | Lanzamiento y crecimiento | Al final: tu app lista para lanzar |
+| Mini-módulo | Dale inteligencia a tu app | — |
+| Mini-módulo | Crea un onboarding que convierte | — |
 
 ### Stickers (palabras sueltas)
 
@@ -83,7 +104,7 @@ Sin ser técnica · Con IA · Tú puedes · Hola, somos Pame y Manu
 
 ## Vocabulario
 
-**Sí:** recetas (así llamamos a los tutoriales: "Recetas de Emprendimiento e IA"), ideas, juntas, apoyo, comunidad, crecimiento, libertad, taller, club, waitlist, "tu app", "a tu medida".
+**Sí:** recetas (así llamamos a los tutoriales: "Recetas de Emprendimiento e IA"), ideas, juntas, apoyo, crecimiento, libertad, curso, a tu ritmo, club, "tu app", "a tu medida".
 
 **Evitar:**
 
@@ -91,14 +112,16 @@ Sin ser técnica · Con IA · Tú puedes · Hola, somos Pame y Manu
 - "Si no puedes es porque no quieres."
 - Jerga técnica sin explicar (API, backend, deploy, stack).
 - "Tutorial": son **recetas** (lo que necesitas, pasos, prompt listo para copiar). El nombre es "receta", pero el copy no juega con la cocina (nada de ingredientes, hornear o probaditas): tono más Gen Z, directo ("dale play", "cero rollo", "spoiler").
-- "Curso" para lo que ofrecemos: es un **taller** en vivo y en grupo (la frase "No es otro curso…" es la excepción, por contraste).
+- Una frecuencia para el newsletter ("cada semana", "cada miércoles"): sale cuando tenemos algo bueno.
+- "Taller", "en vivo", "cohorte", fechas de inicio o sesiones semanales: lo que vendemos hoy es un **curso** grabado, a tu ritmo. Las sesiones grupales de mentoría no se anuncian en la landing hasta que haya fechas confirmadas.
+- Promesas que no tenemos confirmadas: acceso de por vida, certificado, días de garantía, tamaño de la comunidad. La garantía se nombra solo como "garantía de Hotmart".
 - Mayúsculas gritonas y signos de exclamación en cadena. Un "¡" por pantalla es suficiente.
 
 ## Convenciones de escritura
 
-- Tuteo siempre. "Apártate un lugar", "Cuéntanos", "Revisa tu correo".
-- Verbos al inicio en botones y kickers: **Quiero**, **Unirme**, **Aparta**, **Empieza**.
-- Cifras con dígito (8 semanas, 99 USD). Moneda con código (USD).
+- Tuteo siempre. "Empieza hoy", "Cuéntanos", "Revisa tu correo".
+- Verbos al inicio en botones y kickers: **Empieza**, **Quiero**, **Unirme**.
+- Cifras con dígito (5 módulos, 99 USD). Moneda con código (USD).
 - Flechas y símbolos de marca: `→` en el botón, `♡` y `✦` solo en notas y stickers, `✓` en confirmaciones.
 - Un punto al final en titulares completos del hero; sin punto en kickers, botones y stickers.
 
@@ -106,14 +129,14 @@ Sin ser técnica · Con IA · Tú puedes · Hola, somos Pame y Manu
 
 | Tema | Figma "05 · Voz" (anterior) | Landing (vigente) | Decisión |
 |---|---|---|---|
-| CTA principal | "Me sumo al club" | **Quiero mi lugar** (+ **Unirme** en el nav) | Manda la landing |
-| CTA secundario | "Comparte tu idea" | Aparta tu lugar (título del form) | Manda la landing |
+| CTA principal | "Me sumo al club" | **Empieza hoy** (+ **Unirme** en el nav) | Manda la landing |
+| CTA secundario | "Comparte tu idea" | Ver el temario · Quiero el newsletter | Manda la landing |
 | Titulares de ejemplo | "Ideas que crecen." "Tú también puedes." | "Ideas que crecen" sobrevive como kicker; "Tú puedes" como sticker | Se conservan como kickers/stickers |
-| Titular hero | no aparece | De cero a emprendedora en 8 semanas | Nuevo, manda la landing |
+| Titular hero | no aparece | De cero a emprendedora y a tu ritmo. | Nuevo, manda la landing |
 | Inglés (EN) | Headlines EN | No se usa en la landing | Se conserva como referencia para Instagram |
 
 ### Pendientes de copy (decisión de Pame y Manu)
 
-- Dos formas de la misma invitación conviven: "Aparta tu lugar" (form del hero) y "Apártate un lugar" (texto del CTA final). Elegir una.
-- Dos formas del CTA: "Unirme" (nav) y "Quiero mi lugar" (botones). Es intencional si el nav es corto, pero conviene decidirlo.
-- Confirmar con datos reales: "Más de 500 personas", "2 de cada 3 son mujeres", "entre 4 y 6 horas a la semana", "El 80% de lo que construyes sale con las versiones gratuitas", "23 ya en tu waitlist" (pantalla de ejemplo).
+- El nav dice "Unirme" y lleva al cierre, donde el botón principal es "Empieza hoy". Con el curso a la venta, "Empezar" quizá le queda mejor al nav (lo cambia la rama que maneja el nav).
+- Confirmar con datos reales: "Más de 500 personas", "2 de cada 3 son mujeres", "Cerca del 80% de lo que construyes sale con las versiones gratuitas", "23 ya en tu waitlist" (pantalla de ejemplo).
+- Confirmar antes de mencionarlos: cuánto tiempo dura el acceso al curso, los días de la garantía de Hotmart, las sesiones grupales de mentoría y si el módulo introductorio queda abierto para quien no compra.
