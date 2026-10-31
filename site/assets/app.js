@@ -196,7 +196,7 @@
     flush();
     if (answered && profileReturn) {
       profileReturn.querySelector("p:not(.h3)").textContent =
-        "Gracias por contarnos de ti. Con esto armamos el taller pensando en ti. Desde esta semana te llega contenido sobre IA para que le pierdas el miedo a emprender, y te avisamos antes que a nadie cuando abramos.";
+        "Gracias por contarnos de ti. Con esto armamos recetas y cursos pensando en ti. Desde esta semana te llega el newsletter: una receta y noticias de IA para que le pierdas el miedo a emprender.";
     }
     if (dialog.open) dialog.close();
   }
@@ -261,7 +261,7 @@
 
       if (!name) {
         setError(nameInput);
-        status.textContent = "Dinos cómo te llamas para guardarte el lugar.";
+        status.textContent = "Dinos cómo te llamas.";
         firstInvalid = nameInput;
       }
       if (!EMAIL_RE.test(email)) {
@@ -275,14 +275,14 @@
 
       button.disabled = true;
       const original = buttonLabel.textContent;
-      buttonLabel.textContent = "Guardando tu lugar…";
+      buttonLabel.textContent = "Guardando…";
 
       try {
         await send({
           nombre: name.slice(0, 120),
           email: email.slice(0, 254),
           company: form.elements.company.value,
-          source: config.source || "landing-2027",
+          source: config.source || "landing",
           ...attribution,
         });
         window.dataLayer = window.dataLayer || [];
@@ -295,7 +295,7 @@
         openProfile(email, firstName, success);
       } catch (error) {
         console.error("[waitlist]", error);
-        status.textContent = "Ups, no pudimos guardar tu lugar. Intenta de nuevo en un momento.";
+        status.textContent = "Ups, no pudimos guardar tus datos. Intenta de nuevo en un momento.";
         button.disabled = false;
         buttonLabel.textContent = original;
       }
