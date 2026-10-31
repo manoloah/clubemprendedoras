@@ -19,6 +19,7 @@ site/                     the landing page (static HTML/CSS/JS, no build step)  
   assets/motion.js        all animation (scroll reveals, ideas heap, hero video loop)
   assets/video/           club-women.mp4, the transparent hero loop (stacked alpha)
   recetas/               Recetas de Emprendimiento e IA: the hub, each receta, recetas.json (recetas.json)  → site/recetas/README.md
+  cursos/                our recorded courses (hub + one page each), paid in the page with Hotmart (assets/checkout.js)
 sheets/                   Google Apps Script: writes sign-ups into the Sheet, syncs them to Resend  → sheets/README.md
 newsletter/               weekly newsletter: newsletter.py, email template, issues, weekly routine  → newsletter/README.md
 scripts/

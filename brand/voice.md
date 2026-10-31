@@ -43,6 +43,8 @@ Además:
 | Elemento | Copy |
 |---|---|
 | Botón del nav | **Unirme** |
+| Menú | **Cursos** (Nuevo) · **Recetas de Emprendimiento e IA** (Gratis) |
+| Botón de compra (cursos) | **Quiero el curso →** + "Pago seguro con Hotmart, aquí mismo. Tarjeta o cuotas, según tu país." |
 | Botón de envío (hero y cierre) | **Quiero mi lugar →** |
 | Título del form del hero | Aparta tu lugar |
 | Título del form de cierre | Quiero entrar al club |
@@ -91,7 +93,7 @@ Sin ser técnica · Con IA · Tú puedes · Hola, somos Pame y Manu
 - "Si no puedes es porque no quieres."
 - Jerga técnica sin explicar (API, backend, deploy, stack).
 - "Tutorial": son **recetas** (lo que necesitas, pasos, prompt listo para copiar). El nombre es "receta", pero el copy no juega con la cocina (nada de ingredientes, hornear o probaditas): tono más Gen Z, directo ("dale play", "cero rollo", "spoiler").
-- "Curso" para lo que ofrecemos: es un **taller** en vivo y en grupo (la frase "No es otro curso…" es la excepción, por contraste).
+- "Curso" para el taller: el taller es en vivo y en grupo (la frase "No es otro curso…" es la excepción, por contraste). "Curso" sí es el nombre de lo grabado que vendemos en Hotmart (`/cursos/`): "curso grabado", "a tu ritmo". Sin precios en el copy (Hotmart los muestra por país) y sin prometer ingresos: "de 0 a millones" es el nombre del curso y lo que Renata logró con Musa, no una promesa.
 - Mayúsculas gritonas y signos de exclamación en cadena. Un "¡" por pantalla es suficiente.
 
 ## Convenciones de escritura

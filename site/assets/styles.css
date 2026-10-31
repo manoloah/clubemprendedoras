@@ -145,6 +145,7 @@ ul, ol { padding: 0; list-style: none; }
 .menu__item--feature:hover, .menu__item--feature[aria-current="page"] { background: var(--brand-secondary); box-shadow: inset 0 0 0 2px var(--border-default); }
 .menu__item--feature strong { font: var(--type-h3); font-size: 20px; line-height: 24px; }
 .menu__item--feature small { font: var(--type-caption); opacity: 0.8; }
+.menu__item--feature.menu__item--lilac, .menu__item--feature.menu__item--lilac:hover, .menu__item--feature.menu__item--lilac[aria-current="page"] { background: var(--brand-tertiary); }
 
 /* ---------- 01 Hero ---------- */
 .hero { background: var(--surface-expressive); overflow: hidden; }
@@ -420,6 +421,36 @@ ul, ol { padding: 0; list-style: none; }
   .profile__body { padding: var(--space-64) var(--space-16) var(--space-16); }
 }
 
+/* ---------- Checkout: Hotmart's payment inside the page (checkout.js) ----------
+   Full screen on phones, a window from 640px up. */
+.checkout {
+  width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0;
+  padding: 0; border: 0; background: var(--surface-default); color: var(--text-default);
+  overflow: hidden;
+}
+.checkout[open] { display: flex; flex-direction: column; }
+.checkout::backdrop { background: rgba(23, 37, 74, 0.55); }
+html.is-checkout { overflow: hidden; }
+.checkout__bar {
+  flex: none; display: flex; align-items: center; justify-content: space-between; gap: var(--space-12);
+  padding: calc(var(--space-8) + env(safe-area-inset-top)) var(--space-12) var(--space-8) var(--space-16);
+  border-bottom: var(--stroke-ui) solid var(--border-default); background: var(--surface-expressive);
+}
+.checkout__title { margin: 0; font: var(--type-body-strong); }
+.checkout__close { width: 40px; height: 40px; border-radius: 50%; border: var(--stroke-ui) solid var(--border-default); background: var(--surface-default); color: var(--text-default); font: 700 22px/1 var(--font-body); cursor: pointer; }
+.checkout__body { position: relative; flex: 1; min-height: 0; background: var(--surface-default); }
+.checkout__loading { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; font: var(--type-caption); opacity: 0.7; }
+.checkout__frame { position: relative; display: block; width: 100%; height: 100%; border: 0; }
+.checkout__foot { flex: none; margin: 0; padding: var(--space-8) var(--space-16) calc(var(--space-8) + env(safe-area-inset-bottom)); border-top: var(--stroke-ui) solid var(--border-default); font: var(--type-caption); text-align: center; }
+.checkout__foot a { color: inherit; font-weight: 700; }
+@media (min-width: 640px) {
+  .checkout {
+    width: min(600px, calc(100vw - 48px)); height: min(860px, calc(100dvh - 48px)); margin: auto;
+    border: var(--stroke-ui) solid var(--border-default); border-radius: var(--radius-24); box-shadow: var(--shadow-hard);
+  }
+  .checkout__bar { padding-top: var(--space-8); }
+}
+
 /* ---------- Recetas: hub (/recetas/) and each receta ---------- */
 .recetas-hero, .receta-hero { position: relative; background: var(--surface-expressive); overflow: hidden; }
 .receta-hero { background: var(--surface-optimistic); }
@@ -574,6 +605,42 @@ ul, ol { padding: 0; list-style: none; }
   .receta-intro { display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: start; max-width: none; gap: var(--space-48); }
   .frases { grid-template-columns: 1fr 1fr; }
   .bubbles { max-width: 560px; }
+}
+
+/* ---------- Cursos: hub (/cursos/) and each course ----------
+   Reuses the recetas hero and hub card (.receta-hero, .receta-feature), .card-week for the
+   temario and .faq__item. Buy buttons are <a data-checkout> links opened by checkout.js. */
+.cursos-hero { background: var(--surface-expressive); }
+.curso-page .nav { background: var(--surface-optimistic); } /* the nav matches the course hero */
+.curso-hero--lilac, .curso-page--lilac .nav { background: var(--surface-cool); }
+.curso-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12) var(--space-24); }
+.curso-link { font: var(--type-body-strong); }
+.curso-card:hover, .curso-card:active { transform: none; box-shadow: var(--shadow-hard); } /* not a link: no lift */
+.curso-card .receta-cover__phone .phone__screen { padding: 64px 12px 12px; } /* starts below the sticker */
+.curso-for { padding: var(--space-12) var(--space-16); border-radius: var(--radius-16); background: var(--field-surface); border: var(--stroke-ui) solid var(--border-default); }
+.curso-temario { display: flex; flex-direction: column; gap: var(--space-24); }
+.curso-temario .card-week { margin-top: 0; height: 100%; rotate: -0.6deg; }
+.curso-temario > li:nth-child(even) .card-week { rotate: 0.6deg; }
+.curso-temario .check-list { gap: var(--space-8); }
+.curso-mentors { display: grid; gap: var(--space-24); }
+.curso-mentor {
+  display: flex; flex-direction: column; gap: var(--space-12); padding: var(--space-24);
+  background: var(--field-surface); border: var(--stroke-ui) solid var(--border-default); border-radius: var(--radius-24); box-shadow: var(--shadow-hard);
+}
+.curso-mentor:nth-child(odd) { rotate: -0.6deg; }
+.curso-mentor:nth-child(even) { rotate: 0.6deg; }
+.curso-mentor__head { display: flex; align-items: center; gap: var(--space-16); }
+.curso-mentor__photo {
+  flex: none; width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: top;
+  border: var(--stroke-ui) solid var(--border-default); background: var(--surface-expressive);
+}
+.curso-mentor__photo--initials { display: grid; place-items: center; font: var(--type-h3); background: var(--brand-tertiary); }
+.curso-mentor__head a { font: var(--type-caption); }
+.curso-faq { max-width: 760px; }
+
+@media (min-width: 900px) {
+  .curso-temario { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-32) var(--space-48); align-items: stretch; }
+  .curso-mentors { grid-template-columns: 1fr 1fr; gap: var(--space-48); }
 }
 
 /* ---------- Desktop ---------- */
