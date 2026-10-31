@@ -420,6 +420,36 @@ ul, ol { padding: 0; list-style: none; }
   .profile__body { padding: var(--space-64) var(--space-16) var(--space-16); }
 }
 
+/* ---------- Checkout: Hotmart's payment inside the page (checkout.js) ----------
+   Full screen on phones, a window from 640px up. */
+.checkout {
+  width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0;
+  padding: 0; border: 0; background: var(--surface-default); color: var(--text-default);
+  overflow: hidden;
+}
+.checkout[open] { display: flex; flex-direction: column; }
+.checkout::backdrop { background: rgba(23, 37, 74, 0.55); }
+html.is-checkout { overflow: hidden; }
+.checkout__bar {
+  flex: none; display: flex; align-items: center; justify-content: space-between; gap: var(--space-12);
+  padding: calc(var(--space-8) + env(safe-area-inset-top)) var(--space-12) var(--space-8) var(--space-16);
+  border-bottom: var(--stroke-ui) solid var(--border-default); background: var(--surface-expressive);
+}
+.checkout__title { margin: 0; font: var(--type-body-strong); }
+.checkout__close { width: 40px; height: 40px; border-radius: 50%; border: var(--stroke-ui) solid var(--border-default); background: var(--surface-default); color: var(--text-default); font: 700 22px/1 var(--font-body); cursor: pointer; }
+.checkout__body { position: relative; flex: 1; min-height: 0; background: var(--surface-default); }
+.checkout__loading { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; font: var(--type-caption); opacity: 0.7; }
+.checkout__frame { position: relative; display: block; width: 100%; height: 100%; border: 0; }
+.checkout__foot { flex: none; margin: 0; padding: var(--space-8) var(--space-16) calc(var(--space-8) + env(safe-area-inset-bottom)); border-top: var(--stroke-ui) solid var(--border-default); font: var(--type-caption); text-align: center; }
+.checkout__foot a { color: inherit; font-weight: 700; }
+@media (min-width: 640px) {
+  .checkout {
+    width: min(600px, calc(100vw - 48px)); height: min(860px, calc(100dvh - 48px)); margin: auto;
+    border: var(--stroke-ui) solid var(--border-default); border-radius: var(--radius-24); box-shadow: var(--shadow-hard);
+  }
+  .checkout__bar { padding-top: var(--space-8); }
+}
+
 /* ---------- Recetas: hub (/recetas/) and each receta ---------- */
 .recetas-hero, .receta-hero { position: relative; background: var(--surface-expressive); overflow: hidden; }
 .receta-hero { background: var(--surface-optimistic); }
