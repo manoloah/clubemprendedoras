@@ -53,13 +53,14 @@
   function open(link) {
     if (!dialog) build();
     const code = link.dataset.checkout;
-    const src = checkoutUrl(code, "2", link.dataset.sck);
-    // Reopening the same course keeps what she already typed.
+    // Reopening the same course keeps what she already typed, so the first
+    // button she tapped for it is the one Hotmart credits, on both paths.
     if (frame.dataset.code !== code) {
       frame.dataset.code = code;
-      frame.src = src;
+      frame.dataset.sck = link.dataset.sck || "";
+      frame.src = checkoutUrl(code, "2", frame.dataset.sck);
     }
-    fallback.href = checkoutUrl(code, "10", link.dataset.sck);
+    fallback.href = checkoutUrl(code, "10", frame.dataset.sck);
     current = link;
     document.documentElement.classList.add("is-checkout");
     dialog.showModal();
