@@ -1,13 +1,15 @@
-# Landing · El Club de las Emprendedoras (waitlist 2027)
+# Landing · El Club de las Emprendedoras
 
-Static page, no build step. Mobile first, with a desktop layout from 900px.
+Sells the on-demand course "Crea tu app con IA (sin saber programar)" with Hotmart's checkout inside
+the page; a newsletter sign-up sits under the final buy button. Static page, no build step. Mobile first, with a desktop layout from 900px.
 
 ```
 site/
   index.html          page + copy
   assets/tokens.css   design tokens (mirror of the Figma variables)
   assets/styles.css   components + layout
-  assets/app.js       waitlist form (validation, submit, success state, UTM capture)
+  assets/app.js       newsletter sign-up form, "waitlist" in the code (validation, submit, success state, UTM capture)
+  assets/checkout.js  Hotmart checkout in a <dialog> for every a[data-checkout] buy button
   assets/motion.js    animation: reveals, ideas heap, letter hop, hero video (WebGL)
   assets/config.js    Apps Script /exec URL (live)
   assets/video/       club-women.mp4, stacked-alpha hero loop
@@ -40,7 +42,7 @@ the questions and fills the same row.
 ## Before going live
 
 - Live at https://clubemprendedoras.vercel.app (deploy notes in the root `README.md`). On a custom domain, update `og:url`, `og:image` and the canonical link.
-- Confirm the claims in the copy: "Más de 500 personas", "2 de cada 3 son mujeres", "entre 4 y 6 horas a la semana".
+- Confirm the claims in the copy: "Más de 500 personas", "2 de cada 3 son mujeres", "Cerca del 80%… con las versiones gratuitas".
 
 ## Figma ↔ code map
 
@@ -51,7 +53,8 @@ Figma file: [Club de Emprendedoras](https://www.figma.com/design/J8iryor1WNwHz7V
 | Club/Nav | `.nav` |
 | Club/Button | `.btn`, `.btn--sm`, `.btn--block` |
 | Club/Input | `.field` |
-| Club/Waitlist Form | `.waitlist` + `[data-waitlist]` |
+| Club/Waitlist Form | `.waitlist`, `.waitlist--soft` + `[data-waitlist]` |
+| Club/Buy Card (not in Figma yet) | `.buy`, `.buy--tilt` + `a[data-checkout]` |
 | Club/Kicker | `.kicker--tomato / --navy / --cream` |
 | Club/Sticker | `.sticker--pink / --olive / --tomato / --lilac / --butter` |
 | Club/Note | `.note--butter / --pink / --lilac` |
