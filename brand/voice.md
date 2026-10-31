@@ -54,7 +54,11 @@ Además:
 | Kicker del hero | Curso grabado · Empieza hoy |
 | Texto del CTA de cierre | Empieza hoy y avanza a tu ritmo, sin ser técnica y con IA. |
 | Newsletter (título del form) | ¿Todavía no te decides? |
-| Newsletter (texto) | Cada semana te mandamos una receta y noticias de IA para perderle el miedo a emprender. Gratis. |
+| Newsletter (texto) | Recibe las recetas de IA en tu correo, gratis. Te escribimos cuando tengamos algo que valga la pena. |
+| Popout (título · texto) | Recetas de IA en tu correo · Pasos sencillos para emprender con IA, con el prompt listo para copiar. Te escribimos solo cuando hay algo bueno. |
+| Popout (botones) | **Quiero las recetas →** · Ahora no |
+| Recetas: botón del hero | Recíbelas en tu correo ↓ |
+| Recetas: cierre | Recibe las recetas en tu correo. · Cada receta nueva y las noticias de IA que importan para emprender. Te escribimos cuando tengamos algo bueno, sin llenarte el correo. |
 | Newsletter (botón) | **Quiero el newsletter →** |
 | Etiquetas | Tu nombre · Tu correo |
 | Placeholders | ¿Cómo te llamas? · tu@correo.com |
@@ -65,7 +69,7 @@ Además:
 
 | Momento | Copy |
 |---|---|
-| Éxito | ¡Ya estás dentro, {nombre}! Desde esta semana te llega el newsletter: una receta y noticias de IA… Revisa tu correo (y promociones, por si acaso). |
+| Éxito | ¡Ya estás dentro, {nombre}! Ya puedes abrir todas las recetas, y te escribimos cuando haya una nueva o noticias de IA que valgan la pena. Revisa tu correo (y promociones, por si acaso). |
 | Falta el nombre | Dinos cómo te llamas. |
 | Guardando | Guardando… |
 | Paso 2 (intro) | ¡Listo, {nombre}! Ya estás en el newsletter. ¿Nos cuentas un poco más de ti? Son preguntas cortitas, una a la vez. Con esto armamos recetas y cursos a tu medida. |
@@ -108,6 +112,7 @@ Sin ser técnica · Con IA · Tú puedes · Hola, somos Pame y Manu
 - "Si no puedes es porque no quieres."
 - Jerga técnica sin explicar (API, backend, deploy, stack).
 - "Tutorial": son **recetas** (lo que necesitas, pasos, prompt listo para copiar). El nombre es "receta", pero el copy no juega con la cocina (nada de ingredientes, hornear o probaditas): tono más Gen Z, directo ("dale play", "cero rollo", "spoiler").
+- Una frecuencia para el newsletter ("cada semana", "cada miércoles"): sale cuando tenemos algo bueno.
 - "Taller", "en vivo", "cohorte", fechas de inicio o sesiones semanales: lo que vendemos hoy es un **curso** grabado, a tu ritmo. Las sesiones grupales de mentoría no se anuncian en la landing hasta que haya fechas confirmadas.
 - Promesas que no tenemos confirmadas: acceso de por vida, certificado, días de garantía, tamaño de la comunidad. La garantía se nombra solo como "garantía de Hotmart".
 - Mayúsculas gritonas y signos de exclamación en cadena. Un "¡" por pantalla es suficiente.

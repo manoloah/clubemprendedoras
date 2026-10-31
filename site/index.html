@@ -23,9 +23,9 @@
   <link rel="preload" as="image" href="assets/brand/logo-tomato.webp">
 
   <link rel="stylesheet" href="assets/tokens.css?v=3">
-  <link rel="stylesheet" href="assets/styles.css?v=15">
+  <link rel="stylesheet" href="assets/styles.css?v=16">
   <script src="assets/config.js?v=5"></script>
-  <script src="assets/app.js?v=10" defer></script>
+  <script src="assets/app.js?v=11" defer></script>
   <script src="assets/checkout.js?v=2" defer></script>
   <script src="assets/motion.js?v=12" defer></script>
 </head>
@@ -287,7 +287,7 @@
     </section>
 
     <!-- 06 Quiénes -->
-    <section class="section section--pink" id="quienes" aria-labelledby="quienes-title">
+    <section class="section section--pink" id="quienes" aria-labelledby="quienes-title" data-popout-at>
       <div class="section__inner about">
         <figure class="about__photo">
           <img src="assets/img/palm-pink.webp" width="640" height="1068" alt="Palmera frente a una pared rosa bajo el cielo azul" loading="lazy">
@@ -396,9 +396,9 @@
         </div>
 
         <div class="waitlist waitlist--soft">
-          <form class="waitlist__form" data-waitlist novalidate>
+          <form class="waitlist__form" data-waitlist data-source="landing-newsletter" novalidate>
             <h3 class="h3">¿Todavía no te decides?</h3>
-            <p>Cada semana te mandamos una receta y noticias de IA para perderle el miedo a emprender. Gratis.</p>
+            <p>Recibe las recetas de IA en tu correo, gratis. Te escribimos cuando tengamos algo que valga la pena.</p>
             <div class="field">
               <label for="cta-name">Tu nombre</label>
               <input id="cta-name" name="name" type="text" autocomplete="given-name" placeholder="¿Cómo te llamas?" required maxlength="120">
@@ -430,6 +430,37 @@
     <p class="footer__by">Un proyecto de Pame y Manu · <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a></p>
     <p class="caption"><a href="/recetas/">Recetas de Emprendimiento e IA</a> · © 2026 El Club de las Emprendedoras.</p>
   </footer>
+
+  <!-- Newsletter popout: shows once while scrolling (app.js), never blocks the page -->
+  <aside class="popout" id="popout" role="dialog" aria-modal="false" aria-labelledby="popout-title" hidden>
+    <button class="popout__close" type="button" data-popout-close aria-label="Cerrar">×</button>
+    <p class="kicker kicker--tomato">Gratis</p>
+    <h2 id="popout-title" class="h3 popout__title">Recetas de IA en tu correo</h2>
+    <p class="popout__text">Pasos sencillos para emprender con IA, con el prompt listo para copiar. Te escribimos solo cuando hay algo bueno.</p>
+    <form class="waitlist__form popout__form" data-waitlist data-source="landing-popout" novalidate>
+      <div class="popout__fields">
+        <div class="field">
+          <label for="pop-name">Tu nombre</label>
+          <input id="pop-name" name="name" type="text" autocomplete="given-name" placeholder="¿Cómo te llamas?" required maxlength="120">
+        </div>
+        <div class="field">
+          <label for="pop-email">Tu correo</label>
+          <input id="pop-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254">
+          <p class="field__error" id="pop-email-error" hidden></p>
+        </div>
+      </div>
+      <div class="hp" aria-hidden="true">
+        <label for="pop-company">No llenes este campo</label>
+        <input id="pop-company" name="company" type="text" tabindex="-1" autocomplete="off">
+      </div>
+      <button class="btn btn--block" type="submit">
+        <span class="btn__label">Quiero las recetas</span>
+        <span aria-hidden="true">→</span>
+      </button>
+      <p class="waitlist__status" role="status" aria-live="polite"></p>
+    </form>
+    <button class="popout__later" type="button" data-popout-close>Ahora no</button>
+  </aside>
 
   <!-- Step 2: profile questions (optional), one at a time -->
   <dialog class="profile" id="profile" aria-labelledby="profile-title">
@@ -578,7 +609,7 @@
     <div class="waitlist__success" tabindex="-1">
       <img src="assets/img/pink-heart.webp" width="64" height="59" alt="">
       <p class="h3" data-success-title></p>
-      <p>Desde esta semana te llega el newsletter: una receta y noticias de IA para que le pierdas el miedo a emprender. Revisa tu correo (y promociones, por si acaso).</p>
+      <p>Ya puedes abrir todas las recetas, y te escribimos cuando haya una nueva o noticias de IA que valgan la pena. Revisa tu correo (y promociones, por si acaso).</p>
     </div>
   </template>
 </body>

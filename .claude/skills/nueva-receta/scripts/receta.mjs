@@ -213,7 +213,7 @@ function lintCopy(text, where) {
   }
   const jargon = text.match(/\b(API|backend|frontend|deploy|stack|framework|repo|CLI|SDK)\b/g);
   if (jargon) warn(`${where}: jargon ${[...new Set(jargon)].join(", ")}: explain it in one line or drop it.`);
-  if (/\bcurso\b/i.test(text)) warn(`${where}: "curso": what we offer is a taller.`);
+  if (/\btaller\b/i.test(text)) warn(`${where}: "taller": what we sell now is a recorded curso.`);
   const bangs = (text.match(/¡/g) || []).length;
   if (bangs > 2) warn(`${where}: ${bangs} "¡". At most one per screen.`);
   if (/!!|¡¡/.test(text)) err(`${where}: doubled exclamation marks.`);

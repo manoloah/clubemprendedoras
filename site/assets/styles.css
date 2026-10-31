@@ -474,6 +474,35 @@ html.is-checkout { overflow: hidden; }
   .checkout__bar { padding-top: var(--space-8); }
 }
 
+/* ---------- Newsletter popout (landing, app.js) ----------
+   A card pinned to the bottom of the screen, never a modal: no backdrop,
+   the page keeps scrolling under it. Bottom-right from 640px up. */
+.popout {
+  position: fixed; z-index: 60; left: var(--space-12); right: var(--space-12);
+  bottom: calc(var(--space-12) + env(safe-area-inset-bottom));
+  max-height: calc(100dvh - 96px); overflow-y: auto;
+  display: flex; flex-direction: column; gap: var(--space-8);
+  padding: var(--space-16) var(--space-16) var(--space-4);
+  background: var(--surface-default); color: var(--text-default);
+  border: var(--stroke-ui) solid var(--border-default); border-radius: var(--radius-24); box-shadow: var(--shadow-hard);
+}
+.popout[hidden] { display: none; }
+.popout .kicker { align-self: flex-start; }
+.popout__close { position: absolute; top: var(--space-8); right: var(--space-8); width: 40px; height: 40px; border-radius: 50%; border: var(--stroke-ui) solid var(--border-default); background: var(--surface-default); color: var(--text-default); font: 700 22px/1 var(--font-body); cursor: pointer; }
+.popout__title { margin: 0; padding-right: var(--space-48); }
+.popout__text { margin: 0; font: var(--type-caption); }
+.popout__form { gap: var(--space-12); margin-top: var(--space-4); }
+.popout__fields { display: grid; gap: var(--space-8); }
+.popout:not(.is-expanded) .popout__fields { display: none; }
+/* Placeholders say what goes where; the labels stay for screen readers. */
+.popout .field label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.popout__later { align-self: center; padding: var(--space-8); border: 0; background: none; color: inherit; font: var(--type-caption); text-decoration: underline; cursor: pointer; }
+.popout.is-done .popout__text, .popout.is-done .popout__later { display: none; }
+.popout .waitlist__success { padding-bottom: var(--space-12); }
+@media (min-width: 640px) {
+  .popout { left: auto; right: var(--space-24); bottom: var(--space-24); width: 380px; }
+}
+
 /* ---------- Recetas: hub (/recetas/) and each receta ---------- */
 .recetas-hero, .receta-hero { position: relative; background: var(--surface-expressive); overflow: hidden; }
 .receta-hero { background: var(--surface-optimistic); }
@@ -486,6 +515,8 @@ html.is-checkout { overflow: hidden; }
 .recetas-hero .display { font-size: min(11.2cqi, 76px); line-height: 1.02; } /* "Emprendimiento" is ~8.5em wide */
 .receta-hero .display { font-size: clamp(32px, 9.4cqi, 60px); line-height: 1.06; max-width: 18ch; }
 .recetas-hero .note { margin-top: var(--space-8); }
+.recetas-hero__cta { align-self: flex-start; margin-top: var(--space-8); }
+.cta__more a { color: inherit; font-weight: 700; }
 .recetas-decor { position: absolute; pointer-events: none; }
 .recetas-decor--flower { width: 54px; right: 18px; top: 22px; }
 .recetas-decor--heart { width: 58px; right: 26px; bottom: 26px; rotate: -10deg; }
@@ -786,6 +817,12 @@ html.is-checkout { overflow: hidden; }
   @keyframes menu-in { from { opacity: 0; transform: translateY(-10px); } }
   .receta__locked.is-unlocked { animation: receta-unlock var(--dur-reveal) var(--ease-pop) both; }
   @keyframes receta-unlock { from { opacity: 0; transform: translateY(24px); } }
+}
+
+/* Newsletter popout slides up when it appears. */
+@media (prefers-reduced-motion: no-preference) {
+  html.motion .popout { opacity: 0; transform: translateY(24px); transition: opacity var(--dur-menu) ease, transform var(--dur-menu) var(--ease-pop); }
+  html.motion .popout.is-open { opacity: 1; transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
