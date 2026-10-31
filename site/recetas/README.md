@@ -65,7 +65,8 @@ existing one:
 - Kicker `Receta #N · X pasos`, title, one-line summary, meta stickers, "Ver la receta →".
 - Update the note under the list ("La receta #N+1 llega el miércoles a tu correo ♡").
 
-The nav menu doesn't change: it has a single option, the hub.
+The nav menu doesn't change: Cursos, then the Recetas hub. The template already has it, and
+`receta.mjs check` fails if the menu differs.
 
 ### 4. Add it to `recetas.json`
 
