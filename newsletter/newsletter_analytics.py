@@ -124,8 +124,15 @@ def pick_broadcasts(resend, days):
     from its name."""
     log = {e["broadcast_id"]: e for e in nl.sent_log()}
     since = datetime.now(nl.TZ) - timedelta(days=days) if days else None
-    chosen = []
-    for b in all_broadcasts(resend):
+    chosen, broadcasts = [], all_broadcasts(resend)
+    # Parts still waiting to go out (scheduled or sending; drafts are canceled leftovers), so an
+    # issue missing from sent.json is still shown as "en curso" until its last part is sent.
+    parts = {}
+    for b in broadcasts:
+        m = NAME.match(b.get("name") or "")
+        if m and (b.get("status") or "").lower() != "draft":
+            parts[m.group(1)] = max(parts.get(m.group(1), 1), int(m.group(2) or 1))
+    for b in broadcasts:
         m = NAME.match(b.get("name") or "")
         if (b.get("status") or "").lower() != "sent" or not m:
             continue
@@ -133,7 +140,7 @@ def pick_broadcasts(resend, days):
         if since and sent_at < since:
             continue
         e = log.get(b["id"]) or {"issue": m.group(1) + ".md", "broadcast_id": b["id"], "scheduled_at": b["sent_at"],
-                                 **({"part": int(m.group(2))} if m.group(2) else {})}
+                                 **({"part": int(m.group(2)), "parts_total": parts[m.group(1)]} if m.group(2) else {})}
         chosen.append((e, call(resend.Broadcasts.get, b["id"])))
         time_module.sleep(0.6)
     return sorted(chosen, key=lambda c: c[1].get("sent_at") or "")
