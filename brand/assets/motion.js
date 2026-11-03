@@ -183,12 +183,13 @@
 
   // ---- Scroll reveals.
   const groups = [
-    [".hero .kicker, .hero .display, .hero .lead, .hero .waitlist, .hero__proof", "up"],
+    [".hero .kicker, .hero .display, .hero .lead, .hero .waitlist, .hero .buy, .hero__proof", "up"],
     [".hero__art", "drop"],
     [".band__inner > *", "up"],
     [".section__head > *", "up"],
     [".phone", "drop"],
     [".card-week", "up"],
+    [".temario__cta, .needs", "up"],
     [".for-you__item", "drop"],
     [".not-for-you", "up"],
     [".section__foot", "up"],
