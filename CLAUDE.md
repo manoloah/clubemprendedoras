@@ -30,8 +30,9 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 - `site/assets/app.js`: waitlist form (validation, honeypot, UTM capture, success state, step-2 profile modal).
 - `site/assets/motion.js`: every animation, plus the hero video's WebGL compositing.
 - `site/assets/config.js`: Apps Script `/exec` endpoint. Public by design.
-- Nav: logo, a **Menú** dropdown (`<details data-menu>`, same markup on the landing and every receta page) and **Unirme**. The menu has one option on purpose: Recetas de Emprendimiento e IA (`/recetas/`). Close logic lives in both `app.js` and `recetas.js`.
+- Nav: logo, a **Menú** dropdown (`<details data-menu>`, same markup on the landing, every receta page and every cursos page) and **Unirme**. The menu has two options, in this order: **Cursos** (`/cursos/`, pink, kicker "Nuevo") and **Recetas de Emprendimiento e IA** (`/recetas/`, `.menu__item--lilac`, kicker "Gratis"). The current section gets `aria-current="page"` on its hub. Footers link both. Close logic lives in both `app.js` and `recetas.js` (the cursos pages load `recetas.js` for it; without a gate it only runs the nav).
 - `site/recetas/`: "Recetas de Emprendimiento e IA" (our tutorials; never call them tutoriales in copy). Hub `index.html`, one folder per receta, `recetas.json` for the newsletter. Pages use absolute `/assets/...` paths. `site/assets/recetas.js` runs the signup gate and "Copiar" buttons. How to add one: `site/recetas/README.md`.
+- `site/cursos/`: our two recorded courses, sold on Hotmart: hub `index.html` (one `.receta-feature.curso-card` per course) and one page per course (`crea-tu-app-con-ia/`, `contenido-organico-ia/`) with hero, "Lo que te llevas", temario (`.card-week` per module with its "Al final:" note), mentors, tools, FAQ and a final CTA. Facts come from the user's Notion; no prices in the copy (Hotmart shows them per country). Every buy button is `<a class="btn" href="https://pay.hotmart.com/CODE?checkoutMode=10" data-checkout="CODE" data-sck="<placement>">`, and `site/assets/checkout.js` opens Hotmart's embedded checkout in a `<dialog>` (full screen on phones); without JS the link opens Hotmart's own page. `data-sck` and `src` (the `utm_source`) show up in Hotmart's sales report. Codes: app `U102178202X`, content `E104422206O`. Don't use Hotmart's `widget.min.js`. Testing: opening the dialog and seeing the Hotmart form (it takes ~10s) is the test; never pay. The console shows a `frame-ancestors` error for `sso.hotmart.com`: that's Hotmart's own frame inside its checkout and doesn't stop it.
 - `brand/`: the brand system (`voice.md`, `foundations.md`, `components.md`, `motion.md`) and a living style guide, `brand/index.html`, rendered with its own copy of the CSS/JS. Not deployed. It is a self-contained, copy-paste folder (`brand/assets/` holds tokens, styles, motion.js, logos, images and the hero video). `site/` is the source for the shared files: after changing `site/assets/{tokens.css,styles.css,motion.js}` or its `brand/`, `img/` or `video/` files, run `scripts/sync-brand.sh`. Preview: `.claude/launch.json` "brand" (port 4180, serves `brand/`). Keep the docs in step when copy, tokens or components change.
 - `newsletter/`: weekly Wednesday 08:00 newsletter via Resend Broadcasts (`newsletter.py`, issues in `newsletter/issues/`, the routine in `ROUTINE.md`, process in `README.md`). The recetas (our name for tutorials) it features are listed in `site/recetas/recetas.json`. Secrets in `.env`; Python deps in `.venv`.
 - `sheets/Code.gs`: the Apps Script. It isn't deployed from here; it gets pasted into the Sheet (see `sheets/README.md`).
@@ -40,7 +41,7 @@ No build step, no package.json, no tests. `site/` is deployed as-is to Vercel (s
 
 - **Copy:** Mexican Spanish, informal *tú*, warm and direct, written to women. No hype, no get-rich-quick, no tech jargon. Voice and the current copy bank: `brand/voice.md`. (The `emprendeconpm-brand-nuevo` skill is a different brand, "Club de Fundadoras"; don't use it here.)
 - **Design:** class names map 1:1 to Figma components (table in `site/README.md`). Nothing is perfectly straight: tilts use the CSS `rotate` property (`.tilt-l`, `.tilt-r`, per-element `rotate:`).
-- **Cache busting:** `index.html` loads `tokens.css?v=N`, `styles.css?v=N`, `app.js?v=N`, `config.js?v=N` and `motion.js?v=N`. Bump N whenever you change that file, or returning visitors keep the old one.
+- **Cache busting:** `index.html` loads `tokens.css?v=N`, `styles.css?v=N`, `app.js?v=N`, `config.js?v=N` and `motion.js?v=N` (the recetas and cursos pages also load `recetas.js?v=N`, and the cursos pages `checkout.js?v=N`). Bump N whenever you change that file, or returning visitors keep the old one.
 - **Keep it static:** no frameworks or bundlers in `site/`. Images are WebP; keep the page light.
 
 ## Creating a receta
@@ -56,7 +57,7 @@ Use the project skill **`/nueva-receta`** (`.claude/skills/nueva-receta/`): it w
 - Hub card at the top of `.receta-list` (alternate pink/lilac/butter, cover in `.receta-cover`), and update the "La receta #N llega…" note.
 - Entry appended to `site/recetas/recetas.json` (the newsletter reads it).
 - Test at 393 and 320 (plus 1280), gated and with `?utm_source=newsletter`; stub `fetch` before submitting the gate.
-- Merge before the Tuesday 17:00 routine. The menu stays one option (the hub) until the user adds more.
+- Merge before the Tuesday 17:00 routine. The menu stays as it is (Cursos, then the Recetas hub): the template already has it, and `receta.mjs check` fails if a page's menu differs.
 
 ## Recetas gate
 

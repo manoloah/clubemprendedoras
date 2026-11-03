@@ -10,6 +10,10 @@ site/
   assets/app.js       waitlist form (validation, submit, success state, UTM capture)
   assets/motion.js    animation: reveals, ideas heap, letter hop, hero video (WebGL)
   assets/config.js    Apps Script /exec URL (live)
+  assets/checkout.js  Hotmart checkout in a <dialog> for every a[data-checkout] (cursos pages)
+  assets/recetas.js   recetas signup gate, Copiar buttons, nav menu (recetas and cursos pages)
+  recetas/            Recetas de Emprendimiento e IA (see recetas/README.md)
+  cursos/             our recorded courses: hub + one page per course, paid with Hotmart
   assets/video/       club-women.mp4, stacked-alpha hero loop
   assets/brand/       logo (tomato, cream), asterisk, underline
   assets/img/         illustration, stickers, photo, og.jpg
@@ -49,6 +53,7 @@ Figma file: [Club de Emprendedoras](https://www.figma.com/design/J8iryor1WNwHz7V
 | Figma component | Code |
 |---|---|
 | Club/Nav | `.nav` |
+| Club/Menu (not in Figma yet) | `.menu` (`<details data-menu>`), `.menu__item--feature`, `--lilac` |
 | Club/Button | `.btn`, `.btn--sm`, `.btn--block` |
 | Club/Input | `.field` |
 | Club/Waitlist Form | `.waitlist` + `[data-waitlist]` |
@@ -61,6 +66,8 @@ Figma file: [Club de Emprendedoras](https://www.figma.com/design/J8iryor1WNwHz7V
 | Club/Phone | `.phone` |
 | Club/Footer | `.footer` |
 | Club/Logo | `assets/brand/logo-*.webp` |
+| Cursos (not in Figma yet) | `.curso-card` (on `.receta-feature`), `.curso-actions`, `.curso-for`, `.curso-temario` (of `.card-week`), `.curso-mentor`, `.curso-hero--lilac`, `.curso-page` |
+| Checkout | `.checkout` (`<dialog>` built by `checkout.js`) |
 
 ## Motion
 

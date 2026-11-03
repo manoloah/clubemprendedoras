@@ -8,7 +8,7 @@ clases reales, es [`index.html`](index.html).
 |---|---|---|---|
 | `Club/Logo` | Color = Tomato · Navy · Cream | `assets/brand/logo-{tomato,navy,cream}.webp` | — |
 | `Club/Nav` | — | `.nav` + `.btn--sm` | logo + **Unirme** |
-| *Club/Menu* (aún no en Figma) | Closed · Open | `.menu` (`<details data-menu>`) + `.menu__panel`, `.menu__item--feature` | Menú → Recetas de Emprendimiento e IA (única opción) |
+| *Club/Menu* (aún no en Figma) | Closed · Open | `.menu` (`<details data-menu>`) + `.menu__panel`, `.menu__item--feature` (rosa) y `.menu__item--lilac` | Menú → **Cursos** (Nuevo) · **Recetas de Emprendimiento e IA** (Gratis) |
 | `Club/Button` | Style = Primary · Secondary; State = Default · Pressed | `.btn`, `.btn--sm`, `.btn--block` | **Quiero mi lugar →** |
 | `Club/Kicker` | Tone = Tomato · Navy · Cream | `.kicker--tomato / --navy / --cream` | Waitlist abierta · Taller 2027 |
 | `Club/Input` | State = Default · Focus · Filled · Error | `.field` (`:focus`, `aria-invalid`) | Tu correo · tu@correo.com |
@@ -24,6 +24,7 @@ clases reales, es [`index.html`](index.html).
 | `Club/Illustration/Community` | square · tall (· wide) | `assets/img/community-*.webp`, `assets/img/club-women.webp` | — |
 | Fotos de fondo (02B, 02D, 03B) y post-it (03C) | — | `assets/img/photo-*.webp` | Apoyo entre hermanas · Tú también puedes |
 | *Recetas* (aún no en Figma) | Card · Lo que necesitas · Paso · Frase · Prompt · Bubble · Gate | `.receta-feature--{pink,lilac,butter}` + `.receta-cover` (portada en `.phone`), `.ingredientes` + `.check-list`, `.paso` + `.paso__num`, `.frase`, `.prompt` + `[data-copy]`, `.bubble`, `.gate` | Receta #1 · Abre la receta completa · Quiero la receta → |
+| *Cursos* (aún no en Figma) | Card · Temario · Mentor · Checkout | `.receta-feature--*` + `.curso-card` (sin efecto de levantarse: no es un link), `.curso-for`, `.curso-actions` (botón de compra + "Ver temario"), `.curso-temario` de `.card-week` con nota "Al final: …", `.curso-mentor` (+ `__photo`, `__photo--initials`), `.checkout` (`<dialog>` de `checkout.js`) | Quiero el curso → · Pago seguro con Hotmart |
 | **`Club/Motion`** | Breathe · Bob · Hop · Ring · Reveal · Sort | tokens `--dur-*`, `--ease-*`, `--stagger-*` + bloque Motion de `styles.css` + `motion.js` | ver [motion.md](motion.md) |
 
 ## Composición
@@ -35,6 +36,7 @@ clases reales, es [`index.html`](index.html).
 - **Formulario**: el nombre y el correo van primero; lo demás es el paso 2, opcional (un modal estilo Typeform, una pregunta por pantalla).
 - **Secciones**: alternan fondo (hero rosa → banda navy → crema → lila → crema → rosa → crema → mantequilla → cierre tomato → footer) y cada una abre con un kicker inclinado.
 
+- **Cursos** (`site/cursos/`): hub rosa con una tarjeta por curso (portada en `.phone` con pantalla de ejemplo), y una página por curso con hero mantequilla o lila (el nav toma el mismo color con `.curso-page` / `.curso-page--lilac`), "Lo que te llevas" en tarjeta blanca, temario en tarjetas de semana, mentores, herramientas, FAQ y cierre tomato con el botón de compra. El botón de compra es un `<a data-checkout>`: abre el pago de Hotmart dentro de la página.
 - **Recetas** (`site/recetas/`): hero mantequilla o rosa, "Lo que necesitas" en tarjeta blanca (clase `.ingredientes`), pasos con número en círculo inclinado (tomato/lila alternando), el prompt en bloque navy con barra rosa y botón **Copiar**, y el cierre tomato hacia la waitlist. Lo que queda detrás del registro va en `.receta__locked`.
 
 ## Pendiente en Figma
