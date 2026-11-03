@@ -22,12 +22,19 @@ const read = (p) => fs.readFileSync(p, "utf8");
 const recetas = () => JSON.parse(read(JSON_PATH)).recetas || [];
 const pagePath = (slug) => path.join(RECETAS, slug, "index.html");
 
-// Every receta folder (has an index.html), plus the hub and the landing.
+// Every receta folder (has an index.html), plus the hub, the landing and the cursos pages.
 function allPages() {
   const dirs = fs.readdirSync(RECETAS, { withFileTypes: true })
     .filter((d) => d.isDirectory() && fs.existsSync(pagePath(d.name)))
     .map((d) => pagePath(d.name));
-  return [path.join(SITE, "index.html"), HUB, ...dirs];
+  const cursos = path.join(SITE, "cursos");
+  const cursoPages = !fs.existsSync(cursos) ? [] : [
+    path.join(cursos, "index.html"),
+    ...fs.readdirSync(cursos, { withFileTypes: true })
+      .filter((d) => d.isDirectory() && fs.existsSync(path.join(cursos, d.name, "index.html")))
+      .map((d) => path.join(cursos, d.name, "index.html")),
+  ].filter((p) => fs.existsSync(p));
+  return [path.join(SITE, "index.html"), HUB, ...dirs, ...cursoPages];
 }
 
 // Highest ?v= of each shared asset across all pages: what a new page should load.
@@ -125,6 +132,10 @@ function checkPage(slug, entry) {
     const val = html.match(re)?.[1];
     if (!val) err(`Missing <meta ${m}>`);
   }
+  // Nav menu: Cursos first, then Recetas (same markup on every page).
+  const menu = [...(html.match(/<nav class="menu__panel"[\s\S]*?<\/nav>/)?.[0] || "").matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
+  if (menu.join(" ") !== "/cursos/ /recetas/") err(`Nav menu should link /cursos/ then /recetas/, found: ${menu.join(", ") || "none"}`);
+  if (!html.includes('href="/cursos/">Cursos</a>')) warn("Footer is missing the Cursos link.");
   if (!html.includes('classList.add("is-gated")') || !html.includes("club_receta_ok")) {
     err("The inline gate script in <head> is missing or changed.");
   }

@@ -47,6 +47,8 @@ Además:
 | Elemento | Copy |
 |---|---|
 | Botón del nav | **Unirme** (lleva al cierre, `#unirme`) |
+| Menú | **Cursos** (Nuevo) · **Recetas de Emprendimiento e IA** (Gratis) |
+| Botón de compra (cursos) | **Quiero el curso →** + "Pago seguro con Hotmart, aquí mismo. Tarjeta o cuotas, según tu país." |
 | Botón de compra (hero y cierre) | **Empieza hoy →** |
 | Botón de compra (temario) | **Quiero empezar hoy →** |
 | Bajo el botón de compra | Pago seguro con Hotmart, aquí mismo. Ves el precio de tu país antes de pagar. |
@@ -114,6 +116,7 @@ Sin ser técnica · Con IA · Tú puedes · Hola, somos Pame y Manu
 - "Tutorial": son **recetas** (lo que necesitas, pasos, prompt listo para copiar). El nombre es "receta", pero el copy no juega con la cocina (nada de ingredientes, hornear o probaditas): tono más Gen Z, directo ("dale play", "cero rollo", "spoiler").
 - Una frecuencia para el newsletter ("cada semana", "cada miércoles"): sale cuando tenemos algo bueno.
 - "Taller", "en vivo", "cohorte", fechas de inicio o sesiones semanales: lo que vendemos hoy es un **curso** grabado, a tu ritmo. Las sesiones grupales de mentoría no se anuncian en la landing hasta que haya fechas confirmadas.
+- "Curso" es el nombre de lo grabado que vendemos en Hotmart (la landing y `/cursos/`): "curso grabado", "a tu ritmo". Sin precios en el copy (Hotmart los muestra por país) y sin prometer ingresos: "de 0 a millones" es el nombre del curso y lo que Renata logró con Musa, no una promesa.
 - Promesas que no tenemos confirmadas: acceso de por vida, certificado, días de garantía, tamaño de la comunidad. La garantía se nombra solo como "garantía de Hotmart".
 - Mayúsculas gritonas y signos de exclamación en cadena. Un "¡" por pantalla es suficiente.
 
