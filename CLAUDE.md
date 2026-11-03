@@ -20,6 +20,7 @@ node scripts/rank-hero.mjs                               # score hero copy; need
 brand/scripts/hero-video/build.sh path/to/render.mp4           # rebuild brand/assets/video/club-women.mp4 and copy it to site/
 OUT=/tmp/test.mp4 brand/scripts/hero-video/build.sh render.mp4 # same, without touching the repo files
 scripts/sync-brand.sh --check                            # is brand/ in step with site/? (drop --check to copy)
+brand/scripts/og/build.sh                                # render the link preview (og.html) to site/assets/img/og-curso.jpg
 .venv/bin/python newsletter/newsletter.py news           # newsletter: this week's news (see newsletter/README.md)
 ```
 
