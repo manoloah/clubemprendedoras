@@ -4,5 +4,5 @@
 // never read the Sheet or overwrite existing answers.
 window.CLUB_WAITLIST = {
   endpoint: "https://script.google.com/macros/s/AKfycbxGh9FjcDIalLvFtWXvdnwr9MXVPqrQVxyn4imwFJ1tlpAK3pufkr15rbqA7PK9r0Hx/exec",
-  source: "landing-2027",
+  source: "landing-on-demand",
 };

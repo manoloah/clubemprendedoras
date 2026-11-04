@@ -101,8 +101,8 @@ Rules (from `brand/voice.md` and the first receta):
 
 In `site/recetas/index.html`, add a new `<li>` at the **top** of `.receta-list` (template in
 blocks.md): colour from `receta.mjs next`, title = h1, kicker "Receta #N · X pasos", the summary,
-2 meta stickers, the cover. Then update the note under the list to "La receta #N+1 llega el
-miércoles a tu correo ♡". The nav menu does not change.
+2 meta stickers, the cover. Then update the note under the list to "La receta #N+1 llega
+pronto a tu correo ♡" (we don't promise a weekday: the newsletter goes out when there's something good). The nav menu does not change.
 
 ## 4. recetas.json
 
