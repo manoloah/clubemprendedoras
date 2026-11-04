@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-"""Newsletter analytics: how the last weeks' broadcasts did, as CSV logs + a dashboard.
+"""Newsletter analytics: how every newsletter did, as CSV logs + a dashboard.
 
-    python newsletter/newsletter_analytics.py run [--days 60] [--slack] [--no-sent-json]
+    python newsletter/newsletter_analytics.py run [--days N] [--slack] [--no-sent-json]
     python newsletter/newsletter_analytics.py dashboard          # rebuild the dashboard from the saved CSVs
 
-`run` pulls every broadcast from sent.json scheduled in the last N days (default 60) that Resend
-reports as sent, and writes into newsletter/analytics/ (gitignored, it holds subscribers' emails):
+`run` asks Resend for every broadcast it reports as sent whose name is "Newsletter <issue>[ · parte N]"
+(the name `newsletter.py schedule` gives; "Prueba …" test sends are left out), so a send counts even
+when its sent.json entry lives on a branch that isn't merged yet. All sends by default; --days N keeps
+the last N days. Each issue (2026-10-14 and 2026-10-14-b are two) is one row, its parts added together.
+It writes into newsletter/analytics/ (gitignored, it holds subscribers' emails):
 
     readers.csv      ranking of the most engaged readers (1 point per send opened, 3 per send clicked)
     recipients.csv   one row per email per broadcast: sent, delivered, opened (+count), clicked
@@ -23,6 +26,7 @@ import argparse
 import csv
 import html
 import json
+import re
 import subprocess
 import sys
 import time as time_module
@@ -97,20 +101,49 @@ def fetch(resend, entry):
     return list(people.values()), totals, links
 
 
-def pick_broadcasts(resend, days):
-    """sent.json entries scheduled in the last `days` days that Resend says went out."""
-    now = datetime.now(nl.TZ)
-    chosen = []
-    for e in nl.sent_log():
-        when = datetime.fromisoformat(e["scheduled_at"])
-        if when > now or when < now - timedelta(days=days):
-            continue
-        b = call(resend.Broadcasts.get, e["broadcast_id"])
-        if (b.get("status") or "").lower() != "sent":
-            continue
-        chosen.append((e, b))
+def all_broadcasts(resend):
+    rows, after = [], None
+    while True:
+        page = call(resend.Broadcasts.list, {"limit": 100, **({"after": after} if after else {})})
+        data = page.get("data", [])
+        rows += data
+        if not page.get("has_more") or not data:
+            return rows
+        after = data[-1]["id"]
         time_module.sleep(0.6)
-    return chosen
+
+
+NAME = re.compile(r"^Newsletter (\S+?)(?: · parte (\d+))?$")
+
+
+def pick_broadcasts(resend, days):
+    """Every newsletter broadcast Resend says went out (in the last `days` days, if given), oldest first.
+
+    Resend is the source of truth for what was sent; sent.json adds what it knows (recipients,
+    parts_total). A send missing from this branch's sent.json still counts, with an entry made
+    from its name."""
+    log = {e["broadcast_id"]: e for e in nl.sent_log()}
+    since = datetime.now(nl.TZ) - timedelta(days=days) if days else None
+    chosen, broadcasts = [], all_broadcasts(resend)
+    # Parts still waiting to go out (scheduled or sending; drafts are canceled leftovers), so an
+    # issue missing from sent.json is still shown as "en curso" until its last part is sent.
+    parts = {}
+    for b in broadcasts:
+        m = NAME.match(b.get("name") or "")
+        if m and (b.get("status") or "").lower() != "draft":
+            parts[m.group(1)] = max(parts.get(m.group(1), 1), int(m.group(2) or 1))
+    for b in broadcasts:
+        m = NAME.match(b.get("name") or "")
+        if (b.get("status") or "").lower() != "sent" or not m:
+            continue
+        sent_at = datetime.fromisoformat(b["sent_at"].replace(" ", "T"))
+        if since and sent_at < since:
+            continue
+        e = log.get(b["id"]) or {"issue": m.group(1) + ".md", "broadcast_id": b["id"], "scheduled_at": b["sent_at"],
+                                 **({"part": int(m.group(2)), "parts_total": parts[m.group(1)]} if m.group(2) else {})}
+        chosen.append((e, call(resend.Broadcasts.get, b["id"])))
+        time_module.sleep(0.6)
+    return sorted(chosen, key=lambda c: c[1].get("sent_at") or "")
 
 
 # ---------- CSV ----------
@@ -167,25 +200,24 @@ def plural(n, one, many):
 
 
 def group_issues(rows):
-    """One row per newsletter date: every send and part of that day is added together. Newest first."""
-    issues, subs = OrderedDict(), {}
+    """One row per issue (2026-10-14 and 2026-10-14-b are different emails): its parts are added
+    together and it's dated by its first part. Newest first."""
+    issues = OrderedDict()
     for r in sorted(rows, key=lambda r: r["sent_at"]):
-        key = r["issue"][:10]
+        key = r["issue"]
         g = issues.setdefault(key, {"issue": key, "subjects": [], "sent_at": r["sent_at"], "sends": 0,
-                                    **{k: 0 for k in EVENTS}})
+                                    "parts_total": 1, **{k: 0 for k in EVENTS}})
         if r["subject"] not in g["subjects"]:
             g["subjects"].append(r["subject"])
         g["sends"] += 1
+        g["parts_total"] = max(g["parts_total"], int(r.get("parts_total") or 1))
         for k in EVENTS:
             g[k] += int(r[k])
-        s = subs.setdefault(r["issue"], {"day": key, "sent": 0, "total": 1})
-        s["sent"] += 1
-        s["total"] = max(s["total"], int(r.get("parts_total") or 1))
     out = []
     for g in issues.values():
         d = g["delivered"]
         g["subject"] = " · ".join(g["subjects"])
-        g["pending"] = any(s["sent"] < s["total"] for s in subs.values() if s["day"] == g["issue"])
+        g["pending"] = g["sends"] < g["parts_total"]
         g.update(open_rate=pct(g["opened"], d), click_rate=pct(g["clicked"], d), delivery_rate=pct(g["delivered"], g["sent"]),
                  click_to_open=pct(g["clicked"], g["opened"]), bounce_rate=pct(g["bounced"], g["sent"]),
                  spam_rate=pct(g["complained"], d), unsub_rate=pct(g["unsubscribed"], d))
@@ -194,8 +226,12 @@ def group_issues(rows):
 
 
 def edition_label(g):
-    d = datetime.strptime(g["issue"], "%Y-%m-%d")
-    return day_label(d)
+    """The day its first part went out, in CDMX (the issue name is only the planned Wednesday)."""
+    return day_label(datetime.fromisoformat(g["sent_at"].replace(" ", "T")).astimezone(nl.TZ))
+
+
+def window_label(days):
+    return f"últimos {days} días" if days else "todos los envíos"
 
 
 def engaged_readers(people):
@@ -279,7 +315,7 @@ def dashboard_html(broadcasts, links, as_of, days, readers=()):
         body = f"""
 <section class="card"><div class="eyebrow">Última edición {pending}</div>
 <h2>{edition_label(latest)} · {html.escape(latest["subject"])}</h2><div class="tiles">{tiles}</div></section>
-<section class="card"><h2>Comparación · últimos {days} días</h2>
+<section class="card"><h2>Comparación · {window_label(days)}</h2>
 <table><tr><th class="l">Edición</th><th>Enviados</th><th>Entregados</th><th>Abiertos</th><th>Con clic</th><th>Rebotes</th><th>Spam</th><th>Bajas</th></tr>{rows}</table>
 <div class="cols"><div><h3>Aperturas</h3>{bars(issues, "open_rate", "var(--lilac)")}</div>
 <div><h3>Clics</h3>{bars(issues, "click_rate", "var(--tomato)")}</div></div></section>
@@ -314,12 +350,12 @@ th,td{{padding:9px 8px;text-align:right;white-space:nowrap}}td{{border-bottom:1p
 .note{{font-size:12px;opacity:.6;margin:20px 4px 0}}
 </style></head><body><main>
 <header><h1>El Club de las <b>Emprendedoras</b> · newsletter</h1>
-<p class="meta">Resultados de los últimos {days} días · actualizado {html.escape(as_of)} (CDMX)</p></header>{body}
+<p class="meta">Resultados · {window_label(days)} · actualizado {html.escape(as_of)} (CDMX)</p></header>{body}
 <p class="note">Las aperturas se cuentan con una imagen invisible: Apple Mail y Gmail a veces abren el correo por la persona, así que la tasa real es algo menor. Los clics son más confiables. El detalle por correo y por envío está en <code>newsletter/analytics/</code> (solo local).</p>
 </main></body></html>"""
 
 
-def render_png(html_path, height=1850):
+def render_png(html_path, height=2100):
     png = html_path.with_suffix(".png")
     chrome = nl.env("CHROME_PATH", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
     subprocess.run([chrome, "--headless", "--disable-gpu", "--hide-scrollbars", f"--window-size=1000,{height}",
@@ -352,7 +388,7 @@ def build_dashboard(days):
 
 def slack_summary(issues):
     if not issues:
-        return "📊 *Newsletter:* no hubo envíos en las últimas 2 semanas."
+        return "📊 *Newsletter:* todavía no hay envíos."
     g = issues[0]
     wip = " (en curso: faltan partes por enviar)" if g["pending"] else ""
     line = (f"📊 *Resultados del newsletter {edition_label(g)}*{wip} — _{g['subject']}_\n"
@@ -423,12 +459,12 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("run")
-    p.add_argument("--days", type=int, default=60)
+    p.add_argument("--days", type=int, default=0, help="solo los últimos N días (0 = todos los envíos)")
     p.add_argument("--slack", action="store_true", help="publica el dashboard (PNG) en SLACK_CHANNEL")
     p.add_argument("--no-sent-json", action="store_true", help="no actualiza stats en sent.json")
     p.set_defaults(fn=cmd_run)
     p = sub.add_parser("dashboard")
-    p.add_argument("--days", type=int, default=60)
+    p.add_argument("--days", type=int, default=0)
     p.set_defaults(fn=cmd_dashboard)
     a = ap.parse_args()
     a.fn(a)
