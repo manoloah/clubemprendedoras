@@ -18,7 +18,7 @@ site/
   cursos/             our recorded courses: hub + one page per course, paid with Hotmart
   assets/video/       club-women.mp4, stacked-alpha hero loop
   assets/brand/       logo (tomato, cream), asterisk, underline
-  assets/img/         illustration, stickers, photo, og.jpg
+  assets/img/         illustration, stickers, photo, og-curso.jpg (link preview, 1200x630)
 ```
 
 ## Run it locally
