@@ -211,7 +211,8 @@
         }
       ],
       "as_of": "2026-11-03T18:09-06:00"
-    }
+    },
+    "segment_freed": true
   },
   {
     "issue": "2026-10-28.md",
@@ -248,6 +249,37 @@
         }
       ],
       "as_of": "2026-11-03T18:09-06:00"
-    }
+    },
+    "segment_freed": true
+  },
+  {
+    "issue": "2026-11-04.md",
+    "broadcast_id": "3b83bc2e-c7c9-433b-b317-e6ffa90f8816",
+    "scheduled_at": "2026-11-04T08:00:00-06:00",
+    "recipients": 100,
+    "news_date": "2026-11-03",
+    "receta_url": "https://www.clubdelasemprendedoras.com/recetas/edita-videos-con-capcut-y-codex/",
+    "part": 1,
+    "parts_total": 2,
+    "segment_id": "2b3c212b-0aac-4b5c-b42a-9df76f17e3bc",
+    "cutoff": [
+      "2026-10-14 18:44:35.550914+00",
+      "864d9ab8-a424-49ab-8111-778caa171af2"
+    ]
+  },
+  {
+    "issue": "2026-11-04.md",
+    "broadcast_id": "f4c5b98e-cb0c-4331-ab43-076948e16265",
+    "scheduled_at": "2026-11-05T08:00:00-06:00",
+    "recipients": 33,
+    "news_date": "2026-11-03",
+    "receta_url": "https://www.clubdelasemprendedoras.com/recetas/edita-videos-con-capcut-y-codex/",
+    "part": 2,
+    "parts_total": 2,
+    "segment_id": "6712e1a7-d538-4203-8161-54899ae3c2b0",
+    "cutoff": [
+      "2026-10-29 21:03:48.784761+00",
+      "98b9ce73-10b3-49b5-87b3-c02c3d8f897e"
+    ]
   }
 ]
