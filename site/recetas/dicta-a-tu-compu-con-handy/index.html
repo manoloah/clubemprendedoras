@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Trabaja hablándole a tu compu, con las manos ocupadas · Recetas del Club</title>
+  <meta name="description" content="Instala Handy, la versión gratis y de código abierto de Wispr Flow, y dicta correos, mensajes y prompts sin teclear. 4 pasos y el prompt listo para copiar.">
+  <meta name="theme-color" content="#F2C75C">
+  <link rel="canonical" href="https://www.clubdelasemprendedoras.com/recetas/dicta-a-tu-compu-con-handy/">
+  <link rel="icon" href="/assets/brand/asterisk.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="es_MX">
+  <meta property="og:title" content="Trabaja hablándole a tu compu, con las manos ocupadas">
+  <meta property="og:description" content="Handy: dicta en cualquier app de tu compu, gratis y sin internet. 4 pasos y el prompt listo para copiar.">
+  <meta property="og:url" content="https://www.clubdelasemprendedoras.com/recetas/dicta-a-tu-compu-con-handy/">
+  <meta property="og:image" content="https://www.clubdelasemprendedoras.com/assets/img/og-curso.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Signup gate, decided before paint: open if she came from the newsletter
+       or already signed up on this browser (see site/recetas/README.md). -->
+  <script>
+    (function () {
+      var ok = /[?&]utm_source=newsletter(&|$)/.test(location.search);
+      try {
+        if (ok) localStorage.setItem("club_receta_ok", "1");
+        else ok = localStorage.getItem("club_receta_ok") === "1";
+      } catch (e) {}
+      if (!ok) document.documentElement.classList.add("is-gated");
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap">
+
+  <link rel="stylesheet" href="/assets/tokens.css?v=3">
+  <link rel="stylesheet" href="/assets/styles.css?v=16">
+  <script src="/assets/config.js?v=5"></script>
+  <script src="/assets/recetas.js?v=2" defer></script>
+  <script src="/assets/motion.js?v=12" defer></script>
+</head>
+<body class="receta-page">
+  <a class="skip-link" href="#ingredientes">Ir a la receta</a>
+
+  <header class="nav" data-nav>
+    <a class="nav__logo" href="/" aria-label="El Club de las Emprendedoras, inicio">
+      <img src="/assets/brand/logo-tomato.webp" width="104" height="65" alt="El Club de las Emprendedoras">
+    </a>
+    <div class="nav__actions">
+      <details class="menu" data-menu>
+        <summary class="menu__toggle"><span>Menú</span><span class="menu__icon" aria-hidden="true"></span></summary>
+        <nav class="menu__panel" aria-label="Secciones">
+          <a class="menu__item menu__item--feature" href="/cursos/"><span class="kicker kicker--tomato">Nuevo</span><strong>Cursos</strong><small>Crea tu app o crece con contenido, a tu ritmo</small></a>
+          <a class="menu__item menu__item--feature menu__item--lilac" href="/recetas/"><span class="kicker kicker--navy">Gratis</span><strong>Recetas de Emprendimiento e IA</strong><small>Pasos sencillos para ayudarte a emprender con IA</small></a>
+        </nav>
+      </details>
+      <a class="btn btn--sm" href="/#unirme">Unirme</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="receta-hero" aria-labelledby="receta-title">
+      <img class="recetas-decor recetas-decor--heart" src="/assets/img/lilac-heart.webp" width="72" height="69" alt="" aria-hidden="true">
+      <div class="receta-hero__inner">
+        <p class="kicker kicker--tomato tilt-l">Receta #6 · Gratis para el club</p>
+        <h1 id="receta-title" class="display">Trabaja hablándole a tu compu, <span class="accent">con las manos ocupadas</span></h1>
+        <p class="lead">Así le hace Pame para sacar pendientes mientras amamanta o carga a la bebé. Además, hablar es 3x más rápido que teclear, sobre todo si usas IA.</p>
+        <div class="receta-meta">
+          <span class="sticker sticker--pink">4 pasos</span>
+          <span class="sticker sticker--olive">Gratis</span>
+          <span class="sticker sticker--lilac">20 minutos</span>
+        </div>
+        <p class="receta-by">
+          <img src="/assets/img/pame.webp" width="48" height="48" alt="">
+          <span>Por Pame · <a href="https://www.instagram.com/PameVls/" target="_blank" rel="noopener">@PameVls</a></span>
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--cream" id="ingredientes" aria-labelledby="ingredientes-title">
+      <div class="section__inner">
+        <div class="receta-intro">
+          <div class="ingredientes">
+            <p class="kicker kicker--navy">Antes de empezar</p>
+            <h2 id="ingredientes-title" class="h2">Lo que necesitas</h2>
+            <ul class="check-list">
+              <li><strong>Tu compu</strong> (Mac, Windows o Linux) con micrófono. El de tu laptop o tus audífonos funciona. Que tenga <strong>8 GB de memoria RAM o más</strong>, que es lo que traen casi todas las laptops de los últimos años; con 16 GB va todavía más rápido. ¿No sabes cuánta tiene la tuya? Pregúntale a Claude en el paso 1 y te lo dice.</li>
+              <li><strong>Claude Desktop</strong>, que bajas en <a href="https://claude.com/download" target="_blank" rel="noopener">claude.com/download</a>, para que Claude Code o Cowork te instale todo. Necesita un plan de pago.</li>
+              <li><strong>Handy</strong>, gratis y de código abierto: <a href="https://github.com/cjpais/handy" target="_blank" rel="noopener">github.com/cjpais/handy</a>. No lo bajas tú, se lo pides a Claude.</li>
+              <li><strong>20 minutos</strong>, de preferencia en una siesta.</li>
+            </ul>
+          </div>
+          <div class="receta-why">
+            <h3 class="h3">¿Por qué <a href="https://handy.computer" target="_blank" rel="noopener">Handy</a> y no <a href="https://wisprflow.ai" target="_blank" rel="noopener">Wispr Flow</a>?</h3>
+            <p>Hacen lo mismo: aprietas una tecla, hablas y el texto aparece donde tengas el cursor. Wispr Flow es de pago; Handy es gratis, y tu voz se queda en tu compu: funciona sin internet y no manda tu audio a ningún lado.</p>
+            <p class="note note--pink tilt-r">Pame contesta correos con una mano y la bebé en la otra ♡</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Signup gate: shown only while html.is-gated -->
+    <section class="section section--cream section--flush" aria-label="Receta paso a paso">
+      <div class="section__inner">
+        <div class="receta__locked" data-locked>
+          <ol class="pasos">
+            <li class="paso" id="paso-1">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">1</span><h2 class="h2">Pídele a Claude que te instale Handy</h2></div>
+              <ol>
+                <li>Abre Claude Desktop y entra a <strong>Code</strong> (o Cowork).</li>
+                <li>Copia este prompt, pégalo y dale enter.</li>
+                <li>Cuando te pregunte algo o te pida permiso, léelo y dile que sí.</li>
+              </ol>
+              <div class="prompt">
+                <div class="prompt__bar">
+                  <span>Tu prompt</span>
+                  <button class="btn btn--sm" type="button" data-copy="prompt-handy"><span class="btn__label">Copiar</span></button>
+                </div>
+<pre id="prompt-handy">Quiero dictarle a mi compu en vez de teclear. Instálame Handy,
+una app gratis de voz a texto: https://github.com/cjpais/handy
+(guía: https://handy.computer/docs/general).
+
+- Revisa qué compu tengo y cuánta memoria RAM tiene, y baja
+  la versión correcta desde la página oficial de releases. Instálala y ábrela.
+- Explícame en palabras sencillas qué permisos me va a pedir
+  (micrófono y accesibilidad) y dónde los activo.
+- Ayúdame a escoger el modelo que mejor entienda español y
+  que corra bien en mi compu.
+- Configúralo para que abra solo al prender la compu.
+- Al final, dime en 3 líneas cómo se usa y qué tecla aprieto.
+
+Yo no sé de programación: hazlo tú y pregúntame solo lo
+que de verdad necesites.</pre>
+              </div>
+              <p class="note note--butter tilt-l">La primera vez Handy baja su "cerebro" de voz. Tarda unos minutos, una sola vez.</p>
+            </li>
+
+            <li class="paso" id="paso-2">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">2</span><h2 class="h2">Da los permisos</h2></div>
+              <p>Tu compu te va a preguntar dos cosas. Sin ellas, Handy no puede oírte ni escribir por ti:</p>
+              <ul class="check-list">
+                <li><strong>Micrófono:</strong> para escucharte.</li>
+                <li><strong>Accesibilidad:</strong> para pegar el texto en la app que tengas abierta.</li>
+              </ul>
+              <p>¿Se te pasó una ventana? Escríbele a Claude "no me salió el permiso de micrófono" y te dice dónde está.</p>
+            </li>
+
+            <li class="paso" id="paso-3">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">3</span><h2 class="h2">Aprieta, habla, suelta</h2></div>
+              <p>Pon el cursor donde quieras escribir (un correo, WhatsApp Web, Notion, el chat de Claude) y:</p>
+              <ul class="check-list">
+                <li><strong>Mac:</strong> deja apretado <code>Option + Espacio</code>.</li>
+                <li><strong>Windows:</strong> deja apretado <code>Ctrl + Espacio</code>.</li>
+                <li><strong>Habla</strong> normal, como en una nota de voz, y suelta. El texto aparece solo.</li>
+              </ul>
+              <p>¿Tienes una mano ocupada? En Ajustes puedes cambiar la tecla por una que alcances con una mano, o usarla en modo "toca una vez para empezar, otra para terminar".</p>
+            </li>
+
+            <li class="paso" id="paso-4">
+              <div class="paso__head"><span class="paso__num" aria-hidden="true">4</span><h2 class="h2">Úsalo para todo</h2></div>
+              <p>Así lo usa Pame para sacar más en menos tiempo:</p>
+              <ul class="check-list">
+                <li>Contesta correos de clientes e inversionistas.</li>
+                <li>Platica con sus agentes de Claude y ChatGPT.</li>
+                <li>Aterriza ideas de producto nuevas para Musa.</li>
+                <li>Le escribe a su equipo en Slack.</li>
+              </ul>
+              <p>Hablar es 3 veces más rápido que teclear, y a la IA le das más contexto sin darte cuenta.</p>
+              <div class="receta-ojo">
+                <img src="/assets/brand/asterisk.svg" width="26" height="46" alt="">
+                <p><strong>Ojo:</strong> revisa antes de mandar. A veces cambia un nombre propio; en Ajustes puedes agregar tus palabras (tu marca, tus clientas) para que las escriba bien.</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="receta-done">
+            <p class="kicker kicker--tomato tilt-l">¿Lo hiciste?</p>
+            <h2 class="h2">Cuéntanos qué fue lo primero que dictaste.</h2>
+            <p>Etiquétanos en <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a> o respóndenos el correo. Los mejores los compartimos.</p>
+          </div>
+        </div>
+
+        <div class="gate" data-gate="receta-dicta-a-tu-compu-con-handy">
+          <div class="waitlist">
+            <span class="sticker sticker--tomato" aria-hidden="true">Gratis</span>
+            <form class="waitlist__form" novalidate>
+              <h2 class="h3">Abre la receta completa</h2>
+              <p>Déjanos tu nombre y tu correo y es tuya. ¿Ya eres del club? Pon el correo de siempre y entras directo.</p>
+              <div class="field">
+                <label for="gate-name">Tu nombre</label>
+                <input id="gate-name" name="name" type="text" autocomplete="given-name" placeholder="¿Cómo te llamas?" required maxlength="120">
+              </div>
+              <div class="field">
+                <label for="gate-email">Tu correo</label>
+                <input id="gate-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254">
+              </div>
+              <div class="hp" aria-hidden="true">
+                <label for="gate-company">No llenes este campo</label>
+                <input id="gate-company" name="company" type="text" tabindex="-1" autocomplete="off">
+              </div>
+              <button class="btn btn--block" type="submit">
+                <span class="btn__label">Quiero la receta</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <p class="caption">Te mandamos cada receta nueva y las noticias de IA que importan para emprender, cuando tengamos algo bueno. Te sales cuando quieras.</p>
+              <p class="waitlist__status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="cta__inner">
+        <span class="sticker sticker--lilac cta__sticker" aria-hidden="true">Tú puedes</span>
+        <h2 id="cta-title" class="display display--inverse">Esto es un spoiler del curso.</h2>
+        <p class="lead lead--inverse">En Crea tu app con IA hacemos esto, pero con tu propia app: clases grabadas que ves a tu ritmo, sin ser técnica.</p>
+        <a class="btn" href="/#temario"><span class="btn__label">Ver el curso</span> <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="/assets/brand/logo-cream.webp" width="180" height="112" alt="El Club de las Emprendedoras" loading="lazy">
+    <p class="footer__by">Un proyecto de Pame y Manu · <a href="https://www.instagram.com/emprendeconpm/" target="_blank" rel="noopener">@emprendeconpm</a></p>
+    <p class="caption"><a href="/cursos/">Cursos</a> · <a href="/recetas/">Recetas de Emprendimiento e IA</a> · © 2026 El Club de las Emprendedoras.</p>
+  </footer>
+</body>
+</html>
