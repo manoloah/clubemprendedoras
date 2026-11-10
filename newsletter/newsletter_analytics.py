@@ -26,6 +26,7 @@ import argparse
 import csv
 import html
 import json
+import math
 import re
 import subprocess
 import sys
@@ -271,14 +272,53 @@ def delta(cur, prev):
     return f'<span class="{cls}">{arrow} {abs(d):g} pts vs. anterior</span>'
 
 
-def bars(issues, key, color):
-    rows = []
-    for g in issues[::-1]:
-        v = g[key]
-        rows.append(f'<div class="bar"><span class="bl">{edition_label(g)}</span>'
-                    f'<span class="bt"><i style="width:{min(v, 100)}%;background:{color}"></i></span>'
-                    f'<span class="bv">{fmt(v)}</span></div>')
-    return "".join(rows)
+TABLE_ISSUES = 4    # rows in the comparison table
+CHART_ISSUES = 12   # points in each trend chart; the charts keep their size, older issues drop off
+
+
+def nice_ceiling(v):
+    """Rounds an axis maximum up to 1, 1.5, 2, 2.5, 3, 4, 5, 6, 8 or 10 times a power of ten."""
+    if v <= 0:
+        return 1
+    mag = 10 ** math.floor(math.log10(v))
+    return next(m * mag for m in (1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10) if m * mag >= v)
+
+
+def trend(issues, key, title, color, unit="%"):
+    """A fixed-size line chart of one metric over the last CHART_ISSUES issues (oldest left). The
+    dashed line is the average of the issues shown; the latest point is labelled. Hovering a point
+    shows its edition (SVG <title>)."""
+    pts = issues[:CHART_ISSUES][::-1]
+    W, H, L, R, T, B = 320, 170, 34, 46, 14, 26
+    vals = [g[key] for g in pts]
+    top = nice_ceiling(max(vals) * 1.1)
+    x = (lambda i: L + (W - L - R) / 2) if len(pts) == 1 else (lambda i: L + i * (W - L - R) / (len(pts) - 1))
+    y = lambda v: T + (H - T - B) * (1 - v / top)
+    show = (lambda v: fmt(v)) if unit == "%" else (lambda v: f"{v:g}")
+    grid = "".join(f'<line x1="{L}" x2="{W - R}" y1="{y(t):.1f}" y2="{y(t):.1f}" class="gl"/>'
+                   f'<text x="{L - 6}" y="{y(t) + 4:.1f}" class="ax" text-anchor="end">{show(round(t, 1))}</text>'
+                   for t in (0, top / 2, top))
+    avg = sum(vals) / len(vals)
+    path = " ".join(f"{'M' if i == 0 else 'L'}{x(i):.1f},{y(v):.1f}" for i, v in enumerate(vals))
+    dots = "".join(f'<circle cx="{x(i):.1f}" cy="{y(g[key]):.1f}" r="{5 if i == len(pts) - 1 else 3.5}" fill="{color}" class="dot">'
+                   f'<title>{edition_label(g)} · {show(g[key])}{" (en curso)" if g["pending"] else ""}\n{html.escape(g["subject"])}</title></circle>'
+                   for i, g in enumerate(pts))
+    last = pts[-1]
+    xl = [f'<text x="{x(0):.1f}" y="{H - 6}" class="ax" text-anchor="{"middle" if len(pts) == 1 else "start"}">{edition_label(pts[0])}</text>']
+    if len(pts) > 1:
+        xl.append(f'<text x="{x(len(pts) - 1):.1f}" y="{H - 6}" class="ax" text-anchor="end">{edition_label(last)}</text>')
+    svg = (f'<svg viewBox="0 0 {W} {H}" role="img" aria-label="{html.escape(title)}: últimas {len(pts)} ediciones">{grid}'
+           f'<line x1="{L}" x2="{W - R}" y1="{y(avg):.1f}" y2="{y(avg):.1f}" class="avg"/>'
+           f'<text x="{W - R + 6}" y="{y(avg) + 4:.1f}" class="ax">prom.</text>'
+           f'<path d="{path}" fill="none" stroke="{color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'
+           f'{dots}{"".join(xl)}</svg>')
+    prev = pts[-2][key] if len(pts) > 1 else None
+    change = "" if prev is None else delta(last[key], prev) if unit == "%" else (
+        f'<span class="{"up" if last[key] > prev else "down" if last[key] < prev else "flat"}">'
+        f'{"▲" if last[key] >= prev else "▼"} {abs(last[key] - prev):g} vs. anterior</span>')
+    return (f'<figure class="trend"><figcaption><span class="tl">{html.escape(title)}</span>'
+            f'<b>{show(last[key])}</b><span class="ts">{change}</span></figcaption>{svg}'
+            f'<div class="tavg">Promedio: {show(round(avg, 1))}</div></figure>')
 
 
 def dashboard_html(broadcasts, links, as_of, days, readers=()):
@@ -303,27 +343,36 @@ def dashboard_html(broadcasts, links, as_of, days, readers=()):
             f'<td>{g["sent"]}</td><td>{g["delivered"]}</td>'
             f'<td class="n">{g["opened"]} <small>{fmt(g["open_rate"])}</small></td>'
             f'<td class="n">{g["clicked"]} <small>{fmt(g["click_rate"])}</small></td>'
-            f'<td>{g["bounced"]}</td><td>{g["complained"]}</td><td>{g["unsubscribed"]}</td></tr>' for g in issues)
+            f'<td>{g["bounced"]}</td><td>{g["complained"]}</td><td>{g["unsubscribed"]}</td></tr>' for g in issues[:TABLE_ISSUES])
+        shown = min(len(issues), CHART_ISSUES)
+        trends = "".join([
+            trend(issues, "open_rate", "Aperturas", "#7B5FD6"),
+            trend(issues, "click_rate", "Clics", "var(--tomato)"),
+            trend(issues, "click_to_open", "Clic de quienes abrieron", "var(--green)"),
+            trend(issues, "delivered", "Entregados", "var(--navy)", unit=""),
+        ])
         top = "".join(
             f'<tr><td class="rk">{r["rank"]}</td><td class="l">{html.escape(mask(r["email"]))}</td>'
             f'<td>{r["received"]}</td><td>{r["opened"]}</td><td>{r["clicked"]}</td><td>{r["clicks"]}</td>'
             f'<td><span class="pts">{r["score"]}</span></td></tr>' for r in list(readers)[:10]
         ) or '<tr><td class="l" colspan="7">Todavía no hay aperturas</td></tr>'
         link_rows = "".join(f'<tr><td class="l link">{html.escape(l["url"].replace("https://", "").replace("www.", "").rstrip("/"))}</td>'
-                            f'<td>{l["clicks"]}</td><td>{l["unique"]}</td></tr>' for l in links
+                            f'<td>{l["clicks"]}</td><td>{l["unique"]}</td></tr>' for l in links[:10]
                             ) or '<tr><td class="l" colspan="3">Sin clics todavía</td></tr>'
         body = f"""
 <section class="card"><div class="eyebrow">Última edición {pending}</div>
 <h2>{edition_label(latest)} · {html.escape(latest["subject"])}</h2><div class="tiles">{tiles}</div></section>
-<section class="card"><h2>Comparación · {window_label(days)}</h2>
-<table><tr><th class="l">Edición</th><th>Enviados</th><th>Entregados</th><th>Abiertos</th><th>Con clic</th><th>Rebotes</th><th>Spam</th><th>Bajas</th></tr>{rows}</table>
-<div class="cols"><div><h3>Aperturas</h3>{bars(issues, "open_rate", "var(--lilac)")}</div>
-<div><h3>Clics</h3>{bars(issues, "click_rate", "var(--tomato)")}</div></div></section>
+<section class="card"><h2>Últimas {min(len(issues), TABLE_ISSUES)} ediciones</h2>
+<div class="scroll"><table><tr><th class="l">Edición</th><th>Enviados</th><th>Entregados</th><th>Abiertos</th><th>Con clic</th><th>Rebotes</th><th>Spam</th><th>Bajas</th></tr>{rows}</table></div></section>
+<section class="card"><h2>Tendencia · {"1 edición" if shown == 1 else f"últimas {shown} ediciones"}</h2>
+<p class="sub">Cada punto es una edición, de la más antigua a la más reciente. La línea punteada es el promedio. Pasa el cursor por un punto para ver cuál es.</p>
+<div class="trends">{trends}</div></section>
 <section class="card"><h2>Lectoras más activas</h2>
 <p class="sub">1 punto por envío abierto y 3 por cada envío con clic. Top 10 de {len(readers)} lectoras con actividad (correos parcialmente ocultos).</p>
-<table><tr><th class="rk">#</th><th class="l">Correo</th><th>Recibidos</th><th>Abiertos</th><th>Con clic</th><th>Clics</th><th>Puntos</th></tr>{top}</table></section>
+<div class="scroll"><table><tr><th class="rk">#</th><th class="l">Correo</th><th>Recibidos</th><th>Abiertos</th><th>Con clic</th><th>Clics</th><th>Puntos</th></tr>{top}</table></div></section>
 <section class="card"><h2>Links más clicados</h2>
-<table><tr><th class="l">Link</th><th>Clics</th><th>Personas</th></tr>{link_rows}</table></section>"""
+<p class="sub">Top 10 de {len(links)} links, en todos los envíos.</p>
+<div class="scroll"><table><tr><th class="l">Link</th><th>Clics</th><th>Personas</th></tr>{link_rows}</table></div></section>"""
     return f"""<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Newsletter · resultados</title><style>
 :root{{--navy:#17254A;--cream:#FFF8EC;--tomato:#F02717;--lilac:#B9A6F0;--pink:#FBC9D8;--line:#17254A1F;--green:#2E7D4F}}
@@ -343,10 +392,15 @@ table{{width:100%;border-collapse:collapse;font-size:13px}}th{{font-size:11px;te
 th,td{{padding:9px 8px;text-align:right;white-space:nowrap}}td{{border-bottom:1px solid var(--line)}}tr:last-child td{{border-bottom:0}}
 .l{{text-align:left!important;white-space:normal;overflow-wrap:anywhere}}.n small{{opacity:.6}}.subj{{font-size:12px;opacity:.7;font-weight:400;max-width:320px}}
 .rk{{width:34px;text-align:center!important}}td.rk{{font-weight:700}}.pts{{display:inline-block;min-width:28px;padding:1px 8px;border-radius:99px;background:var(--pink);font-weight:700;text-align:center}}
-.link{{font-size:12px}}
-.cols{{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:20px}}@media(max-width:640px){{.cols{{grid-template-columns:1fr}}}}
-.bar{{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:12px}}.bl{{width:76px;white-space:nowrap}}.bt{{flex:1;height:12px;background:var(--cream);border-radius:6px;overflow:hidden}}
-.bt i{{display:block;height:100%;border-radius:6px}}.bv{{width:48px;text-align:right}}
+.link{{font-size:12px}}.scroll{{overflow-x:auto;-webkit-overflow-scrolling:touch}}.scroll td.l:first-child{{min-width:170px}}
+.trends{{display:grid;grid-template-columns:1fr 1fr;gap:14px}}@media(max-width:640px){{.trends{{grid-template-columns:1fr}}}}
+.trend{{margin:0;background:var(--cream);border-radius:14px;padding:14px 14px 10px}}
+.trend figcaption{{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-bottom:4px}}.trend figcaption .tl{{flex-basis:100%}}
+.trend figcaption b{{font:700 26px/1.1 Georgia,serif}}.trend .ts{{min-height:0}}
+.trend svg{{display:block;width:100%;height:auto;overflow:visible}}.trend .gl{{stroke:var(--line);stroke-width:1}}
+.trend .avg{{stroke:var(--navy);stroke-opacity:.45;stroke-width:1;stroke-dasharray:3 3}}
+.trend .ax{{font-size:10px;fill:var(--navy);fill-opacity:.65}}.trend .dot{{stroke:var(--cream);stroke-width:2}}.trend .dot:hover{{r:7}}
+.tavg{{font-size:12px;opacity:.7;margin-top:2px}}
 .note{{font-size:12px;opacity:.6;margin:20px 4px 0}}
 </style></head><body><main>
 <header><h1>El Club de las <b>Emprendedoras</b> · newsletter</h1>
@@ -355,7 +409,7 @@ th,td{{padding:9px 8px;text-align:right;white-space:nowrap}}td{{border-bottom:1p
 </main></body></html>"""
 
 
-def render_png(html_path, height=2100):
+def render_png(html_path, height=2700):
     png = html_path.with_suffix(".png")
     chrome = nl.env("CHROME_PATH", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
     subprocess.run([chrome, "--headless", "--disable-gpu", "--hide-scrollbars", f"--window-size=1000,{height}",
