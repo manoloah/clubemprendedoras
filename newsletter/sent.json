@@ -31,7 +31,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-11-03T18:09-06:00"
+      "as_of": "2026-11-09T10:29-06:00"
     }
   },
   {
@@ -64,7 +64,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-11-03T18:09-06:00"
+      "as_of": "2026-11-09T10:29-06:00"
     }
   },
   {
@@ -92,7 +92,7 @@
           "unique": 2
         }
       ],
-      "as_of": "2026-11-03T18:09-06:00"
+      "as_of": "2026-11-09T10:29-06:00"
     }
   },
   {
@@ -112,8 +112,8 @@
     "stats": {
       "sent": 99,
       "delivered": 99,
-      "opened": 43,
-      "clicked": 5,
+      "opened": 45,
+      "clicked": 6,
       "bounced": 0,
       "complained": 0,
       "unsubscribed": 0,
@@ -127,9 +127,14 @@
           "url": "https://help.openai.com/en/articles/20001598-intelligent-ui-in-chatgpt",
           "clicks": 1,
           "unique": 1
+        },
+        {
+          "url": "https://www.justice.gov/opa/pr/saudi-national-arrested-installing-surreptitious-audio-recording-device-openai",
+          "clicks": 1,
+          "unique": 1
         }
       ],
-      "as_of": "2026-11-03T18:09-06:00"
+      "as_of": "2026-11-09T10:29-06:00"
     },
     "segment_freed": true
   },
@@ -150,7 +155,7 @@
     "stats": {
       "sent": 25,
       "delivered": 25,
-      "opened": 13,
+      "opened": 14,
       "clicked": 2,
       "bounced": 0,
       "complained": 0,
@@ -162,7 +167,7 @@
           "unique": 2
         }
       ],
-      "as_of": "2026-11-03T18:09-06:00"
+      "as_of": "2026-11-09T10:29-06:00"
     },
     "segment_freed": true
   },
@@ -210,7 +215,7 @@
           "unique": 2
         }
       ],
-      "as_of": "2026-11-03T18:09-06:00"
+      "as_of": "2026-11-09T10:29-06:00"
     },
     "segment_freed": true
   },
@@ -231,7 +236,7 @@
     "stats": {
       "sent": 33,
       "delivered": 33,
-      "opened": 19,
+      "opened": 20,
       "clicked": 6,
       "bounced": 0,
       "complained": 0,
@@ -248,7 +253,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-11-03T18:09-06:00"
+      "as_of": "2026-11-09T10:29-06:00"
     },
     "segment_freed": true
   },
@@ -265,7 +270,24 @@
     "cutoff": [
       "2026-10-14 18:44:35.550914+00",
       "864d9ab8-a424-49ab-8111-778caa171af2"
-    ]
+    ],
+    "stats": {
+      "sent": 100,
+      "delivered": 100,
+      "opened": 37,
+      "clicked": 1,
+      "bounced": 0,
+      "complained": 0,
+      "unsubscribed": 0,
+      "links": [
+        {
+          "url": "https://www.clubdelasemprendedoras.com/recetas/edita-videos-con-capcut-y-codex/",
+          "clicks": 1,
+          "unique": 1
+        }
+      ],
+      "as_of": "2026-11-09T10:29-06:00"
+    }
   },
   {
     "issue": "2026-11-04.md",
@@ -280,6 +302,23 @@
     "cutoff": [
       "2026-10-29 21:03:48.784761+00",
       "98b9ce73-10b3-49b5-87b3-c02c3d8f897e"
-    ]
+    ],
+    "stats": {
+      "sent": 33,
+      "delivered": 33,
+      "opened": 12,
+      "clicked": 1,
+      "bounced": 0,
+      "complained": 0,
+      "unsubscribed": 0,
+      "links": [
+        {
+          "url": "https://www.clubdelasemprendedoras.com/recetas/edita-videos-con-capcut-y-codex/",
+          "clicks": 1,
+          "unique": 1
+        }
+      ],
+      "as_of": "2026-11-09T10:29-06:00"
+    }
   }
 ]
