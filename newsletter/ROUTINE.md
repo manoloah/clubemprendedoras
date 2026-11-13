@@ -93,9 +93,10 @@ and, if something is missing, posts a heads-up in Slack `#emprendeconpm` so ther
 8. **Schedule at least 2 hours after the test.** `newsletter/newsletter.py schedule <issue> --split 100`
    (the default, Wednesday 08:00, is well past that). Up to 100 subscribers it goes out in one
    send. Above that it goes in parts of 100, one per day at 08:00: Wednesday, Thursday, Friday…
-   Resend's free plan allows 3 segments, so only two parts can be scheduled at a time. The task
-   `club-newsletter-partes` runs `newsletter.py continue` Thursday to Saturday at 07:00 and
-   schedules the next part once the previous one has gone out. **Never** pass
+   Resend's free plan allows 3 segments, so only two parts can be scheduled at a time. The same
+   task (`club-newsletter-semanal`) fires again Wednesday to Friday at 17:00 CDMX and runs
+   `newsletter.py continue`, which schedules the next part once the previous one has gone out
+   ("Nada que programar." means nothing to do, the normal case up to 200 subscribers). **Never** pass
    `--allow-over-limit`. Past 300 subscribers it's time to pay for Resend: raise
    `NEWSLETTER_DAILY_LIMIT` and `RESEND_MAX_SEGMENTS` in `.env`.
 9. **Commit** the issue and `newsletter/sent.json`, push, and open a PR against `main`.
