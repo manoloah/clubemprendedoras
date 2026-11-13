@@ -287,7 +287,8 @@
         }
       ],
       "as_of": "2026-11-09T10:29-06:00"
-    }
+    },
+    "segment_freed": true
   },
   {
     "issue": "2026-11-04.md",
@@ -319,6 +320,37 @@
         }
       ],
       "as_of": "2026-11-09T10:29-06:00"
-    }
+    },
+    "segment_freed": true
+  },
+  {
+    "issue": "2026-11-11.md",
+    "broadcast_id": "73fdf9e6-bb7e-4954-9e62-7a5747bd9e6d",
+    "scheduled_at": "2026-11-11T08:00:00-06:00",
+    "recipients": 100,
+    "news_date": "2026-11-09",
+    "receta_url": "https://www.clubdelasemprendedoras.com/recetas/dicta-a-tu-compu-con-handy/",
+    "part": 1,
+    "parts_total": 2,
+    "segment_id": "6a2c13dc-a9ba-4a95-8c11-b5e59d44b9bd",
+    "cutoff": [
+      "2026-10-14 18:44:35.550914+00",
+      "864d9ab8-a424-49ab-8111-778caa171af2"
+    ]
+  },
+  {
+    "issue": "2026-11-11.md",
+    "broadcast_id": "878008df-f182-4d7a-b4d6-83a6519f277d",
+    "scheduled_at": "2026-11-12T08:00:00-06:00",
+    "recipients": 33,
+    "news_date": "2026-11-09",
+    "receta_url": "https://www.clubdelasemprendedoras.com/recetas/dicta-a-tu-compu-con-handy/",
+    "part": 2,
+    "parts_total": 2,
+    "segment_id": "47105805-afa6-4158-a2a1-c72e10dcd451",
+    "cutoff": [
+      "2026-10-29 21:03:48.784761+00",
+      "98b9ce73-10b3-49b5-87b3-c02c3d8f897e"
+    ]
   }
 ]
