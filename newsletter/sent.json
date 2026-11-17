@@ -31,7 +31,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-11-09T10:29-06:00"
+      "as_of": "2026-11-16T13:22-06:00"
     }
   },
   {
@@ -64,7 +64,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-11-09T10:29-06:00"
+      "as_of": "2026-11-16T13:22-06:00"
     }
   },
   {
@@ -92,7 +92,7 @@
           "unique": 2
         }
       ],
-      "as_of": "2026-11-09T10:29-06:00"
+      "as_of": "2026-11-16T13:22-06:00"
     }
   },
   {
@@ -134,7 +134,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-11-09T10:29-06:00"
+      "as_of": "2026-11-16T13:22-06:00"
     },
     "segment_freed": true
   },
@@ -155,7 +155,7 @@
     "stats": {
       "sent": 25,
       "delivered": 25,
-      "opened": 14,
+      "opened": 15,
       "clicked": 2,
       "bounced": 0,
       "complained": 0,
@@ -167,7 +167,7 @@
           "unique": 2
         }
       ],
-      "as_of": "2026-11-09T10:29-06:00"
+      "as_of": "2026-11-16T13:22-06:00"
     },
     "segment_freed": true
   },
@@ -215,7 +215,7 @@
           "unique": 2
         }
       ],
-      "as_of": "2026-11-09T10:29-06:00"
+      "as_of": "2026-11-16T13:22-06:00"
     },
     "segment_freed": true
   },
@@ -253,7 +253,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-11-09T10:29-06:00"
+      "as_of": "2026-11-16T13:22-06:00"
     },
     "segment_freed": true
   },
@@ -286,7 +286,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-11-09T10:29-06:00"
+      "as_of": "2026-11-16T13:22-06:00"
     },
     "segment_freed": true
   },
@@ -307,7 +307,7 @@
     "stats": {
       "sent": 33,
       "delivered": 33,
-      "opened": 12,
+      "opened": 15,
       "clicked": 1,
       "bounced": 0,
       "complained": 0,
@@ -319,7 +319,7 @@
           "unique": 1
         }
       ],
-      "as_of": "2026-11-09T10:29-06:00"
+      "as_of": "2026-11-16T13:22-06:00"
     },
     "segment_freed": true
   },
@@ -336,7 +336,34 @@
     "cutoff": [
       "2026-10-14 18:44:35.550914+00",
       "864d9ab8-a424-49ab-8111-778caa171af2"
-    ]
+    ],
+    "stats": {
+      "sent": 100,
+      "delivered": 100,
+      "opened": 41,
+      "clicked": 3,
+      "bounced": 0,
+      "complained": 0,
+      "unsubscribed": 1,
+      "links": [
+        {
+          "url": "https://www.clubdelasemprendedoras.com/recetas/dicta-a-tu-compu-con-handy/",
+          "clicks": 2,
+          "unique": 1
+        },
+        {
+          "url": "https://openai.com/index/introducing-images-2-6/",
+          "clicks": 1,
+          "unique": 1
+        },
+        {
+          "url": "https://unsubscribe.resend.com/",
+          "clicks": 1,
+          "unique": 1
+        }
+      ],
+      "as_of": "2026-11-16T13:22-06:00"
+    }
   },
   {
     "issue": "2026-11-11.md",
@@ -351,6 +378,28 @@
     "cutoff": [
       "2026-10-29 21:03:48.784761+00",
       "98b9ce73-10b3-49b5-87b3-c02c3d8f897e"
-    ]
+    ],
+    "stats": {
+      "sent": 33,
+      "delivered": 33,
+      "opened": 13,
+      "clicked": 2,
+      "bounced": 0,
+      "complained": 0,
+      "unsubscribed": 0,
+      "links": [
+        {
+          "url": "https://www.clubdelasemprendedoras.com/recetas/dicta-a-tu-compu-con-handy/",
+          "clicks": 2,
+          "unique": 2
+        },
+        {
+          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/",
+          "clicks": 1,
+          "unique": 1
+        }
+      ],
+      "as_of": "2026-11-16T13:22-06:00"
+    }
   }
 ]
