@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Haz el video de lanzamiento de tu app sin editar nada · Recetas del Club</title>
-  <meta name="description" content="Claude lee tu app y te arma un video de lanzamiento de 20 segundos con movimiento, música y el texto para compartirlo. 3 pasos y el prompt listo para copiar.">
+  <meta name="description" content="Claude lee tu app o tu página web y te arma un video de lanzamiento de 20 segundos con movimiento, música y el texto para compartirlo. 3 pasos y el prompt listo para copiar.">
   <meta name="theme-color" content="#F2C75C">
   <link rel="canonical" href="https://www.clubdelasemprendedoras.com/recetas/video-de-lanzamiento-con-brag/">
   <link rel="icon" href="/assets/brand/asterisk.svg" type="image/svg+xml">
@@ -12,7 +12,7 @@
   <meta property="og:type" content="article">
   <meta property="og:locale" content="es_MX">
   <meta property="og:title" content="Haz el video de lanzamiento de tu app sin editar nada">
-  <meta property="og:description" content="Brag: Claude lee tu proyecto y te entrega un video de 20 segundos con música y el texto para compartirlo. 3 pasos y el prompt listo para copiar.">
+  <meta property="og:description" content="Brag: Claude lee tu app o tu página y te entrega un video de 20 segundos con música y el texto para compartirlo. 3 pasos y el prompt listo para copiar.">
   <meta property="og:url" content="https://www.clubdelasemprendedoras.com/recetas/video-de-lanzamiento-con-brag/">
   <meta property="og:image" content="https://www.clubdelasemprendedoras.com/assets/img/og-curso.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -65,7 +65,7 @@
       <div class="receta-hero__inner">
         <p class="kicker kicker--tomato tilt-l">Receta #7 · Gratis para el club</p>
         <h1 id="receta-title" class="display">Haz el video de lanzamiento de tu app <span class="accent">sin editar nada</span></h1>
-        <p class="lead">Le pides a Claude que lea tu proyecto y te entrega un video de 20 segundos con movimiento, música y el texto para compartirlo. Tú solo escoges el tono.</p>
+        <p class="lead">Le pides a Claude que lea tu app o tu página web y te entrega un video de 20 segundos con movimiento, música y el texto para compartirlo. Tú solo escoges el tono.</p>
         <div class="receta-meta">
           <span class="sticker sticker--pink">3 pasos</span>
           <span class="sticker sticker--olive">Con Claude Code</span>
@@ -85,7 +85,7 @@
             <p class="kicker kicker--navy">Antes de empezar</p>
             <h2 id="ingredientes-title" class="h2">Lo que necesitas</h2>
             <ul class="check-list">
-              <li><strong>Tu app o tu página</strong> en una carpeta de tu compu, la que hiciste con Claude o con quien sea. Brag lee esa carpeta para entender qué hace tu producto.</li>
+              <li><strong>Tu app, página, producto o servicio</strong>, de una de estas 2 formas: la <strong>carpeta con el código</strong> en tu compu (lo ideal, porque Brag usa tus pantallas reales) o el <strong>link de tu página web</strong>, de donde toma textos, fotos y colores. ¿Solo tienes una descripción y fotos? Brag no trabaja con eso: primero arma una página sencilla y luego usa su link.</li>
               <li><strong>Claude Desktop</strong>, que bajas en <a href="https://claude.com/download" target="_blank" rel="noopener">claude.com/download</a>, con la pestaña <strong>Code</strong>. Necesita un plan de pago.</li>
               <li><strong>Brag</strong>, gratis y de código abierto: <a href="https://github.com/latent-spaces/brag" target="_blank" rel="noopener">github.com/latent-spaces/brag</a>. No lo instalas tú, se lo pides a Claude.</li>
               <li><strong>Unos $6 dólares de uso de Claude</strong> y 10 minutos. Spoiler: no es barato, más abajo te explicamos.</li>
@@ -93,7 +93,7 @@
           </div>
           <div class="receta-why">
             <h3 class="h3">¿Qué es Brag?</h3>
-            <p>Una skill: un paquete de instrucciones que Claude sigue paso a paso. Esta le enseña a leer tu proyecto, decidir qué momentos lucir y armar el video con música, animaciones y el texto para tu post. Te queda un archivo <code>brag.mp4</code> listo para subir.</p>
+            <p>Una skill: un paquete de instrucciones que Claude sigue paso a paso. Esta le enseña a leer tu app o tu página web, decidir qué momentos lucir y armar el video con música, animaciones y el texto para tu post. Te queda un archivo <code>brag.mp4</code> listo para subir.</p>
             <p class="note note--pink tilt-r">Manu lo probó con Kompass, su app que lanzó durante el curso <a href="/cursos/crea-tu-app-con-ia/">Crea tu app con IA (sin saber programar)</a>: el video salió mucho mejor de lo que esperaba ♡</p>
           </div>
         </div>
@@ -109,7 +109,7 @@
               <div class="paso__head"><span class="paso__num" aria-hidden="true">1</span><h2 class="h2">Abre tu proyecto en Claude Code y escoge Opus</h2></div>
               <ol>
                 <li>Abre Claude Desktop y entra a la pestaña <strong>Code</strong>: es el ícono <code>&lt;/&gt;</code> arriba a la izquierda, junto al de chat.</li>
-                <li>Elige como lugar de trabajo la carpeta de tu app.</li>
+                <li>Elige como lugar de trabajo la carpeta de tu app. ¿Solo tienes el link de tu página? Crea una carpeta vacía, por ejemplo <code>Mi video</code>, y elige esa: ahí te va a dejar el video.</li>
                 <li>En el selector de modelo, abajo junto a donde escribes, escoge <strong>Opus</strong>.</li>
               </ol>
               <figure class="shot"><img src="/assets/img/receta-rea-pestana-code.webp" width="514" height="334" alt="La app de Claude con la pestaña Code, el ícono &lt;/&gt; arriba a la izquierda junto al ícono de chat." loading="lazy"><figcaption>La pestaña Code es el ícono &lt;/&gt;, junto al chat.</figcaption></figure>
@@ -124,11 +124,11 @@
                   <span>Tu prompt</span>
                   <button class="btn btn--sm" type="button" data-copy="prompt-brag"><span class="btn__label">Copiar</span></button>
                 </div>
-<pre id="prompt-brag">Quiero un video de lanzamiento para el proyecto de esta carpeta. Usa Brag, una skill que convierte un proyecto en un video corto: https://github.com/latent-spaces/brag
+<pre id="prompt-brag">Quiero un video de lanzamiento para [el proyecto de esta carpeta / mi página: link de tu página]. Usa Brag, una skill que convierte un proyecto en un video corto: https://github.com/latent-spaces/brag
 
 - Instálala siguiendo su README. Como estoy en Opus, usa /brag-slim.
 - Revisa si me falta algo para que funcione e instálalo tú.
-- Lee el proyecto, entiende qué hace y para quién es, y haz el video.
+- Lee mi proyecto o mi página, entiende qué hace y para quién es, y haz el video.
 - Tono: [cálido y divertido / lanzamiento de startup / el que tú creas que va con mi marca].
 - Que los textos del video estén en español.
 - Al final dime dónde quedó el video y dame el texto para compartirlo en Instagram y LinkedIn, en español.
@@ -144,7 +144,7 @@ Yo no sé de programación: hazlo tú y pregúntame solo lo que de verdad necesi
 
             <li class="paso" id="paso-3">
               <div class="paso__head"><span class="paso__num" aria-hidden="true">3</span><h2 class="h2">Revisa tu video y compártelo</h2></div>
-              <p>Claude te deja una carpeta <code>brag-output</code> dentro de tu proyecto con:</p>
+              <p>Claude te deja una carpeta <code>brag-output</code> en la carpeta que elegiste, con:</p>
               <ul class="check-list">
                 <li><strong>brag.mp4:</strong> tu video, listo para subir.</li>
                 <li><strong>El texto para compartir:</strong> el copy de tu post.</li>

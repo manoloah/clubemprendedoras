@@ -52,7 +52,7 @@
       "numero": 7,
       "slug": "video-de-lanzamiento-con-brag",
       "titulo": "Haz el video de lanzamiento de tu app sin editar nada",
-      "resumen": "Le pides a Claude que lea tu proyecto con Brag y te entrega un video de 20 segundos con música y el texto para compartirlo. 3 pasos y el prompt listo para copiar.",
+      "resumen": "Le pides a Claude que lea tu app o tu página web con Brag y te entrega un video de 20 segundos con música y el texto para compartirlo. 3 pasos y el prompt listo para copiar.",
       "fecha": "2026-11-25",
       "url": "/recetas/video-de-lanzamiento-con-brag/"
     }
