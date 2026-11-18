@@ -144,8 +144,25 @@ At most one note per step, alternate `tilt-l`/`tilt-r` and colours down the page
 </div>
 ```
 
-The gate card (`.gate`) and the final `.cta` section stay as in the template: only `data-gate`
-changes, and `receta.mjs new` already sets it.
+The gate card (`.gate`) stays as in the template: only `data-gate` changes, and `receta.mjs new`
+already sets it. The final `.cta` keeps its markup; adapt the copy and link to the course that fits:
+
+```html
+<section class="cta" aria-labelledby="cta-title">
+  <div class="cta__inner">
+    <span class="sticker sticker--lilac cta__sticker" aria-hidden="true">Tú puedes</span>
+    <h2 id="cta-title" class="display display--inverse">[Gancho ligado a la receta]</h2>
+    <p class="lead lead--inverse">En [Crea tu app con IA / Crece tu negocio con contenido orgánico + IA] [qué hace el curso con esto], en clases grabadas que ves a tu ritmo.</p>
+    <a class="btn" href="/cursos/[crea-tu-app-con-ia | contenido-organico-ia]/"><span class="btn__label">Ver el curso</span> <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+```
+
+Inline course mention (in a note, a step or the closing):
+
+```html
+<p class="note note--pink tilt-r">[Resultado real] con [algo] que hizo en el curso <a href="/cursos/crea-tu-app-con-ia/">Crea tu app con IA (sin saber programar)</a> ♡</p>
+```
 
 ## Hub card (`site/recetas/index.html`, first `<li>` of `.receta-list`)
 

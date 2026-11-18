@@ -43,7 +43,33 @@ Map the draft onto the receta's shape before touching HTML:
 | Pasos | Up to 5. Title starts with a verb in *tú*. Each one short: a line of context, then a block (check list, cards, prompt, bubbles) and at most one note |
 | Prompt | Exactly the draft's prompt, with what she changes in [corchetes] |
 | Closing | "¿Lo hiciste?" + ask her to share the result with @emprendeconpm |
+| Course mention | 1–2 natural mentions of our courses, linked (see "Cross-sell our courses" below) |
 | Hub summary / `resumen` | One or two sentences, ends with what she gets ("…y el prompt listo para copiar.") |
+
+### Cross-sell our courses
+
+Every receta links at least one of our two recorded courses, woven into the content so it reads
+as a tip, not an ad. Pick the one that fits the receta's topic (both if both fit):
+
+| Course | URL | Fits recetas about |
+|---|---|---|
+| **Crea tu app con IA (sin saber programar)** | `/cursos/crea-tu-app-con-ia/` | apps, Claude Code, building or launching a product, websites, automating with code |
+| **Crece tu negocio de 0 a millones con contenido orgánico + IA** | `/cursos/contenido-organico-ia/` | reels, video, Instagram/TikTok, copy, marketing, brand, selling |
+
+How (be creative, pick 1–2 per receta, never more):
+
+- **Real result in a note:** the author did this with something made in the course ("Manu lo probó
+  con Kompass, la app que lanzó en el curso [Crea tu app con IA]"). Only if it's true.
+- **"Siguiente nivel" line** at the end of a step or in the closing: "¿Quieres que tu app
+  exista primero? Eso hacemos en [Crea tu app con IA]."
+- **"¿No tienes X todavía?"** in Lo que necesitas, when the receta needs something a course builds
+  (an app, a content plan).
+- **The final `.cta` section:** adapt its `h2` and lead to the course that fits this receta and point
+  its button to that course page (default: Crea tu app con IA).
+
+Rules: link to the course page (relative URL), name it by its real title, no prices, no fake
+urgency or hype, no invented results, and never put the mention inside a prompt she copies.
+Keep it to one sentence each; the receta is still the point.
 
 Rules (from `brand/voice.md` and the first receta):
 
@@ -86,7 +112,8 @@ Rules (from `brand/voice.md` and the first receta):
    - Hero, Lo que necesitas, steps, closing: replace all of the template's content using the
      blocks in [reference/blocks.md](reference/blocks.md). Keep `id="paso-1"` on the first step
      and every step inside `.receta__locked`.
-   - Gate card and final CTA section: unchanged.
+   - Gate card: unchanged. Final CTA section: same markup; adapt the `h2`, lead and button `href`
+     to the course that fits (see "Cross-sell our courses").
 3. **Images** go in `site/assets/img/` as WebP, named `receta-<slug>[-what].webp`, referenced as
    `/assets/img/…` with their real `width`/`height`. Cover for the hub (portrait, ~600 wide):
    `cwebp -q 80 -resize 600 0 input.jpg -o site/assets/img/receta-<slug>.webp`
