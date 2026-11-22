@@ -363,7 +363,8 @@
         }
       ],
       "as_of": "2026-11-16T13:22-06:00"
-    }
+    },
+    "segment_freed": true
   },
   {
     "issue": "2026-11-11.md",
@@ -400,6 +401,37 @@
         }
       ],
       "as_of": "2026-11-16T13:22-06:00"
-    }
+    },
+    "segment_freed": true
+  },
+  {
+    "issue": "2026-11-18.md",
+    "broadcast_id": "ce09d6d3-acd8-4429-887c-a4ac742613e5",
+    "scheduled_at": "2026-11-18T20:00:00-06:00",
+    "recipients": 100,
+    "news_date": "2026-11-16",
+    "receta_url": "https://www.clubdelasemprendedoras.com/recetas/video-de-lanzamiento-con-brag/",
+    "part": 1,
+    "parts_total": 2,
+    "segment_id": "094c0f3f-da1d-4f34-82e6-26a378babd0c",
+    "cutoff": [
+      "2026-10-14 18:44:36.065383+00",
+      "95b53973-24f0-4303-aefc-16964f9b9c79"
+    ]
+  },
+  {
+    "issue": "2026-11-18.md",
+    "broadcast_id": "f954757c-59a5-4aae-9542-ca23f57b1700",
+    "scheduled_at": "2026-11-19T20:00:00-06:00",
+    "recipients": 33,
+    "news_date": "2026-11-16",
+    "receta_url": "https://www.clubdelasemprendedoras.com/recetas/video-de-lanzamiento-con-brag/",
+    "part": 2,
+    "parts_total": 2,
+    "segment_id": "efbbac12-3188-41d6-836c-bec591e78047",
+    "cutoff": [
+      "2026-11-18 21:03:47.927334+00",
+      "8459d193-d5a9-4c4b-980b-96d3dec73028"
+    ]
   }
 ]
